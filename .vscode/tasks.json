@@ -1,0 +1,73 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "build application",
+			"command": "/usr/bin/clang++",
+			"args": [
+				"-std=c++17",
+				"-fcolor-diagnostics",
+				"-fansi-escape-codes",
+				"-Wall",
+				"-I${workspaceFolder}/ndGameLib/include",
+				"${workspaceFolder}/ndGameLib/lib/ndGameLib.a",
+				"-g",
+				"${workspaceFolder}/sandbox/src/*.cpp",
+				"-o",
+				"${workspaceFolder}/application/application"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: /usr/bin/clang++"
+		},
+		{
+			"type": "cppbuild",
+			"label": "compile library objects",
+			"command": "/usr/bin/clang++",
+			"args": [
+				"-std=c++17",
+				"-fcolor-diagnostics",
+				"-fansi-escape-codes",
+				"-g",
+				"-c",
+				"-I${workspaceFolder}/ndGameLib/include",
+				"-I${workspaceFolder}/ndGameLib/src",
+				"-I${workspaceFolder}/dependencies/include",
+				"${file}",
+				"-o",
+				"${workspaceFolder}/ndGameLib/compiled/${fileBasenameNoExtension}.o"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "compiler: /usr/bin/clang++"
+		},
+		{
+			"type": "shell",
+			"label": "create library",
+			"command": "ar",
+			"args": [
+				"rvs",
+				"${workspaceFolder}/ndGameLib/lib/ndGameLib.a",
+				"${workspaceFolder}/ndGameLib/compiled/*.o"
+			],
+			"problemMatcher": []
+		}
+	]
+}
