@@ -30,13 +30,32 @@ INTERFACE:
 #ifndef EVENT_MANAGER_HPP
 #define EVENT_MANAGER_HPP
 
+#include <functional>
+
+// === Constants ===
+
 #define EVENT_QUEUE_LEN 16
 #define EVENT2I_QUEUE_LEN 4
 
 // === Classes ===
 
-class EventManager
-{
+
+// ================ EventCall ================
+typedef std::function<void(Event*)> EventCallType;
+class EventCall {
+private:
+    EventCallType function;
+
+public:
+    EventCall();
+    EventCall(EventCallType func_in);
+
+    void operator()(Event* event);
+};
+
+
+// ================ EventManager ================
+class EventManager {
 private:
     EventCall propogateEventCall;
     

@@ -41,11 +41,11 @@ INTERFACE:
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
+#include <functional>
+
 #define TEMP template<typename T, int N>
 
-TEMP
-class Queue
-{
+TEMP class Queue {
 private:
     T cache[N];
 
@@ -75,11 +75,11 @@ private:
 
 // === Constructors and Initialization
 
-template<typename T,int N> Queue<T,N>::Queue(): 
+TEMP Queue<T,N>::Queue(): 
 current{ 0 }, end{ 0 } {}
 
 // === Gets and Sets ===
-TEMP T* Queue<T, N>::getCurrent() { return &cache[current]; }
+TEMP T* Queue<T,N>::getCurrent() { return &cache[current]; }
 
 // === Interface === 
 TEMP void Queue<T,N>::queue(T object) {

@@ -36,17 +36,3 @@ void Event::print()
     std::cout << "Module: " << (int)code.module << std::endl;
     std::cout << "Data: " << (int)code.data << std::endl;
 }
-
-
-// ================ EventCall ================
-
-
-EventCall::EventCall() 
-    :function{ [](Event*)->void{} } {}
-
-EventCall::EventCall(EventCallType func_in)
-    :function{ func_in } {}
-
-void EventCall::operator()(Event* event) {
-    function(event);
-}

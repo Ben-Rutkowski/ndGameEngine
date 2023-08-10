@@ -29,7 +29,6 @@ DEBUGGING:
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <functional>
 #include <iostream>
 
 // === Structs ===
@@ -79,21 +78,6 @@ public:
     int getInt(int index) {
         return vector[index];
     }
-};
-
-
-typedef std::function<void(Event*)> EventCallType;
-
-// ================ EventCall ================
-class EventCall {
-private:
-    EventCallType function;
-
-public:
-    EventCall();
-    EventCall(EventCallType func_in);
-
-    void operator()(Event* event);
 };
 
 #endif
