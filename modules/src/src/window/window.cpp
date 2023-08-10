@@ -2,10 +2,13 @@
 #include "window.hpp"
 
 // === Constructors and Initialization ===
-Module ndWindow::mod = Module::WINDOW;
+Module ndWindow::module_name = Module::WINDOW;
 
-ndWindow::ndWindow(int width, int height, const char* title):
-glfw_window{ nullptr } {
+ndWindow::ndWindow(int width, int height, const char* title)
+    :frame_width{ width },
+    frame_height{ height },
+    glfw_window{ nullptr } {
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -20,7 +23,7 @@ glfw_window{ nullptr } {
 
     gladLoadGL(glfwGetProcAddress);
 
-    setEventCalls();
+    setCallbacks();
 }
 
 void ndWindow::setManagerPtr(EventManager* ptr) {
@@ -39,9 +42,4 @@ void ndWindow::setShouldClose(bool value) {
 
 bool ndWindow::isKeyPress(int key) {
     return glfwGetKey(glfw_window, key) == GLFW_PRESS;
-}
-
-// === Interface ===
-void ndWindow::swapBuffers() {
-    glfwSwapBuffers(glfw_window);
 }

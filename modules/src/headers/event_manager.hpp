@@ -31,6 +31,7 @@ INTERFACE:
 #define EVENT_MANAGER_HPP
 
 #define EVENT_QUEUE_LEN 16
+#define EVENT2I_QUEUE_LEN 4
 
 // === Classes ===
 
@@ -42,14 +43,20 @@ private:
 // --- Queues ---
 private:
     Queue<Event, EVENT_QUEUE_LEN> event_queue;
+    Queue<Event2i, EVENT2I_QUEUE_LEN> event2i_queue;
+
 
 // --- Constructors and Initialization ---
 public:
     EventManager();
     void setCallback(EventCall event_call);
 
-    // --- Interface ---
+// --- Interface ---
+public:
     void queueEvent(EventCode code);
+    void queueEvent2i(EventCode code, int arg0, int arg1);
+    void queueEvent2i(EventCode code, vec2i vector);
+    
     void runEvent(Event* event);
     void pollEvents();
 };
@@ -58,7 +65,7 @@ public:
 // ================ EventInterface ================
 class EventInterface {
 private:
-    EventCall function_array[EVENT_DATA_LEN];
+    EventCall     function_array[EVENT_DATA_LEN];
     EventManager* event_manager;
 
 public:
@@ -67,7 +74,11 @@ public:
     void setCallback(Data data, EventCallType function);
 
     void operator()(Event* event);
+    
     void queueEvent(EventCode code);
+    void queueEvent2i(EventCode code, int arg0, int arg1);
+    void queueEvent2i(EventCode code, vec2i vector);
+
     void runEvent(Event* event);
 };
 
@@ -76,5 +87,11 @@ public:
 
 #define PACK(FUNCTION_NAME) \
     std::bind(&FUNCTION_NAME, this, std::placeholders::_1)
+
+#define CODE(CODENAME, DATA) \
+    const EventCode CODENAME(EventType::ACTION, module_name, DATA);
+
+#define CODE2I(CODENAME, DATA) \
+    const EventCode CODENAME(EventType::VEC2I, module_name, DATA);
 
 #endif

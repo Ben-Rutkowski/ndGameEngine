@@ -1,2 +1,6 @@
 TODO: 
-- Set up github.
+- Shaders and Buffers
+- GUI Layers
+    - FreeText
+
+== Model Editing Module

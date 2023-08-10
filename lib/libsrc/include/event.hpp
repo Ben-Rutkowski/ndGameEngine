@@ -24,6 +24,7 @@ DEBUGGING:
 */
 
 #include "common.hpp"
+#include "vector.hpp"
 
 #ifndef EVENT_H
 #define EVENT_H
@@ -42,8 +43,7 @@ struct EventCode {
 };
 
 // === Classes ===
-class Event
-{
+class Event {
 protected:
     EventCode code;
 
@@ -58,11 +58,27 @@ public:
     Data      getData();
     int       getIndex();
 
+    virtual int getInt(int index);
+
     // --- Operators ---
     bool operator!();
 
     // --- Debugging ---
     void print();
+};
+
+class Event2i : public Event {
+private:
+    vec2i vector;
+
+public:
+    Event2i() {}
+    Event2i(EventCode code, vec2i vec_input) 
+        :Event(code), vector(vec_input) {}
+
+    int getInt(int index) {
+        return vector[index];
+    }
 };
 
 

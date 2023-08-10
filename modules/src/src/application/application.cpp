@@ -18,9 +18,8 @@ void ndApp::linkWindow(ndWindow* window_ptr) {
 // === Runtime ===
 void ndApp::startApp() {
     while (!window->shouldClose()) {
-        window->swapBuffers();
+        startFrame();
 
-        window->collectKeys();
         event_manager.pollEvents();
 
         glfwPollEvents();

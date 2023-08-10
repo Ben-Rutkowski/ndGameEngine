@@ -64,6 +64,9 @@ public:
 public:
     void propogateEvent(Event* event);
 
+private:
+    void startFrame();
+
 // private:
 //     void pollEvents();
 };

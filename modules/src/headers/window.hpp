@@ -14,7 +14,9 @@ GLFW intialization must be done before creating a window.
 
 class ndWindow {
 private:
-    static Module mod;
+    static Module module_name;
+
+    int frame_width, frame_height;
 
 // --- Events ---
 private:
@@ -37,21 +39,26 @@ public:
 private:
     bool isKeyPress(int key);
 
-// --- Interface ---
+// --- Event Interface ---
 public:
-    void swapBuffers();
-
-// --- Events ---
-public:
-    void collectKeys();
     void runEventWindow(Event* event);
 
 private:
-    void setEventCalls();
-    void queueEvent(EventType type, Data data);
+    void setCallbacks();
 
+// --- On Events ---
+public:
+    void onCollectMenuKeys(Event* event);
+    void onStartFrame(Event* event);
     void onEscapeKey(Event* event);
     void onCloseApp(Event* event);
+    void onResize(Event* event);
+
+// --- GLFW CALLBACKS ---
+private:
+    static void framebufferResizeCallback(GLFWwindow*, int, int);
+
+    static EventManager* getManager(GLFWwindow* window);
 };
 
 #endif
