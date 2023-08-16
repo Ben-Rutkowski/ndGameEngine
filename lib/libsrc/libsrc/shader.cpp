@@ -9,12 +9,13 @@ Shader::Shader()
     GL_type{ 0 } {}
 
 Shader::Shader(ShaderType type_in, std::string file_path)
-    :type{ type_in }, GL_type{ getGLType(type_in) } {
+    :type{ type_in },
+    GL_type{ EnumMapIndex::glShader(type_in) } {
 
     std::string shader   = futil::readRelativeFile(file_path, ROOT);
     const char* shader_c = shader.c_str();
 
-    shader_id = glCreateShader(getGLType(type));
+    shader_id = glCreateShader(GL_type);
     glShaderSource(shader_id, 1, &shader_c, NULL);
     glCompileShader(shader_id);
     checkCompile();
@@ -35,10 +36,4 @@ void Shader::checkCompile() {
         std::cout << "Shader Failed To Compile ShaderType:";
         std::cout << (int)type << " " << info << std::endl;
     }
-}
-
-// === Static ===
-ShaderEnumMap Shader::enum_map = enumUtil::getShaderEnumMap();
-GLenum Shader::getGLType(ShaderType type) {
-    return enum_map.get(type);
 }

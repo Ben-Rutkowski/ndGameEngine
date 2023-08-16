@@ -30,9 +30,8 @@ int       Event::getInt(int place) { return 0; }
 bool Event::operator!() { return code.type == EventType::null; }
 
 // === Debugging ===
-void Event::print()
-{
-    std::cout << "Type: " << (int)code.type << std::endl;
-    std::cout << "Module: " << (int)code.module << std::endl;
-    std::cout << "Data: " << (int)code.data << std::endl;
+void Event::print() {
+    std::cout << EnumMapIndex::moduleName(code.module);
+    std::cout << " event: ";
+    std::cout << EnumMapIndex::dataName(code.data) << std::endl;
 }

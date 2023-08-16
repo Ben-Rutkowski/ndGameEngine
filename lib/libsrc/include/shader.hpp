@@ -21,11 +21,6 @@ public:
 // --- Debugging ---
 private:
     void checkCompile();
-
-// --- Static ---
-private:
-    static ShaderEnumMap enum_map;
-    static GLenum getGLType(ShaderType type);
 };
 
 

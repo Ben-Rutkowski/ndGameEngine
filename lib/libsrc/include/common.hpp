@@ -3,6 +3,7 @@
 
 #include "glad_glfw.hpp"
 #include "enum_map.hpp"
+#include "string"
 
 // === Event Enums ===
 enum class EventType { null = 0, 
@@ -28,16 +29,26 @@ enum class ShaderType { null = 0,
     LEN
 };
 
+#define MODULE_LEN      (int)Module::LEN
 #define EVENT_DATA_LEN  (int)Data::LEN
 #define SHADER_TYPE_LEN (int)ShaderType::LEN
 
 // === Enum Maps ===
 typedef EnumMap<ShaderType, GLenum, SHADER_TYPE_LEN> ShaderEnumMap;
+typedef EnumMap<Data, std::string, EVENT_DATA_LEN>   EventNameMap;
+typedef EnumMap<Module, std::string, MODULE_LEN>     ModuleNameMap; 
 
-namespace enumUtil {
+class EnumMapIndex {
+private:
+    static ShaderEnumMap shader_enum_map;
+    static EventNameMap  event_name_map;
+    static ModuleNameMap module_name_map;
 
-ShaderEnumMap getShaderEnumMap();
-}
+public:
+    static GLenum      glShader(ShaderType type);
+    static std::string dataName(Data data);
+    static std::string moduleName(Module moduel);
+};
 
 // === CONSTANTS ===
 #define ROOT "/Users/benjaminrutkowski/Projects/ndGameEngine/"

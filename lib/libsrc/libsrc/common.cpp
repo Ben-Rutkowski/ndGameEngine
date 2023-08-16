@@ -1,10 +1,47 @@
 #include "common.hpp"
 
-ShaderEnumMap enumUtil::getShaderEnumMap() {
+ShaderEnumMap getShaderEnumMap() {
     ShaderEnumMap map;
     map.addEntry(ShaderType::VERTEX,   GL_VERTEX_SHADER);
     map.addEntry(ShaderType::FRAGMENT, GL_FRAGMENT_SHADER);
     map.addEntry(ShaderType::GEOMETRY, GL_GEOMETRY_SHADER);
 
     return map;
+}
+
+EventNameMap getEventNameMap() {
+    EventNameMap map;
+    map.addEntry(Data::TEST, std::string("TEST"));
+    map.addEntry(Data::CLOSE_APP, std::string("CLOSE_APP"));
+    map.addEntry(Data::RESIZE, std::string("RESIZE"));
+    map.addEntry(Data::START_FRAME, std::string("START_FRAME"));
+    map.addEntry(Data::END_FRAME, std::string("END_FRAME"));
+    map.addEntry(Data::COLLECT_MENU_KEYS, std::string("COLLECT_MENU_KEYS"));
+    map.addEntry(Data::ESCAPE_KEY, std::string("ESCAPE_KEY"));
+
+    return map;
+}
+
+ModuleNameMap getModuleNameMap() {
+    ModuleNameMap map;
+    map.addEntry(Module::APPLICATION, std::string("APPLICATION"));
+    map.addEntry(Module::WINDOW, std::string("WINDOW"));
+
+    return map;
+}
+
+ShaderEnumMap EnumMapIndex::shader_enum_map = getShaderEnumMap();
+EventNameMap  EnumMapIndex::event_name_map  = getEventNameMap();
+ModuleNameMap EnumMapIndex::module_name_map = getModuleNameMap();
+
+GLenum EnumMapIndex::glShader(ShaderType type) {
+    return shader_enum_map.get(type);
+}
+
+std::string EnumMapIndex::dataName(Data data) {
+    return event_name_map.get(data);
+}
+
+std::string EnumMapIndex::moduleName(Module module) {
+    return module_name_map.get(module);
 }

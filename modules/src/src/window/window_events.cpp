@@ -42,13 +42,14 @@ void ndWindow::onEscapeKey(Event* event) {
     CODE(close_app, Data::CLOSE_APP)
     
     event_interface.queueEvent(close_app);
+
+    event->print();
 }
 
 void ndWindow::onCloseApp(Event* event) {
-    // --- Actions ---
     setShouldClose(true);
 
-    std::cout << "Close" << std::endl;
+    event->print();
 }
 
 void ndWindow::onResize(Event* event) {
@@ -57,7 +58,8 @@ void ndWindow::onResize(Event* event) {
 
     glViewport(0, 0, frame_width, frame_height);
 
-    std::cout << "Resize: ";
+    event->print();
+    std::cout << "Framebuffer size: ";
     std::cout << frame_width << ", " << frame_height << std::endl;
 }
 
