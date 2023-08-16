@@ -14,14 +14,3 @@ void ndApp::linkWindow(ndWindow* window_ptr) {
     window = window_ptr;
     window_ptr->setManagerPtr(&event_manager);
 }
-
-// === Runtime ===
-void ndApp::startApp() {
-    while (!window->shouldClose()) {
-        startFrame();
-
-        event_manager.pollEvents();
-
-        glfwPollEvents();
-    }
-}

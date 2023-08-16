@@ -37,7 +37,6 @@ typedef EnumMap<ShaderType, GLenum, SHADER_TYPE_LEN> ShaderEnumMap;
 namespace enumUtil {
 
 ShaderEnumMap getShaderEnumMap();
-
 }
 
 // === CONSTANTS ===

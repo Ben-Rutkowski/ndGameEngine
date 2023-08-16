@@ -13,7 +13,10 @@ private:
     GLenum       GL_type;
 
 public:
+    Shader();
     Shader(ShaderType type_in, std::string file_path);
+
+    unsigned int getID();
 
 // --- Debugging ---
 private:
