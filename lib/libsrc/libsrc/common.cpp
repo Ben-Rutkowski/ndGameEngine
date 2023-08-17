@@ -11,13 +11,14 @@ ShaderEnumMap getShaderEnumMap() {
 
 EventNameMap getEventNameMap() {
     EventNameMap map;
-    map.addEntry(Data::TEST, std::string("TEST"));
-    map.addEntry(Data::CLOSE_APP, std::string("CLOSE_APP"));
-    map.addEntry(Data::RESIZE, std::string("RESIZE"));
-    map.addEntry(Data::START_FRAME, std::string("START_FRAME"));
-    map.addEntry(Data::END_FRAME, std::string("END_FRAME"));
+    map.addEntry(Data::TEST,              std::string("TEST"));
+    map.addEntry(Data::CLOSE_APP,         std::string("CLOSE_APP"));
+    map.addEntry(Data::RESIZE,            std::string("RESIZE"));
+    map.addEntry(Data::START_FRAME,       std::string("START_FRAME"));
+    map.addEntry(Data::END_FRAME,         std::string("END_FRAME"));
     map.addEntry(Data::COLLECT_MENU_KEYS, std::string("COLLECT_MENU_KEYS"));
-    map.addEntry(Data::ESCAPE_KEY, std::string("ESCAPE_KEY"));
+    map.addEntry(Data::ESCAPE_KEY,        std::string("ESCAPE_KEY"));
+    map.addEntry(Data::BEGIN_LOOP,         std::string("BEGIN_LOOP"));
 
     return map;
 }
@@ -25,7 +26,7 @@ EventNameMap getEventNameMap() {
 ModuleNameMap getModuleNameMap() {
     ModuleNameMap map;
     map.addEntry(Module::APPLICATION, std::string("APPLICATION"));
-    map.addEntry(Module::WINDOW, std::string("WINDOW"));
+    map.addEntry(Module::WINDOW,      std::string("WINDOW"));
 
     return map;
 }

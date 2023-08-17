@@ -18,7 +18,7 @@ enum class Module { null = 0, TEST,
 
 enum class Data { null = 0, TEST,
     /* Operations */ CLOSE_APP, RESIZE,  
-    /* Runtime */    START_FRAME, END_FRAME,          
+    /* Runtime */    BEGIN_LOOP, START_FRAME, END_FRAME,          
     /* Key Events */ COLLECT_MENU_KEYS, ESCAPE_KEY, 
     LEN
 };

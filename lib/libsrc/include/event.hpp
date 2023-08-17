@@ -64,6 +64,7 @@ public:
 
     // --- Debugging ---
     void print();
+    void print(Module module_name);
 };
 
 class Event2i : public Event {

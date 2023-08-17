@@ -35,3 +35,10 @@ void Event::print() {
     std::cout << " event: ";
     std::cout << EnumMapIndex::dataName(code.data) << std::endl;
 }
+
+void Event::print(Module module_name) {
+    std::cout << EnumMapIndex::moduleName(code.module);
+    std::cout << " event: ";
+    std::cout << EnumMapIndex::dataName(code.data);
+    std::cout << " in " << EnumMapIndex::moduleName(module_name) << std::endl;
+}

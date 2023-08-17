@@ -9,14 +9,16 @@ std::string futil::readFile(std::string file_path) {
 
     std::ifstream     file_stream;
     std::stringstream string_stream;
+    std::string       output;
 
     file_stream.exceptions (std::ifstream::failbit | std::ifstream::badbit);
     try {
         file_stream.open(file_path);
         string_stream << file_stream.rdbuf();
         file_stream.close();
+        output = string_stream.str();
 
-        return string_stream.str();
+        return output;
     } catch(std::ifstream::failure e) {
         std::cout << "Failed to read File at " << file_path << std::endl;
 

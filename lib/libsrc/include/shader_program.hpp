@@ -17,6 +17,10 @@ public:
     void attachShader(ShaderType type, Shader shader);
     void linkProgram();
 
+// --- Rendering ---
+public:
+    void use();
+
 // --- Debugging ---
 private:
     void checkLink();

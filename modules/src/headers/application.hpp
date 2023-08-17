@@ -65,10 +65,10 @@ public:
     void propogateEvent(Event* event);
 
 private:
+    void beginLoop();
     void startFrame();
-
-// private:
-//     void pollEvents();
+    void endFrame();
+    void pollEvents();
 };
 
 #endif

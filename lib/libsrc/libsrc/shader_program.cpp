@@ -16,6 +16,11 @@ void ShaderProgram::linkProgram() {
     checkLink();
 }
 
+// === Rendering ===
+void ShaderProgram::use() {
+    glUseProgram(program_id);
+}
+
 // === Debugging ===
 void ShaderProgram::checkLink() {
     int  success;

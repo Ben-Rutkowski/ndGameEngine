@@ -5,11 +5,24 @@ void ndApp::propogateEvent(Event* event) {
     window->runEventWindow(event);
 }
 
-void ndApp::startFrame() {
-    const EventCode code(EventType::ACTION, module_name, Data::START_FRAME);
-    Event event(code);
+void ndApp::pollEvents() {
+    event_manager.pollEvents();
+}
+
+void ndApp::beginLoop() {
+    CODE(begin_loop, Data::BEGIN_LOOP)
+    Event event(begin_loop);
     propogateEvent(&event);
 }
 
-// // === Private ===
-// void ndApp::pollEvents() { event_manager.pollEvents(); }
+void ndApp::startFrame() {
+    CODE(start_frame, Data::START_FRAME)
+    Event event(start_frame);
+    propogateEvent(&event);
+}
+
+void ndApp::endFrame() {
+    CODE(end_frame, Data::END_FRAME)
+    Event event(end_frame);
+    propogateEvent(&event);
+}

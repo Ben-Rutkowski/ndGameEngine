@@ -14,12 +14,20 @@ void ndWindow::setCallbacks() {
     event_interface.setCallback(Data::ESCAPE_KEY,  PACK(ndWindow::onEscapeKey));
     event_interface.setCallback(Data::CLOSE_APP,   PACK(ndWindow::onCloseApp));
     event_interface.setCallback(Data::RESIZE,      PACK(ndWindow::onResize));
+    event_interface.setCallback(Data::BEGIN_LOOP,  PACK(ndWindow::onBeginLoop));
+    event_interface.setCallback(Data::END_FRAME,   PACK(ndWindow::onEndFrame));
 
     // GLFW Callbacks
     glfwSetFramebufferSizeCallback(glfw_window, framebufferResizeCallback);
 }
 
 // ================ On Events ================
+
+void ndWindow::onBeginLoop(Event* event) {
+    glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+
+    event->print(module_name);
+}
 
 void ndWindow::onCollectMenuKeys(Event* event) {
     CODE(escape_key, Data::ESCAPE_KEY)
@@ -32,10 +40,15 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 void ndWindow::onStartFrame(Event* event) {
     CODE(collect_menu_keys, Data::COLLECT_MENU_KEYS)
 
-    glfwSwapBuffers(glfw_window);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     Event menu_event(collect_menu_keys);
     event_interface.runEvent(&menu_event);
+}
+
+void ndWindow::onEndFrame(Event* event) {
+    glfwSwapBuffers(glfw_window);
+    glfwPollEvents();
 }
 
 void ndWindow::onEscapeKey(Event* event) {
@@ -43,13 +56,13 @@ void ndWindow::onEscapeKey(Event* event) {
     
     event_interface.queueEvent(close_app);
 
-    event->print();
+    event->print(module_name);
 }
 
 void ndWindow::onCloseApp(Event* event) {
     setShouldClose(true);
 
-    event->print();
+    event->print(module_name);
 }
 
 void ndWindow::onResize(Event* event) {
@@ -58,7 +71,7 @@ void ndWindow::onResize(Event* event) {
 
     glViewport(0, 0, frame_width, frame_height);
 
-    event->print();
+    event->print(module_name);
     std::cout << "Framebuffer size: ";
     std::cout << frame_width << ", " << frame_height << std::endl;
 }
