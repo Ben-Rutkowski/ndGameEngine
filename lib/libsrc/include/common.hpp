@@ -3,7 +3,9 @@
 
 #include "glad_glfw.hpp"
 #include "enum_map.hpp"
-#include "string"
+#include "vector.hpp"
+
+#include <string>
 
 // === Event Enums ===
 enum class EventType { null = 0, 
@@ -48,6 +50,17 @@ public:
     static GLenum      glShader(ShaderType type);
     static std::string dataName(Data data);
     static std::string moduleName(Module moduel);
+};
+
+// === Structs ===
+struct Vertex {
+    vec3 position;
+    vec3 normal;
+    vec2 texcoord;
+};
+
+struct Texture {
+    unsigned int id;
 };
 
 // === CONSTANTS ===

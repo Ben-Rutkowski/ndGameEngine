@@ -27,4 +27,16 @@ public:
     vec2i(int arg0, int arg1);
 };
 
+class vec3 : public VectorTemplate<float, 3> {
+public:
+    vec3();
+    vec3(float arg0, float arg1, float arg2);
+};
+
+class vec2 : public VectorTemplate<float, 2> {
+public:
+    vec2();
+    vec2(float arg0, float arg1);
+};
+
 #endif
