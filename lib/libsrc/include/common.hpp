@@ -33,7 +33,7 @@ enum class ShaderType { null = 0,
 
 // === Clock Enums ===
 enum class Watch { null = 0,
-    FRAMERATE,
+    FRAMERATE, FRAME_DELTA,
     LEN
 };
 

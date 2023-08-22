@@ -41,16 +41,23 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 void ndWindow::onStartFrame(Event* event) {
     CODE(collect_menu_keys, Data::COLLECT_MENU_KEYS)
 
+    // OpenGL
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // Clock
+    frame_delta = clock.delta(Watch::FRAME_DELTA);
+    clock.click(Watch::FRAME_DELTA);
 
     Event menu_event(collect_menu_keys);
     event_interface.runEvent(&menu_event);
 }
 
 void ndWindow::onEndFrame(Event* event) {
+    // OpenGL
     glfwSwapBuffers(glfw_window);
     glfwPollEvents();
 
+    // Framerate Display
     if (clock.check(Watch::FRAMERATE, 3.0)) {
         std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
         clock.click(Watch::FRAMERATE);
