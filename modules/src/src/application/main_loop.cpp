@@ -14,17 +14,17 @@ void ndApp::startApp() {
     Vertex point1;
     Vertex point2;
 
-    point0.position = vec3(-0.5f, -0.5f, 0.0f);
-    point0.normal   = vec3(0.0f, 0.0f, 0.0f);
-    point0.texcoord = vec2(0.0f, 0.0f);
+    point0.position = vec3({-0.5f, -0.5f, 0.0f});
+    point0.normal   = vec3({0.0f, 0.0f, 0.0f});
+    point0.texcoord = vec2({0.0f, 0.0f});
 
-    point1.position = vec3(0.5f, -0.5f, 0.0f);
-    point1.normal   = vec3(0.0f, 0.0f, 0.0f);
-    point1.texcoord = vec2(0.0f, 0.0f);
+    point1.position = vec3({0.5f, -0.5f, 0.0f});
+    point1.normal   = vec3({0.0f, 0.0f, 0.0f});
+    point1.texcoord = vec2({0.0f, 0.0f});
 
-    point2.position = vec3(0.0f, 0.5f, 0.0f);
-    point2.normal   = vec3(0.0f, 0.0f, 0.0f);
-    point2.texcoord = vec2(0.0f, 0.0f);
+    point2.position = vec3({0.0f, 0.5f, 0.0f});
+    point2.normal   = vec3({0.0f, 0.0f, 0.0f});
+    point2.texcoord = vec2({0.0f, 0.0f});
 
     Verts my_verts = {point0, point1, point2};
     Ints  my_ints  = {0, 1, 2};

@@ -81,7 +81,7 @@ void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int heig
     CODE2I(framesize, Data::RESIZE)
     EventManager* event_manager = getManager(window);
 
-    Event2i event(framesize, vec2i(width, height));
+    Event2i event(framesize, vec2i({width, height}));
     event_manager->runEvent(&event);
 }
 

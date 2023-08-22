@@ -13,7 +13,7 @@ void EventManager::queueEvent(EventCode code) {
 }
 
 void EventManager::queueEvent2i(EventCode code, int arg0, int arg1) {
-    event2i_queue.queue(Event2i(code, vec2i(arg0, arg1)));
+    event2i_queue.queue(Event2i(code, vec2i({arg0, arg1})));
 }
 
 void EventManager::queueEvent2i(EventCode code, vec2i vector) {
