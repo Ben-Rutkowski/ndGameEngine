@@ -31,6 +31,13 @@ enum class ShaderType { null = 0,
     LEN
 };
 
+// === Clock Enums ===
+enum class Watch { null = 0,
+    FRAMERATE,
+    LEN
+};
+
+#define WATCH_LEN       (int)Watch::LEN
 #define MODULE_LEN      (int)Module::LEN
 #define EVENT_DATA_LEN  (int)Data::LEN
 #define SHADER_TYPE_LEN (int)ShaderType::LEN

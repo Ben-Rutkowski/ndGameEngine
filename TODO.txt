@@ -1,5 +1,8 @@
 TODO: 
-- Shaders and Buffers
+- Camera Object
+- Entities
+- 3D Shaders
+
 - GUI Layers
     - FreeText
 

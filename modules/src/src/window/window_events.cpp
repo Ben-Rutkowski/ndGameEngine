@@ -25,6 +25,7 @@ void ndWindow::setCallbacks() {
 
 void ndWindow::onBeginLoop(Event* event) {
     glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+    glfwSwapInterval(1);
 
     event->print(module_name);
 }
@@ -49,6 +50,11 @@ void ndWindow::onStartFrame(Event* event) {
 void ndWindow::onEndFrame(Event* event) {
     glfwSwapBuffers(glfw_window);
     glfwPollEvents();
+
+    if (clock.check(Watch::FRAMERATE, 3.0)) {
+        std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
+        clock.click(Watch::FRAMERATE);
+    }
 }
 
 void ndWindow::onEscapeKey(Event* event) {

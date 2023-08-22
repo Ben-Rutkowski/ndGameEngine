@@ -8,22 +8,44 @@ GLFW intialization must be done before creating a window.
 
 #include "glad_glfw.hpp"
 #include "event_manager.hpp"
+#include "timer.hpp"
 
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-class ndWindow {
+// ================ Clock ================
+class Clock {
 private:
-    static Module module_name;
+    std::array<StopWatch,WATCH_LEN> watches;
 
-    int frame_width, frame_height;
+public:
+    Clock() {}
 
-// --- Events ---
+// --- Time ---
+    double delta(Watch type);
+    bool   check(Watch type, double min_interval);
+    void   click(Watch type);
+
+// --- Rate ---
+    double rate(Watch type);
+
+// --- Private ---
+private:
+    double     getTime();
+    StopWatch& getWatch(Watch type);
+};
+
+// ================ ndWindow ================
+class ndWindow {
+private: static Module module_name;
+// --- Layers ---
 private:
     EventInterface event_interface;
+    Clock clock;
     
 // --- Attributes ---
-public:
+private:
+    int frame_width, frame_height;
     GLFWwindow* glfw_window;
 
 // --- Constructors and Initialization ---
