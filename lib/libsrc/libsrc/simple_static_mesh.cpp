@@ -22,9 +22,9 @@ void SimpleStaticMesh::loadData() {
     loadVerticesStatic(&vertices[0], sizeof(vertices) * sizeof(Vertex));
     loadIndicesStatic(&indices[0], sizeof(indices) * sizeof(unsigned int));
 
-    configAttribf(0, 3, sizeof(Vertex), 0*sizeof(float));
-    configAttribf(1, 3, sizeof(Vertex), 3*sizeof(float));
-    configAttribf(2, 2, sizeof(Vertex), 6*sizeof(float));
+    configAttribf(0, 3, sizeof(Vertex), (void*)(0*sizeof(float)));
+    configAttribf(1, 3, sizeof(Vertex), (void*)(3*sizeof(float)));
+    configAttribf(2, 2, sizeof(Vertex), (void*)(6*sizeof(float)));
 
     unbindCurrent();
 }

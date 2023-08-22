@@ -22,7 +22,7 @@ protected:
     void bindAllBuffers();
     void unbindCurrent();
     void bindCurrent();
-    void configAttribf(int attrib_index, int size, int stride, int offeset);
+    void configAttribf(int attrib_index, int size, int stride, void* offeset);
     void loadVerticesStatic(void* data, int size);
     void loadIndicesStatic(void* data, int size);
     void drawElementsStatic(int size);

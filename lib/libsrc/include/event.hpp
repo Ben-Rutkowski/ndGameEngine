@@ -75,6 +75,8 @@ public:
     Event2i() {}
     Event2i(EventCode code, vec2i vec_input) 
         :Event(code), vector(vec_input) {}
+    Event2i(EventCode code, int arg0, int arg1)
+        :Event(code), vector({arg0, arg1}) {}
 
     int getInt(int index) {
         return vector[index];

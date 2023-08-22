@@ -24,8 +24,8 @@ void VertexBufferInterface::bindCurrent() {
     // glBindBuffer(GL_ARRAY_BUFFER, vbo);
 }
 
-void VertexBufferInterface::configAttribf(int attrib_index, int size, int stride, int offeset) {
-    glVertexAttribPointer(attrib_index, size, GL_FLOAT, GL_FALSE, stride, (void*)offeset);
+void VertexBufferInterface::configAttribf(int attrib_index, int size, int stride, void* offeset) {
+    glVertexAttribPointer(attrib_index, size, GL_FLOAT, GL_FALSE, stride, offeset);
     glEnableVertexAttribArray(attrib_index);
 }
 
