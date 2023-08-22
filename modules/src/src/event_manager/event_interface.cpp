@@ -12,7 +12,7 @@ void EventInterface::setCallback(Data data, EventCallType function) {
 }
 
 void EventInterface::operator()(Event* event) {
-    int index = event->getIndex();
+    int index = (int)(event->getData());
     EventCall function = function_array[index];
     function(event);
 }

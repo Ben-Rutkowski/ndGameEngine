@@ -1,28 +1,3 @@
-/*
-
-Events are propogated throughout the application to
-perform an action. 
-
-Each Event has a Type, Module, Action and Time Queued/Created.
-- Different Types may have varing extra data (e.g. Key events have a keycode).
-- Module is the module in which the event is queued/created from.
-- Action is the operation to trigger or toggle.
-- Time is the clock time in which the event was created.
-
-CONSTRUCTORS AND INITIALIZATION:
--- constructor(): Creates NULL Event.
--- constructor(EventType, Module, int): Creates a normal event with given arguments.
-
-GETS AND SETS:
--- getType: Returns the EventType of the event.
--- getModule: Returns the Module of the event.
--- getData: Returns the data of the event.
-
-DEBUGGING:
--- print: Prints event info.
-
-*/
-
 #include "common.hpp"
 #include "vector.hpp"
 
@@ -41,31 +16,95 @@ struct EventCode {
     EventCode(EventType type_in, Module module_in, Data data_in);
 };
 
-// === Classes ===
+/* CLASS: Event
+
+Events are propogated throughout the application to
+perform an action. 
+
+Each Event has at least a Type, Module, Action.
+- Different Types may have varing extra data (Event2i have an extra vec2i of attatched data).
+- Module is the module in which the event is queued/created from.
+- Action is the operation to trigger or toggle.
+
+CONSTRUCTORS
+- Event : Creates null Event with whose Type, Module and Action are all null.
+
+- Event : Creats an event with the given code.
+    ==Parameters==
+        - EventCode code : The code for the event.
+
+
+GETS AND SETS
+- getType : Returns the type of the event.
+    ==Return==
+        - EventType
+
+- getModule : Returns the module in which the event was created.
+    ==Return==
+        - Module
+
+- getData : Returns the data of the event
+    ==Return==
+        - Data
+
+VIRTUAL
+- getInt : If given event has a int vector attatched, return
+    the integer at the given index, else return 0;
+    ==Parameter==
+        - int index : the index of the vector.
+    ==Return==
+        - int
+
+OPERATORS
+- operator! : Returns true if event is null, else false.
+        ==Return==
+    - bool
+
+DEBUGGING:
+- print : Prints the event info
+
+- print : Prints the event info and what module it is opened in.
+    ==Parameter==
+        - Module module_name : the name of the module that is opening it.
+
+*/
+
 class Event {
+// --- Attributes ---
 protected:
     EventCode code;
 
+// --- Constructors ---
 public:
-    // --- Constructors and Initialization
     Event();
     Event(EventCode code_in);
 
-    // --- Gets and Sets ---
+// --- Gets and Sets ---
+public:
     EventType getType();
     Module    getModule();
     Data      getData();
-    int       getIndex();
 
+// --- Virtual ---
+public:
     virtual int getInt(int index);
 
-    // --- Operators ---
+// --- Operators ---
+public: 
     bool operator!();
 
-    // --- Debugging ---
+// --- Debugging ---
+public:
     void print();
     void print(Module module_name);
 };
+
+/* CLASS Event2i 
+    Parent : Event
+
+An Event2i extends Events with an attatched vec2i
+
+*/
 
 class Event2i : public Event {
 private:

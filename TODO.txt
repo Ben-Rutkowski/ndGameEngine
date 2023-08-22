@@ -1,4 +1,6 @@
 TODO: 
+- Change event interface to an enum map
+
 - Camera Object
 - Entities
 - 3D Shaders

@@ -22,7 +22,6 @@ Event::Event(EventCode code_in)
 EventType Event::getType()   { return code.type; }
 Module    Event::getModule() { return code.module; }
 Data      Event::getData()   { return code.data; }
-int       Event::getIndex()  { return (int)code.data; }
 
 int       Event::getInt(int place) { return 0; }
 
