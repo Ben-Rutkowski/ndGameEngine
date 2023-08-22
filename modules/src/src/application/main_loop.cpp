@@ -32,26 +32,9 @@ void ndApp::startApp() {
     SimpleStaticMesh mesh(my_verts, my_ints);
     mesh.loadData();
 
-    // unsigned int VAO, VBO, EBO;
-    // glGenVertexArrays(1, &VAO);
-    // glGenBuffers(1, &VBO);
-    // glGenBuffers(1, &EBO);
-
-    // glBindVertexArray(VAO);
-    // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(coords), coords, GL_STATIC_DRAW);
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), indecies, GL_STATIC_DRAW);
-    // glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), (void*)0);
-    // glEnableVertexAttribArray(0);
-
     beginLoop();
     while (!window->shouldClose()) {
         startFrame();
-
-        // program.use();
-        // glBindVertexArray(VAO);
-        // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
         mesh.draw(program);
 
