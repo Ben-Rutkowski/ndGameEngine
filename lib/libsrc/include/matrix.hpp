@@ -123,9 +123,9 @@ public:
     static Matrix<T,M,N> iden() {
         constexpr int small = std::min(M,N);
 
-        Matrix<T,M,N> output(0.0f);
+        Matrix<T,M,N> output(cTemp::Zero<T>::value);
         for (int i=0; i<small; i++) {
-            output.set(1.0f, i, i);
+            output.set(cTemp::One<T>::value, i, i);
         }
 
         return output;

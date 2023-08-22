@@ -4,6 +4,16 @@
 #include <array>
 #include <iostream>
 
+namespace cTemp {
+template<typename U> struct Zero {};
+template<> struct Zero<int>   { static constexpr int   value = 0; };
+template<> struct Zero<float> { static constexpr float value = 0.0f; };
+
+template<typename U> struct One {};
+template<> struct One<int>   { static constexpr int   value = 1; };
+template<> struct One<float> { static constexpr float value = 1.0f; };
+}
+
 // === TEMPLATE ===
 template<typename T, int N>
 class Vector {
@@ -14,7 +24,7 @@ private:
 // --- Constructor and Initialization ---
 public:
     Vector() {
-        data.fill(Zero<T>::value);
+        data.fill(cTemp::Zero<T>::value);
     }
 
     Vector(T value) {
@@ -46,7 +56,7 @@ public:
     }
 
     T dot(Vector<T,N>& other) {
-        T output = Zero<T>::value;
+        T output = cTemp::Zero<T>::value;
         for (int i=0; i<N; i++) {
             output += data[i]*other[i];
         }
@@ -61,7 +71,7 @@ public:
 public:
     static Vector<T,N> basis(int i) {
         Vector<T,N> output;
-        output.set(One<T>::value, i);
+        output.set(cTemp::One<T>::value, i);
         return output;
     }
 
@@ -75,15 +85,15 @@ public:
         std::cout << data[N-1] << std::endl;
     }
 
-// --- Statics ---
-private:
-    template<typename U> struct Zero {};
-    template<> struct Zero<int>   { static constexpr int   value = 0; };
-    template<> struct Zero<float> { static constexpr float value = 0.0f; };
+// // --- Statics ---
+// private:
+//     template<typename U> struct Zero {};
+//     template<> struct Zero<int>   { static constexpr int   value = 0; };
+//     template<> struct Zero<float> { static constexpr float value = 0.0f; };
 
-    template<typename U> struct One {};
-    template<> struct One<int>   { static constexpr int   value = 1; };
-    template<> struct One<float> { static constexpr float value = 1.0f; };
+//     template<typename U> struct One {};
+//     template<> struct One<int>   { static constexpr int   value = 1; };
+//     template<> struct One<float> { static constexpr float value = 1.0f; };
 };
 
 typedef Vector<float,4> vec4;
