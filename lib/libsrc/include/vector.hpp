@@ -23,9 +23,7 @@ private:
 
 // --- Constructor and Initialization ---
 public:
-    Vector() {
-        data.fill(cTemp::Zero<T>::value);
-    }
+    Vector() {}
 
     Vector(T value) {
         data.fill(value);
@@ -70,7 +68,7 @@ public:
 // --- Static ---
 public:
     static Vector<T,N> basis(int i) {
-        Vector<T,N> output;
+        Vector<T,N> output(cTemp::Zero<T>::value);
         output.set(cTemp::One<T>::value, i);
         return output;
     }
@@ -84,16 +82,6 @@ public:
 
         std::cout << data[N-1] << std::endl;
     }
-
-// // --- Statics ---
-// private:
-//     template<typename U> struct Zero {};
-//     template<> struct Zero<int>   { static constexpr int   value = 0; };
-//     template<> struct Zero<float> { static constexpr float value = 0.0f; };
-
-//     template<typename U> struct One {};
-//     template<> struct One<int>   { static constexpr int   value = 1; };
-//     template<> struct One<float> { static constexpr float value = 1.0f; };
 };
 
 typedef Vector<float,4> vec4;
