@@ -77,7 +77,9 @@ protected:
 // --- Constructors ---
 public:
     Event();
-    Event(EventCode code_in);
+    // Event(EventCode code_in);
+    Event(EventType type, Module module_name, Data data);
+    Event(Module module_name, Data data);
 
 // --- Gets and Sets ---
 public:
@@ -108,17 +110,31 @@ An Event2i extends Events with an attatched vec2i
 
 class Event2i : public Event {
 private:
-    vec2i vector;
+    vec2i vector_2i;
 
 public:
-    Event2i() {}
-    Event2i(EventCode code, vec2i vec_input) 
-        :Event(code), vector(vec_input) {}
-    Event2i(EventCode code, int arg0, int arg1)
-        :Event(code), vector({arg0, arg1}) {}
+    Event2i()
+        :Event(),
+        vector_2i() {}
+
+    // Event2i(EventCode code, vec2i vec_input) 
+    //     :Event(code),
+    //     vector_2i(vec_input) {}
+
+    // Event2i(EventCode code, int arg0, int arg1)
+    //     :Event(code),
+    //     vector_2i({arg0, arg1}) {}
+        
+    Event2i(Module module_name, Data data, int arg0, int arg1)
+        :Event(EventType::VEC2I, module_name, data),
+        vector_2i({arg0, arg1}) {}
+
+    Event2i(Module module_name, Data data, vec2i vector)
+        :Event(EventType::VEC2I, module_name, data),
+        vector_2i{ vector } {}
 
     int getInt(int index) {
-        return vector[index];
+        return vector_2i[index];
     }
 };
 

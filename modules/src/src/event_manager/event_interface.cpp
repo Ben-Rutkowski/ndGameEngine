@@ -17,16 +17,24 @@ void EventInterface::operator()(Event* event) {
     function(event);
 }
 
-void EventInterface::queueEvent(EventCode code) {
-    event_manager->queueEvent(code);
+// void EventInterface::queueEvent(EventCode code) {
+//     event_manager->queueEvent(code);
+// }
+
+// void EventInterface::queueEvent2i(EventCode code, int arg0, int arg1) {
+//     event_manager->queueEvent2i(code, arg0, arg1);
+// }
+
+// void EventInterface::queueEvent2i(EventCode code, vec2i vector) {
+//     event_manager->queueEvent2i(code, vector);
+// }
+
+void EventInterface::queueEvent(Module module_name, Data data) {
+    event_manager->queueEvent(module_name, data);
 }
 
-void EventInterface::queueEvent2i(EventCode code, int arg0, int arg1) {
-    event_manager->queueEvent2i(code, arg0, arg1);
-}
-
-void EventInterface::queueEvent2i(EventCode code, vec2i vector) {
-    event_manager->queueEvent2i(code, vector);
+void EventInterface::queueEvent2i(Module module_name, Data data, vec2i vector) {
+    event_manager->queueEvent2i(module_name, data, vector);
 }
 
 void EventInterface::runEvent(Event* event) {

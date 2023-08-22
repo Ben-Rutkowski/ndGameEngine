@@ -72,9 +72,12 @@ public:
 
 // --- Interface ---
 public:
-    void queueEvent(EventCode code);
-    void queueEvent2i(EventCode code, int arg0, int arg1);
-    void queueEvent2i(EventCode code, vec2i vector);
+    // void queueEvent(EventCode code);
+    // void queueEvent2i(EventCode code, int arg0, int arg1);
+    // void queueEvent2i(EventCode code, vec2i vector);
+
+    void queueEvent(Module module_name, Data data);
+    void queueEvent2i(Module module_name, Data data, vec2i vector);
     
     void runEvent(Event* event);
     void pollEvents();
@@ -94,9 +97,12 @@ public:
 
     void operator()(Event* event);
     
-    void queueEvent(EventCode code);
-    void queueEvent2i(EventCode code, int arg0, int arg1);
-    void queueEvent2i(EventCode code, vec2i vector);
+    // void queueEvent(EventCode code);
+    // void queueEvent2i(EventCode code, int arg0, int arg1);
+    // void queueEvent2i(EventCode code, vec2i vector);
+
+    void queueEvent(Module module_name, Data data);
+    void queueEvent2i(Module module_name, Data data, vec2i vector);
 
     void runEvent(Event* event);
 };

@@ -31,15 +31,15 @@ void ndWindow::onBeginLoop(Event* event) {
 }
 
 void ndWindow::onCollectMenuKeys(Event* event) {
-    CODE(escape_key, Data::ESCAPE_KEY)
+    // CODE(escape_key, Data::ESCAPE_KEY)
 
     if (isKeyPress(GLFW_KEY_ESCAPE)) {
-        event_interface.queueEvent(escape_key);
+        event_interface.queueEvent(module_name, Data::ESCAPE_KEY);
     }
 }
 
 void ndWindow::onStartFrame(Event* event) {
-    CODE(collect_menu_keys, Data::COLLECT_MENU_KEYS)
+    // CODE(collect_menu_keys, Data::COLLECT_MENU_KEYS)
 
     // OpenGL
     glClear(GL_COLOR_BUFFER_BIT);
@@ -48,7 +48,7 @@ void ndWindow::onStartFrame(Event* event) {
     frame_delta = clock.delta(Watch::FRAME_DELTA);
     clock.click(Watch::FRAME_DELTA);
 
-    Event menu_event(collect_menu_keys);
+    Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
     event_interface.runEvent(&menu_event);
 }
 
@@ -65,9 +65,9 @@ void ndWindow::onEndFrame(Event* event) {
 }
 
 void ndWindow::onEscapeKey(Event* event) {
-    CODE(close_app, Data::CLOSE_APP)
+    // CODE(close_app, Data::CLOSE_APP)
     
-    event_interface.queueEvent(close_app);
+    event_interface.queueEvent(module_name, Data::CLOSE_APP);
 
     event->print(module_name);
 }
@@ -91,10 +91,10 @@ void ndWindow::onResize(Event* event) {
 
 // === GLFW CALLBACKS ===
 void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
-    CODE2I(framesize, Data::RESIZE)
+    // CODE2I(framesize, Data::RESIZE)
     EventManager* event_manager = getManager(window);
 
-    Event2i event(framesize, width, height);
+    Event2i event(module_name, Data::RESIZE, width, height);
     event_manager->runEvent(&event);
 }
 
