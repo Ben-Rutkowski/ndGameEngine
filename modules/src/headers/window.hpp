@@ -8,7 +8,7 @@ GLFW intialization must be done before creating a window.
 
 #include "glad_glfw.hpp"
 #include "event_manager.hpp"
-#include "timer.hpp"
+#include "stopwatch.hpp"
 
 #ifndef WINDOW_HPP
 #define WINDOW_HPP

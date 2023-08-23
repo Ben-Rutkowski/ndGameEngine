@@ -14,33 +14,92 @@ template<> struct One<int>   { static constexpr int   value = 1; };
 template<> struct One<float> { static constexpr float value = 1.0f; };
 }
 
+/* CLASS TEMPLATE: Vector
+    T : type of elements (must have +, * and sqrt defined)
+    N : number of elements
+
+======== ATTRIBUTES ========
+- array<T,N> data
+
+
+======== METHODS ========
+-------- CONSTRUCTORS --------
+- Vector : Creates a vector filled with zeros.
+
+- Vector : Creates a vector filled with given value.
+    ==Parameter==
+        - T value : The value to fill the vector.
+
+- Vector : Creates a vector with a given list of values
+    ==Parameter==
+        - array<T,N>& 
+            or         : The list to be initialized
+        - array<T,N>&&
+
+-------- GETS AND SETS --------
+- operator[] : Returns the value at the give index
+    ==Parameter==
+        - int i
+    ==Return==
+        - T
+
+- set : Assigned the given value at the given index
+    ==Parameters==
+        - T value
+        - int i
+
+-------- MATH --------
+- operator+ : Sums two vectors of the same length together.
+    ==Parameter==
+        - Vector<T,N>& other
+    ==Return==
+        - Vector<T,N>
+
+- dot : Returns the dot product with a vector of the same length.
+    ==Parameter==
+        - Vector<T,N>&
+    ==Return==
+        - T
+
+- normInf : Returns the infinity norm of the vector
+    ==Return==
+        - T
+
+- norm2 : Returns the L2 norm of the vector
+    ==Return==
+        - float
+
+-------- STATIC --------
+- basis : Returns a basis vector with zeros
+    everywhere except at the given index
+    ==Parameter==
+        - int i
+    ==Return==
+        Vector<T,N>
+
+-------- DEBUGGING --------
+- print : Prints the vector in a line.
+
+*/
+
 // === TEMPLATE ===
 template<typename T, int N>
 class Vector {
-// --- Data ---
+// --- Attributes ---
 private:
     std::array<T,N> data;
 
-// --- Constructor and Initialization ---
+// --- Constructors ---
 public:
-    Vector() {}
-
-    Vector(T value) {
-        data.fill(value);
-    }
-
-    Vector(std::array<T,N> values_in)
-        :data{ values_in } {}
+    Vector()        { data.fill(cTemp::Zero<T>::value); }
+    Vector(T value) { data.fill(value); }
+    Vector(std::array<T,N>& values_in)  :data{ values_in } {}
+    Vector(std::array<T,N>&& values_in) :data{ values_in } {}
 
 // --- Gets and Sets ---
 public:
-    T operator[](int i) {
-        return data[i];
-    } 
-
-    void set(T value, int i) {
-        data[i] = value;
-    }
+    T    operator[](int i)   { return data[i]; } 
+    void set(T value, int i) { data[i] = value; }
 
 // --- Math ---
 public:
@@ -49,7 +108,6 @@ public:
         for (int i=0; i<N; i++) {
             output[i] = data[i] + other[i];
         }
-
         return Vector<T,N>(output);
     }
 
@@ -58,7 +116,6 @@ public:
         for (int i=0; i<N; i++) {
             output += data[i]*other[i];
         }
-
         return output;
     }
 
@@ -79,7 +136,6 @@ public:
         for (int i=0; i<N-1; i++) {
             std::cout << data[i] << ", ";
         }
-
         std::cout << data[N-1] << std::endl;
     }
 };

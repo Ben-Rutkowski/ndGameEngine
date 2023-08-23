@@ -6,17 +6,22 @@
 /* CLASS TEMPLATE: EnumMap
     KeyType : type of the keys
     EntryType : type of the entrys
-    Len : length of the map
+    N : length of the map
 
 An EnumMap is a data structure that associates an entry to an
 enum class. EnumMaps have a fixed length and are normally definied
 once before the application begins.
 
-CONSTRUCTOR
+======== ATTRIBUTES ========
+- array<EntryType,Len> map
+
+
+======== METHODS ========
+-------- CONSTRUCTOR --------
 - EnumMap : Does not initialize the array. That is if an entry 
     is retrived that is not defined then will return a null EntryType.
 
-GETS AND SETS
+-------- GETS AND SETS --------
 - addEntry : Adds an entry to the map.
     ==Parameters==
         - KeyType key : The key for the entry.
@@ -30,21 +35,21 @@ GETS AND SETS
 
 */
 
-template<typename KeyType, typename EntryType, int Len>
+template<typename KeyType, typename EntryType, int N>
 class EnumMap {
 private:
-    std::array<EntryType,Len> array;
+    std::array<EntryType,N> map;
     
 public:
     EnumMap() {}
 
     void addEntry(KeyType key, EntryType entry) {
         int index = (int)key;
-        array[index] = entry;
+        map[index] = entry;
     }
 
     EntryType get(KeyType key) {
-        return array[(int)key];
+        return map[(int)key];
     }
 };
 

@@ -26,7 +26,12 @@ Each Event has at least a Type, Module, Action.
 - Module is the module in which the event is queued/created from.
 - Action is the operation to trigger or toggle.
 
-CONSTRUCTORS
+======== ATTRIBUTES ========
+- EventCode code
+
+
+======== METHODS ========
+-------- CONSTRUCTORS --------
 - Event : Creates null Event with whose Type, Module and Action are all null.
 
 - Event : Creats an event with the given code.
@@ -34,7 +39,7 @@ CONSTRUCTORS
         - EventCode code : The code for the event.
 
 
-GETS AND SETS
+-------- GETS AND SETS --------
 - getType : Returns the type of the event.
     ==Return==
         - EventType
@@ -47,7 +52,11 @@ GETS AND SETS
     ==Return==
         - Data
 
-VIRTUAL
+- operator! : Returns true if event is null, else false.
+        ==Return==
+    - bool
+
+-------- VIRTUAL --------
 - getInt : If given event has a int vector attatched, return
     the integer at the given index, else return 0;
     ==Parameter==
@@ -55,12 +64,7 @@ VIRTUAL
     ==Return==
         - int
 
-OPERATORS
-- operator! : Returns true if event is null, else false.
-        ==Return==
-    - bool
-
-DEBUGGING:
+-------- DEBUGGING --------
 - print : Prints the event info
 
 - print : Prints the event info and what module it is opened in.
@@ -77,7 +81,6 @@ protected:
 // --- Constructors ---
 public:
     Event();
-    // Event(EventCode code_in);
     Event(EventType type, Module module_name, Data data);
     Event(Module module_name, Data data);
 
@@ -86,14 +89,11 @@ public:
     EventType getType();
     Module    getModule();
     Data      getData();
+    bool      operator!();
 
 // --- Virtual ---
 public:
     virtual int getInt(int index);
-
-// --- Operators ---
-public: 
-    bool operator!();
 
 // --- Debugging ---
 public:
@@ -101,10 +101,14 @@ public:
     void print(Module module_name);
 };
 
-/* CLASS Event2i 
+/* CLASS: Event2i 
     Parent : Event
 
 An Event2i extends Events with an attatched vec2i
+
+======== ATTRIBUTES ========
+...
+- vec2i vector_2i
 
 */
 
@@ -116,14 +120,6 @@ public:
     Event2i()
         :Event(),
         vector_2i() {}
-
-    // Event2i(EventCode code, vec2i vec_input) 
-    //     :Event(code),
-    //     vector_2i(vec_input) {}
-
-    // Event2i(EventCode code, int arg0, int arg1)
-    //     :Event(code),
-    //     vector_2i({arg0, arg1}) {}
         
     Event2i(Module module_name, Data data, int arg0, int arg1)
         :Event(EventType::VEC2I, module_name, data),

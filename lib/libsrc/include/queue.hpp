@@ -1,10 +1,13 @@
-/*
+/* CLASS TEMPLATE: Queue
+    T : type of object in queue (must have a default
+        constructor and a ! operator such that objects
+        created with the default constructor must return true
+        from the ! operator)
+    N : length of queue.
 
 A Queue is a stack of objects. Users can add objects to
 the end of the queue, retrive the address of the current
-object and clear current object. The type of the object
-must have an overloaded <!> operator. And objects created
-by the empty constructor must satisfy !object
+object and clear current object.
 
 The stack is an array of objects, with a counter that marks the
 first non-empty object (^) and the first empty object (o). Each stack
@@ -22,95 +25,93 @@ is essentually a recursive loop. Both counters start at (0, 0)
 -------------    -------------    -------------    -------------
     ^                ^                ^                ^
 
-CONSTRUCTORS AND INITIALIZATION:
--- constructor(): Initializes every queue to null objects and sets the 
-    markers to (0,0). 
+======== ATTRIBUTES ========
+- array<T,N> cache
+- int        current, end
 
-GETS AND SETS:
--- getCurrent: Returns a pointer to the current object.
--- DEPRECIATED:: getEventLen: Returns the length of non-empty objects.
 
-INTERFACE:
--- queue: Takes a reference of an object and copies it to the first empty space.
+======== METHODS ========
+-------- CONSTRUCTOR --------
+- Queue : Sets the current and end markers to 0.
+
+-------- GETS AND SETS --------
+- getCurrent : Returns a pointer to the current object.
+    ==Return==
+        - T*
+
+-------- CONTROLS --------
+- queue : Takes an object and copies it to the next open slot.
     Then increments the end point marker.
--- clearCurrent: If current object is not null, set to null and increment
-    non-empty marker. Otherwise do nothing.
+    ==Parameter==
+        - T object
+
+- clearCurrent : If current object is not null, set to null and
+    increment non-empty marker. Otherwise do nothing.
+
+-------- PRIVATE --------
+- isCurrentNull : Tests if queue is empty. Returns true if the
+    object in the current slot is null (i.e. !object is true).
+    ==Return==
+        - bool
+
+- isEndNull : Tests if queue is full. Returns true if the
+    object in the end slot is null
+    ==Return==
 
 */ 
 
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
+#include <iostream>
 #include <functional>
+#include <array>
 
 #define TEMP template<typename T, int N>
 
-TEMP class Queue {
+template<typename T, int N>
+class Queue {
+// --- Attributes ---
 private:
-    T cache[N];
-
+    std::array<T,N> cache;
     int current, end;
 
+// --- Constructor ---
 public:
-    Queue();
+    Queue() :current{ 0 }, end{ 0 } {}
 
 // --- Gets and Sets ---
-    T* getCurrent();
+public:
+    T* getCurrent() { return &cache[current]; }
 
-// --- Interface ---
-    void queue(T object);
-    void clearCurrent();
-    bool isEmpty();
+// --- controls ---
+public:
+    void queue(T object) {
+        if (!isEndNull()) {
+            std::cout << "CACHE IS FULL: CANNOT QUEUE EVENT!" << std::endl;
+            return;
+        }
+        cache[end] = object;
+        stepEnd();
+    }
 
+    void clearCurrent() {
+        if (isCurrentNull()) {
+            std::cout << "CACHE IS EMPTY: NOTHING TO CLEAR" << std::endl;
+        }
+        cache[current] = T();
+        stepCurrent();
+    }
+
+    bool isEmpty() { return isCurrentNull(); }
+
+// --- Private ---
 private:
-    bool isCurrentNull();
-    bool isEndNull();
+    bool isCurrentNull() { return !(cache[current]); }
+    bool isEndNull()     { return !(cache[end]); }
+
+    void stepCurrent() { current = (current + 1) % N; }
+    void stepEnd()     { end     = (end + 1) % N; }
 };
-
-
-// ======== FUNCTION DEFINITIONS ========
-
-
-#include <iostream>
-
-// === Constructors and Initialization
-
-TEMP Queue<T,N>::Queue(): 
-current{ 0 }, end{ 0 } {}
-
-// === Gets and Sets ===
-TEMP T* Queue<T,N>::getCurrent() { return &cache[current]; }
-
-// === Interface === 
-TEMP void Queue<T,N>::queue(T object) {
-    if (!isEndNull()) {
-        std::cout << "CACHE IS FULL: CANNOT QUEUE EVENT!" << std::endl;
-        return;
-    }
-    cache[end] = object;
-    end = (end + 1) % N;
-}
-
-TEMP void Queue<T,N>::clearCurrent() {
-    if (isCurrentNull()) {
-        std::cout << "CACHE IS EMPTY: NOTHING TO CLEAR" << std::endl;
-    }
-    cache[current] = T();
-    current = (current + 1) % N;
-}
-
-TEMP bool Queue<T,N>::isEmpty() {
-    return isCurrentNull();
-}
-
-// === Private ===
-
-TEMP bool Queue<T,N>::isCurrentNull() {
-    return !(cache[current]);
-}
-
-TEMP bool Queue<T,N>::isEndNull() {
-    return !(cache[end]);
-}
 
 #endif

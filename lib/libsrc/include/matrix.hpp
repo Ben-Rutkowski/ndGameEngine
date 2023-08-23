@@ -1,7 +1,9 @@
-/*
+/* CLASS TEMPLATE: Matrix
+    T : type of the elements (must have + and * defined)
+    M : number of rows
+    N : number of columns
 
-Matrices have m rows and n columns. The data is stored as column major.
-That is n vectors of m elements.
+Matrices have m rows and n columns. The data is stored as row major.
 
 */
 
