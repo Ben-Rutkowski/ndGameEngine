@@ -27,15 +27,9 @@ private:
 
 // --- Constructors and Initialization ---
 public:
-    Matrix(T uniform) {
-        data.fill(uniform);
-    }
-
-    Matrix(std::array<T,M*N>&& data_in)
-        :data{ data_in } {}
-
-    Matrix(std::array<T,M*N>& data_in)
-        :data{ data_in } {}
+    Matrix(T uniform) { data.fill(uniform); }
+    Matrix(std::array<T,M*N>&& data_in) :data{ data_in } {}
+    Matrix(std::array<T,M*N>& data_in)  :data{ data_in } {}
 
     Matrix(std::array<Vector<T,M>,N>& columns) {
         for(int i=0; i<M; i++) {
@@ -55,13 +49,8 @@ public:
 
 // --- Gets and Sets ---
 public:
-    T get(int i, int j) {
-        return data[index(i,j)];
-    }
-
-    void set(T value, int i, int j) {
-        data[index(i,j)] = value;
-    }
+    T    get(int i, int j)          { return data[index(i,j)]; }
+    void set(T value, int i, int j) { data[index(i,j)] = value; }
 
 // --- Math ---
 public:
@@ -72,22 +61,20 @@ public:
                 output[index(i,j)] = get(i,j) + other.get(i,j);
             }
         }
-
         return Matrix<T,M,N>(output);
     }
 
     template<int P>
     Matrix<T,M,P> operator*(Matrix<T,N,P>& other) {
+        T                 elem;
         std::array<T,M*P> output;
-
-        T element;
         for (int i=0; i<M; i++) {
             for (int k=0; k<P; k++) {
-                element = get(i,0)*other.get(0,k);
+                elem = get(i,0)*other.get(0,k);
                 for (int j=1; j<N; j++) {
-                    element = element + get(i,j)*other.get(j,k);
+                    elem = elem + get(i,j)*other.get(j,k);
                 }
-                output[index(i,k,P)] = element;
+                output[index(i,k,P)] = elem;
             }
         }
         return Matrix<T,M,P>(output);
@@ -102,7 +89,6 @@ public:
                 output[index(i,j)] = get(j,i);
             }
         }
-
         return Matrix<T,N,M>(output);
     }
 
@@ -110,7 +96,7 @@ public:
         T elem;
         for (int i=0; i<M; i++) {
             for (int j=0; j<N; j++) {
-                elem = math::roundPlace(data[index(i,j)],place);
+                elem = math::roundPlace(get(i,j),place);
                 data[index(i,j)] = elem;
             }
         }
@@ -118,8 +104,8 @@ public:
 
 // --- Private ---
 private:
-    int index(int i, int j)           { return j + N*i; }
-    int index(int i, int j, int COLS) { return j + COLS*i; }
+    static int index(int i, int j)           { return j + N*i; }
+    static int index(int i, int j, int COLS) { return j + COLS*i; }
 
 // --- Debugging ---
 public:
