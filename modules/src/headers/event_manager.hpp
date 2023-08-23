@@ -72,10 +72,6 @@ public:
 
 // --- Interface ---
 public:
-    // void queueEvent(EventCode code);
-    // void queueEvent2i(EventCode code, int arg0, int arg1);
-    // void queueEvent2i(EventCode code, vec2i vector);
-
     void queueEvent(Module module_name, Data data);
     void queueEvent2i(Module module_name, Data data, vec2i vector);
     
@@ -85,9 +81,11 @@ public:
 
 
 // ================ EventInterface ================
+typedef EnumMap<Data, EventCall, EVENT_DATA_LEN> FunctionArray;
+
 class EventInterface {
 private:
-    EventCall     function_array[EVENT_DATA_LEN];
+    FunctionArray function_array;
     EventManager* event_manager;
 
 public:
@@ -96,10 +94,6 @@ public:
     void setCallback(Data data, EventCallType function);
 
     void operator()(Event* event);
-    
-    // void queueEvent(EventCode code);
-    // void queueEvent2i(EventCode code, int arg0, int arg1);
-    // void queueEvent2i(EventCode code, vec2i vector);
 
     void queueEvent(Module module_name, Data data);
     void queueEvent2i(Module module_name, Data data, vec2i vector);
