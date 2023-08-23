@@ -8,6 +8,7 @@ Matrices have m rows and n columns. The data is stored as row major.
 */
 
 #include "vector.hpp"
+#include "math.hpp"
 
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
@@ -21,6 +22,8 @@ class Matrix {
 // --- Attributes ---
 private:
     std::array<T,M*N> data;
+    
+    static const int LEAST = std::min(M,N);
 
 // --- Constructors and Initialization ---
 public:
@@ -103,6 +106,16 @@ public:
         return Matrix<T,N,M>(output);
     }
 
+    void roundPlace(int place) {
+        T elem;
+        for (int i=0; i<M; i++) {
+            for (int j=0; j<N; j++) {
+                elem = math::roundPlace(data[index(i,j)],place);
+                data[index(i,j)] = elem;
+            }
+        }
+    }
+
 // --- Private ---
 private:
     int index(int i, int j)           { return j + N*i; }
@@ -123,13 +136,63 @@ public:
 // --- Static ---
 public:
     static Matrix<T,M,N> iden() {
-        constexpr int small = std::min(M,N);
-
         Matrix<T,M,N> output(cTemp::Zero<T>::value);
-        for (int i=0; i<small; i++) {
+        for (int i=0; i<LEAST; i++) {
             output.set(cTemp::One<T>::value, i, i);
         }
+        return output;
+    }
 
+    static Matrix<T,M,N> diag(Vector<T,LEAST> vector) {
+        Matrix<T,M,N> output(cTemp::Zero<T>::value);
+        for (int i=0; i<LEAST; i++) {
+            output.set(vector[i], i, i);
+        }
+        return output;
+    }
+
+    static Matrix<float,4,4> scale(vec3 scale) {
+        vec4 diagonal({scale[0], scale[1], scale[2], 1.0f});
+        return diag(diagonal);
+    }
+
+    static Matrix<float,4,4> scale(float scale) {
+        vec4 diagonal({scale, scale, scale, 1.0f});
+        return diag(diagonal);
+    }
+
+    static Matrix<float,4,4> translate(vec3 pos) {
+        Matrix<float,4,4> output = Matrix<float,4,4>::iden();
+        for (int i=0; i<3; i++) {
+            output.set(pos[i],i,3);
+        }
+        return output;
+    }
+
+    static Matrix<float,4,4> rotX(float theta) {
+        float c = cos(theta);
+        float s = sin(theta);
+        Matrix<float,4,4> output = Matrix<float,4,4>::iden();
+        output.set(c,1,1); output.set(-s,1,2);
+        output.set(s,2,1); output.set(c,2,2);
+        return output;
+    }
+
+    static Matrix<float,4,4> rotY(float theta) {
+        float c = cos(theta);
+        float s = sin(theta);
+        Matrix<float,4,4> output = Matrix<float,4,4>::iden();
+        output.set(c,0,0); output.set(s,0,2);
+        output.set(-s,2,0); output.set(c,2,2);
+        return output;
+    }
+
+    static Matrix<float,4,4> rotZ(float theta) {
+        float c = cos(theta);
+        float s = sin(theta);
+        Matrix<float,4,4> output = Matrix<float,4,4>::iden();
+        output.set(c,0,0); output.set(-s,0,1);
+        output.set(s,1,0); output.set(c,1,1);
         return output;
     }
 };

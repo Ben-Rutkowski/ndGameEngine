@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include "matrix.hpp"
+#include "math.h"
+#include "math.hpp"
 
 int main() {
     ndApp app;

@@ -1,5 +1,4 @@
 TODO: 
-- Change event interface to an enum map
 - Possibly Change events queue to take ref and not ptr
 
 - Camera Object
