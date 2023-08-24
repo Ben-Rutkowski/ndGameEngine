@@ -1,9 +1,9 @@
 #include "matrix.hpp"
 
-#ifndef BODY_HPP
-#define BODY_HPP
+#ifndef QUAD_HPP
+#define QUAD_HPP
 
-/* CLASS BodyVertex
+/* CLASS EditVertex
 
 A BodyVertex is a vec4 whose w component is always 1.0f.
 
@@ -13,11 +13,11 @@ A BodyVertex is a vec4 whose w component is always 1.0f.
 
 ======== METHODS ========
 -------- CONSTRUCTORS --------
-- BodyVertex : Creates a BodyVertex with the given vec3
+- EditVertex : Creates a EditVertex with the given vec3
     ==Parameters==
         - vec3 vector
 
-- BodyVertex : Creates a BodyVertex with the given arguments
+- EditVertex : Creates a EditVertex with the given arguments
     ==Parameters==
         - float arg0
         - float arg1
@@ -35,15 +35,15 @@ A BodyVertex is a vec4 whose w component is always 1.0f.
 
 */
 
-class BodyVertex {
+class EditVertex {
 // --- Attributes ---
 private:
     vec4 vertex;
 
 // --- Constructor ---
 public:
-    BodyVertex(vec3 v);
-    BodyVertex(float arg0, float arg1, float arg2);
+    EditVertex(vec3 v);
+    EditVertex(float arg0, float arg1, float arg2);
 
 // --- Gets and Sets ---
 public:
@@ -100,7 +100,7 @@ the two triangle normals.
 enum class qCorner { BL, BR, TR, TL };
 enum class qEdge   { B, R, T, L };
 
-typedef std::vector<BodyVertex> VCache;
+typedef std::vector<EditVertex> VCache;
 
 class Quad {
 // --- Attributes ---
