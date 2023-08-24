@@ -1,13 +1,28 @@
 TODO: 
+== Tidy/Optimizing ==
 - Possibly Change events queue to take ref and not ptr
+- Tidy Docs
 
+
+
+== Rendering ==
 - Camera Object
-- Model View
+- Rendering basic scences
+- Rendering Modeling scence
 
+
+
+== Modeling ==
+- Body and Body rendering 
+    - Quads etc.
+
+
+
+== Game ==
 - Entities
-- 3D Shaders
 
+
+
+== UI ==
 - GUI Layers
     - FreeText
-
-== Model Editing Module
