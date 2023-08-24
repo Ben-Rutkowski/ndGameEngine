@@ -64,6 +64,19 @@ public:
         return Matrix<T,M,N>(output);
     }
 
+    Vector<T,M> operator*(Vector<T,N> vec) {
+        T               elem;
+        std::array<T,M> output;
+        for (int i=0; i<M; i++) {
+            elem = get(i,0)*vec[0];
+            for (int j=1; j<N; j++) {
+                elem = elem + get(i,j)*vec[j];
+            }
+            output[i] = elem;
+        }
+        return Vector<T,M>(output);
+    }
+
     template<int P>
     Matrix<T,M,P> operator*(Matrix<T,N,P>& other) {
         T                 elem;
