@@ -1,4 +1,11 @@
 TODO: 
+
+- Rewrite Quad so that it is has four IDs for the Mesh Vertices and 
+and ID to a QuadVertexArray which has a Vertex { vec4 position, vec4 normal }
+in the EditMesh object, there is an array of Vertex's. That array is rendered by
+glDrawArrays in which each vertex has a normal.
+
+
 == Tidy/Optimizing ==
 - Possibly Change events queue to take ref and not ptr
 - Tidy Docs
@@ -13,6 +20,7 @@ TODO:
 
 
 == Modeling ==
+- Abstract Quad to n-face
 - Body and Body rendering 
     - Quads etc.
 

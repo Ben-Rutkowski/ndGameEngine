@@ -29,7 +29,7 @@ void SimpleStaticMesh::loadData() {
     unbindCurrent();
 }
 
-void SimpleStaticMesh::draw(ShaderProgram program) {
+void SimpleStaticMesh::draw(ShaderProgram& program) {
     program.use();
     bindCurrent();
     

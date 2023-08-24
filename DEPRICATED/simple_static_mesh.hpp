@@ -33,7 +33,7 @@ public:
 // --- Rendering ---
 public:
     void loadData();
-    void draw(ShaderProgram program);
+    void draw(ShaderProgram& program);
 };
 
 #endif

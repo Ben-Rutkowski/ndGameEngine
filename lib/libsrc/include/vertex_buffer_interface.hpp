@@ -3,6 +3,22 @@
 #ifndef VERTEX_BUFFER_INTERFACE_HPP
 #define VERTEX_BUFFER_INTERFACE_HPP
 
+/*
+
+When loading static data, you must
+    - bind all buffers
+    - load vertex and index data
+    - config vao pointers
+    - unbind current
+
+When drawing static, you must
+    - use program
+    - bind current
+    - DRAW CALLS
+    - unbind current
+
+*/
+
 class VertexBufferInterface {
 // --- Attributes ---
 protected:
@@ -15,7 +31,7 @@ public:
 // --- Rendering ---
 public:
     virtual void loadData() = 0;
-    virtual void draw(ShaderProgram program) = 0;
+    virtual void draw(ShaderProgram& program) = 0;
 
 // --- Private ---
 protected:

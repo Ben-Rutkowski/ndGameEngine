@@ -130,4 +130,6 @@ private:
 
 };
 
+typedef std::vector<Quad> QCache;
+
 #endif

@@ -2,9 +2,9 @@
 
 // ======== EditVertex ========
 EditVertex::EditVertex(vec3 v)
-    :vertex({v[0], v[1], v[2]}) {}
+    :vertex({v[0], v[1], v[2], 1.0f}) {}
 EditVertex::EditVertex(float arg0, float arg1, float arg2) 
-    :vertex({arg0, arg1, arg2}) {}
+    :vertex({arg0, arg1, arg2, 1.0f}) {}
 vec4 EditVertex::get() { return vertex; }
 void EditVertex::transform(mat4 trans) { vertex = trans*vertex; }
 
