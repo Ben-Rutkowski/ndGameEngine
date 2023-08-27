@@ -60,15 +60,15 @@ public:
 };
 
 // === Structs ===
-struct Vertex {
-    vec3 position;
-    vec3 normal;
-    vec2 texcoord;
-};
+// struct Vertex {
+//     vec3 position;
+//     vec3 normal;
+//     vec2 texcoord;
+// };
 
-struct Texture {
-    unsigned int id;
-};
+// struct Texture {
+//     unsigned int id;
+// };
 
 // === CONSTANTS ===
 #define ROOT "/Users/benjaminrutkowski/Projects/ndGameEngine/"

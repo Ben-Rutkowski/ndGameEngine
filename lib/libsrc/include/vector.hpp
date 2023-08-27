@@ -6,13 +6,13 @@
 
 namespace cTemp {
 template<typename U> struct Zero {};
-template<> struct Zero<int>   { static constexpr int   value = 0; };
-template<> struct Zero<float> { static constexpr float value = 0.0f; };
+template<> struct Zero<int>    { static constexpr int    value = 0; };
+template<> struct Zero<float>  { static constexpr float  value = 0.0f; };
 template<> struct Zero<double> { static constexpr double value = 0.0; };
 
 template<typename U> struct One {};
-template<> struct One<int>   { static constexpr int   value = 1; };
-template<> struct One<float> { static constexpr float value = 1.0f; };
+template<> struct One<int>    { static constexpr int    value = 1; };
+template<> struct One<float>  { static constexpr float  value = 1.0f; };
 template<> struct One<double> { static constexpr double value = 1.0; };
 }
 
