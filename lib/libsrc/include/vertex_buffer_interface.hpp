@@ -29,9 +29,9 @@ public:
     VertexBufferInterface();
 
 // --- Rendering ---
-public:
-    virtual void loadData() = 0;
-    virtual void draw(ShaderProgram& program) = 0;
+// public:
+//     virtual void loadData() = 0;
+//     virtual void draw(ShaderProgram& program) = 0;
 
 // --- Private ---
 protected:

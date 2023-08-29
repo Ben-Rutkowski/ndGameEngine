@@ -169,15 +169,12 @@ public:
 
 // --- Math ---
 public:
-    Vector<T,N> operator+(Vector<T,N>& other) {
-        return Vector<T,N>::sumK(*this, other, N);
-    }
-
-    Vector<T,N> operator-(Vector<T,N>& other) {
-        return Vector<T,N>::subtrK(*this, other, N);
-    }
-
-    T dot(Vector<T,N>& other) { return dotK(*this, other, N); }
+    Vector<T,N> operator+(Vector<T,N>& other)  { return Vector<T,N>::sumK(*this, other, N); }
+    Vector<T,N> operator+(Vector<T,N>&& other) { return Vector<T,N>::sumK(*this, other, N); }
+    Vector<T,N> operator-(Vector<T,N>& other)  { return Vector<T,N>::subtrK(*this, other, N); }
+    Vector<T,N> operator-(Vector<T,N>&& other) { return Vector<T,N>::subtrK(*this, other, N); }
+    T dot(Vector<T,N>& other)  { return dotK(*this, other, N); }
+    T dot(Vector<T,N>&& other) { return dotK(*this, other, N); }
 
     Vector<T,N> cross(Vector<T,N>& b) {
         std::array<T,N> output;
@@ -185,7 +182,7 @@ public:
             output[i] = crossValue(*this, b, i);
         }
         for (int i=3; i<N; i++) {
-            output[i] = data[i];
+            output[i] = cTemp::One<T>::value;
         }
         return Vector<T,N>(output);
     }
