@@ -75,7 +75,9 @@ then the edges, then the face
 
 class EditMesh {
 // Rendering
-    VertexBufferInterface vbi;
+    VertexBufferInterface point_vbi;
+    VertexBufferInterface line_vbi;
+    VertexBufferInterface face_vbi;
 
 // Vertex Data
     PointCache  point_cache;
@@ -94,7 +96,7 @@ public:
     Id createTri(Id3 points, Id3 edges);
 
     void load();
-    void draw(ShaderProgram& program);
+    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces);
 };
 
 #endif

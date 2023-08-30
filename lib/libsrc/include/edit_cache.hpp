@@ -22,6 +22,7 @@ public:
     T&    operator[](int i) { return data[i]; }
     void* dataPtr()  { return (void*)&data[0]; }    
     int   dataSize() { return data.size()*sizeof(T); }
+    int   dataLen()  { return data.size(); }
 
 protected:
     unsigned int addData(T& data_object) {

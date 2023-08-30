@@ -33,7 +33,6 @@ public:
 //     virtual void loadData() = 0;
 //     virtual void draw(ShaderProgram& program) = 0;
 
-// --- Private ---
 public:
     void bindAllBuffers();
     void unbindCurrent();
@@ -42,6 +41,7 @@ public:
     void loadVerticesStatic(void* data, int size);
     void loadIndicesStatic(void* data, int size);
     void drawElementsStatic(int size);
+    void drawPoints(int size);
 };
 
 #endif

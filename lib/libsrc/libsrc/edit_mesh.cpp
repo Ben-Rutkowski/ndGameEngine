@@ -47,18 +47,42 @@ Id EditMesh::createTri(Id3 points, Id3 edges) {
 } 
 
 void EditMesh::load() {
-    vbi.bindAllBuffers();
-    vbi.loadVerticesStatic(vertex_cache.dataPtr(), vertex_cache.dataSize());
-    vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
-    vbi.configAttribf(0, 4, 10*sizeof(float), (void*)0);
+    point_vbi.bindAllBuffers();
+    point_vbi.loadVerticesStatic(point_cache.dataPtr(), point_cache.dataSize());
+    point_vbi.configAttribf(0, 4, 4*sizeof(float), (void*)0);
+    point_vbi.unbindCurrent();
+
+    line_vbi.bindAllBuffers();
+    line_vbi.loadVerticesStatic(point_cache.dataPtr(), point_cache.dataSize());
+
+    unsigned int* ptr = (unsigned int*)edge_cache.dataPtr();
+    line_vbi.loadIndicesStatic(edge_cache.dataPtr(), edge_cache.dataSize());
+    line_vbi.configAttribf(0, 4, 4*sizeof(float), (void*)0);
+    line_vbi.unbindCurrent();
+
+    face_vbi.bindAllBuffers();
+    face_vbi.loadVerticesStatic(vertex_cache.dataPtr(), vertex_cache.dataSize());
+    face_vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
+    face_vbi.configAttribf(0, 4, 10*sizeof(float), (void*)0);
     // vbi.configAttribf(1, 4, 10*sizeof(float), (void*)(4*sizeof(float)));
     // vbi.configAttribf(2, 2, 10*sizeof(float), (void*)(8*sizeof(float)));
-    vbi.unbindCurrent();
+    face_vbi.unbindCurrent();
 }
 
-void EditMesh::draw(ShaderProgram& program) {
-    program.use();
-    vbi.bindCurrent();
-    vbi.drawElementsStatic(tri_cache.indexLen());
-    vbi.unbindCurrent();
+void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces) {
+    faces.use();
+    face_vbi.bindCurrent();
+    face_vbi.drawElementsStatic(tri_cache.indexLen());
+    face_vbi.unbindCurrent();
+
+    lines.use();
+    line_vbi.bindCurrent();
+    glLineWidth(5);
+    glDrawElements(GL_LINES, edge_cache.indexLen(), GL_UNSIGNED_INT, 0);
+    line_vbi.unbindCurrent();
+
+    points.use();
+    point_vbi.bindCurrent();
+    point_vbi.drawPoints(point_cache.dataLen());
+    point_vbi.unbindCurrent();
 }

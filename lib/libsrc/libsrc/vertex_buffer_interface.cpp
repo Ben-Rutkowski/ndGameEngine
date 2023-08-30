@@ -40,3 +40,7 @@ void VertexBufferInterface::loadIndicesStatic(void* data, int size) {
 void VertexBufferInterface::drawElementsStatic(int size) {
     glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 }
+
+void VertexBufferInterface::drawPoints(int size) {
+    glDrawArrays(GL_POINTS, 0, size);
+}

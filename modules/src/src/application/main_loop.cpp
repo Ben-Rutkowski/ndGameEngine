@@ -6,10 +6,24 @@ void ndApp::startApp() {
 
     Shader vs(ShaderType::VERTEX, "modules/src/shaders/test/vertex.vs");
     Shader fs(ShaderType::FRAGMENT, "modules/src/shaders/test/fragment.fs");
-    ShaderProgram program;
-    program.attachShader(ShaderType::VERTEX, vs);
-    program.attachShader(ShaderType::FRAGMENT, fs);
-    program.linkProgram();
+    ShaderProgram face;
+    face.attachShader(ShaderType::VERTEX, vs);
+    face.attachShader(ShaderType::FRAGMENT, fs);
+    face.linkProgram();
+
+    Shader vs2(ShaderType::VERTEX, "modules/src/shaders/points/vertex.vs");
+    Shader fs2(ShaderType::FRAGMENT, "modules/src/shaders/points/fragment.fs");
+    ShaderProgram point;
+    point.attachShader(ShaderType::VERTEX, vs2);
+    point.attachShader(ShaderType::FRAGMENT, fs2);
+    point.linkProgram();
+
+    Shader vs3(ShaderType::VERTEX, "modules/src/shaders/lines/vertex.vs");
+    Shader fs3(ShaderType::FRAGMENT, "modules/src/shaders/lines/fragment.fs");
+    ShaderProgram line;
+    line.attachShader(ShaderType::VERTEX, vs3);
+    line.attachShader(ShaderType::FRAGMENT, fs3);
+    line.linkProgram();
 
     EditMesh mesh;
     Id bl = mesh.createPoint(vec4({-0.5f, -0.5f, 0.0f, 1.0f}));
@@ -26,11 +40,13 @@ void ndApp::startApp() {
     );
 
     mesh.load();
+    glEnable(GL_PROGRAM_POINT_SIZE);
+    glEnable(GL_LINE_WIDTH);
 
     while (!window->shouldClose()) {
         startFrame();
 
-        mesh.draw(program);
+        mesh.draw(point, line, face);
 
         pollEvents();
         endFrame();

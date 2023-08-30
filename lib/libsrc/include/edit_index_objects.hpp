@@ -31,6 +31,8 @@ public:
         return addData(edge);
     }
 
+    int indexLen() { return 2*dataLen(); }
+
     void pairFace(unsigned int edge_id, unsigned int face_id)
         { pairIndexCache1(edge_id, face_id); }
 
