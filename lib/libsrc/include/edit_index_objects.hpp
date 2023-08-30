@@ -67,6 +67,10 @@ class TriCache : public EditCache<TriIndexObj> {
 public:
     unsigned int addTri(TriIndexObj tri) 
         { return addData(tri); }
+
+    int indexLen() {
+        return 3*data.size();
+    }
 };
 
 #endif

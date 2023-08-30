@@ -45,3 +45,20 @@ Id EditMesh::createTri(Id3 points, Id3 edges) {
 
     return new_face_id;
 } 
+
+void EditMesh::load() {
+    vbi.bindAllBuffers();
+    vbi.loadVerticesStatic(vertex_cache.dataPtr(), vertex_cache.dataSize());
+    vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
+    vbi.configAttribf(0, 4, 10*sizeof(float), (void*)0);
+    // vbi.configAttribf(1, 4, 10*sizeof(float), (void*)(4*sizeof(float)));
+    // vbi.configAttribf(2, 2, 10*sizeof(float), (void*)(8*sizeof(float)));
+    vbi.unbindCurrent();
+}
+
+void EditMesh::draw(ShaderProgram& program) {
+    program.use();
+    vbi.bindCurrent();
+    vbi.drawElementsStatic(tri_cache.indexLen());
+    vbi.unbindCurrent();
+}

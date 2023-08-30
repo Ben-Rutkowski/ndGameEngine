@@ -13,14 +13,15 @@ the point.
 
 template<typename T>
 class EditCache {
-private:
+protected:
     std::vector<T> data;
     std::vector<std::vector<unsigned int>> index_cache_1;
     std::vector<std::vector<unsigned int>> index_cache_2;
 
 public:
-    T& operator[](int i) { return data[i]; }
-    T* getPtr() { return &data[0]; }
+    T&    operator[](int i) { return data[i]; }
+    void* dataPtr()  { return (void*)&data[0]; }    
+    int   dataSize() { return data.size()*sizeof(T); }
 
 protected:
     unsigned int addData(T& data_object) {
@@ -45,7 +46,7 @@ protected:
     int cacheNum2(int data_id) { return index_cache_2[data_id].size(); }
 
     unsigned int getCache1(int data_id, int i) { return index_cache_1[data_id][i]; }
-    unsigned int getCache2(int data_id, int i) { return index_cache_2[data_id][i]; }    
+    unsigned int getCache2(int data_id, int i) { return index_cache_2[data_id][i]; }
 };
 
 class EditPoint {

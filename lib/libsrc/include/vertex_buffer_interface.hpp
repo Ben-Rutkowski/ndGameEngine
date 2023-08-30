@@ -34,7 +34,7 @@ public:
 //     virtual void draw(ShaderProgram& program) = 0;
 
 // --- Private ---
-protected:
+public:
     void bindAllBuffers();
     void unbindCurrent();
     void bindCurrent();
