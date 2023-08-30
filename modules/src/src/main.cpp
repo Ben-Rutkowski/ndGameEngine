@@ -1,7 +1,8 @@
 #include "application.hpp"
 #include <iostream>
 
-#include "edit_mesh.hpp"
+#include "matrix.hpp"
+#include <math.h>
 
 int main() {
     ndApp app;

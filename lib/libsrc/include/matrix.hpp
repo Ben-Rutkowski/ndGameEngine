@@ -160,7 +160,7 @@ public:
         return diag(diagonal);
     }
 
-    static Matrix<float,4,4> translate(vec3 pos) {
+    static Matrix<float,4,4> translate(vec4 pos) {
         Matrix<float,4,4> output = Matrix<float,4,4>::iden();
         for (int i=0; i<3; i++) {
             output.set(pos[i],i,3);
@@ -193,6 +193,28 @@ public:
         output.set(c,0,0); output.set(-s,0,1);
         output.set(s,1,0); output.set(c,1,1);
         return output;
+    }
+
+    static Matrix<float,4,4> rotView(vec4 v) {
+        // v.normalizeK(3);
+        float x = v[0];
+        float y = v[1];
+        float z = v[2];
+        float n = v.norm2K(2);
+        float in = 1.0f/n;
+
+        return Matrix<float,4,4>({
+            -x*z*in, -y*z*in, n,    0.0f,
+            -y*in,   x*in,    0.0f, 0.0f,
+            -x,      -y,      -z,   0.0f,
+            0.0f,    -0.0f,   0.0f, 1.0f
+        });
+    }
+
+    static Matrix<float,4,4> view(vec4 pos, vec4 front) {
+        Matrix<float,4,4> translate = Matrix<float,4,4>::translate(pos);
+        Matrix<float,4,4> rot_view = Matrix<float,4,4>::rotView(front);
+        return rot_view * translate;
     }
 };
 

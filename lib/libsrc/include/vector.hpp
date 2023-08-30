@@ -4,6 +4,8 @@
 #include <array>
 #include <iostream>
 
+#include "math.hpp"
+
 namespace cTemp {
 template<typename U> struct Zero {};
 template<> struct Zero<int>    { static constexpr int    value = 0; };
@@ -165,6 +167,12 @@ public:
     void normalizeK(int k) {
         T norm = this->norm2K(k);
         scalarK(1/norm, k);
+    }
+    
+    void roundPlace(int k) {
+        for (int i=0; i<N; i++) {
+            data[i] = math::roundPlace(data[i], k);
+        }
     }
 
 // --- Math ---
