@@ -242,7 +242,7 @@ public:
         for (int i=0; i<N-1; i++) {
             std::cout << data[i] << ", ";
         }
-        std::cout << data[N-1] << std::endl;
+        std::cout << data[N-1] << std::endl << std::endl;
     }
 };
 

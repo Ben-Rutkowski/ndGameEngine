@@ -172,8 +172,8 @@ public:
         float c = cos(theta);
         float s = sin(theta);
         Matrix<float,4,4> output = Matrix<float,4,4>::iden();
-        output.set(c,1,1); output.set(-s,1,2);
-        output.set(s,2,1); output.set(c,2,2);
+        output.set(c,1,1); output.set(s,1,2);
+        output.set(-s,2,1); output.set(c,2,2);
         return output;
     }
 
@@ -181,8 +181,8 @@ public:
         float c = cos(theta);
         float s = sin(theta);
         Matrix<float,4,4> output = Matrix<float,4,4>::iden();
-        output.set(c,0,0); output.set(s,0,2);
-        output.set(-s,2,0); output.set(c,2,2);
+        output.set(c,0,0); output.set(-s,0,2);
+        output.set(s,2,0); output.set(c,2,2);
         return output;
     }
 
@@ -195,6 +195,41 @@ public:
         return output;
     }
 
+    // static Matrix<float,4,4> rotZAlignX(vec4 v) {
+    //     float x = v[0];
+    //     float y = v[1];
+    //     float n = sqrt(x*x + y*y);
+    //     float in = 1.0f/n;
+    //     return Matrix<float,4,4>({
+    //         x*in,  y*in, 0.0f, 0.0f,
+    //         -y*in, x*in, 0.0f, 0.0f,
+    //         0.0f,  0.0f, 1.0f, 0.0f,
+    //         0.0f,  0.0f, 0.0f, 1.0f
+    //     });
+    // }
+
+    // static Matrix<float,4,4> rotZ180() {
+    //     return Matrix<float,4,4>({
+    //         -1.0f,  0.0f, 0.0f, 0.0f,
+    //          0.0f, -1.0f, 0.0f, 0.0f,
+    //          0.0f,  0.0f, 1.0f, 0.0f,
+    //          0.0f,  0.0f, 0.0f, 1.0f,
+    //     });
+    // }
+
+    // static Matrix<float,4,4> rotYAlignZ(vec4 v) {
+    //     float x = v[0];
+    //     float z = v[2];
+    //     float n = sqrt(x*x + z*z);
+    //     float in = 1.0f/n;
+    //     return Matrix<float,4,4>({
+    //         -z*in, 0.0f, x*in,  0.0f,
+    //         0.0f,  1.0f, 0.0f,  0.0f,
+    //         -x*in, 0.0f, -z*in, 0.0f,
+    //         0.0f,  0.0f, 0.0f, 1.0f
+    //     });
+    // }
+
     static Matrix<float,4,4> rotView(vec4 v) {
         // v.normalizeK(3);
         float x = v[0];
@@ -203,18 +238,38 @@ public:
         float n = v.norm2K(2);
         float in = 1.0f/n;
 
+        float s;
+        if (x > 0) { s = 1.0f; }
+        else       { s = -1.0f; }
+
         return Matrix<float,4,4>({
-            -x*z*in, -y*z*in, n,    0.0f,
-            -y*in,   x*in,    0.0f, 0.0f,
-            -x,      -y,      -z,   0.0f,
-            0.0f,    -0.0f,   0.0f, 1.0f
+            -s*x*z*in, -s*y*z*in,  s*n,  0.0f,
+            -s*y*in,    s*x*in,    0.0f, 0.0f,
+            -x,        -y,        -z,    0.0f,
+             0.0f,     -0.0f,      0.0f, 1.0f
         });
     }
 
     static Matrix<float,4,4> view(vec4 pos, vec4 front) {
+        pos.scalarK(-1.0f, 3);
         Matrix<float,4,4> translate = Matrix<float,4,4>::translate(pos);
         Matrix<float,4,4> rot_view = Matrix<float,4,4>::rotView(front);
         return rot_view * translate;
+    }
+
+    // fov: the vertical angle, ratio: width over height
+    static Matrix<float,4,4> projPer(float fov, float ratio, float near, float far) {
+        float n = near;
+        float f = far;
+        float h = n*tan(fov);
+        float w = h*ratio;
+
+        return Matrix<float,4,4>({
+            n/w,  0.0f,  0.0f,         0.0f,
+            0.0f, n/h,   0.0f,         0.0f,
+            0.0f, 0.0f, -(f+n)/(f-n), -2*f*n/(f-n),
+            0.0f, 0.0f, -1.0f,         0.0f
+        });
     }
 };
 
