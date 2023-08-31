@@ -59,17 +59,6 @@ public:
     static std::string moduleName(Module moduel);
 };
 
-// === Structs ===
-// struct Vertex {
-//     vec3 position;
-//     vec3 normal;
-//     vec2 texcoord;
-// };
-
-// struct Texture {
-//     unsigned int id;
-// };
-
 // === CONSTANTS ===
 #define ROOT "/Users/benjaminrutkowski/Projects/ndGameEngine/"
 

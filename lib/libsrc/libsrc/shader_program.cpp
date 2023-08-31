@@ -45,3 +45,14 @@ void ShaderProgram::checkLink() {
         std::cout << "Failed to link program: " << info << std::endl;
     }
 }
+
+// === Static ===
+ShaderProgram ShaderProgram::VF(std::string vs_rel_path, std::string fs_rel_path) {
+    ShaderProgram program;
+    Shader vs(ShaderType::VERTEX, vs_rel_path);
+    Shader fs(ShaderType::FRAGMENT, fs_rel_path);
+    program.attachShader(ShaderType::VERTEX, vs);
+    program.attachShader(ShaderType::FRAGMENT, fs);
+    program.linkProgram();
+    return program;
+}

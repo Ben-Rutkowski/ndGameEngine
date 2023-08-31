@@ -39,11 +39,17 @@ public:
     void addEdge(unsigned int edge_id);
     void addTri(unsigned int tri_id);
 
-    // unsigned int getPoint(int i, PointCache& cache);
-    // EdgeIndexObj getEdge(int i, EdgeCache& cache);
-    // TriIndexObj  getTri(int i, TriCache& tri_cache);
+    int pointNum();
+    int vertNum();
+    int edgeNum();
+    int triNum();
+    Id  getPoint(int i);
+    Id  getVert(int i);
+    Id  getEdge(int i);
+    Id  getTri(int i);
 
-    // vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
+    vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
+    void setNorm(vec4 norm, VertexCache& vertex_cache);
 };
 
 /* CLASS FaceCache
@@ -112,7 +118,7 @@ public:
 // Rendering
 public:
     void load();
-    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view);
+    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj);
 };
 
 #endif

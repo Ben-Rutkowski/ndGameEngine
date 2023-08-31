@@ -244,6 +244,12 @@ public:
         return right;
     }
 
+    static Vector<float,4> aveUnits4f(Vector<float,4> a, Vector<float,4> b) {
+        Vector<float,4> output = sumK(a, b, 3);
+        output.scalarK(0.5f, 3);
+        return output;
+    }
+
 // --- Debugging ---
 public:
     void print() {

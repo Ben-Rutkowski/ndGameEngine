@@ -9,6 +9,33 @@ void EditFace::addEdge(unsigned int edge_id)
 void EditFace::addTri(unsigned int tri_id)
     { tris.push_back(tri_id); }
 
+int EditFace::pointNum() { return points.size(); }
+int EditFace::vertNum()  { return vertices.size(); }
+int EditFace::edgeNum()  { return edges.size(); }
+int EditFace::triNum()   { return tris.size(); }
+Id EditFace::getPoint(int i) { return points[i]; }
+Id EditFace::getVert(int i)  { return vertices[i]; }
+Id EditFace::getEdge(int i)  { return edges[i]; } 
+Id EditFace::getTri(int i)   { return tris[i]; } 
+
+vec4 EditFace::calcNorm(TriCache& tri_cache, VertexCache& vertex_cache) {
+    int N = triNum();
+    vec4 curr_norm;
+    vec4 norm = tri_cache[tris[0]].calcNorm(vertex_cache);
+    for (int i=1; i<N; i++) {
+        curr_norm = tri_cache[tris[0]].calcNorm(vertex_cache);
+        norm = vec4::aveUnits4f(norm, curr_norm);
+    }
+    return norm;
+}
+
+void EditFace::setNorm(vec4 norm, VertexCache& vertex_cache) {
+    int N = vertNum();
+    for (int i=0; i<N; i++) {
+        vertex_cache[vertices[i]].setNorm(norm);
+    }
+}
+
 // ======== EditMesh ========
 EditMesh::EditMesh()
     :model_pos{ mat4::iden() } {} 
@@ -40,6 +67,7 @@ Id EditMesh::createTri(Id3 points, Id3 edges) {
 
         curr_pos = point_cache[points[i]].getPos();
         Id vert = vertex_cache.addVertex(curr_pos);
+        new_face.addVertex(vert);
         tri_verts[i] = vert;
 
         edge_cache.pairFace(edges[i], new_face_id);
@@ -49,6 +77,9 @@ Id EditMesh::createTri(Id3 points, Id3 edges) {
     TriIndexObj tri(tri_verts[0], tri_verts[1], tri_verts[2]);
     Id new_tri_id = tri_cache.addTri(tri);
     new_face.addTri(new_tri_id);
+
+    vec4 norm = new_face.calcNorm(tri_cache, vertex_cache);
+    new_face.setNorm(norm, vertex_cache);
 
     return new_face_id;
 } 
@@ -66,6 +97,7 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
 
         curr_pos = point_cache[points[i]].getPos();
         Id vert = vertex_cache.addVertex(curr_pos);
+        new_face.addVertex(vert);
         tri_verts[i] = vert;
 
         edge_cache.pairFace(edges[i], new_face_id);
@@ -78,6 +110,9 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
     Id new_tri_id2 = tri_cache.addTri(tri2);
     new_face.addTri(new_tri_id1);
     new_face.addTri(new_tri_id2);
+
+    vec4 norm = new_face.calcNorm(tri_cache, vertex_cache);
+    new_face.setNorm(norm, vertex_cache);
 
     return new_face_id;
 }
@@ -103,12 +138,10 @@ void EditMesh::load() {
     face_vbi.unbindCurrent();
 }
 
-void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view) {
+void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj) {
     int modelId;
     int viewId;
     int projID;
-
-    const mat4 projMat = mat4::projPer(math::rads(45.0f), 800.0f/600.0f, 0.1f, 100.0f);
 
     modelId = faces.uniformLocation("model");
     viewId  = faces.uniformLocation("view");
@@ -116,7 +149,7 @@ void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& 
     faces.use();
     faces.uniformMat4f(modelId, model_pos);
     faces.uniformMat4f(viewId, view);
-    faces.uniformMat4f(projID, projMat);
+    faces.uniformMat4f(projID, proj);
 
     face_vbi.bindCurrent();
     face_vbi.drawElementsStatic(tri_cache.indexLen());
@@ -128,7 +161,7 @@ void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& 
     projID  = lines.uniformLocation("proj");
     lines.uniformMat4f(modelId, model_pos);
     lines.uniformMat4f(viewId, view);
-    lines.uniformMat4f(projID, projMat);
+    lines.uniformMat4f(projID, proj);
 
     line_vbi.bindCurrent();
     glLineWidth(5);
@@ -141,7 +174,7 @@ void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& 
     projID  = points.uniformLocation("proj");
     points.uniformMat4f(modelId, model_pos);
     points.uniformMat4f(viewId, view);
-    points.uniformMat4f(projID, projMat);
+    points.uniformMat4f(projID, proj);
 
     point_vbi.bindCurrent();
     point_vbi.drawPoints(point_cache.dataLen());

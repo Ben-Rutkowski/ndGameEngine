@@ -31,6 +31,10 @@ public:
 // --- Debugging ---
 private:
     void checkLink();
+
+// --- Static ---
+public:
+    static ShaderProgram VF(std::string vs_rel_path, std::string fs_rel_path);
 };
 
 #endif
