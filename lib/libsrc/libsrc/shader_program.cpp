@@ -16,6 +16,19 @@ void ShaderProgram::linkProgram() {
     checkLink();
 }
 
+// === Uniforms ===
+int ShaderProgram::uniformLocation(const char* name) {
+    return glGetUniformLocation(program_id, name);
+}
+
+void ShaderProgram::uniform4f(int id, vec4 v) {
+    glUniform4f(id, v[0], v[1], v[2], v[3]);
+}
+
+void ShaderProgram::uniformMat4f(int id, mat4 m) {
+    glUniformMatrix4fv(id, 1, GL_TRUE, m.location());
+}
+
 // === Rendering ===
 void ShaderProgram::use() {
     glUseProgram(program_id);

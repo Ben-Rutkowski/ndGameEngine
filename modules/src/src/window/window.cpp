@@ -43,3 +43,7 @@ void ndWindow::setShouldClose(bool value) {
 bool ndWindow::isKeyPress(int key) {
     return glfwGetKey(glfw_window, key) == GLFW_PRESS;
 }
+
+double ndWindow::getTime() {
+    return glfwGetTime();
+}

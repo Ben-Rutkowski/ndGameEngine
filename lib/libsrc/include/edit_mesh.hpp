@@ -10,6 +10,7 @@ Vertex < Tri < Face
 
 #include "vertex_buffer_interface.hpp"
 #include "edit_index_objects.hpp"
+#include "matrix.hpp"
 
 /* CLASS: EditMeshFace
 A MeshFace is the over arching class for tris.
@@ -74,6 +75,10 @@ then the edges, then the face
 */
 
 class EditMesh {
+private:
+// Position
+    mat4 model_pos;
+
 // Rendering
     VertexBufferInterface point_vbi;
     VertexBufferInterface line_vbi;
@@ -91,12 +96,23 @@ class EditMesh {
     FaceCache face_cache;
 
 public:
+    EditMesh();
+
+// Transformation
+public:
+    void translate(vec4 trans);
+
+// Editing
+public:
     Id createPoint(vec4 point);
     Id createEdge(Id2 points);
     Id createTri(Id3 points, Id3 edges);
+    Id createQuad(Id4 points, Id4 edges);
 
+// Rendering
+public:
     void load();
-    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces);
+    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view);
 };
 
 #endif

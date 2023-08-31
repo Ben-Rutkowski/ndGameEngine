@@ -58,6 +58,7 @@ public:
 public:
     bool shouldClose();
     void setShouldClose(bool value);
+    double getTime();
 
 private:
     bool isKeyPress(int key);

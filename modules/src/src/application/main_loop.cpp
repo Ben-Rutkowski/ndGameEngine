@@ -28,25 +28,42 @@ void ndApp::startApp() {
     EditMesh mesh;
     Id bl = mesh.createPoint(vec4({-0.5f, -0.5f, 0.0f, 1.0f}));
     Id br = mesh.createPoint(vec4({ 0.5f, -0.5f, 0.0f, 1.0f}));
-    Id t  = mesh.createPoint(vec4({ 0.0f,  0.5f, 0.0f, 1.0f}));
+    Id tr = mesh.createPoint(vec4({ 0.5f,  0.5f, 0.0f, 1.0f}));
+    Id tl = mesh.createPoint(vec4({-0.5f,  0.5f, 0.0f, 1.0f}));
 
     Id b = mesh.createEdge({bl, br});
-    Id r = mesh.createEdge({br, t});
-    Id l = mesh.createEdge({t, bl});
+    Id r = mesh.createEdge({br, tr});
+    Id t = mesh.createEdge({tr, tl});
+    Id l = mesh.createEdge({tl, bl});
 
-    Id tri = mesh.createTri(
-        {bl, br, t},
-        {b, r, l}
+    mesh.createQuad(
+        {bl, br, tr, tl},
+        {b, r, t, l}
     );
 
     mesh.load();
+    mesh.translate(vec4({0.0f, 0.0f, -1.0f, 1.0f}));
     glEnable(GL_PROGRAM_POINT_SIZE);
     glEnable(GL_LINE_WIDTH);
+
+    vec4 cpos;
+    vec4 cright;
+    vec4 cfront;
+    mat4 view = mat4::iden();
 
     while (!window->shouldClose()) {
         startFrame();
 
-        mesh.draw(point, line, face);
+        double time = window->getTime();
+        float place = sin(time);
+
+        cfront = vec4({-0.2f, place/2.0f, -1.0f, 1.0f});
+        cpos = vec4({0.0f, 0.0f, 1.0f + place, 1.0f});
+        cfront.normalizeK(3);
+        cright = vec4::rightVec(cfront);
+        view = mat4::view(cpos, cfront, cright);
+
+        mesh.draw(point, line, face, view);
 
         pollEvents();
         endFrame();

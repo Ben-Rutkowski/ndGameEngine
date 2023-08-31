@@ -51,6 +51,7 @@ public:
 public:
     T    get(int i, int j)          { return data[index(i,j)]; }
     void set(T value, int i, int j) { data[index(i,j)] = value; }
+    T*   location() { return &data[0]; }
 
 // --- Math ---
 public:
@@ -168,6 +169,14 @@ public:
         return output;
     }
 
+    static Matrix<float,4,4> itranslate(vec4 pos) {
+        Matrix<float,4,4> output = Matrix<float,4,4>::iden();
+        for (int i=0; i<3; i++) {
+            output.set(-pos[i],i,3);
+        }
+        return output;
+    }
+
     static Matrix<float,4,4> rotX(float theta) {
         float c = cos(theta);
         float s = sin(theta);
@@ -195,65 +204,20 @@ public:
         return output;
     }
 
-    // static Matrix<float,4,4> rotZAlignX(vec4 v) {
-    //     float x = v[0];
-    //     float y = v[1];
-    //     float n = sqrt(x*x + y*y);
-    //     float in = 1.0f/n;
-    //     return Matrix<float,4,4>({
-    //         x*in,  y*in, 0.0f, 0.0f,
-    //         -y*in, x*in, 0.0f, 0.0f,
-    //         0.0f,  0.0f, 1.0f, 0.0f,
-    //         0.0f,  0.0f, 0.0f, 1.0f
-    //     });
-    // }
-
-    // static Matrix<float,4,4> rotZ180() {
-    //     return Matrix<float,4,4>({
-    //         -1.0f,  0.0f, 0.0f, 0.0f,
-    //          0.0f, -1.0f, 0.0f, 0.0f,
-    //          0.0f,  0.0f, 1.0f, 0.0f,
-    //          0.0f,  0.0f, 0.0f, 1.0f,
-    //     });
-    // }
-
-    // static Matrix<float,4,4> rotYAlignZ(vec4 v) {
-    //     float x = v[0];
-    //     float z = v[2];
-    //     float n = sqrt(x*x + z*z);
-    //     float in = 1.0f/n;
-    //     return Matrix<float,4,4>({
-    //         -z*in, 0.0f, x*in,  0.0f,
-    //         0.0f,  1.0f, 0.0f,  0.0f,
-    //         -x*in, 0.0f, -z*in, 0.0f,
-    //         0.0f,  0.0f, 0.0f, 1.0f
-    //     });
-    // }
-
-    static Matrix<float,4,4> rotView(vec4 v) {
-        // v.normalizeK(3);
-        float x = v[0];
-        float y = v[1];
-        float z = v[2];
-        float n = v.norm2K(2);
-        float in = 1.0f/n;
-
-        float s;
-        if (x > 0) { s = 1.0f; }
-        else       { s = -1.0f; }
-
+    // Both must be unit length and orthoganal
+    static Matrix<float,4,4> lookAt(vec4 front, vec4 right) {
+        vec4 up = right.cross(front);
         return Matrix<float,4,4>({
-            -s*x*z*in, -s*y*z*in,  s*n,  0.0f,
-            -s*y*in,    s*x*in,    0.0f, 0.0f,
-            -x,        -y,        -z,    0.0f,
-             0.0f,     -0.0f,      0.0f, 1.0f
+             right[0],  right[1],  right[2], 0.0f,
+             up[0],     up[1],     up[2],    0.0f,
+            -front[0], -front[1], -front[2], 0.0f,
+            0.0f,       0.0f,      0.0f,     1.0f
         });
     }
 
-    static Matrix<float,4,4> view(vec4 pos, vec4 front) {
-        pos.scalarK(-1.0f, 3);
-        Matrix<float,4,4> translate = Matrix<float,4,4>::translate(pos);
-        Matrix<float,4,4> rot_view = Matrix<float,4,4>::rotView(front);
+    static Matrix<float,4,4> view(vec4 pos, vec4 front, vec4 right) {
+        Matrix<float,4,4> translate = Matrix<float,4,4>::itranslate(pos);
+        Matrix<float,4,4> rot_view = Matrix<float,4,4>::lookAt(front, right);
         return rot_view * translate;
     }
 

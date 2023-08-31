@@ -1,7 +1,11 @@
 #version 330 core
 layout (location = 0) in vec4 pos;
 
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 proj;
+
 void main() {
-    gl_Position = pos;
+    gl_Position = proj*view*model*pos;
     gl_PointSize = 3.0;
 }

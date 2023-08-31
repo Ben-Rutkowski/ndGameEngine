@@ -236,6 +236,14 @@ public:
         return a[(i+1)%3]*b[(i+2)%3] - a[(i+2)%3]*b[(i+1)%3];
     }
 
+    // vector must be normalized
+    static Vector<float,4> rightVec(Vector<float,4> front) {
+        Vector<float,4> up = Vector<float,4>::basis(1);
+        Vector<float,4> right = front.cross(up);
+        right.normalizeK(3);
+        return right;
+    }
+
 // --- Debugging ---
 public:
     void print() {
