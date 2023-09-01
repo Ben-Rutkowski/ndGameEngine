@@ -27,3 +27,5 @@ void EventInterface::queueEvent2i(Module module_name, Data data, vec2i vector) {
 void EventInterface::runEvent(Event* event) {
     event_manager->runEvent(event);
 }
+
+EventManager* EventInterface::ptr() { return event_manager; }

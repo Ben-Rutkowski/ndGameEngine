@@ -5,6 +5,7 @@
 
 void ndWindow::runEventWindow(Event* event) {
     event_interface(event);
+    edit_space->runEventEditSpace(event);
 }
 
 void ndWindow::setCallbacks() {

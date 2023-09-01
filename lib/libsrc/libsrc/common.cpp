@@ -27,6 +27,7 @@ ModuleNameMap getModuleNameMap() {
     ModuleNameMap map;
     map.addEntry(Module::APPLICATION, std::string("APPLICATION"));
     map.addEntry(Module::WINDOW,      std::string("WINDOW"));
+    map.addEntry(Module::EDIT_SPACE,  std::string("EDIT_SPACE"));
 
     return map;
 }

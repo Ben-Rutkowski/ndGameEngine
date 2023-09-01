@@ -9,6 +9,7 @@ GLFW intialization must be done before creating a window.
 #include "glad_glfw.hpp"
 #include "event_manager.hpp"
 #include "stopwatch.hpp"
+#include "edit_space.hpp"
 
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
@@ -42,6 +43,7 @@ private: static Module module_name;
 private:
     EventInterface event_interface;
     Clock clock;
+    EditSpace* edit_space;
     
 // --- Attributes ---
 private:
@@ -53,6 +55,7 @@ private:
 public:
     ndWindow(int width, int height, const char* title);
     void setManagerPtr(EventManager* ptr);
+    void linkEditSpace(EditSpace* edit_space_ptr);
 
 // --- Gets and Sets ---
 public:

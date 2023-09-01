@@ -61,7 +61,7 @@ public:
     unsigned int createFace() {
         return createData();
     }
-    
+
 };
 
 /* CLASS: EditMesh

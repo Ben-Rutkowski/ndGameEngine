@@ -31,6 +31,11 @@ void ndWindow::setManagerPtr(EventManager* ptr) {
     event_interface.linkManager(ptr);
 }
 
+void ndWindow::linkEditSpace(EditSpace* edit_space_ptr) {
+    edit_space = edit_space_ptr;
+    edit_space->setManagerPtr(event_interface.ptr());
+}
+
 // === Gets and Sets ===
 bool ndWindow::shouldClose() {
     return glfwWindowShouldClose(glfw_window);

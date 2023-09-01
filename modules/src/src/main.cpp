@@ -5,6 +5,8 @@ int main() {
     ndApp app;
     ndWindow window(800, 600, "Hello World!");
     app.linkWindow(&window);
+    EditSpace edit_space;
+    window.linkEditSpace(&edit_space);
 
     app.startApp();
 }

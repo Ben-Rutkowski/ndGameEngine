@@ -99,6 +99,8 @@ public:
     void queueEvent2i(Module module_name, Data data, vec2i vector);
 
     void runEvent(Event* event);
+
+    EventManager* ptr();
 };
 
 
