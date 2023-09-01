@@ -1,8 +1,5 @@
 TODO: 
 
-- FIX VIEW MATRIX
-
-
 == Tidy/Optimizing ==
 - Possibly Change events queue to take ref and not ptr
 - Tidy Docs
@@ -10,7 +7,8 @@ TODO:
 
 
 == Rendering ==
-- Camera Object
+- Camera Object ( optimize pitchYaw, so it doesnt use trig )
+        - Have a more protected set front
 - Rendering basic scences
 - Rendering Modeling scence
 

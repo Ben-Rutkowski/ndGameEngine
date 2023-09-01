@@ -261,7 +261,7 @@ public:
     static Vector<T,N> weightK(T a, Vector<T,N> v1, T b, Vector<T,N> v2, int k) {
         v1.scalarK(a, k);
         v2.scalarK(b, k);
-        return v1 + v2;
+        return sumK(v1, v2, 3);
     }
 
 // --- Debugging ---

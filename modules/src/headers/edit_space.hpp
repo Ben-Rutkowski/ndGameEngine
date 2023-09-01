@@ -28,6 +28,8 @@ public:
     // vec2 ( delta x, delta z )
     void transOrigin(vec2 trans);
     void zoom(float delta);
+    void rotate(float pitch_theta, float yaw_theta);
+    void rotateInc(float pitch_delta, float yaw_delta);
 
 private:
     void placePosition();
@@ -44,6 +46,10 @@ private:
     ShaderProgram  point_shader;
     ShaderProgram  line_shader;
     ShaderProgram  face_shader;
+
+// --- Layers ---
+private:
+    EditCamera camera;
 
 // --- Attributes ---
 private:
@@ -74,6 +80,9 @@ private:
 // --- On Events ---
 private:
     void onBeginLoop(Event* event);
+    void onStartFrame(Event* event);
+    void onDrawFrame(Event* event);
+    void onEndFrame(Event* event);
 
 };
 

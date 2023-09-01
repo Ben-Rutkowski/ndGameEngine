@@ -2,7 +2,10 @@
 
 EditCamera::EditCamera()
     :origin({0.0f, 0.0f, 0.0f, 1.0f}),
-    distance{ 4.0f } {}
+    distance{ 4.0f } {
+
+    placePosition();
+}
 
 void EditCamera::transOrigin(vec2 trans) {
     origin.set(origin[0] + trans[0], 0);
@@ -10,7 +13,18 @@ void EditCamera::transOrigin(vec2 trans) {
 }
 
 void EditCamera::zoom(float delta) {
-    distance = distance + delta;
+    distance = delta;
+    placePosition();
+}
+
+void EditCamera::rotate(float pitch_theta, float yaw_theta) {
+    pitchYaw(pitch_theta, yaw_theta);
+    placePosition();
+}
+
+void EditCamera::rotateInc(float pitch_delta, float yaw_delta) {
+    pitchYawInc(pitch_delta, yaw_delta);
+    placePosition();
 }
 
 // === Private ===

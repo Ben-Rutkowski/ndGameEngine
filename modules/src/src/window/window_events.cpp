@@ -12,6 +12,7 @@ void ndWindow::setCallbacks() {
     // Event Callbacks
     event_interface.setCallback(Data::COLLECT_MENU_KEYS, PACK(ndWindow::onCollectMenuKeys));
     event_interface.setCallback(Data::START_FRAME, PACK(ndWindow::onStartFrame));
+    event_interface.setCallback(Data::DRAW_FRAME,  PACK(ndWindow::onDrawFrame));
     event_interface.setCallback(Data::ESCAPE_KEY,  PACK(ndWindow::onEscapeKey));
     event_interface.setCallback(Data::CLOSE_APP,   PACK(ndWindow::onCloseApp));
     event_interface.setCallback(Data::RESIZE,      PACK(ndWindow::onResize));
@@ -47,6 +48,10 @@ void ndWindow::onStartFrame(Event* event) {
 
     Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
     event_interface.runEvent(&menu_event);
+}
+
+void ndWindow::onDrawFrame(Event* event) {
+
 }
 
 void ndWindow::onEndFrame(Event* event) {

@@ -9,6 +9,8 @@ protected:
     float fov;
     float near;
     float far;
+    float pitch;
+    float yaw;
     float ratio;
 
     vec4 position;
@@ -19,15 +21,20 @@ protected:
     mat4 view;
     mat4 proj;
 
+
 // --- Constructor ---
 public:
     Camera();
+
+    mat4 getView();
+    mat4 getProj();
 
 // --- Controls ---
 public:
     void translate(vec4 trans);
     void move(float f, float r, float u);
-    void pitchYaw(float sin_vert, float sin_horz);
+    void pitchYaw(float pitch_theta, float yaw_theta);
+    void pitchYawInc(float pitch_delta, float yaw_delta);
 
     void calcView();
     void calcProj(float ratio);
@@ -39,6 +46,9 @@ protected:
 private:
     // new_front must be normalized
     bool validFront(vec4 new_front);
+    bool validPitch(float pitch_test);
+    void calcPitchYaw();
+    void trimYaw();
 };
 
 #endif

@@ -19,6 +19,11 @@ void ndApp::startFrame() {
     propogateEvent(&event);
 }
 
+void ndApp::drawFrame() {
+    Event event(module_name, Data::DRAW_FRAME);
+    propogateEvent(&event);
+}
+
 void ndApp::endFrame() {
     Event event(module_name, Data::END_FRAME);
     propogateEvent(&event);
