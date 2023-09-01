@@ -143,10 +143,10 @@ void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& 
     int viewId;
     int projID;
 
+    faces.use();
     modelId = faces.uniformLocation("model");
     viewId  = faces.uniformLocation("view");
     projID  = faces.uniformLocation("proj");
-    faces.use();
     faces.uniformMat4f(modelId, model_pos);
     faces.uniformMat4f(viewId, view);
     faces.uniformMat4f(projID, proj);

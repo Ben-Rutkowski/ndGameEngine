@@ -36,6 +36,22 @@ private:
 
 };
 
+/* CLASS GridLine 
+*/
+
+class GridLine {
+private:
+    VertexBufferInterface vbi;
+    ShaderProgram shader;
+
+    vec4 direction;
+    vec4 color;
+public:
+    GridLine(vec4 dir_in, vec4 color_in);
+    void load(float length);
+    void draw(mat4 view, mat4 proj);
+};
+
 /* CLASS: EditSpace
 */
 
@@ -54,6 +70,9 @@ private:
 // --- Attributes ---
 private:
     std::vector<EditMesh> meshes;
+    GridLine x_line;
+    GridLine y_line;
+    GridLine z_line;
 
 public:
     EditSpace();
@@ -83,6 +102,7 @@ private:
     void onStartFrame(Event* event);
     void onDrawFrame(Event* event);
     void onEndFrame(Event* event);
+    void onResize(Event* event);
 
 };
 

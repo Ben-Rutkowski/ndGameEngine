@@ -37,7 +37,7 @@ public:
     void pitchYawInc(float pitch_delta, float yaw_delta);
 
     void calcView();
-    void calcProj(float ratio);
+    void calcProj(float ratio_in);
     void setProj(float fov_in, float near_in, float far_in);
 
 protected:

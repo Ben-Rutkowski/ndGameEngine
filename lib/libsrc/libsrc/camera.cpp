@@ -61,8 +61,9 @@ void Camera::calcView() {
     view = mat4::view(position, front, right);
 }
 
-void Camera::calcProj(float ratio) {
-    proj = mat4::projPer(fov, ratio, near, far);
+void Camera::calcProj(float ratio_in) {
+    ratio = ratio_in;
+    proj = mat4::projPer(fov, ratio_in, near, far);
 }
 
 void Camera::setProj(float fov_in, float near_in, float far_in) {
