@@ -16,6 +16,14 @@ void ShaderProgram::linkProgram() {
     checkLink();
 }
 
+void ShaderProgram::compileVF(std::string vs_rel_path, std::string fs_rel_path) {
+    Shader vs(ShaderType::VERTEX, vs_rel_path);
+    Shader fs(ShaderType::FRAGMENT, fs_rel_path);
+    attachShader(ShaderType::VERTEX, vs);
+    attachShader(ShaderType::FRAGMENT, fs);
+    linkProgram();
+}
+
 // === Uniforms ===
 int ShaderProgram::uniformLocation(const char* name) {
     return glGetUniformLocation(program_id, name);

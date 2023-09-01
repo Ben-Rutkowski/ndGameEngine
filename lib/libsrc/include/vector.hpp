@@ -177,6 +177,14 @@ public:
 
 // --- Math ---
 public:
+    Vector<T,N> multK(T scalar, int k) {
+        Vector<T,N> output = *this;
+        for (int i=0; i<k; i++) {
+            output.set(scalar*output[i], i);
+        }
+        return output;
+    }
+
     Vector<T,N> operator+(Vector<T,N>& other)  { return Vector<T,N>::sumK(*this, other, N); }
     Vector<T,N> operator+(Vector<T,N>&& other) { return Vector<T,N>::sumK(*this, other, N); }
     Vector<T,N> operator-(Vector<T,N>& other)  { return Vector<T,N>::subtrK(*this, other, N); }
@@ -248,6 +256,12 @@ public:
         Vector<float,4> output = sumK(a, b, 3);
         output.scalarK(0.5f, 3);
         return output;
+    }
+
+    static Vector<T,N> weightK(T a, Vector<T,N> v1, T b, Vector<T,N> v2, int k) {
+        v1.scalarK(a, k);
+        v2.scalarK(b, k);
+        return v1 + v2;
     }
 
 // --- Debugging ---

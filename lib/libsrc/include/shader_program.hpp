@@ -18,6 +18,8 @@ public:
     void attachShader(ShaderType type, Shader shader);
     void linkProgram();
 
+    void compileVF(std::string vs_rel_path, std::string fs_rel_path);
+
 // --- Uniforms ---
 public:
     int  uniformLocation(const char* name);

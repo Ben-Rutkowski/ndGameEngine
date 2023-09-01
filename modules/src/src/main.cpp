@@ -1,5 +1,6 @@
 #include "application.hpp"
 #include <iostream>
+#include "camera.hpp"
 
 int main() {
     ndApp app;

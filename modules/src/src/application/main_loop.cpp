@@ -87,7 +87,6 @@ void ndApp::startApp() {
     );    
 
     mesh.load();
-    // mesh.translate(vec4({0.0f, 0.0f, -1.0f, 1.0f}));
     glEnable(GL_PROGRAM_POINT_SIZE);
     glEnable(GL_LINE_WIDTH);
 
@@ -99,6 +98,7 @@ void ndApp::startApp() {
 
     while (!window->shouldClose()) {
         startFrame();
+        pollEvents();
 
         double time = window->getTime();
         float s = sin(time);
@@ -112,8 +112,7 @@ void ndApp::startApp() {
         view = mat4::view(cpos, cfront, cright);
 
         mesh.draw(point, line, face, view, proj);
-
-        pollEvents();
+        
         endFrame();
     }
 }
