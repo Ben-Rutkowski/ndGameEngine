@@ -144,7 +144,7 @@ void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& 
     drawLines(lines, view, proj);
     drawPoints(points, view, proj);
     glEnable(GL_POLYGON_OFFSET_FILL);
-    glPolygonOffset(1.0f, 1.0f);
+    glPolygonOffset(0.5f, 1.0f);
     drawFaces(faces, view, proj, cfront);
     glDisable(GL_POLYGON_OFFSET_FILL);
 }

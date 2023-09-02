@@ -98,6 +98,7 @@ public:
 // --- GLFW CALLBACKS ---
 private:
     static void framebufferResizeCallback(GLFWwindow*, int, int);
+    static void scrollCallback(GLFWwindow*, double, double);
 
     static EventManager* getManager(GLFWwindow* window);
 };

@@ -22,18 +22,22 @@ The distance is how far the camera is from the origin.
 class EditCamera : public Camera {
 private:
     vec4  origin;
+    vec4  plane_front;
     float distance;
 
 public:
     EditCamera();
 
-    void transOrigin(vec2 trans);
+    void transOrigin(vec2 delta);
+    void setRotate(float pitch_theta, float yaw_theta);
+    void setDistance(float dist);
     void zoom(float delta);
-    void rotate(float pitch_theta, float yaw_theta);
     void rotateInc(float pitch_delta, float yaw_delta);
 
 private:
-    void placePosition();
+    void  calcParams();
+    bool  validDistance(float dist);
+    float boundedDelta(float delta);
 
 };
 
@@ -115,6 +119,9 @@ private:
     void onResize(Event* event);
     void onRightMouseClick(Event* event);
     void onRightMouseHold(Event* event);
+    void onLeftMouseClick(Event* event);
+    void onLeftMouseHold(Event* event);
+    void onScroll(Event* event);
 
 };
 

@@ -1,5 +1,6 @@
 TODO: 
 
+- Improve vertex buffer for dynamic rendering
 - Make gridlines optimized
 - User Framebuffers for lower resolution.
 

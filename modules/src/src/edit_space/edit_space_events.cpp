@@ -6,8 +6,11 @@ void EditSpace::setCallbacks() {
     event_interface.setCallback(Data::DRAW_FRAME,  PACK(EditSpace::onDrawFrame));
     event_interface.setCallback(Data::END_FRAME,   PACK(EditSpace::onEndFrame));
     event_interface.setCallback(Data::RESIZE,      PACK(EditSpace::onResize));
+    event_interface.setCallback(Data::SCROLL,      PACK(EditSpace::onScroll));
     event_interface.setCallback(Data::RIGHT_MOUSE_CLICK, PACK(EditSpace::onRightMouseClick));
-    event_interface.setCallback(Data::RIGHT_MOUSE_HOLD, PACK(EditSpace::onRightMouseHold));
+    event_interface.setCallback(Data::RIGHT_MOUSE_HOLD,  PACK(EditSpace::onRightMouseHold));
+    event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
+    event_interface.setCallback(Data::LEFT_MOUSE_HOLD,   PACK(EditSpace::onLeftMouseHold));
 }
 
 void EditSpace::runEventEditSpace(Event* event) {
@@ -16,8 +19,8 @@ void EditSpace::runEventEditSpace(Event* event) {
 
 // === On Events ===
 void EditSpace::onBeginLoop(Event* event) {
-    camera.zoom(3);
-    camera.rotate(math::rads(30.0f), math::rads(-20.0f));
+    camera.setDistance(6);
+    camera.setRotate(math::rads(30.0f), math::rads(-20.0f));
     camera.calcView();
     camera.calcProj(800.0f/600.0f);
     createDefaultCube();
@@ -61,5 +64,25 @@ void EditSpace::onRightMouseHold(Event* event) {
     if (abs(yaw_delta) >= math::rads(45.0f))   { yaw_delta = 0.0f; }
 
     camera.rotateInc(pitch_delta, yaw_delta);
+    camera.calcView();
+}
+
+void EditSpace::onLeftMouseClick(Event* event) {
+    float mouse_x = event->getFloat(0);
+    float mouse_y = event->getFloat(1);
+    camera.grab(mouse_x, mouse_y);
+}
+
+void EditSpace::onLeftMouseHold(Event* event) {
+    float mouse_x = event->getFloat(0);
+    float mouse_y = event->getFloat(1);
+    vec2 delta = camera.moveMouse(mouse_x, mouse_y);
+    camera.transOrigin(delta);
+    camera.calcView();
+}
+
+void EditSpace::onScroll(Event* event) {
+    float offset = event->getFloat(1);
+    camera.zoom(offset);
     camera.calcView();
 }

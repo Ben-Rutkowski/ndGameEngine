@@ -21,6 +21,7 @@ void ndWindow::setCallbacks() {
 
     // GLFW Callbacks
     glfwSetFramebufferSizeCallback(glfw_window, framebufferResizeCallback);
+    glfwSetScrollCallback(glfw_window, scrollCallback);
 }
 
 // ================ On Events ================
@@ -52,6 +53,19 @@ void ndWindow::onCollectMenuKeys(Event* event) {
             );
         }
     } else { hold_keys.right_mouse_hold = false; }
+    if (isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
+        glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
+        if ( hold_keys.left_mouse_hold ) {
+            event_interface.queueEvent2f(
+                module_name, Data::LEFT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
+            );
+        } else {
+            hold_keys.left_mouse_hold = true;
+            event_interface.queueEvent2f(
+                module_name, Data::LEFT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
+            );
+        }
+    } else { hold_keys.left_mouse_hold = false; }
 }
 
 void ndWindow::onStartFrame(Event* event) {
@@ -110,6 +124,13 @@ void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int heig
     EventManager* event_manager = getManager(window);
 
     Event2i event(module_name, Data::RESIZE, width, height);
+    event_manager->runEvent(&event);
+}
+
+void ndWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    EventManager* event_manager = getManager(window);
+
+    Event2f event(module_name, Data::SCROLL, vec2({(float)xoffset, (float)yoffset}));
     event_manager->runEvent(&event);
 }
 

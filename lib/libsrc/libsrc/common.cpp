@@ -21,9 +21,10 @@ EventNameMap getEventNameMap() {
     map.addEntry(Data::ESCAPE_KEY,        std::string("ESCAPE_KEY"));
     map.addEntry(Data::BEGIN_LOOP,        std::string("BEGIN_LOOP"));
     map.addEntry(Data::RIGHT_MOUSE_CLICK, std::string("RIGHT_MOUSE_CLICK"));
-    map.addEntry(Data::RIGHT_MOUSE_HOLD, std::string("RIGHT_MOUSE_HOLD"));
-    map.addEntry(Data::LEFT_MOUSE_CLICK,  std::string("LEFT_MOUSE_CLICK"));
     map.addEntry(Data::RIGHT_MOUSE_HOLD,  std::string("RIGHT_MOUSE_HOLD"));
+    map.addEntry(Data::LEFT_MOUSE_CLICK,  std::string("LEFT_MOUSE_CLICK"));
+    map.addEntry(Data::LEFT_MOUSE_HOLD,  std::string("LEFT_MOUSE_HOLD"));
+    map.addEntry(Data::SCROLL,            std::string("SCROLL"));
 
     return map;
 }
