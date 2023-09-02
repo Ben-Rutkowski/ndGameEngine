@@ -16,6 +16,7 @@ Camera::Camera()
 
 mat4 Camera::getView() { return view; }
 mat4 Camera::getProj() { return proj; }
+vec4 Camera::getFront() { return front; }
 
 // === Move ===
 void Camera::translate(vec4 trans) {

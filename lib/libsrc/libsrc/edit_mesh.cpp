@@ -133,50 +133,53 @@ void EditMesh::load() {
     face_vbi.loadVerticesStatic(vertex_cache.dataPtr(), vertex_cache.dataSize());
     face_vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
     face_vbi.configAttribf(0, 4, 10*sizeof(float), (void*)0);
-    // vbi.configAttribf(1, 4, 10*sizeof(float), (void*)(4*sizeof(float)));
-    // vbi.configAttribf(2, 2, 10*sizeof(float), (void*)(8*sizeof(float)));
+    face_vbi.configAttribf(1, 4, 10*sizeof(float), (void*)(4*sizeof(float)));
+    // face_vbi.configAttribf(2, 2, 10*sizeof(float), (void*)(8*sizeof(float)));
     face_vbi.unbindCurrent();
 }
 
-void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj) {
-    int modelId;
-    int viewId;
-    int projID;
+void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront) {
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    drawLines(lines, view, proj);
+    drawPoints(points, view, proj);
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(1.0f, 1.0f);
+    drawFaces(faces, view, proj, cfront);
+    glDisable(GL_POLYGON_OFFSET_FILL);
+}
 
-    faces.use();
-    modelId = faces.uniformLocation("model");
-    viewId  = faces.uniformLocation("view");
-    projID  = faces.uniformLocation("proj");
-    faces.uniformMat4f(modelId, model_pos);
-    faces.uniformMat4f(viewId, view);
-    faces.uniformMat4f(projID, proj);
-
-    face_vbi.bindCurrent();
-    face_vbi.drawElementsStatic(tri_cache.indexLen());
-    face_vbi.unbindCurrent();
-
-    lines.use();
-    modelId = lines.uniformLocation("model");
-    viewId  = lines.uniformLocation("view");
-    projID  = lines.uniformLocation("proj");
-    lines.uniformMat4f(modelId, model_pos);
-    lines.uniformMat4f(viewId, view);
-    lines.uniformMat4f(projID, proj);
-
-    line_vbi.bindCurrent();
-    glLineWidth(5);
-    glDrawElements(GL_LINES, edge_cache.indexLen(), GL_UNSIGNED_INT, 0);
-    line_vbi.unbindCurrent();
-
-    points.use();
-    modelId = points.uniformLocation("model");
-    viewId  = points.uniformLocation("view");
-    projID  = points.uniformLocation("proj");
-    points.uniformMat4f(modelId, model_pos);
-    points.uniformMat4f(viewId, view);
-    points.uniformMat4f(projID, proj);
+void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj) {
+    program.use();
+    program.uniformMat4f("model", model_pos);
+    program.uniformMat4f("view", view);
+    program.uniformMat4f("proj", proj);
 
     point_vbi.bindCurrent();
     point_vbi.drawPoints(point_cache.dataLen());
     point_vbi.unbindCurrent();
+}
+
+void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj) {
+    program.use();
+    program.uniformMat4f("model", model_pos);
+    program.uniformMat4f("view", view);
+    program.uniformMat4f("proj", proj);
+
+    line_vbi.bindCurrent();
+    glDrawElements(GL_LINES, edge_cache.indexLen(), GL_UNSIGNED_INT, 0);
+    line_vbi.unbindCurrent();
+    glDepthMask(GL_TRUE);
+}
+
+void EditMesh::drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 cfront) {
+    program.use();
+    program.uniformMat4f("model", model_pos);
+    program.uniformMat4f("view", view);
+    program.uniformMat4f("proj", proj);
+    program.uniform4f("camera_front", cfront);
+
+    face_vbi.bindCurrent();
+    face_vbi.drawElementsStatic(tri_cache.indexLen());
+    face_vbi.unbindCurrent();
 }

@@ -23,6 +23,8 @@ public:
 // --- Uniforms ---
 public:
     int  uniformLocation(const char* name);
+    void uniform4f(const char* name, vec4 v);
+    void uniformMat4f(const char*, mat4 m);
     void uniform4f(int id, vec4 v);
     void uniformMat4f(int id, mat4 m);
 

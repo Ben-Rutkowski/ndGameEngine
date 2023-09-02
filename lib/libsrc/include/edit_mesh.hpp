@@ -118,7 +118,12 @@ public:
 // Rendering
 public:
     void load();
-    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj);
+    void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront);
+
+private:
+    void drawPoints(ShaderProgram& program, mat4 view, mat4 proj);
+    void drawLines(ShaderProgram& program, mat4 view, mat4 proj);
+    void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 cfront);
 };
 
 #endif

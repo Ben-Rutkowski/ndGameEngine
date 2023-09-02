@@ -33,7 +33,17 @@ void ShaderProgram::uniform4f(int id, vec4 v) {
     glUniform4f(id, v[0], v[1], v[2], v[3]);
 }
 
+void ShaderProgram::uniform4f(const char* name, vec4 v) {
+    int id = glGetUniformLocation(program_id, name);
+    glUniform4f(id, v[0], v[1], v[2], v[3]);
+}
+
 void ShaderProgram::uniformMat4f(int id, mat4 m) {
+    glUniformMatrix4fv(id, 1, GL_TRUE, m.location());
+}
+
+void ShaderProgram::uniformMat4f(const char* name, mat4 m) {
+    int id = glGetUniformLocation(program_id, name);
     glUniformMatrix4fv(id, 1, GL_TRUE, m.location());
 }
 

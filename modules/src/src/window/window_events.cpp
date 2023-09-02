@@ -28,6 +28,7 @@ void ndWindow::setCallbacks() {
 void ndWindow::onBeginLoop(Event* event) {
     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
     glfwSwapInterval(1);
+    glLineWidth(5);
 
     event->print(module_name);
 }
@@ -40,7 +41,7 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 
 void ndWindow::onStartFrame(Event* event) {
     // OpenGL
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Clock
     frame_delta = clock.delta(Watch::FRAME_DELTA);
