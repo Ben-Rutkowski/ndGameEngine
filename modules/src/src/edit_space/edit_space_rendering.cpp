@@ -1,9 +1,19 @@
 #include "edit_space.hpp"
 
 void EditSpace::load() {
-    x_line.load(50.0f);
-    y_line.load(50.0f);
-    z_line.load(50.0f);
+    vec4 BLANK_COLOR({0.4f, 0.4f, 0.4f, 1.0f});
+
+    x_line.load(10.0f);
+    x_line.createPlane(
+        BLANK_COLOR,
+        vec4({0.0f, 0.0f, 1.0f, 1.0f})
+    );
+    z_line.load(10.0f);
+    z_line.createPlane(
+        BLANK_COLOR,
+        vec4({1.0f, 0.0f, 0.0f, 1.0f})
+    );
+    y_line.load(5.0f);
 
     int N = meshes.size();
     for (int i=0; i<N; i++) {
@@ -20,8 +30,8 @@ void EditSpace::draw() {
         meshes[i].draw(point_shader, line_shader, face_shader, view, proj, camera.getFront());
     }
 
-    glEnable(GL_DEPTH_TEST);
-    x_line.draw(view, proj);
+    glEnable(GL_DEPTH_TEST);;
+    x_line.drawPlane(view, proj);
+    z_line.drawPlane(view, proj);
     y_line.draw(view, proj);
-    z_line.draw(view, proj);
 }

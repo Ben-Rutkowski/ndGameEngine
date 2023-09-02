@@ -1,6 +1,5 @@
 TODO: 
 
-- Change Render Method for EditMeshes, need to render the full edge.
 - User Framebuffers for lower resolution.
 
 == Tidy/Optimizing ==

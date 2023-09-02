@@ -43,5 +43,6 @@ Id EditSpace::createDefaultCube() {
             {be[i%4], se[(i+1)%4], te[i%4], se[i%4]}
         );
     }
+    cube.translate(vec4({0.0f, 0.5f, 0.0f, 1.0f}));
     return cube_id;
 }

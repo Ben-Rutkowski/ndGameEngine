@@ -43,13 +43,22 @@ class GridLine {
 private:
     VertexBufferInterface vbi;
     ShaderProgram shader;
+    ShaderProgram plane_shader;
 
+    float length;
     vec4 direction;
     vec4 color;
+
+    float offsets[10];
+    vec4  blank_color;
+    vec4  orthog;
+
 public:
     GridLine(vec4 dir_in, vec4 color_in);
-    void load(float length);
+    void load(float length_in);
     void draw(mat4 view, mat4 proj);
+    void drawPlane(mat4 view, mat4 proj);
+    void createPlane(vec4 blank_in, vec4 othog_in);
 };
 
 /* CLASS: EditSpace

@@ -29,17 +29,22 @@ int ShaderProgram::uniformLocation(const char* name) {
     return glGetUniformLocation(program_id, name);
 }
 
-void ShaderProgram::uniform4f(int id, vec4 v) {
-    glUniform4f(id, v[0], v[1], v[2], v[3]);
+// void ShaderProgram::uniform4f(int id, vec4 v) {
+//     glUniform4f(id, v[0], v[1], v[2], v[3]);
+// }
+
+// void ShaderProgram::uniformMat4f(int id, mat4 m) {
+//     glUniformMatrix4fv(id, 1, GL_TRUE, m.location());
+// }
+
+void ShaderProgram::uniform1f(const char* name, float c) {
+    int id = glGetUniformLocation(program_id, name);
+    glUniform1f(id, c);
 }
 
 void ShaderProgram::uniform4f(const char* name, vec4 v) {
     int id = glGetUniformLocation(program_id, name);
     glUniform4f(id, v[0], v[1], v[2], v[3]);
-}
-
-void ShaderProgram::uniformMat4f(int id, mat4 m) {
-    glUniformMatrix4fv(id, 1, GL_TRUE, m.location());
 }
 
 void ShaderProgram::uniformMat4f(const char* name, mat4 m) {
