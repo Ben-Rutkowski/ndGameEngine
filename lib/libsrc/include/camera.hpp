@@ -13,6 +13,9 @@ protected:
     float yaw;
     float ratio;
 
+    float mouse_x;
+    float mouse_y;
+
     vec4 position;
     vec4 front;
     vec4 right;
@@ -32,6 +35,9 @@ public:
 
 // --- Controls ---
 public:
+    void grab(float x, float y);
+    vec2 moveMouse(float x, float y);
+
     void translate(vec4 trans);
     void move(float f, float r, float u);
     void pitchYaw(float pitch_theta, float yaw_theta);

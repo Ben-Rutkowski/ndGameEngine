@@ -1,6 +1,8 @@
 #ifndef EDIT_SPACE_HPP
 #define EDIT_SPACE_HPP
 
+#define MOUSE_DISTANCE_FACTOR 250.0f
+
 #include "event_manager.hpp"
 #include "camera.hpp"
 #include "edit_mesh.hpp"
@@ -25,7 +27,6 @@ private:
 public:
     EditCamera();
 
-    // vec2 ( delta x, delta z )
     void transOrigin(vec2 trans);
     void zoom(float delta);
     void rotate(float pitch_theta, float yaw_theta);
@@ -112,6 +113,8 @@ private:
     void onDrawFrame(Event* event);
     void onEndFrame(Event* event);
     void onResize(Event* event);
+    void onRightMouseClick(Event* event);
+    void onRightMouseHold(Event* event);
 
 };
 

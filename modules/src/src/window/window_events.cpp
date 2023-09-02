@@ -41,10 +41,17 @@ void ndWindow::onCollectMenuKeys(Event* event) {
     }
     if (isMousePress(GLFW_MOUSE_BUTTON_RIGHT)) {
         glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
-        event_interface.queueEvent2f(
-            module_name, Data::RIGHT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
-        );
-    }
+        if ( hold_keys.right_mouse_hold ) {
+            event_interface.queueEvent2f(
+                module_name, Data::RIGHT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
+            );
+        } else {
+            hold_keys.right_mouse_hold = true;
+            event_interface.queueEvent2f(
+                module_name, Data::RIGHT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
+            );
+        }
+    } else { hold_keys.right_mouse_hold = false; }
 }
 
 void ndWindow::onStartFrame(Event* event) {

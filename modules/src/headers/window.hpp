@@ -14,6 +14,15 @@ GLFW intialization must be done before creating a window.
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
+// ================ KeyState ================
+struct KeyState {
+    bool right_mouse_hold;
+    bool left_mouse_hold;
+    KeyState()
+        :right_mouse_hold{ false },
+        left_mouse_hold{ false } {}
+};
+
 // ================ Clock ================
 class Clock {
 private:
@@ -50,6 +59,7 @@ private:
     int frame_width, frame_height;
     float frame_delta;
     GLFWwindow* glfw_window;
+    KeyState hold_keys;
 
 // --- Constructors and Initialization ---
 public:
