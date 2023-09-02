@@ -47,6 +47,10 @@ public:
     void calcProj(float ratio_in);
     void setProj(float fov_in, float near_in, float far_in);
 
+// --- Debugging ---
+public:
+    void print();
+
 protected:
     void setFront(vec4 new_front);
 
@@ -54,8 +58,8 @@ private:
     // new_front must be normalized
     bool validFront(vec4 new_front);
     bool validPitch(float pitch_test);
+    bool validYaw(float yaw_test);
     void calcPitchYaw();
-    void trimYaw();
 };
 
 #endif

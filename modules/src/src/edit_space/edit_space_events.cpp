@@ -48,8 +48,6 @@ void EditSpace::onRightMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
     camera.grab(mouse_x, mouse_y);
-
-    event->print(module_name);
 }
 
 void EditSpace::onRightMouseHold(Event* event) {

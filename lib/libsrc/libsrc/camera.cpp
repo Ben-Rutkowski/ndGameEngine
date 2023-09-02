@@ -47,23 +47,15 @@ void Camera::move(float f, float r, float u)
 
 void Camera::pitchYawInc(float pitch_delta, float yaw_delta)
 {
-    if (validPitch(pitch + pitch_delta))
-    {
-        pitch = pitch + pitch_delta;
-        yaw = yaw + yaw_delta;
-        calcPitchYaw();
-    }
-    else
-    {
-        yaw = yaw + yaw_delta;
-        calcPitchYaw();
-    }
+    if (validPitch(pitch + pitch_delta)) { pitch = pitch + pitch_delta; }
+    if (validYaw(yaw + yaw_delta))       { yaw = yaw + yaw_delta; }
+    calcPitchYaw();
 }
 
 void Camera::pitchYaw(float pitch_theta, float yaw_theta)
 {
     pitch = pitch_theta;
-    yaw = yaw_theta;
+    yaw   = yaw_theta;
     calcPitchYaw();
 }
 
@@ -74,7 +66,8 @@ void Camera::calcPitchYaw()
 
     if (abs(yaw) > FULL_CIRCLE)
     {
-        yaw = yaw - FULL_CIRCLE;
+        yaw = math::remander(yaw, FULL_CIRCLE);
+        // return;
     }
     mat4 rotx = mat4::rotX(pitch);
     mat4 roty = mat4::rotY(yaw);
@@ -116,18 +109,27 @@ void Camera::setFront(vec4 new_front)
     }
 }
 
+// === Debugging ===
+void Camera::print() {
+    std::cout << "Front Vec"; front.print();
+    std::cout << "Pitch: " << pitch << " Yaw: " << yaw << std::endl;
+    std::cout << "Mouse x: " << mouse_x << " Mouse y: " << mouse_y << std::endl << std::endl; 
+}
+
 // === Private ===
 bool Camera::validFront(vec4 new_front)
 {
-    return (new_front[0] != 0.0f || new_front[2] != 0.0f);
+    return
+        new_front.isFinite() && (new_front[0] != 0.0f || new_front[2] != 0.0f);
 }
 
 bool Camera::validPitch(float pitch_test)
 {
     const float BOUND = M_PI / 2.0f - 0.001f;
-    return (isfinite(pitch_test) && -BOUND < pitch_test && pitch_test < BOUND);
+    return (isfinite(pitch_test) && abs(pitch_test) < BOUND);
 }
 
-void Camera::trimYaw()
-{
+bool Camera::validYaw(float yaw_test) {
+    const float BOUND = 4.0f*M_PI;
+    return ( isfinite(yaw_test) && abs(yaw_test) < BOUND );
 }

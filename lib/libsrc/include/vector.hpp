@@ -153,6 +153,14 @@ public:
 public:
     T    operator[](int i)   { return data[i]; } 
     void set(T value, int i) { data[i] = value; }
+    bool isFinite() {
+        for (int i=0; i<N; i++) {
+            if (!isfinite(data[i])) {
+                return false;
+            }
+        } 
+        return true;
+    }
 
 // --- Operations ---
 public:

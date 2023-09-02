@@ -14,6 +14,7 @@ T roundPlace(T value, int place) {
 }
 
 float rads(float value);
+float remander(float numerator, float denomenator);
 
 }
 
