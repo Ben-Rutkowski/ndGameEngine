@@ -15,11 +15,13 @@ EventNameMap getEventNameMap() {
     map.addEntry(Data::CLOSE_APP,         std::string("CLOSE_APP"));
     map.addEntry(Data::RESIZE,            std::string("RESIZE"));
     map.addEntry(Data::START_FRAME,       std::string("START_FRAME"));
-    map.addEntry(Data::DRAW_FRAME,       std::string("DRAW_FRAME"));
+    map.addEntry(Data::DRAW_FRAME,        std::string("DRAW_FRAME"));
     map.addEntry(Data::END_FRAME,         std::string("END_FRAME"));
     map.addEntry(Data::COLLECT_MENU_KEYS, std::string("COLLECT_MENU_KEYS"));
     map.addEntry(Data::ESCAPE_KEY,        std::string("ESCAPE_KEY"));
-    map.addEntry(Data::BEGIN_LOOP,         std::string("BEGIN_LOOP"));
+    map.addEntry(Data::BEGIN_LOOP,        std::string("BEGIN_LOOP"));
+    map.addEntry(Data::RIGHT_MOUSE_CLICK, std::string("RIGHT_MOUSE_CLICK"));
+    map.addEntry(Data::LEFT_MOUSE_CLICK,  std::string("LEFT_MOUSE_CLICK"));
 
     return map;
 }

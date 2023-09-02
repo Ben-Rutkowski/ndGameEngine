@@ -24,6 +24,10 @@ void EventInterface::queueEvent2i(Module module_name, Data data, vec2i vector) {
     event_manager->queueEvent2i(module_name, data, vector);
 }
 
+void EventInterface::queueEvent2f(Module module_name, Data data, vec2 vector) {
+    event_manager->queueEvent2f(module_name, data, vector);
+}
+
 void EventInterface::runEvent(Event* event) {
     event_manager->runEvent(event);
 }

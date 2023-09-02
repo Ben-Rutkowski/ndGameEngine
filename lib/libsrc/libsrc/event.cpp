@@ -28,7 +28,8 @@ Data      Event::getData()   { return code.data; }
 bool      Event::operator!() { return code.type == EventType::null; }
 
 // === Virtual ===
-int       Event::getInt(int place) { return 0; }
+int   Event::getInt(int index)   { return 0; }
+float Event::getFloat(int index) { return 0.0f; }
 
 // === Debugging ===
 void Event::print() {

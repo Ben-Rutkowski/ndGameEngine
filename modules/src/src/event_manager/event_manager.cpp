@@ -28,6 +28,10 @@ void EventManager::queueEvent2i(Module module_name, Data data, vec2i vector) {
     event2i_queue.queue(Event2i(module_name, data, vector));
 }
 
+void EventManager::queueEvent2f(Module module_name, Data data, vec2 vector) {
+    event2f_queue.queue(Event2f(module_name, data, vector));
+}
+
 void EventManager::runEvent(Event* event) {
     propogateEventCall(event);
 }
@@ -45,5 +49,11 @@ void EventManager::pollEvents() {
         current_event = event2i_queue.getCurrent();
         propogateEventCall(current_event);
         event2i_queue.clearCurrent();
+    }
+
+    while (!event2f_queue.isEmpty()) {
+        current_event = event2f_queue.getCurrent();
+        propogateEventCall(current_event);
+        event2f_queue.clearCurrent();
     }
 }

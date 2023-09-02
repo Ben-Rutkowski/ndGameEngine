@@ -93,7 +93,8 @@ public:
 
 // --- Virtual ---
 public:
-    virtual int getInt(int index);
+    virtual int   getInt(int index);
+    virtual float getFloat(int index);
 
 // --- Debugging ---
 public:
@@ -131,6 +132,24 @@ public:
 
     int getInt(int index) {
         return vector_2i[index];
+    }
+};
+
+class Event2f : public Event {
+private:
+    vec2 vector_2f;
+
+public:
+    Event2f()
+        :Event(),
+        vector_2f() {}
+
+    Event2f(Module module_name, Data data, vec2 vector)
+        :Event(EventType::VEC2F, module_name, data),
+        vector_2f{ vector } {}
+
+    float getFloat(int index) {
+        return vector_2f[index];
     }
 };
 

@@ -36,6 +36,7 @@ INTERFACE:
 
 #define EVENT_QUEUE_LEN 16
 #define EVENT2I_QUEUE_LEN 4
+#define EVENT2F_QUEUE_LEN 4
 
 // === Classes ===
 
@@ -63,6 +64,7 @@ private:
 private:
     Queue<Event, EVENT_QUEUE_LEN> event_queue;
     Queue<Event2i, EVENT2I_QUEUE_LEN> event2i_queue;
+    Queue<Event2f, EVENT2F_QUEUE_LEN> event2f_queue; 
 
 
 // --- Constructors and Initialization ---
@@ -74,6 +76,7 @@ public:
 public:
     void queueEvent(Module module_name, Data data);
     void queueEvent2i(Module module_name, Data data, vec2i vector);
+    void queueEvent2f(Module module_name, Data data, vec2 vector);
     
     void runEvent(Event* event);
     void pollEvents();
@@ -97,6 +100,7 @@ public:
 
     void queueEvent(Module module_name, Data data);
     void queueEvent2i(Module module_name, Data data, vec2i vector);
+    void queueEvent2f(Module module_name, Data data, vec2 vector);
 
     void runEvent(Event* event);
 

@@ -49,6 +49,10 @@ bool ndWindow::isKeyPress(int key) {
     return glfwGetKey(glfw_window, key) == GLFW_PRESS;
 }
 
+bool ndWindow::isMousePress(int key) {
+    return glfwGetMouseButton(glfw_window, key) == GLFW_PRESS;
+}
+
 double ndWindow::getTime() {
     return glfwGetTime();
 }

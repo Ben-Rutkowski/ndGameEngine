@@ -28,14 +28,22 @@ void ndWindow::setCallbacks() {
 void ndWindow::onBeginLoop(Event* event) {
     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
     glfwSwapInterval(1);
-    glLineWidth(5);
 
     event->print(module_name);
 }
 
 void ndWindow::onCollectMenuKeys(Event* event) {
+    double mouse_x;
+    double mouse_y;
+
     if (isKeyPress(GLFW_KEY_ESCAPE)) {
         event_interface.queueEvent(module_name, Data::ESCAPE_KEY);
+    }
+    if (isMousePress(GLFW_MOUSE_BUTTON_RIGHT)) {
+        glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
+        event_interface.queueEvent2f(
+            module_name, Data::RIGHT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
+        );
     }
 }
 

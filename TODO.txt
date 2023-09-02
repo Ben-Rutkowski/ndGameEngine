@@ -1,5 +1,6 @@
 TODO: 
 
+- Make gridlines optimized
 - User Framebuffers for lower resolution.
 
 == Tidy/Optimizing ==

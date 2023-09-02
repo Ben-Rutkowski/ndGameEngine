@@ -65,6 +65,7 @@ public:
 
 private:
     bool isKeyPress(int key);
+    bool isMousePress(int mouse);
 
 // --- Event Interface ---
 public:
