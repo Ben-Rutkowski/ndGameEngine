@@ -7,5 +7,8 @@ float math::rads(float value) {
 
 float math::remander(float numerator, float denomenator) {
     float divide = numerator / denomenator;
-    return divide - floor(divide);
+    float remainder = abs(divide) - floor(abs(divide));
+
+    if (numerator > 0.0f) { return remainder; } 
+    else                  { return -remainder; }
 }

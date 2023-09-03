@@ -1,7 +1,6 @@
 TODO: 
 == Imidiate tasks
 - Change origin panning so the mouse is stuck to the plane
-- Fix lighting meshes
 - Improve vertex buffer for dynamic rendering
 - Make gridlines optimized
 - User Framebuffers for custom resolution.

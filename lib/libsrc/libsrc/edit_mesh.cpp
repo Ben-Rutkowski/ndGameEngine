@@ -62,6 +62,10 @@ void EditMesh::translate(vec4 trans) {
     model_pos = mat4::translate(trans)*model_pos;
 }
 
+void EditMesh::setModelMat(mat4 model) {
+    model_pos = model;
+}
+
 Id EditMesh::createPoint(vec4 point)
     { return point_cache.addPoint(point); }
 
@@ -160,35 +164,37 @@ void EditMesh::load() {
     face_vbi.unbindCurrent();
 }
 
-void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront) {
-    // glEnable(GL_DEPTH_TEST);
-    // glDepthMask(GL_TRUE);
-    // drawLines(lines, view, proj);
-    // drawPoints(points, view, proj);
-    // glEnable(GL_POLYGON_OFFSET_FILL);
-    // glPolygonOffset(0.5f, 1.0f);
-    // drawFaces(faces, view, proj, cfront);
-    // glDisable(GL_POLYGON_OFFSET_FILL);
+// void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront) {
+//     glEnable(GL_DEPTH_TEST);
+//     glDepthMask(GL_TRUE);
+//     drawLines(lines, view, proj);
+//     drawPoints(points, view, proj);
+//     glEnable(GL_POLYGON_OFFSET_FILL);
+//     glPolygonOffset(0.5f, 1.0f);
+//     drawFaces(faces, view, proj, cfront);
+//     glDisable(GL_POLYGON_OFFSET_FILL);
 
-    drawFaces(faces, view, proj, cfront);
-}
+//     // drawFaces(faces, view, proj, cfront);
+// }
 
-void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj) {
+void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color) {
     program.use();
     program.uniformMat4f("model", model_pos);
     program.uniformMat4f("view", view);
     program.uniformMat4f("proj", proj);
+    program.uniform4f("color", color);
 
     point_vbi.bindCurrent();
     point_vbi.drawPoints(point_cache.dataLen());
     point_vbi.unbindCurrent();
 }
 
-void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj) {
+void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color) {
     program.use();
     program.uniformMat4f("model", model_pos);
     program.uniformMat4f("view", view);
     program.uniformMat4f("proj", proj);
+    program.uniform4f("color", color);
 
     line_vbi.bindCurrent();
     glDrawElements(GL_LINES, edge_cache.indexLen(), GL_UNSIGNED_INT, 0);

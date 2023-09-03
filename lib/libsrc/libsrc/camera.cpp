@@ -65,11 +65,10 @@ void Camera::calcPitchYaw()
     const float FULL_CIRCLE = 2.0f * M_PI;
     const vec4 TRUE_FRONT({0.0f, 0.0f, -1.0f, 1.0f});
 
-    if (abs(yaw) > FULL_CIRCLE)
-    {
+    if (abs(yaw) > FULL_CIRCLE) {
         yaw = math::remander(yaw, FULL_CIRCLE);
-        // return;
     }
+
     mat4 rotx = mat4::rotX(pitch);
     mat4 roty = mat4::rotY(yaw);
 

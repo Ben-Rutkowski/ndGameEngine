@@ -65,7 +65,7 @@ void GridLine::drawPlane(mat4 view, mat4 proj) {
 
 void GridLine::createPlane(vec4 blank_in, vec4 othog_in) {
     blank_color = blank_in;
-    orthog       = othog_in;
+    orthog      = othog_in;
 
     for (int i=0; i<5; i++) {
         offsets[2*i]   = (float)(i+1)/5.0f;

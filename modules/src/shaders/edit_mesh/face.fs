@@ -13,11 +13,12 @@ const vec3 LIGHT_COLOR = 0.8*vec3(0.8, 0.7, 0.6);
 float calcDiffuse() {
     vec3 frag_normal = normalize(fNorm);
     vec3 to_cam      = normalize(camera_pos.xyz - fCenter);
-    return max(dot(frag_normal, to_cam), 0.0);
+    // return max(dot(frag_normal, to_cam), 0.0);
+    return max(abs(dot(frag_normal, to_cam)), 0.0);
 }
 
 void main() {
     float diff = calcDiffuse();
     vec3 final_color = mix(DARK_COLOR, LIGHT_COLOR, diff);
-    fragColor = vec4(final_color, 1.0);
+    fragColor = vec4(final_color, 0.6);
 }

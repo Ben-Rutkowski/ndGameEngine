@@ -70,6 +70,8 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 
 void ndWindow::onStartFrame(Event* event) {
     // OpenGL
+    // glStencilMask(0xFF);
+    // glDepthMask(GL_TRUE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Clock
