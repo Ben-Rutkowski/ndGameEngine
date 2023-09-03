@@ -27,7 +27,7 @@ void EditSpace::draw() {
 
     int N = meshes.size();
     for (int i=0; i<N; i++) {
-        meshes[i].draw(point_shader, line_shader, face_shader, view, proj, camera.getFront());
+        meshes[i].draw(point_shader, line_shader, face_shader, view, proj, camera.getPos());
     }
 
     glEnable(GL_DEPTH_TEST);;

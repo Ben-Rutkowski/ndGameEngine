@@ -1,14 +1,23 @@
 #version 330 core
-in vec4 out_color;
 in vec3 fNorm;
-out vec4 color;
+in vec3 fFragPos;
+in vec3 fCenter;
 
-uniform vec4 camera_front;
+out vec4 fragColor;
+
+uniform vec4 camera_pos;
+
+const vec3 DARK_COLOR = 0.6*vec3(0.18, 0.2, 0.25);
+const vec3 LIGHT_COLOR = 0.8*vec3(0.8, 0.7, 0.6);
+
+float calcDiffuse() {
+    vec3 frag_normal = normalize(fNorm);
+    vec3 to_cam      = normalize(camera_pos.xyz - fCenter);
+    return max(dot(frag_normal, to_cam), 0.0);
+}
 
 void main() {
-    vec3 to_cam = normalize(-camera_front.xyz);
-    vec3 norm   = normalize(fNorm);
-    float diff  = max(dot(norm, to_cam), 0.0);
-    vec3 final_color = diff*vec3(0.4, 0.4, 0.4) + vec3(0.1, 0.1, 0.1);
-    color = vec4(final_color, 1.0);
+    float diff = calcDiffuse();
+    vec3 final_color = mix(DARK_COLOR, LIGHT_COLOR, diff);
+    fragColor = vec4(final_color, 1.0);
 }

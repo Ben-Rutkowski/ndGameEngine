@@ -32,6 +32,7 @@ public:
     mat4 getView();
     mat4 getProj();
     vec4 getFront();
+    vec4 getPos();
 
 // --- Controls ---
 public:

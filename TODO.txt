@@ -1,34 +1,23 @@
 TODO: 
-
+== Imidiate tasks
+- Change origin panning so the mouse is stuck to the plane
+- Fix lighting meshes
 - Improve vertex buffer for dynamic rendering
 - Make gridlines optimized
-- User Framebuffers for lower resolution.
+- User Framebuffers for custom resolution.
 
 == Tidy/Optimizing ==
 - Possibly Change events queue to take ref and not ptr
 - Tidy Docs
 
-
-
 == Rendering ==
 - Camera Object ( optimize pitchYaw, so it doesnt use trig )
-        - Have a more protected set front
 - Rendering basic scences
 - Rendering Modeling scence
 
 
-
-== Modeling ==
-- Abstract Quad to n-face
-- Body and Body rendering 
-    - Quads etc.
-
-
-
 == Game ==
 - Entities
-
-
 
 == UI ==
 - GUI Layers

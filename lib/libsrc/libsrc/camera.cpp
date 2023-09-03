@@ -17,6 +17,7 @@ Camera::Camera()
 mat4 Camera::getView() { return view; }
 mat4 Camera::getProj() { return proj; }
 vec4 Camera::getFront() { return front; }
+vec4 Camera::getPos()   { return position; }
 
 // === Move ===
 void Camera::grab(float x, float y)

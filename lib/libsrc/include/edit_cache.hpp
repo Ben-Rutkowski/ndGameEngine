@@ -103,6 +103,7 @@ class EditVertex {
 private:
     vec4 position;
     vec4 normal;
+    vec4 center;
     vec2 uv;
 
 // ---- Constructor ----
@@ -114,10 +115,12 @@ public:
 public:
     vec4 getPos();
     vec4 getNorm();
+    vec4 getCenter();
     vec2 getUV();
 
     void setPos(vec4 pos_in);
     void setNorm(vec4 norm_in);
+    void setCenter(vec4 cent_in);
     void setUV(vec2 uv_in);
 };
 

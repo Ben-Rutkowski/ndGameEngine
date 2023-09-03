@@ -29,10 +29,28 @@ vec4 EditFace::calcNorm(TriCache& tri_cache, VertexCache& vertex_cache) {
     return norm;
 }
 
+vec4 EditFace::calcCenter(PointCache& point_cache) {
+    int N = pointNum();
+
+    vec4 sum = vec4::basis(3);
+    for (int i=0; i<N; i++) {
+        vec4 current = point_cache[getPoint(i)].getPos();
+        sum = vec4::sumK(sum, current, 3);
+    }
+    return sum.multK(1.0f/((float)N), 3);
+}
+
 void EditFace::setNorm(vec4 norm, VertexCache& vertex_cache) {
     int N = vertNum();
     for (int i=0; i<N; i++) {
         vertex_cache[vertices[i]].setNorm(norm);
+    }
+}
+
+void EditFace::setCenter(vec4 center, VertexCache& vertex_cache) {
+    int N = vertNum();
+    for (int i=0; i<N; i++) {
+        vertex_cache[vertices[i]].setCenter(center);
     }
 }
 
@@ -79,7 +97,9 @@ Id EditMesh::createTri(Id3 points, Id3 edges) {
     new_face.addTri(new_tri_id);
 
     vec4 norm = new_face.calcNorm(tri_cache, vertex_cache);
+    vec4 center = new_face.calcCenter(point_cache);
     new_face.setNorm(norm, vertex_cache);
+    new_face.setCenter(center, vertex_cache);
 
     return new_face_id;
 } 
@@ -112,7 +132,9 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
     new_face.addTri(new_tri_id2);
 
     vec4 norm = new_face.calcNorm(tri_cache, vertex_cache);
+    vec4 center = new_face.calcCenter(point_cache);
     new_face.setNorm(norm, vertex_cache);
+    new_face.setCenter(center, vertex_cache);
 
     return new_face_id;
 }
@@ -132,21 +154,23 @@ void EditMesh::load() {
     face_vbi.bindAllBuffers();
     face_vbi.loadVerticesStatic(vertex_cache.dataPtr(), vertex_cache.dataSize());
     face_vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
-    face_vbi.configAttribf(0, 4, 10*sizeof(float), (void*)0);
-    face_vbi.configAttribf(1, 4, 10*sizeof(float), (void*)(4*sizeof(float)));
-    // face_vbi.configAttribf(2, 2, 10*sizeof(float), (void*)(8*sizeof(float)));
+    face_vbi.configAttribf(0, 4, sizeof(EditVertex), (void*)0);
+    face_vbi.configAttribf(1, 4, sizeof(EditVertex), (void*)(4*sizeof(float)));
+    face_vbi.configAttribf(2, 4, sizeof(EditVertex), (void*)(8*sizeof(float)));
     face_vbi.unbindCurrent();
 }
 
 void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront) {
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    drawLines(lines, view, proj);
-    drawPoints(points, view, proj);
-    glEnable(GL_POLYGON_OFFSET_FILL);
-    glPolygonOffset(0.5f, 1.0f);
+    // glEnable(GL_DEPTH_TEST);
+    // glDepthMask(GL_TRUE);
+    // drawLines(lines, view, proj);
+    // drawPoints(points, view, proj);
+    // glEnable(GL_POLYGON_OFFSET_FILL);
+    // glPolygonOffset(0.5f, 1.0f);
+    // drawFaces(faces, view, proj, cfront);
+    // glDisable(GL_POLYGON_OFFSET_FILL);
+
     drawFaces(faces, view, proj, cfront);
-    glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
 void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj) {
@@ -172,12 +196,12 @@ void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj) {
     glDepthMask(GL_TRUE);
 }
 
-void EditMesh::drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 cfront) {
+void EditMesh::drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 camera_pos) {
     program.use();
     program.uniformMat4f("model", model_pos);
     program.uniformMat4f("view", view);
     program.uniformMat4f("proj", proj);
-    program.uniform4f("camera_front", cfront);
+    program.uniform4f("camera_pos", camera_pos);
 
     face_vbi.bindCurrent();
     face_vbi.drawElementsStatic(tri_cache.indexLen());

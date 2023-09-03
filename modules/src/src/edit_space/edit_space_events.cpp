@@ -68,17 +68,17 @@ void EditSpace::onRightMouseHold(Event* event) {
 }
 
 void EditSpace::onLeftMouseClick(Event* event) {
-    float mouse_x = event->getFloat(0);
-    float mouse_y = event->getFloat(1);
-    camera.grab(mouse_x, mouse_y);
+    // float mouse_x = event->getFloat(0);
+    // float mouse_y = event->getFloat(1);
+    // camera.grab(mouse_x, mouse_y);
 }
 
 void EditSpace::onLeftMouseHold(Event* event) {
-    float mouse_x = event->getFloat(0);
-    float mouse_y = event->getFloat(1);
-    vec2 delta = camera.moveMouse(mouse_x, mouse_y);
-    camera.transOrigin(delta);
-    camera.calcView();
+    // float mouse_x = event->getFloat(0);
+    // float mouse_y = event->getFloat(1);
+    // vec2 delta = camera.moveMouse(mouse_x, mouse_y);
+    // camera.transOrigin(delta);
+    // camera.calcView();
 }
 
 void EditSpace::onScroll(Event* event) {

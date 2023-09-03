@@ -49,7 +49,9 @@ public:
     Id  getTri(int i);
 
     vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
+    vec4 calcCenter(PointCache& point_cache);
     void setNorm(vec4 norm, VertexCache& vertex_cache);
+    void setCenter(vec4 center, VertexCache& vertex_cache);
 };
 
 /* CLASS FaceCache
