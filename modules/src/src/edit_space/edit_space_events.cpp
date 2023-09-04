@@ -5,8 +5,9 @@ void EditSpace::setCallbacks() {
     event_interface.setCallback(Data::START_FRAME, PACK(EditSpace::onStartFrame));
     event_interface.setCallback(Data::DRAW_FRAME,  PACK(EditSpace::onDrawFrame));
     event_interface.setCallback(Data::END_FRAME,   PACK(EditSpace::onEndFrame));
-    event_interface.setCallback(Data::RESIZE,      PACK(EditSpace::onResize));
-    event_interface.setCallback(Data::SCROLL,      PACK(EditSpace::onScroll));
+    event_interface.setCallback(Data::RESIZE_FRAME,      PACK(EditSpace::onResizeFrame));
+    event_interface.setCallback(Data::RESIZE_WINDOW,     PACK(EditSpace::onResizeWindow));
+    event_interface.setCallback(Data::SCROLL,            PACK(EditSpace::onScroll));
     event_interface.setCallback(Data::RIGHT_MOUSE_CLICK, PACK(EditSpace::onRightMouseClick));
     event_interface.setCallback(Data::RIGHT_MOUSE_HOLD,  PACK(EditSpace::onRightMouseHold));
     event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
@@ -42,15 +43,20 @@ void EditSpace::onEndFrame(Event* event) {
     
 }
 
-void EditSpace::onResize(Event* event) {
+void EditSpace::onResizeFrame(Event* event) {
     int frame_width  = event->getInt(0);
     int frame_height = event->getInt(1);
 
-    width  = (float)frame_width;
-    height = (float)frame_height;
-
     float ratio = (float)frame_width/(float)frame_height;
     camera.calcProj(ratio);
+}
+
+void EditSpace::onResizeWindow(Event* event) {
+    int window_width_in  = event->getInt(0);
+    int window_height_in = event->getInt(1);
+
+    window_width  = (float)window_width_in;
+    window_height = (float)window_height_in;
 }
 
 void EditSpace::onRightMouseClick(Event* event) {
@@ -77,7 +83,7 @@ void EditSpace::onLeftMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
 
-    select_box.grab(vec2({mouse_x, mouse_y}), width, height);
+    select_box.grab(vec2({mouse_x, mouse_y}), window_width, window_height);
     draw_select = true;
 
     // camera.grab(mouse_x, mouse_y);
@@ -87,7 +93,7 @@ void EditSpace::onLeftMouseHold(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
 
-    select_box.drag(vec2({mouse_x, mouse_y}), width, height);
+    select_box.drag(vec2({mouse_x, mouse_y}), window_width, window_height);
     
     // select_box.draw(select_box_shader);
     // vec2 delta = camera.moveMouse(mouse_x, mouse_y);
@@ -97,7 +103,6 @@ void EditSpace::onLeftMouseHold(Event* event) {
 
 void EditSpace::onLeftMouseRelease(Event* event) {
     draw_select = false;
-    event->print(module_name);
 }
 
 void EditSpace::onScroll(Event* event) {

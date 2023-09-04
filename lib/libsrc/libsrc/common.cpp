@@ -13,7 +13,8 @@ EventNameMap getEventNameMap() {
     EventNameMap map;
     map.addEntry(Data::TEST,              std::string("TEST"));
     map.addEntry(Data::CLOSE_APP,         std::string("CLOSE_APP"));
-    map.addEntry(Data::RESIZE,            std::string("RESIZE"));
+    map.addEntry(Data::RESIZE_FRAME,      std::string("RESIZE_FRAME"));
+    map.addEntry(Data::RESIZE_WINDOW,     std::string("RESIZE_WINDOW"));
     map.addEntry(Data::START_FRAME,       std::string("START_FRAME"));
     map.addEntry(Data::DRAW_FRAME,        std::string("DRAW_FRAME"));
     map.addEntry(Data::END_FRAME,         std::string("END_FRAME"));

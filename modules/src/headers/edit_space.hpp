@@ -96,7 +96,7 @@ private:
     GridLine z_line;
 
 // --- Temporary ---
-    float width, height;
+    float window_width, window_height;
     bool draw_select;
 
 public:
@@ -127,7 +127,8 @@ private:
     void onStartFrame(Event* event);
     void onDrawFrame(Event* event);
     void onEndFrame(Event* event);
-    void onResize(Event* event);
+    void onResizeFrame(Event* event);
+    void onResizeWindow(Event* event);
     void onRightMouseClick(Event* event);
     void onRightMouseHold(Event* event);
     void onLeftMouseClick(Event* event);

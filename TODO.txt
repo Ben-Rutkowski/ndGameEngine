@@ -1,7 +1,8 @@
 TODO: 
 == Imidiate tasks
 
-- Clean up mouse events and add state caches for each module
+- Add state caches for each module
+
 
 - Change origin panning so the mouse is stuck to the plane
 - Improve vertex buffer for dynamic rendering

@@ -93,11 +93,13 @@ public:
     void onEndFrame(Event* event);
     void onEscapeKey(Event* event);
     void onCloseApp(Event* event);
-    void onResize(Event* event);
+    void onResizeFrame(Event* event);
+    void onResizeWindow(Event* event);
 
 // --- GLFW CALLBACKS ---
 private:
     static void framebufferResizeCallback(GLFWwindow*, int, int);
+    static void windowResizeCallback(GLFWwindow*, int, int);
     static void scrollCallback(GLFWwindow*, double, double);
 
     static EventManager* getManager(GLFWwindow* window);

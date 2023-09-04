@@ -15,8 +15,8 @@ EditSpace::EditSpace()
         vec4({0.0f, 0.0f ,1.0f, 1.0f}),
         vec4({0.8f, 0.2f, 0.2f, 1.0f})
     ),
-    width{ 800.0f },
-    height{ 600.0f },
+    window_width{ 800.0f },
+    window_height{ 600.0f },
     draw_select{ false } {
 
     point_shader.compileVF(

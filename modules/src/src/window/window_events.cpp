@@ -15,12 +15,13 @@ void ndWindow::setCallbacks() {
     event_interface.setCallback(Data::DRAW_FRAME,  PACK(ndWindow::onDrawFrame));
     event_interface.setCallback(Data::ESCAPE_KEY,  PACK(ndWindow::onEscapeKey));
     event_interface.setCallback(Data::CLOSE_APP,   PACK(ndWindow::onCloseApp));
-    event_interface.setCallback(Data::RESIZE,      PACK(ndWindow::onResize));
+    event_interface.setCallback(Data::RESIZE_FRAME, PACK(ndWindow::onResizeFrame));
     event_interface.setCallback(Data::BEGIN_LOOP,  PACK(ndWindow::onBeginLoop));
     event_interface.setCallback(Data::END_FRAME,   PACK(ndWindow::onEndFrame));
 
     // GLFW Callbacks
     glfwSetFramebufferSizeCallback(glfw_window, framebufferResizeCallback);
+    glfwSetWindowSizeCallback(glfw_window, windowResizeCallback);
     glfwSetScrollCallback(glfw_window, scrollCallback);
 }
 
@@ -120,7 +121,7 @@ void ndWindow::onCloseApp(Event* event) {
     event->print(module_name);
 }
 
-void ndWindow::onResize(Event* event) {
+void ndWindow::onResizeFrame(Event* event) {
     frame_width  = event->getInt(0);
     frame_height = event->getInt(1);
 
@@ -135,7 +136,14 @@ void ndWindow::onResize(Event* event) {
 void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
     EventManager* event_manager = getManager(window);
 
-    Event2i event(module_name, Data::RESIZE, width, height);
+    Event2i event(module_name, Data::RESIZE_FRAME, width, height);
+    event_manager->runEvent(&event);
+}
+
+void ndWindow::windowResizeCallback(GLFWwindow* window, int width, int height) {
+    EventManager* event_manager = getManager(window);
+
+    Event2i event(module_name, Data::RESIZE_WINDOW, width, height);
     event_manager->runEvent(&event);
 }
 

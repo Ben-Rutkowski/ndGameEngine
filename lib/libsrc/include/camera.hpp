@@ -12,8 +12,8 @@ protected:
     float pitch;
     float yaw;
     float ratio;
-    float width;
-    float height;
+    float window_width;
+    float window_height;
 
     float mouse_x;
     float mouse_y;

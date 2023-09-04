@@ -19,7 +19,7 @@ enum class Module { null = 0, TEST,
 };
 
 enum class Data { null = 0, TEST,
-    /* Operations */ CLOSE_APP, RESIZE, 
+    /* Operations */ CLOSE_APP, RESIZE_FRAME, RESIZE_WINDOW, 
     /* Runtime */    BEGIN_LOOP, START_FRAME, DRAW_FRAME, END_FRAME,          
     /* Key Events */ COLLECT_MENU_KEYS, ESCAPE_KEY, SCROLL,
                      RIGHT_MOUSE_CLICK, LEFT_MOUSE_CLICK,
