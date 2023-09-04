@@ -11,6 +11,7 @@ void EditSpace::setCallbacks() {
     event_interface.setCallback(Data::RIGHT_MOUSE_HOLD,  PACK(EditSpace::onRightMouseHold));
     event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
     event_interface.setCallback(Data::LEFT_MOUSE_HOLD,   PACK(EditSpace::onLeftMouseHold));
+    event_interface.setCallback(Data::LEFT_MOUSE_RELEASE, PACK(EditSpace::onLeftMouseRelease));
 }
 
 void EditSpace::runEventEditSpace(Event* event) {
@@ -25,6 +26,7 @@ void EditSpace::onBeginLoop(Event* event) {
     camera.calcProj(800.0f/600.0f);
     createDefaultCube();
     load();
+
     event->print(module_name);
 }
 
@@ -43,6 +45,10 @@ void EditSpace::onEndFrame(Event* event) {
 void EditSpace::onResize(Event* event) {
     int frame_width  = event->getInt(0);
     int frame_height = event->getInt(1);
+
+    width  = (float)frame_width;
+    height = (float)frame_height;
+
     float ratio = (float)frame_width/(float)frame_height;
     camera.calcProj(ratio);
 }
@@ -68,17 +74,30 @@ void EditSpace::onRightMouseHold(Event* event) {
 }
 
 void EditSpace::onLeftMouseClick(Event* event) {
-    // float mouse_x = event->getFloat(0);
-    // float mouse_y = event->getFloat(1);
+    float mouse_x = event->getFloat(0);
+    float mouse_y = event->getFloat(1);
+
+    select_box.grab(vec2({mouse_x, mouse_y}), width, height);
+    draw_select = true;
+
     // camera.grab(mouse_x, mouse_y);
 }
 
 void EditSpace::onLeftMouseHold(Event* event) {
-    // float mouse_x = event->getFloat(0);
-    // float mouse_y = event->getFloat(1);
+    float mouse_x = event->getFloat(0);
+    float mouse_y = event->getFloat(1);
+
+    select_box.drag(vec2({mouse_x, mouse_y}), width, height);
+    
+    // select_box.draw(select_box_shader);
     // vec2 delta = camera.moveMouse(mouse_x, mouse_y);
     // camera.transOrigin(delta);
     // camera.calcView();
+}
+
+void EditSpace::onLeftMouseRelease(Event* event) {
+    draw_select = false;
+    event->print(module_name);
 }
 
 void EditSpace::onScroll(Event* event) {

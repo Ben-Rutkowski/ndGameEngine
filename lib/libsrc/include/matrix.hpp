@@ -235,6 +235,15 @@ public:
             0.0f, 0.0f, -1.0f,         0.0f
         });
     }
+
+    static Matrix<float,4,4> pixelToClip(float width, float height) {
+        return Matrix<float,4,4>({
+            2.0f/width, 0.0f,        0.0f, -1.0f,
+            0.0f,       2.0f/height, 0.0f, -1.0f,
+            0.0f,       0.0f       , 0.0f,  0.0f,
+            0.0f,       0.0f       , 0.0f,  1.0f,
+        });
+    }
 };
 
 typedef Matrix<float,4,4> mat4;

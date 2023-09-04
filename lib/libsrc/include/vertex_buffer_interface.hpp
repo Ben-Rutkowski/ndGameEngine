@@ -47,9 +47,11 @@ public:
 
     void configAttribf(int attrib_index, int size, int stride, void* offeset);
 
-    void drawElementsStatic(int size);
+    void drawElementsTriangles(int size);
     void drawElementsLines(int size);
     void drawPoints(int size);
+
+    // void drawElementsStatic(int size);
 };
 
 #endif

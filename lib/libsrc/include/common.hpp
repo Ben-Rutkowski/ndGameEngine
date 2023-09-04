@@ -24,6 +24,7 @@ enum class Data { null = 0, TEST,
     /* Key Events */ COLLECT_MENU_KEYS, ESCAPE_KEY, SCROLL,
                      RIGHT_MOUSE_CLICK, LEFT_MOUSE_CLICK,
                      RIGHT_MOUSE_HOLD, LEFT_MOUSE_HOLD,
+                     RIGHT_MOUSE_RELEASE, LEFT_MOUSE_RELEASE,
     LEN
 };
 

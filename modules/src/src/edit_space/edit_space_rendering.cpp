@@ -69,7 +69,8 @@ void EditSpace::draw() {
     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     for (int i=0; i<N; i++) {
         meshes[i].drawFaces(face_shader, view, proj, camera_pos);
     }
@@ -84,4 +85,13 @@ void EditSpace::draw() {
 
     glDisable(GL_STENCIL_TEST);
     glDisable(GL_DEPTH_TEST);
+
+    if (draw_select) { 
+        select_box.drawLines(select_box_shader); 
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        select_box.drawFaces(select_box_faces_shader);
+        glDisable(GL_BLEND);
+    }
 }

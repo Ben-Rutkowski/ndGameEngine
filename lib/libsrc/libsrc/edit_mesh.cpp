@@ -210,6 +210,7 @@ void EditMesh::drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 came
     program.uniform4f("camera_pos", camera_pos);
 
     face_vbi.bindCurrent();
-    face_vbi.drawElementsStatic(tri_cache.indexLen());
+    // face_vbi.drawElementsStatic(tri_cache.indexLen());
+    face_vbi.drawElementsTriangles(tri_cache.indexLen());
     face_vbi.unbindCurrent();
 }

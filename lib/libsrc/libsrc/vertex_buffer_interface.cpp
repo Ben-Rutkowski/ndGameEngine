@@ -47,7 +47,7 @@ void VertexBufferInterface::configAttribf(int attrib_index, int size, int stride
     glEnableVertexAttribArray(attrib_index);
 }
 
-void VertexBufferInterface::drawElementsStatic(int size) {
+void VertexBufferInterface::drawElementsTriangles(int size) {
     glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 }
 
@@ -58,3 +58,7 @@ void VertexBufferInterface::drawElementsLines(int size) {
 void VertexBufferInterface::drawPoints(int size) {
     glDrawArrays(GL_POINTS, 0, size);
 }
+
+// void VertexBufferInterface::drawElementsStatic(int size) {
+//     glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
+// }

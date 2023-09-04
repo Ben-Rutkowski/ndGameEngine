@@ -12,6 +12,8 @@ protected:
     float pitch;
     float yaw;
     float ratio;
+    float width;
+    float height;
 
     float mouse_x;
     float mouse_y;
@@ -23,6 +25,7 @@ protected:
 
     mat4 view;
     mat4 proj;
+    mat4 toClip;
 
 
 // --- Constructor ---

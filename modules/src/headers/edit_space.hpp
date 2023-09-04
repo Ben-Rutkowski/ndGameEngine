@@ -81,6 +81,7 @@ private:
     ShaderProgram  gridline_shader;
     ShaderProgram  gridline_plane_shader;
     ShaderProgram  select_box_shader;
+    ShaderProgram  select_box_faces_shader;
 
 // --- Layers ---
 private:
@@ -93,6 +94,10 @@ private:
     GridLine x_line;
     GridLine y_line;
     GridLine z_line;
+
+// --- Temporary ---
+    float width, height;
+    bool draw_select;
 
 public:
     EditSpace();
@@ -127,6 +132,7 @@ private:
     void onRightMouseHold(Event* event);
     void onLeftMouseClick(Event* event);
     void onLeftMouseHold(Event* event);
+    void onLeftMouseRelease(Event* event);
     void onScroll(Event* event);
 
 };
