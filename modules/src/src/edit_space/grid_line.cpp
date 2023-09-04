@@ -4,15 +4,15 @@ GridLine::GridLine(vec4 dir_in, vec4 color_in)
     :direction{ dir_in },
     color{ color_in } {
 
-    shader.compileVF(
-        EDIT_SPACE_SHADER_SUB_DIR"gridline.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"gridline.fs"
-    );
+    // shader.compileVF(
+    //     EDIT_SPACE_SHADER_SUB_DIR"gridline.vs",
+    //     EDIT_SPACE_SHADER_SUB_DIR"gridline.fs"
+    // );
 
-    plane_shader.compileVF(
-        EDIT_SPACE_SHADER_SUB_DIR"gridline_plane.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"gridline.fs"
-    );
+    // plane_shader.compileVF(
+    //     EDIT_SPACE_SHADER_SUB_DIR"gridline_plane.vs",
+    //     EDIT_SPACE_SHADER_SUB_DIR"gridline.fs"
+    // );
 }
 
 void GridLine::load(float length_in) {
@@ -32,27 +32,27 @@ void GridLine::load(float length_in) {
     vbi.unbindCurrent();
 }
 
-void GridLine::draw(mat4 view, mat4 proj) {
-    shader.use();
-    shader.uniformMat4f("view", view);
-    shader.uniformMat4f("proj", proj);
-    shader.uniform4f("color", color);
+void GridLine::draw(ShaderProgram& program, mat4 view, mat4 proj) {
+    program.use();
+    program.uniformMat4f("view", view);
+    program.uniformMat4f("proj", proj);
+    program.uniform4f("color", color);
     vbi.bindCurrent();
     glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
     vbi.unbindCurrent();
 }
 
-void GridLine::drawPlane(mat4 view, mat4 proj) {
-    draw(view, proj);
+void GridLine::drawPlane(ShaderProgram& program, ShaderProgram& plane_program, mat4 view, mat4 proj) {
+    draw(program, view, proj);
 
-    plane_shader.use();
-    plane_shader.uniformMat4f("view", view);
-    plane_shader.uniformMat4f("proj", proj);
-    plane_shader.uniform4f("color", blank_color);
-    plane_shader.uniform4f("orthog", orthog);
+    plane_program.use();
+    plane_program.uniformMat4f("view", view);
+    plane_program.uniformMat4f("proj", proj);
+    plane_program.uniform4f("color", blank_color);
+    plane_program.uniform4f("orthog", orthog);
 
     for (int i=0; i<10; i++) {
-        plane_shader.uniform1f(
+        plane_program.uniform1f(
             ("offsets[" + std::to_string(i) + "]").c_str(),
             length*offsets[i]
         );

@@ -156,7 +156,7 @@ void EditMesh::load() {
     line_vbi.unbindCurrent();
 
     face_vbi.bindAllBuffers();
-    face_vbi.loadVerticesStatic(vertex_cache.dataPtr(), vertex_cache.dataSize());
+    face_vbi.loadVerticesStream(vertex_cache.dataPtr(), vertex_cache.dataSize());
     face_vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
     face_vbi.configAttribf(0, 4, sizeof(EditVertex), (void*)0);
     face_vbi.configAttribf(1, 4, sizeof(EditVertex), (void*)(4*sizeof(float)));
@@ -197,7 +197,7 @@ void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 colo
     program.uniform4f("color", color);
 
     line_vbi.bindCurrent();
-    glDrawElements(GL_LINES, edge_cache.indexLen(), GL_UNSIGNED_INT, 0);
+    line_vbi.drawElementsLines(edge_cache.indexLen());
     line_vbi.unbindCurrent();
     glDepthMask(GL_TRUE);
 }

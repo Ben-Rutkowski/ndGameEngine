@@ -31,6 +31,16 @@ EditSpace::EditSpace()
         EDIT_SPACE_SHADER_SUB_DIR"face.fs"
     );
 
+    gridline_shader.compileVF(
+        GRIDLINE_SHADER_SUB_DIR"gridline.vs",
+        GRIDLINE_SHADER_SUB_DIR"gridline.fs"
+    );
+
+    gridline_plane_shader.compileVF(
+        GRIDLINE_SHADER_SUB_DIR"gridline_plane.vs",
+        GRIDLINE_SHADER_SUB_DIR"gridline.fs"
+    );
+
     setCallbacks();
 }
 

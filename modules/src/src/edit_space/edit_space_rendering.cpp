@@ -37,8 +37,8 @@ void EditSpace::draw() {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_ALWAYS);
 
-    x_line.drawPlane(view, proj);
-    z_line.drawPlane(view, proj);
+    x_line.drawPlane(gridline_shader, gridline_plane_shader, view, proj);
+    z_line.drawPlane(gridline_shader, gridline_plane_shader, view, proj);
 
     for (int i=0; i<N; i++) {
         meshes[i].drawPoints(point_shader, view, proj, BLACK);

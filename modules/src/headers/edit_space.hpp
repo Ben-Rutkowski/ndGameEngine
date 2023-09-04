@@ -6,8 +6,11 @@
 #include "event_manager.hpp"
 #include "camera.hpp"
 #include "edit_mesh.hpp"
+#include "select_box.hpp"
 
 #define EDIT_SPACE_SHADER_SUB_DIR "modules/src/shaders/edit_mesh/"
+#define GRIDLINE_SHADER_SUB_DIR "modules/src/shaders/gridline/"
+#define SELECT_BOX_SHADER_SUB_DIR "modules/src/shaders/select_box/"
 
 /* CLASS: EditCamera
 An edit Camera is a camera that is always facing an origin
@@ -47,8 +50,6 @@ private:
 class GridLine {
 private:
     VertexBufferInterface vbi;
-    ShaderProgram shader;
-    ShaderProgram plane_shader;
 
     float length;
     vec4 direction;
@@ -61,8 +62,8 @@ private:
 public:
     GridLine(vec4 dir_in, vec4 color_in);
     void load(float length_in);
-    void draw(mat4 view, mat4 proj);
-    void drawPlane(mat4 view, mat4 proj);
+    void draw(ShaderProgram& program, mat4 view, mat4 proj);
+    void drawPlane(ShaderProgram& program, ShaderProgram& plane_program, mat4 view, mat4 proj);
     void createPlane(vec4 blank_in, vec4 othog_in);
 };
 
@@ -73,9 +74,13 @@ class EditSpace {
 private: static Module module_name;
 private:
     EventInterface event_interface;
+    
     ShaderProgram  point_shader;
     ShaderProgram  line_shader;
     ShaderProgram  face_shader;
+    ShaderProgram  gridline_shader;
+    ShaderProgram  gridline_plane_shader;
+    ShaderProgram  select_box_shader;
 
 // --- Layers ---
 private:
@@ -84,6 +89,7 @@ private:
 // --- Attributes ---
 private:
     std::vector<EditMesh> meshes;
+    SelectBox select_box;
     GridLine x_line;
     GridLine y_line;
     GridLine z_line;

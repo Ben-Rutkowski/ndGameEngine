@@ -42,6 +42,16 @@ void ShaderProgram::uniform1f(const char* name, float c) {
     glUniform1f(id, c);
 }
 
+void ShaderProgram::uniform2f(const char* name, vec2 v) {
+    int id = glGetUniformLocation(program_id, name);
+    glUniform2f(id, v[0], v[1]);
+}
+
+void ShaderProgram::uniform3f(const char* name, vec3 v) {
+    int id = glGetUniformLocation(program_id, name);
+    glUniform3f(id, v[0], v[1], v[2]);
+}
+
 void ShaderProgram::uniform4f(const char* name, vec4 v) {
     int id = glGetUniformLocation(program_id, name);
     glUniform4f(id, v[0], v[1], v[2], v[3]);
