@@ -9,7 +9,7 @@
 
 // === Event Enums ===
 enum class EventType { null = 0, 
-    ACTION, VEC2I, VEC2F,
+    ACTION, VEC2I, VEC2F, VEC4F,
     LEN
 };
 

@@ -153,4 +153,22 @@ public:
     }
 };
 
+class Event4f : public Event {
+private:
+    vec4 vector_4f;
+
+public:
+    Event4f()
+        :Event(),
+        vector_4f() {}
+
+    Event4f(Module module_name, Data data, vec4 vector)
+        :Event(EventType::VEC2F, module_name, data),
+        vector_4f{ vector } {}
+
+    float getFloat(int index) {
+        return vector_4f[index];
+    }
+};
+
 #endif
