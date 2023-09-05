@@ -3,9 +3,9 @@
 
 // === Event Interface ===
 
-void ndWindow::runEventWindow(Event* event) {
+void ndWindow::runEvent(Event* event) {
     event_interface(event);
-    edit_space->runEventEditSpace(event);
+    edit_space->runEvent(event);
 }
 
 void ndWindow::setCallbacks() {
@@ -30,8 +30,6 @@ void ndWindow::setCallbacks() {
 void ndWindow::onBeginLoop(Event* event) {
     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
     glfwSwapInterval(1);
-
-    event->print(module_name);
 }
 
 void ndWindow::onCollectMenuKeys(Event* event) {
@@ -81,12 +79,10 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 
 void ndWindow::onStartFrame(Event* event) {
     // OpenGL
-    // glStencilMask(0xFF);
-    // glDepthMask(GL_TRUE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Clock
-    frame_delta = clock.delta(Watch::FRAME_DELTA);
+    state_cache.frame_delta = clock.delta(Watch::FRAME_DELTA);
     clock.click(Watch::FRAME_DELTA);
 
     Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
@@ -111,47 +107,38 @@ void ndWindow::onEndFrame(Event* event) {
 
 void ndWindow::onEscapeKey(Event* event) {
     event_interface.queueEvent(module_name, Data::CLOSE_APP);
-
-    event->print(module_name);
 }
 
 void ndWindow::onCloseApp(Event* event) {
-    setShouldClose(true);
-
-    event->print(module_name);
+    glfwSetWindowShouldClose(glfw_window, true);
 }
 
 void ndWindow::onResizeFrame(Event* event) {
-    frame_width  = event->getInt(0);
-    frame_height = event->getInt(1);
+    state_cache.frame_width  = event->getInt(0);
+    state_cache.frame_height = event->getInt(1);
 
-    glViewport(0, 0, frame_width, frame_height);
+    glViewport(0, 0, state_cache.frame_width, state_cache.frame_height);
+}
 
-    // event->print(module_name);
-    // std::cout << "Framebuffer size: ";
-    // std::cout << frame_width << ", " << frame_height << std::endl;
+void ndWindow::onResizeWindow(Event* event) {
+    state_cache.window_width  = event->getInt(0);
+    state_cache.window_height = event->getInt(1);
 }
 
 // === GLFW CALLBACKS ===
 void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
-    EventManager* event_manager = getManager(window);
-
-    Event2i event(module_name, Data::RESIZE_FRAME, width, height);
-    event_manager->runEvent(&event);
+    Event2i event(Module::WINDOW, Data::RESIZE_FRAME, width, height);
+    getManager(window)->runEvent(&event);
 }
 
 void ndWindow::windowResizeCallback(GLFWwindow* window, int width, int height) {
-    EventManager* event_manager = getManager(window);
-
-    Event2i event(module_name, Data::RESIZE_WINDOW, width, height);
-    event_manager->runEvent(&event);
+    Event2i event(Module::WINDOW, Data::RESIZE_WINDOW, width, height);
+    getManager(window)->runEvent(&event);
 }
 
 void ndWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-    EventManager* event_manager = getManager(window);
-
-    Event2f event(module_name, Data::SCROLL, vec2({(float)xoffset, (float)yoffset}));
-    event_manager->runEvent(&event);
+    Event2f event(Module::WINDOW, Data::SCROLL, vec2({(float)xoffset, (float)yoffset}));
+    getManager(window)->runEvent(&event);
 }
 
 EventManager* ndWindow::getManager(GLFWwindow* window) {

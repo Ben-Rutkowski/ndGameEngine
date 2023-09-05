@@ -1,9 +1,10 @@
 #include "edit_space.hpp"
 
-Module EditSpace::module_name = Module::EDIT_SPACE;
+// Module EditSpace::module_name = Module::EDIT_SPACE;
 
 EditSpace::EditSpace()
-    :x_line( 
+    :ndModule(Module::EDIT_SPACE),
+    x_line( 
         vec4({1.0f, 0.0f ,0.0f, 1.0f}),
         vec4({0.2f, 0.8f, 0.2f, 1.0f})
     ),
@@ -14,10 +15,10 @@ EditSpace::EditSpace()
     z_line( 
         vec4({0.0f, 0.0f ,1.0f, 1.0f}),
         vec4({0.8f, 0.2f, 0.2f, 1.0f})
-    ),
-    window_width{ 800.0f },
-    window_height{ 600.0f },
-    draw_select{ false } {
+    )  {
+
+    state_cache.window_width  = 800.0f;
+    state_cache.window_height = 600.0f;
 
     point_shader.compileVF(
         EDIT_SPACE_SHADER_SUB_DIR"point.vs",

@@ -15,7 +15,7 @@ void EditSpace::setCallbacks() {
     event_interface.setCallback(Data::LEFT_MOUSE_RELEASE, PACK(EditSpace::onLeftMouseRelease));
 }
 
-void EditSpace::runEventEditSpace(Event* event) {
+void EditSpace::runEvent(Event* event) {
     event_interface(event);
 }
 
@@ -27,8 +27,6 @@ void EditSpace::onBeginLoop(Event* event) {
     camera.calcProj(800.0f/600.0f);
     createDefaultCube();
     load();
-
-    event->print(module_name);
 }
 
 void EditSpace::onStartFrame(Event* event) {
@@ -44,19 +42,16 @@ void EditSpace::onEndFrame(Event* event) {
 }
 
 void EditSpace::onResizeFrame(Event* event) {
-    int frame_width  = event->getInt(0);
-    int frame_height = event->getInt(1);
+    state_cache.frame_width  = event->getInt(0);
+    state_cache.frame_height = event->getInt(1);
 
-    float ratio = (float)frame_width/(float)frame_height;
+    float ratio = (float)state_cache.frame_width/(float)state_cache.frame_height;
     camera.calcProj(ratio);
 }
 
 void EditSpace::onResizeWindow(Event* event) {
-    int window_width_in  = event->getInt(0);
-    int window_height_in = event->getInt(1);
-
-    window_width  = (float)window_width_in;
-    window_height = (float)window_height_in;
+    state_cache.window_width  = event->getInt(0);
+    state_cache.window_height = event->getInt(1);
 }
 
 void EditSpace::onRightMouseClick(Event* event) {
@@ -83,26 +78,28 @@ void EditSpace::onLeftMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
 
-    select_box.grab(vec2({mouse_x, mouse_y}), window_width, window_height);
-    draw_select = true;
+    select_box.grab(
+        vec2({mouse_x, mouse_y}),
+        (float)state_cache.window_width,
+        (float)state_cache.window_height
+    );
 
-    // camera.grab(mouse_x, mouse_y);
+    state_cache.opperation1 = true;
 }
 
 void EditSpace::onLeftMouseHold(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
 
-    select_box.drag(vec2({mouse_x, mouse_y}), window_width, window_height);
-    
-    // select_box.draw(select_box_shader);
-    // vec2 delta = camera.moveMouse(mouse_x, mouse_y);
-    // camera.transOrigin(delta);
-    // camera.calcView();
+    select_box.drag(
+        vec2({mouse_x, mouse_y}),
+        (float)state_cache.window_width,
+        (float)state_cache.window_height
+    );
 }
 
 void EditSpace::onLeftMouseRelease(Event* event) {
-    draw_select = false;
+    state_cache.opperation1 = false;
 }
 
 void EditSpace::onScroll(Event* event) {

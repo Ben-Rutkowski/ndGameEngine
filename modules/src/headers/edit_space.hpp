@@ -3,10 +3,10 @@
 
 #define MOUSE_DISTANCE_FACTOR 250.0f
 
-#include "event_manager.hpp"
 #include "camera.hpp"
 #include "edit_mesh.hpp"
 #include "select_box.hpp"
+#include "nd_module.hpp"
 
 #define EDIT_SPACE_SHADER_SUB_DIR "modules/src/shaders/edit_mesh/"
 #define GRIDLINE_SHADER_SUB_DIR "modules/src/shaders/gridline/"
@@ -68,13 +68,13 @@ public:
 };
 
 /* CLASS: EditSpace
+
+    Opperation 1 : draw select box
+
 */
 
-class EditSpace {
-private: static Module module_name;
+class EditSpace : public ndModule {
 private:
-    EventInterface event_interface;
-    
     ShaderProgram  point_shader;
     ShaderProgram  line_shader;
     ShaderProgram  face_shader;
@@ -95,10 +95,6 @@ private:
     GridLine y_line;
     GridLine z_line;
 
-// --- Temporary ---
-    float window_width, window_height;
-    bool draw_select;
-
 public:
     EditSpace();
     void setManagerPtr(EventManager* ptr);
@@ -116,7 +112,7 @@ private:
 
 // --- Event Interface ---
 public:
-    void runEventEditSpace(Event* event);
+    void runEvent(Event* event);
 
 private:
     void setCallbacks();

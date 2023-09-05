@@ -10,7 +10,7 @@ ndApp::ndApp()
     event_manager.setCallback(event_call);
 }
 
-void ndApp::linkWindow(ndWindow* window_ptr) {
+void ndApp::linkWindow(ndModule* window_ptr) {
     window = window_ptr;
     window_ptr->setManagerPtr(&event_manager);
 }

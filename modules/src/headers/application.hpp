@@ -35,7 +35,7 @@ EVENTS:
 
 */
 
-#include "window.hpp"
+#include "nd_module.hpp"
 #include "event_manager.hpp"
 
 #ifndef APPLICATION_HPP
@@ -49,12 +49,13 @@ private:
 // --- Layers ---
 private:
     EventManager event_manager;
-    ndWindow*    window;
+    // ndWindow*    window;
+    ndModule* window;
 
 // --- Constructors and Initialization ---
 public:
     ndApp();
-    void linkWindow(ndWindow* window_ptr);
+    void linkWindow(ndModule* window_ptr);
 
 // --- Runtime ---
 public:

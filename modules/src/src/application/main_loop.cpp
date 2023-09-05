@@ -7,7 +7,7 @@ void ndApp::startApp() {
     glEnable(GL_PROGRAM_POINT_SIZE);
     glEnable(GL_LINE_WIDTH);
 
-    while (!window->shouldClose()) {
+    while (!window->requestBool(Request::SHOULD_CLOSE)) {
         startFrame();
         pollEvents();
 

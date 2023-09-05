@@ -28,6 +28,11 @@ enum class Data { null = 0, TEST,
     LEN
 };
 
+enum class Request { null = 0,
+    /* Window */ SHOULD_CLOSE,
+    LEN
+};
+
 // === Shader Enums ===
 enum class ShaderType { null = 0,
     VERTEX, FRAGMENT, GEOMETRY,

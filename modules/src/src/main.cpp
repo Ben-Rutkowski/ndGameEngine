@@ -1,4 +1,6 @@
 #include "application.hpp"
+#include "window.hpp"
+#include "edit_space.hpp"
 #include <iostream>
 
 int main() {

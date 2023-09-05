@@ -2,7 +2,7 @@
 
 // === Events ===
 void ndApp::propogateEvent(Event* event) { 
-    window->runEventWindow(event);
+    window->runEvent(event);
 }
 
 void ndApp::pollEvents() {

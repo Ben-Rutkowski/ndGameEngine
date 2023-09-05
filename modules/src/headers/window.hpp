@@ -7,9 +7,8 @@ GLFW intialization must be done before creating a window.
 */
 
 #include "glad_glfw.hpp"
-#include "event_manager.hpp"
+#include "nd_module.hpp"
 #include "stopwatch.hpp"
-#include "edit_space.hpp"
 
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
@@ -46,19 +45,15 @@ private:
 };
 
 // ================ ndWindow ================
-class ndWindow {
-private: static Module module_name;
+class ndWindow : public ndModule {
 // --- Layers ---
 private:
-    EventInterface event_interface;
-    Clock clock;
-    EditSpace* edit_space;
+    ndModule* edit_space;
     
 // --- Attributes ---
 private:
-    int frame_width, frame_height;
-    float frame_delta;
     KeyState hold_keys;
+    Clock clock;
     
     GLFWwindow* glfw_window;
 
@@ -66,13 +61,11 @@ private:
 public:
     ndWindow(int width, int height, const char* title);
     void setManagerPtr(EventManager* ptr);
-    void linkEditSpace(EditSpace* edit_space_ptr);
+    void linkEditSpace(ndModule* edit_space_ptr);
 
 // --- Gets and Sets ---
 public:
-    bool shouldClose();
-    void setShouldClose(bool value);
-    double getTime();
+    bool requestBool(Request request);
 
 private:
     bool isKeyPress(int key);
@@ -80,7 +73,7 @@ private:
 
 // --- Event Interface ---
 public:
-    void runEventWindow(Event* event);
+    void runEvent(Event* event);
 
 private:
     void setCallbacks();

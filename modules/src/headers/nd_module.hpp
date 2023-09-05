@@ -7,19 +7,19 @@ struct StateCache {
     bool opperation1 = false;
     bool opperation2 = false;
 
-    float frame_width, frame_height;
-    float window_width, window_height;
+    int frame_width, frame_height;
+    int window_width, window_height;
     float frame_delta;
 };
 
-class ModuleTemplate {
+class ndModule {
 protected:
     Module         module_name;
     StateCache     state_cache;
     EventInterface event_interface;
 
 public:
-    ModuleTemplate(Module mod_in)
+    ndModule(Module mod_in)
         :module_name{ mod_in } {}
 
 // --- Manager Init ---
@@ -28,6 +28,10 @@ public:
 
 protected:
     virtual void setCallbacks() = 0;
+
+// --- Requests ---
+public:
+    virtual bool requestBool(Request request) { return false; }
 
 // --- Event Interface ---
 public:

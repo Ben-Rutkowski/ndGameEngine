@@ -86,7 +86,7 @@ void EditSpace::draw() {
     glDisable(GL_STENCIL_TEST);
     glDisable(GL_DEPTH_TEST);
 
-    if (draw_select) { 
+    if (state_cache.opperation1) { 
         select_box.drawLines(select_box_shader); 
 
         glEnable(GL_BLEND);
