@@ -58,8 +58,9 @@ private:
 private:
     int frame_width, frame_height;
     float frame_delta;
-    GLFWwindow* glfw_window;
     KeyState hold_keys;
+    
+    GLFWwindow* glfw_window;
 
 // --- Constructors and Initialization ---
 public:

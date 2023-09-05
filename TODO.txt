@@ -2,11 +2,11 @@ TODO:
 == Imidiate tasks
 
 - Add state caches for each module
+- Module parent class
 
 
-- Change origin panning so the mouse is stuck to the plane
 - Improve vertex buffer for dynamic rendering
-- Make gridlines optimized
+- Dynamic gridlines
 - User Framebuffers for custom resolution.
 
 == Tidy/Optimizing ==

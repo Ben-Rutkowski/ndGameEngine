@@ -68,8 +68,6 @@ private:
     Queue<Event2f, EVENT2F_QUEUE_LEN> event2f_queue;
     Queue<Event4f, EVENT4F_QUEUE_LEN> event4f_queue;
 
-
-
 // --- Constructors and Initialization ---
 public:
     EventManager();

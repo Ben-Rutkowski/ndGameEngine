@@ -127,9 +127,9 @@ void ndWindow::onResizeFrame(Event* event) {
 
     glViewport(0, 0, frame_width, frame_height);
 
-    event->print(module_name);
-    std::cout << "Framebuffer size: ";
-    std::cout << frame_width << ", " << frame_height << std::endl;
+    // event->print(module_name);
+    // std::cout << "Framebuffer size: ";
+    // std::cout << frame_width << ", " << frame_height << std::endl;
 }
 
 // === GLFW CALLBACKS ===
