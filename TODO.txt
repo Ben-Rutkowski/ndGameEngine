@@ -1,13 +1,15 @@
 TODO: 
 == Imidiate tasks
 
-- Add state caches for each module
-- Module parent class
+- State caches for modules
+- Change load to map buffer in edit meshes.
+- Optimize select box rendering without geometry shader.
 
-
-- Improve vertex buffer for dynamic rendering
 - Dynamic gridlines
 - User Framebuffers for custom resolution.
+- Selecting vertices and edges and faces.
+- View/Edit Modes: Vertex, Edge, Face.
+- Editing tools for models
 
 == Tidy/Optimizing ==
 - Possibly Change events queue to take ref and not ptr
@@ -16,7 +18,6 @@ TODO:
 == Rendering ==
 - Camera Object ( optimize pitchYaw, so it doesnt use trig )
 - Rendering basic scences
-- Rendering Modeling scence
 
 
 == Game ==

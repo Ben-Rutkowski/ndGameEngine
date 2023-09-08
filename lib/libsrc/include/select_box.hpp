@@ -11,6 +11,8 @@ private:
 
     unsigned int indices[2];
 
+    mat4 select_mat;
+
 public:
     SelectBox();
 
@@ -18,15 +20,21 @@ public:
     void drag(vec2 v, float width, float height);
     void drawLines(ShaderProgram& line_shader);
     void drawFaces(ShaderProgram& face_shader);
-    vec2 xBounds();
-    vec2 yBounds();
+    vec2 getBR();
+    vec2 getTL();
+    float getXD();
+    float getYD();
+
+    void setSelectMatProj(mat4 mat);
+    bool checkSelect(vec4 point);    
 
 // --- Private ---
-vec2 toClip(vec2 v, float width, float height);
+vec2 toClip(vec2 v, float window_width, float window_height);
 
 // --- Debugging ---
 public:
     void print();
+    mat4 getSelect() { return select_mat; }
 };
 
 #endif

@@ -87,7 +87,7 @@ void EditSpace::draw() {
     glDisable(GL_DEPTH_TEST);
 
     if (state_cache.opperation1) { 
-        select_box.drawLines(select_box_shader); 
+        select_box.drawLines(select_box_shader);
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

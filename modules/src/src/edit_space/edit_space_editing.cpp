@@ -46,3 +46,6 @@ Id EditSpace::createDefaultCube() {
     cube.translate(vec4({0.0f, 0.5f, 0.0f, 1.0f}));
     return cube_id;
 }
+
+// void EditSpace::selectPoints(mat4 select_mat, Id mesh_id) {
+// }

@@ -226,7 +226,7 @@ public:
         float n = near;
         float f = far;
         float h = n*tan(fov);
-        float w = h*ratio;
+        float w = ratio*h;
 
         return Matrix<float,4,4>({
             n/w,  0.0f,  0.0f,         0.0f,
@@ -242,6 +242,21 @@ public:
             0.0f,       2.0f/height, 0.0f, -1.0f,
             0.0f,       0.0f       , 0.0f,  0.0f,
             0.0f,       0.0f       , 0.0f,  1.0f,
+        });
+    }
+
+    static Matrix<float,4,4> selectProjPartial(vec2 br, vec2 tl, float w, float h, float n) {
+        float ixd = 1.0f/(tl[0] - br[0]);
+        float iyd = 1.0f/(tl[1] - br[1]);
+        float iw  = 1.0f/w;
+        float ih  = 1.0f/h;
+        float in  = 1.0f/n;
+
+        return Matrix<float,4,4>({
+            ixd*iw, 0.0f,    br[0]*ixd*in, 0.0f,
+            0.0f,   iyd*ih,  br[1]*iyd*in, 0.0f,
+            0.0f,   0.0f,   -in,           0.0f,
+            0.0f,   0.0f,    0.0f,         1.0f
         });
     }
 };

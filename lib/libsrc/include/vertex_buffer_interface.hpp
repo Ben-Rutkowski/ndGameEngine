@@ -28,30 +28,26 @@ protected:
 public:
     VertexBufferInterface();
 
-// --- Rendering ---
-// public:
-//     virtual void loadData() = 0;
-//     virtual void draw(ShaderProgram& program) = 0;
-
+// --- Binding ---
 public:
     void bindAllBuffers();
     void unbindCurrent();
     void bindCurrent();
 
+// --- Loading ---
     void loadVerticesStatic(void* data, int size);
     void loadVerticesStream(void* data, int size);
     void loadIndicesStatic(void* data, int size);
     void loadIndicesStream(void* data, int size);
-
     void editVertexData(void* data, int size, int buffer_offset);
 
+// --- Config ---
     void configAttribf(int attrib_index, int size, int stride, void* offeset);
 
+// --- Drawing ---
     void drawElementsTriangles(int size);
     void drawElementsLines(int size);
     void drawPoints(int size);
-
-    // void drawElementsStatic(int size);
 };
 
 #endif

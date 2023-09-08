@@ -7,20 +7,20 @@ Camera::Camera()
       pitch{0.0f},
       yaw{0.0f},
       ratio{800.0f / 600.0f},
-      window_width{800.0f},
-      window_height{600.0f},
       position({0.0f, 0.0f, 1.0f, 1.0f}),
       front({0.0f, 0.0f, -1.0f, 1.0f}),
       right({1.0f, 0.0f, 0.0f, 1.0f}),
       up({0.0f, 1.0f, 0.0f, 1.0f}),
       view{mat4::view(position, front, right)},
-      proj{mat4::projPer(fov, ratio, near, far)},
-      toClip{mat4::pixelToClip(window_width, window_height)} {}
+      proj{mat4::projPer(fov, ratio, near, far)} {}
 
 mat4 Camera::getView() { return view; }
 mat4 Camera::getProj() { return proj; }
 vec4 Camera::getFront() { return front; }
 vec4 Camera::getPos()   { return position; }
+float Camera::getNear() { return near; }
+float Camera::getProjH() { return near*tan(fov); }
+float Camera::getProjW() { return getProjH()*ratio; }
 
 // === Move ===
 void Camera::grab(float x, float y)
@@ -97,6 +97,13 @@ void Camera::setProj(float fov_in, float near_in, float far_in)
     far = far_in;
 
     calcProj(ratio);
+}
+
+// === Selecting ===
+mat4 Camera::selectMatProj(mat4 model, vec2 br, vec2 tl) {
+    float h = near*tan(fov);
+    float w = ratio*h;
+    return mat4::selectProjPartial(br, tl, w, h, near)*view*model;
 }
 
 // === Protected ===

@@ -58,6 +58,10 @@ void EditFace::setCenter(vec4 center, VertexCache& vertex_cache) {
 EditMesh::EditMesh()
     :model_pos{ mat4::iden() } {} 
 
+mat4 EditMesh::getModel() {
+    return model_pos;
+}
+
 void EditMesh::translate(vec4 trans) {
     model_pos = mat4::translate(trans)*model_pos;
 }
@@ -143,14 +147,21 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
     return new_face_id;
 }
 
+// === Debugging ===
+vec4 EditMesh::getPoint(int i) {
+    return point_cache[i].getPos();
+}
+
+// ===  Rendering ===
+
 void EditMesh::load() {
     point_vbi.bindAllBuffers();
-    point_vbi.loadVerticesStatic(point_cache.dataPtr(), point_cache.dataSize());
+    point_vbi.loadVerticesStream(point_cache.dataPtr(), point_cache.dataSize());
     point_vbi.configAttribf(0, 4, 4*sizeof(float), (void*)0);
     point_vbi.unbindCurrent();
 
     line_vbi.bindAllBuffers();
-    line_vbi.loadVerticesStatic(point_cache.dataPtr(), point_cache.dataSize());
+    line_vbi.loadVerticesStream(point_cache.dataPtr(), point_cache.dataSize());
     line_vbi.loadIndicesStatic(edge_cache.dataPtr(), edge_cache.dataSize());
     line_vbi.configAttribf(0, 4, 4*sizeof(float), (void*)0);
     line_vbi.unbindCurrent();
@@ -163,19 +174,6 @@ void EditMesh::load() {
     face_vbi.configAttribf(2, 4, sizeof(EditVertex), (void*)(8*sizeof(float)));
     face_vbi.unbindCurrent();
 }
-
-// void EditMesh::draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront) {
-//     glEnable(GL_DEPTH_TEST);
-//     glDepthMask(GL_TRUE);
-//     drawLines(lines, view, proj);
-//     drawPoints(points, view, proj);
-//     glEnable(GL_POLYGON_OFFSET_FILL);
-//     glPolygonOffset(0.5f, 1.0f);
-//     drawFaces(faces, view, proj, cfront);
-//     glDisable(GL_POLYGON_OFFSET_FILL);
-
-//     // drawFaces(faces, view, proj, cfront);
-// }
 
 void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color) {
     program.use();
@@ -210,7 +208,6 @@ void EditMesh::drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 came
     program.uniform4f("camera_pos", camera_pos);
 
     face_vbi.bindCurrent();
-    // face_vbi.drawElementsStatic(tri_cache.indexLen());
     face_vbi.drawElementsTriangles(tri_cache.indexLen());
     face_vbi.unbindCurrent();
 }

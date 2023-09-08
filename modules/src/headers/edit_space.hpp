@@ -86,14 +86,15 @@ private:
 // --- Layers ---
 private:
     EditCamera camera;
+    GridLine x_line;
+    GridLine y_line;
+    GridLine z_line;
 
 // --- Attributes ---
 private:
     std::vector<EditMesh> meshes;
+    // std::vector<Id>       select_points;
     SelectBox select_box;
-    GridLine x_line;
-    GridLine y_line;
-    GridLine z_line;
 
 public:
     EditSpace();
@@ -104,6 +105,9 @@ public:
     Id createMesh();
     Id createDefaultCube();
     EditMesh& ref(Id);
+
+public:
+    // void selectPoints(mat4 select_mat, Id mesh_id);
 
 // --- Rendering ---
 private:

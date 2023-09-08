@@ -19,10 +19,12 @@ void EditCamera::transOrigin(vec2 delta) {
 }
 
 void EditCamera::setDistance(float dist) {
-    if (validDistance(dist)) {
-        distance = dist;
-        calcParams();
-    }
+    // if (validDistance(dist)) {
+    //     distance = dist;
+    //     calcParams();
+    // }
+    distance = dist;
+    calcParams();
 }
 
 void EditCamera::setRotate(float pitch_theta, float yaw_theta) {

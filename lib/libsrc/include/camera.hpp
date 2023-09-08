@@ -12,8 +12,6 @@ protected:
     float pitch;
     float yaw;
     float ratio;
-    float window_width;
-    float window_height;
 
     float mouse_x;
     float mouse_y;
@@ -25,8 +23,6 @@ protected:
 
     mat4 view;
     mat4 proj;
-    mat4 toClip;
-
 
 // --- Constructor ---
 public:
@@ -36,6 +32,9 @@ public:
     mat4 getProj();
     vec4 getFront();
     vec4 getPos();
+    float getNear();
+    float getProjW();
+    float getProjH();
 
 // --- Controls ---
 public:
@@ -50,6 +49,10 @@ public:
     void calcView();
     void calcProj(float ratio_in);
     void setProj(float fov_in, float near_in, float far_in);
+
+// --- Selecting ---
+public:
+    mat4 selectMatProj(mat4 model, vec2 br, vec2 tl);
 
 // --- Debugging ---
 public:

@@ -103,8 +103,11 @@ private:
 // Face Data
     FaceCache face_cache;
 
+    std::vector<Id> select_points;
+
 public:
     EditMesh();
+    mat4 getModel();
 
 // Transformation
 public:
@@ -118,10 +121,13 @@ public:
     Id createTri(Id3 points, Id3 edges);
     Id createQuad(Id4 points, Id4 edges);
 
+// Debugging
+public:
+    vec4 getPoint(int i);
+
 // Rendering
 public:
     void load();
-    // void draw(ShaderProgram& points, ShaderProgram& lines, ShaderProgram& faces, mat4 view, mat4 proj, vec4 cfront);
     void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color);
     void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color);
     void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 camera_pos);
