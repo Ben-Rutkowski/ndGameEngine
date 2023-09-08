@@ -93,8 +93,7 @@ private:
 // --- Attributes ---
 private:
     std::vector<EditMesh> meshes;
-    // std::vector<Id>       select_points;
-    SelectBox select_box;
+    SelectBox  select_box;
 
 public:
     EditSpace();

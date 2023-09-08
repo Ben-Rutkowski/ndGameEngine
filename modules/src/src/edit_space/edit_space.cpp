@@ -17,8 +17,8 @@ EditSpace::EditSpace()
         vec4({0.8f, 0.2f, 0.2f, 1.0f})
     )  {
 
-    state_cache.window_width  = 800.0f;
-    state_cache.window_height = 600.0f;
+    scache.ww = 800.0f;
+    scache.wh = 600.0f;
 
     point_shader.compileVF(
         EDIT_SPACE_SHADER_SUB_DIR"point.vs",

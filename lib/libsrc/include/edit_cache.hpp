@@ -53,12 +53,15 @@ protected:
 class EditPoint {
 // ---- Attributes ----
 private:
-    vec4 position;
+    vec4  position;
+    float select;
 
 public:
     EditPoint(vec4 pos_in);
     vec4 getPos();
+    bool getSelect();
     void setPos(vec4 pos_in);
+    void setSelect(bool value);
 };
 
 /* CLASS: PointCache

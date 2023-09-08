@@ -43,6 +43,9 @@ public:
 
 // --- Config ---
     void configAttribf(int attrib_index, int size, int stride, void* offeset);
+    void configAttribi(int attrib_index, int size, int stride, void* offeset);
+    void configAttribui(int attrib_index, int size, int stride, void* offeset);
+    void configAttribb(int attrib_index, int size, int stride, void* offeset);
 
 // --- Drawing ---
     void drawElementsTriangles(int size);

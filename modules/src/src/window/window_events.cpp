@@ -82,7 +82,7 @@ void ndWindow::onStartFrame(Event* event) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Clock
-    state_cache.frame_delta = clock.delta(Watch::FRAME_DELTA);
+    scache.fdelta = clock.delta(Watch::FRAME_DELTA);
     clock.click(Watch::FRAME_DELTA);
 
     Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
@@ -100,7 +100,7 @@ void ndWindow::onEndFrame(Event* event) {
 
     // Display Framerate
     if (clock.check(Watch::FRAMERATE, 3.0)) {
-        // std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
+        std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
         clock.click(Watch::FRAMERATE);
     }
 }
@@ -114,15 +114,15 @@ void ndWindow::onCloseApp(Event* event) {
 }
 
 void ndWindow::onResizeFrame(Event* event) {
-    state_cache.frame_width  = event->getInt(0);
-    state_cache.frame_height = event->getInt(1);
+    scache.fw = event->getInt(0);
+    scache.fh = event->getInt(1);
 
-    glViewport(0, 0, state_cache.frame_width, state_cache.frame_height);
+    glViewport(0, 0, scache.fw, scache.fh);
 }
 
 void ndWindow::onResizeWindow(Event* event) {
-    state_cache.window_width  = event->getInt(0);
-    state_cache.window_height = event->getInt(1);
+    scache.ww = event->getInt(0);
+    scache.wh = event->getInt(1);
 }
 
 // === GLFW CALLBACKS ===

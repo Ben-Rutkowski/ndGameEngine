@@ -20,32 +20,6 @@ void EditSpace::runEvent(Event* event) {
 }
 
 // === On Events ===
-
-vec3 toProj(vec4 v, mat4 proj) {
-    vec4 out = proj*v;
-    float w = 1.0f/out[3];
-    return vec3({
-        out[0]*w, out[1]*w, out[2]*w
-    });
-}
-
-vec3 toCoord(vec4 v, mat4 mat) {
-    vec4 out = mat*v;
-    float s = 1.0f/out[2];
-    return vec3({
-        out[0]*s, out[1]*s, s
-    });
-}
-
-bool test(vec4 v, mat4 select) {
-    vec4 p = select*v;
-    float s = 1.0f/p[2];
-    float x = p[0]*s;
-    float y = p[1]*s;
-
-    return s>0.0f && x>=0.0f && y>=0.0f && x<=1.0f && y<=1.0f;
-}
-
 void EditSpace::onBeginLoop(Event* event) {
     camera.setDistance(6);
     camera.setRotate(math::rads(30.0f), math::rads(-20.0f));
@@ -68,16 +42,16 @@ void EditSpace::onEndFrame(Event* event) {
 }
 
 void EditSpace::onResizeFrame(Event* event) {
-    state_cache.frame_width  = event->getInt(0);
-    state_cache.frame_height = event->getInt(1);
+    scache.fw = event->getInt(0);
+    scache.fh = event->getInt(1);
 
-    float ratio = (float)state_cache.frame_width/(float)state_cache.frame_height;
+    float ratio = scache.FW()/scache.FH();
     camera.calcProj(ratio);
 }
 
 void EditSpace::onResizeWindow(Event* event) {
-    state_cache.window_width  = event->getInt(0);
-    state_cache.window_height = event->getInt(1);
+    scache.ww = event->getInt(0);
+    scache.wh = event->getInt(1);
 }
 
 void EditSpace::onRightMouseClick(Event* event) {
@@ -106,11 +80,11 @@ void EditSpace::onLeftMouseClick(Event* event) {
 
     select_box.grab(
         vec2({mouse_x, mouse_y}),
-        (float)state_cache.window_width,
-        (float)state_cache.window_height
+        scache.WW(),
+        scache.WH()
     );
 
-    state_cache.opperation1 = true;
+    scache.opperation1 = true;
 
 }
 
@@ -120,24 +94,18 @@ void EditSpace::onLeftMouseHold(Event* event) {
 
     select_box.drag(
         vec2({mouse_x, mouse_y}),
-        (float)state_cache.window_width,
-        (float)state_cache.window_height
+        scache.WW(),
+        scache.WH()
     );
 }
 
 void EditSpace::onLeftMouseRelease(Event* event) {
-    state_cache.opperation1 = false;
+    scache.opperation1 = false;
 
     mat4 model = meshes[0].getModel();
     mat4 select_mat = camera.selectMatProj(model, select_box.getBR(), select_box.getTL());
-    select_box.setSelectMatProj(select_mat);
 
-    vec4 point;
-    for (int i=0; i<8; i++) {
-        point = meshes[0].getPoint(i);
-        if (select_box.checkSelect(point)) { std::cout << i << " "; }
-    }
-    std::cout << std::endl;
+    meshes[0].setSelectedPoints(select_mat);
 }
 
 void EditSpace::onScroll(Event* event) {

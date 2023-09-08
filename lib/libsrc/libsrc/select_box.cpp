@@ -62,26 +62,26 @@ vec2 SelectBox::getTL() {
     });
 }
 
-float SelectBox::getXD() {
-    return abs(end_points[0][0] - end_points[1][0]);
-}
+// float SelectBox::getXD() {
+//     return abs(end_points[0][0] - end_points[1][0]);
+// }
 
-float SelectBox::getYD() {
-    return abs(end_points[0][1] - end_points[1][1]);
-}
+// float SelectBox::getYD() {
+//     return abs(end_points[0][1] - end_points[1][1]);
+// }
 
-void SelectBox::setSelectMatProj(mat4 mat) {
-    select_mat = mat;
-}
+// void SelectBox::setSelectMatProj(mat4 mat) {
+//     select_mat = mat;
+// }
 
-bool SelectBox::checkSelect(vec4 point) {
-    vec4 p = select_mat*point;
-    float s = 1.0f/p[2];
-    float x = p[0]*s;
-    float y = p[1]*s;
+// bool SelectBox::checkSelect(vec4 point) {
+//     vec4 p = select_mat*point;
+//     float s = 1.0f/p[2];
+//     float x = p[0]*s;
+//     float y = p[1]*s;
 
-    return  s>0.0f && x>=0.0f && y>=0.0f && x <= 1.0f && y <= 1.0f;
-}
+//     return  s>0.0f && x>=0.0f && y>=0.0f && x <= 1.0f && y <= 1.0f;
+// }
 
 vec2 SelectBox::toClip(vec2 v, float window_width, float window_height) {
     return vec2({

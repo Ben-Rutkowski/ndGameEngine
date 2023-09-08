@@ -7,15 +7,20 @@ struct StateCache {
     bool opperation1 = false;
     bool opperation2 = false;
 
-    int frame_width, frame_height;
-    int window_width, window_height;
-    float frame_delta;
+    int fw, fh;
+    int ww, wh;
+    float fdelta;
+
+    float FW() { return (float)fw; }
+    float FH() { return (float)fh; }
+    float WW() { return (float)ww; }
+    float WH() { return (float)wh; }
 };
 
 class ndModule {
 protected:
     Module         module_name;
-    StateCache     state_cache;
+    StateCache     scache;
     EventInterface event_interface;
 
 public:

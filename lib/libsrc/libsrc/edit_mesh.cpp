@@ -148,51 +148,120 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
 }
 
 // === Debugging ===
-vec4 EditMesh::getPoint(int i) {
-    return point_cache[i].getPos();
+vec4 EditMesh::getPoint(Id id) {
+    return point_cache[id].getPos();
 }
 
-// ===  Rendering ===
+void EditMesh::printSelect() {
+    int N = point_cache.dataLen();
+    for (int i=0; i<N; i++) {
+        if (select_points[i]) {
+            std::cout << i << " ";
+        }
+    }
+    std::cout << std::endl;
+}
 
+// === Selecting ===
+void EditMesh::setSelectedPoints(mat4 select_mat) {
+    int N = point_cache.dataLen();
+    vec4 point;
+    bool value;
+    for (int i=0; i<N; i++) {
+        point = point_cache[i].getPos();
+        value = checkSelect(select_mat, point);
+        selectPoint(i, value);
+    }
+}
+
+void EditMesh::setSelectedPointsAdd(mat4 select_mat) {
+    int N = point_cache.dataLen();
+    vec4 point;
+    for (int i=0; i<N; i++) {
+        point = point_cache[i].getPos();
+        if (checkSelect(select_mat, point)) {
+            selectPoint(i, true);
+        }
+    }
+}
+
+// === Private ===
+bool EditMesh::checkSelect(mat4& select_mat, vec4 point) {
+    vec4 p = select_mat*point;
+    float s = 1.0f/p[2];
+    float x = p[0]*s;
+    float y = p[1]*s;
+
+    return  s>0.0f && x>=0.0f && y>=0.0f && x <= 1.0f && y <= 1.0f;
+}
+
+void EditMesh::resetSelectPoints() {
+    int N = point_cache.dataLen();
+    select_points.assign(N, false);
+}
+
+void EditMesh::selectPoint(Id id, bool value) {
+    select_points[id] = value;
+    point_cache[id].setSelect(value);
+    updatePoint(id);
+}
+
+// === Rendering ===
 void EditMesh::load() {
     point_vbi.bindAllBuffers();
     point_vbi.loadVerticesStream(point_cache.dataPtr(), point_cache.dataSize());
-    point_vbi.configAttribf(0, 4, 4*sizeof(float), (void*)0);
+    point_vbi.configAttribf(0, 4, sizeof(EditPoint), (void*)0);
+    point_vbi.configAttribf(1, 1, sizeof(EditPoint), (void*)sizeof(vec4));
     point_vbi.unbindCurrent();
 
     line_vbi.bindAllBuffers();
     line_vbi.loadVerticesStream(point_cache.dataPtr(), point_cache.dataSize());
     line_vbi.loadIndicesStatic(edge_cache.dataPtr(), edge_cache.dataSize());
-    line_vbi.configAttribf(0, 4, 4*sizeof(float), (void*)0);
+    line_vbi.configAttribf(0, 4, sizeof(EditPoint), (void*)0);
+    line_vbi.configAttribf(1, 1, sizeof(EditPoint), (void*)sizeof(vec4));
     line_vbi.unbindCurrent();
 
     face_vbi.bindAllBuffers();
     face_vbi.loadVerticesStream(vertex_cache.dataPtr(), vertex_cache.dataSize());
     face_vbi.loadIndicesStatic(tri_cache.dataPtr(), tri_cache.dataSize());
     face_vbi.configAttribf(0, 4, sizeof(EditVertex), (void*)0);
-    face_vbi.configAttribf(1, 4, sizeof(EditVertex), (void*)(4*sizeof(float)));
-    face_vbi.configAttribf(2, 4, sizeof(EditVertex), (void*)(8*sizeof(float)));
+    face_vbi.configAttribf(1, 4, sizeof(EditVertex), (void*)(sizeof(vec4)));
+    face_vbi.configAttribf(2, 4, sizeof(EditVertex), (void*)(2*sizeof(vec4)));
     face_vbi.unbindCurrent();
+
+    resetSelectPoints();
 }
 
-void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color) {
+void EditMesh::updatePoint(Id id) {
+    point_vbi.bindAllBuffers();
+    point_vbi.editVertexData(&point_cache[id], sizeof(EditPoint), id*sizeof(EditPoint));
+    point_vbi.unbindCurrent();
+
+    line_vbi.bindAllBuffers();
+    line_vbi.editVertexData(&point_cache[id], sizeof(EditPoint), id*sizeof(EditPoint));
+    line_vbi.unbindCurrent();
+}
+
+void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color) {
     program.use();
     program.uniformMat4f("model", model_pos);
     program.uniformMat4f("view", view);
     program.uniformMat4f("proj", proj);
     program.uniform4f("color", color);
+    program.uniform4f("select_color", select_color);
 
     point_vbi.bindCurrent();
     point_vbi.drawPoints(point_cache.dataLen());
     point_vbi.unbindCurrent();
 }
 
-void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color) {
+void EditMesh::drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color) {
     program.use();
     program.uniformMat4f("model", model_pos);
     program.uniformMat4f("view", view);
     program.uniformMat4f("proj", proj);
     program.uniform4f("color", color);
+    program.uniform4f("select_color", select_color);
 
     line_vbi.bindCurrent();
     line_vbi.drawElementsLines(edge_cache.indexLen());

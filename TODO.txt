@@ -4,10 +4,10 @@ TODO:
 - State caches for modules
 - Change load to map buffer in edit meshes.
 - Optimize select box rendering without geometry shader.
+- Selecting edges and faces.
 
 - Dynamic gridlines
 - User Framebuffers for custom resolution.
-- Selecting vertices and edges and faces.
 - View/Edit Modes: Vertex, Edge, Face.
 - Editing tools for models
 

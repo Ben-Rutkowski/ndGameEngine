@@ -25,6 +25,7 @@ void EditSpace::draw() {
     vec4 BLACK({0.0f, 0.0f, 0.0f, 1.0f});
     vec4 BLUE({0.3f, 0.3f, 0.35f, 1.0f});
     vec4 DBLUE({0.2f, 0.2f, 0.2f, 1.0f});
+    vec4 ORANGE({0.8f, 0.6f, 0.3f, 1.0f});
 
     mat4 view = camera.getView();
     mat4 proj = camera.getProj();
@@ -41,8 +42,8 @@ void EditSpace::draw() {
     z_line.drawPlane(gridline_shader, gridline_plane_shader, view, proj);
 
     for (int i=0; i<N; i++) {
-        meshes[i].drawPoints(point_shader, view, proj, BLACK);
-        meshes[i].drawLines(line_shader, view, proj, BLACK);
+        meshes[i].drawLines(line_shader, view, proj, BLACK, ORANGE);
+        meshes[i].drawPoints(point_shader, view, proj, BLACK, ORANGE);
     }
 
     // Stencil face fragments with polygon offset
@@ -79,14 +80,14 @@ void EditSpace::draw() {
     // Draw Lines and Points Occluded 
     glStencilFunc(GL_EQUAL, 1, 0xFF);
     for (int i=0; i<N; i++) {
-        meshes[i].drawPoints(point_shader, view, proj, DBLUE);
-        meshes[i].drawLines(line_shader, view, proj, BLUE);
+        meshes[i].drawPoints(point_shader, view, proj, DBLUE, ORANGE);
+        meshes[i].drawLines(line_shader, view, proj, DBLUE, ORANGE);
     }
 
     glDisable(GL_STENCIL_TEST);
     glDisable(GL_DEPTH_TEST);
 
-    if (state_cache.opperation1) { 
+    if (scache.opperation1) { 
         select_box.drawLines(select_box_shader);
 
         glEnable(GL_BLEND);

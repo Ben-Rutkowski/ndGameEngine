@@ -103,7 +103,8 @@ private:
 // Face Data
     FaceCache face_cache;
 
-    std::vector<Id> select_points;
+// Other Attributes
+    std::vector<bool> select_points;
 
 public:
     EditMesh();
@@ -121,15 +122,27 @@ public:
     Id createTri(Id3 points, Id3 edges);
     Id createQuad(Id4 points, Id4 edges);
 
+// Selecting
+public:
+    void setSelectedPoints(mat4 select_mat);
+    void setSelectedPointsAdd(mat4 select_mat);
+
+private:
+    void resetSelectPoints();
+    bool checkSelect(mat4& select_mat, vec4 point);
+    void selectPoint(Id id, bool value);
+
 // Debugging
 public:
-    vec4 getPoint(int i);
+    vec4 getPoint(Id id);
+    void printSelect();
 
 // Rendering
 public:
     void load();
-    void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color);
-    void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color);
+    void updatePoint(Id id);
+    void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
+    void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
     void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 camera_pos);
 };
 

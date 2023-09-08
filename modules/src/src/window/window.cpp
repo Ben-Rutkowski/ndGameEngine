@@ -6,8 +6,8 @@ ndWindow::ndWindow(int width, int height, const char* title)
     :ndModule(Module::WINDOW),
     glfw_window{ nullptr } {
 
-    state_cache.frame_width  = width;
-    state_cache.frame_height = height;
+    scache.fw = width;
+    scache.fh = height;
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
