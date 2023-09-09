@@ -35,6 +35,7 @@ void ndWindow::onBeginLoop(Event* event) {
 void ndWindow::onCollectMenuKeys(Event* event) {
     double mouse_x;
     double mouse_y;
+    vec2 mouse;
 
     if (isKeyPress(GLFW_KEY_ESCAPE)) {
         event_interface.queueEvent(module_name, Data::ESCAPE_KEY);
@@ -56,15 +57,24 @@ void ndWindow::onCollectMenuKeys(Event* event) {
     }
     if (isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
         glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
+
+        mouse = vec2({(float)mouse_x/dcache.WW(), (float)mouse_y/dcache.WH()});
+
         if ( scache[wLEFT_MOUSE] ) {
             event_interface.queueEvent2f(
                 module_name, Data::LEFT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
             );
+            // event_interface.queueEvent2f(
+            //     module_name, Data::LEFT_MOUSE_HOLD, mouse
+            // );
         } else {
             scache.set(wLEFT_MOUSE, true);
             event_interface.queueEvent2f(
                 module_name, Data::LEFT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
             );
+            // event_interface.queueEvent2f(
+            //     module_name, Data::LEFT_MOUSE_CLICK, mouse
+            // );
         }
     } 
 

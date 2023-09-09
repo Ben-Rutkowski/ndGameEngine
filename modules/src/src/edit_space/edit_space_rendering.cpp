@@ -87,12 +87,12 @@ void EditSpace::draw() {
     glDisable(GL_STENCIL_TEST);
     glDisable(GL_DEPTH_TEST);
 
-    if (scache[esLEFT_MOUSE]) { 
-        select_box.drawLines(select_box_shader);
-
+    if (scache[esLEFT_MOUSE]) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        select_box.drawFaces(select_box_faces_shader);
+        select_box.drawFaces(select_box_face_shader);
         glDisable(GL_BLEND);
+
+        select_box.drawLines(select_box_line_shader);
     }
 }

@@ -84,9 +84,7 @@ void EditSpace::onLeftMouseClick(Event* event) {
         dcache.WH()
     );
 
-    // dcache.opperation1 = true;
     scache.set(esLEFT_MOUSE, true);
-
 }
 
 void EditSpace::onLeftMouseHold(Event* event) {
@@ -101,14 +99,14 @@ void EditSpace::onLeftMouseHold(Event* event) {
 }
 
 void EditSpace::onLeftMouseRelease(Event* event) {
-    // dcache.opperation1 = false;
     scache.set(esLEFT_MOUSE, false);
 
     mat4 model = meshes[0].getModel();
-    mat4 select_mat = camera.selectMatProj(model, select_box.getBR(), select_box.getTL());
+    mat4 select_mat = camera.selectMatProj(model, select_box.getRoot(), select_box.getEnd());
 
     meshes[0].setSelectedPoints(select_mat);
 }
+
 
 void EditSpace::onScroll(Event* event) {
     float offset = event->getFloat(1);

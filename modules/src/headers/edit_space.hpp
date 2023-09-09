@@ -80,13 +80,13 @@ enum esState { es_null = 0,
 
 class EditSpace : public ndModule {
 private:
-    ShaderProgram  point_shader;
-    ShaderProgram  line_shader;
-    ShaderProgram  face_shader;
-    ShaderProgram  gridline_shader;
-    ShaderProgram  gridline_plane_shader;
-    ShaderProgram  select_box_shader;
-    ShaderProgram  select_box_faces_shader;
+    ShaderProgram point_shader;
+    ShaderProgram line_shader;
+    ShaderProgram face_shader;
+    ShaderProgram gridline_shader;
+    ShaderProgram gridline_plane_shader;
+    ShaderProgram select_box_line_shader;
+    ShaderProgram select_box_face_shader;
 
 // --- Layers ---
 private:

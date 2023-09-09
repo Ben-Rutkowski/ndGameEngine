@@ -6,35 +6,35 @@
 class SelectBox {
 private:
     VertexBufferInterface vbi;
+    VertexBufferInterface line_vbi;
+    VertexBufferInterface face_vbi;
 
     vec2 end_points[2]; // Root, End
 
-    unsigned int indices[2];
-
-    mat4 select_mat;
+    vec2 root, end;
+    vec2 vertex_data[4];
 
 public:
     SelectBox();
 
     void grab(vec2 v, float width, float height);
     void drag(vec2 v, float width, float height);
-    void drawLines(ShaderProgram& line_shader);
-    void drawFaces(ShaderProgram& face_shader);
+    void drawLines(ShaderProgram& program);
+    void drawFaces(ShaderProgram& program);
     vec2 getBR();
-    vec2 getTL();
-    // float getXD();
-    // float getYD();
-
-    // void setSelectMatProj(mat4 mat);
-    // bool checkSelect(vec4 point);    
+    vec2 getTL();   
+    vec2 getRoot();
+    vec2 getEnd();
 
 // --- Private ---
-vec2 toClip(vec2 v, float window_width, float window_height);
+private:
+    vec2 toClip(vec2 v, float window_width, float window_height);
+    void setGrabVData(vec2 v);
+    void setDragVData(vec2 v);
 
 // --- Debugging ---
 public:
     void print();
-    mat4 getSelect() { return select_mat; }
 };
 
 #endif

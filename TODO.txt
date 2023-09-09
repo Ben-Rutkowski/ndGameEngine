@@ -2,6 +2,7 @@ TODO:
 == Imidiate tasks
 
 - Optimize select box rendering without geometry shader.
+- Change to clip coords in the window call for a mouse click event.
 - Selecting that is bounded by visible vertices. (Don't highlight obscured vertices)
 - Selecting edges and faces.
 - Optimize camera controls. (get rid of slowing valid checks and minimize needed functions)

@@ -45,15 +45,13 @@ EditSpace::EditSpace()
         GRIDLINE_SHADER_SUB_DIR"gridline.fs"
     );
 
-    select_box_shader.compileVGF(
-        SELECT_BOX_SHADER_SUB_DIR"select_box.vs",
-        SELECT_BOX_SHADER_SUB_DIR"select_box.gs",
-        SELECT_BOX_SHADER_SUB_DIR"select_box.fs"
+    select_box_line_shader.compileVF(
+        SELECT_BOX_SHADER_SUB_DIR"select_box_lines.vs",
+        SELECT_BOX_SHADER_SUB_DIR"select_box_lines.fs"
     );
 
-    select_box_faces_shader.compileVGF(
-        SELECT_BOX_SHADER_SUB_DIR"select_box.vs",
-        SELECT_BOX_SHADER_SUB_DIR"select_box_faces.gs",
+    select_box_face_shader.compileVF(
+        SELECT_BOX_SHADER_SUB_DIR"select_box_faces.vs",
         SELECT_BOX_SHADER_SUB_DIR"select_box_faces.fs"
     );
 
