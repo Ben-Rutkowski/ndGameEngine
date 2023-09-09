@@ -16,6 +16,7 @@ void ndWindow::setCallbacks() {
     event_interface.setCallback(Data::ESCAPE_KEY,  PACK(ndWindow::onEscapeKey));
     event_interface.setCallback(Data::CLOSE_APP,   PACK(ndWindow::onCloseApp));
     event_interface.setCallback(Data::RESIZE_FRAME, PACK(ndWindow::onResizeFrame));
+    event_interface.setCallback(Data::RESIZE_WINDOW, PACK(ndWindow::onResizeWindow));
     event_interface.setCallback(Data::BEGIN_LOOP,  PACK(ndWindow::onBeginLoop));
     event_interface.setCallback(Data::END_FRAME,   PACK(ndWindow::onEndFrame));
 
@@ -30,6 +31,9 @@ void ndWindow::setCallbacks() {
 void ndWindow::onBeginLoop(Event* event) {
     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
     glfwSwapInterval(1);
+
+    queueFrameResize();
+    queueWindowResize();
 }
 
 void ndWindow::onCollectMenuKeys(Event* event) {
@@ -56,31 +60,22 @@ void ndWindow::onCollectMenuKeys(Event* event) {
         scache.set(wRIGHT_MOUSE, false);
     }
     if (isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
-        glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
-
-        mouse = vec2({(float)mouse_x/dcache.WW(), (float)mouse_y/dcache.WH()});
-
+        mouse = mousePos();
         if ( scache[wLEFT_MOUSE] ) {
             event_interface.queueEvent2f(
-                module_name, Data::LEFT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
+                module_name, Data::LEFT_MOUSE_HOLD, mouse
             );
-            // event_interface.queueEvent2f(
-            //     module_name, Data::LEFT_MOUSE_HOLD, mouse
-            // );
         } else {
             scache.set(wLEFT_MOUSE, true);
             event_interface.queueEvent2f(
-                module_name, Data::LEFT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
+                module_name, Data::LEFT_MOUSE_CLICK, mouse
             );
-            // event_interface.queueEvent2f(
-            //     module_name, Data::LEFT_MOUSE_CLICK, mouse
-            // );
         }
     } 
 
     if (scache[wLEFT_MOUSE]) {
         if (!isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
-            glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
+            mouse = mousePos();
             scache.set(wLEFT_MOUSE, false);
             event_interface.queueEvent2f(
                 module_name, Data::LEFT_MOUSE_RELEASE, vec2({(float)mouse_x, (float)mouse_y})
@@ -135,6 +130,19 @@ void ndWindow::onResizeFrame(Event* event) {
 void ndWindow::onResizeWindow(Event* event) {
     dcache.ww = event->getInt(0);
     dcache.wh = event->getInt(1);
+}
+
+// === Private ===
+void ndWindow::queueFrameResize() {
+    int width, height;
+    glfwGetFramebufferSize(glfw_window, &width, &height);
+    event_interface.queueEvent2i(module_name, Data::RESIZE_FRAME, vec2i({width, height}));
+}
+
+void ndWindow::queueWindowResize() {
+    int width, height;
+    glfwGetWindowSize(glfw_window, &width, &height);
+    event_interface.queueEvent2i(module_name, Data::RESIZE_WINDOW, vec2i({width, height}));
 }
 
 // === GLFW CALLBACKS ===

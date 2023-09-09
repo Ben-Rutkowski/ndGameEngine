@@ -272,6 +272,12 @@ public:
         return sumK(v1, v2, 3);
     }
 
+    static Vector<float,2> screenToClip(float x, float y, float ww, float wh) {
+        return Vector<float,2>({
+            2.0f*x/ww - 1.0f, 1.0f - 2.0f*y/wh
+        });
+    }
+
 // --- Debugging ---
 public:
     void print() {

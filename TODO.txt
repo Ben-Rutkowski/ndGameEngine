@@ -1,7 +1,7 @@
 TODO: 
 == Imidiate tasks
 
-- Optimize select box rendering without geometry shader.
+- Tidy Mouse events in window events
 - Change to clip coords in the window call for a mouse click event.
 - Selecting that is bounded by visible vertices. (Don't highlight obscured vertices)
 - Selecting edges and faces.

@@ -30,7 +30,8 @@ void SelectBox::grab(vec2 v, float width, float height) {
     end_points[0] = toClip(v, width, height);
     end_points[1] = toClip(v, width, height);
 
-    setGrabVData(toClip(v, width, height));
+    // setGrabVData(toClip(v, width, height));
+    setGrabVData(v);
 
     line_vbi.bindAllBuffers();
     line_vbi.editVertexData(&vertex_data[0], sizeof(vertex_data), 0);
@@ -44,7 +45,8 @@ void SelectBox::grab(vec2 v, float width, float height) {
 void SelectBox::drag(vec2 v, float width, float height) {
     end_points[1] = toClip(v, width, height);
 
-    setDragVData(toClip(v, width, height));
+    // setDragVData(toClip(v, width, height));
+    setDragVData(v);
 
     line_vbi.bindAllBuffers();
     line_vbi.editVertexData(&vertex_data[0], sizeof(vertex_data), 0);

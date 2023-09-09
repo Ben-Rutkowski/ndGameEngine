@@ -54,3 +54,9 @@ bool ndWindow::isKeyPress(int key) {
 bool ndWindow::isMousePress(int key) {
     return glfwGetMouseButton(glfw_window, key) == GLFW_PRESS;
 }
+
+vec2 ndWindow::mousePos() {
+    double mouse_x, mouse_y;
+    glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
+    return vec2::screenToClip(mouse_x, mouse_y, dcache.WW(), dcache.WH());
+}

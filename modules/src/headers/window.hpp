@@ -64,6 +64,7 @@ public:
 private:
     bool isKeyPress(int key);
     bool isMousePress(int mouse);
+    vec2 mousePos();
 
 // --- Event Interface ---
 public:
@@ -83,6 +84,10 @@ public:
     void onCloseApp(Event* event);
     void onResizeFrame(Event* event);
     void onResizeWindow(Event* event);
+
+private:
+    void queueFrameResize();
+    void queueWindowResize();
 
 // --- GLFW CALLBACKS ---
 private:

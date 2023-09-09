@@ -3,6 +3,7 @@
 
 void ndApp::startApp() {
     beginLoop();
+    pollEvents();
 
     glEnable(GL_PROGRAM_POINT_SIZE);
     glEnable(GL_LINE_WIDTH);
