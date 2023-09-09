@@ -2,18 +2,7 @@
 
 GridLine::GridLine(vec4 dir_in, vec4 color_in)
     :direction{ dir_in },
-    color{ color_in } {
-
-    // shader.compileVF(
-    //     EDIT_SPACE_SHADER_SUB_DIR"gridline.vs",
-    //     EDIT_SPACE_SHADER_SUB_DIR"gridline.fs"
-    // );
-
-    // plane_shader.compileVF(
-    //     EDIT_SPACE_SHADER_SUB_DIR"gridline_plane.vs",
-    //     EDIT_SPACE_SHADER_SUB_DIR"gridline.fs"
-    // );
-}
+    color{ color_in } {}
 
 void GridLine::load(float length_in) {
     length = length_in;

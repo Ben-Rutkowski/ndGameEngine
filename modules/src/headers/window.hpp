@@ -13,15 +13,6 @@ GLFW intialization must be done before creating a window.
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-// ================ KeyState ================
-struct KeyState {
-    bool right_mouse_hold;
-    bool left_mouse_hold;
-    KeyState()
-        :right_mouse_hold{ false },
-        left_mouse_hold{ false } {}
-};
-
 // ================ Clock ================
 class Clock {
 private:
@@ -45,16 +36,19 @@ private:
 };
 
 // ================ ndWindow ================
+enum wState { w_null = 0,
+    /* KEYS */ wLEFT_MOUSE, wRIGHT_MOUSE,
+    wLEN
+};
+
 class ndWindow : public ndModule {
 // --- Layers ---
 private:
     ndModule* edit_space;
+    Clock     clock;
     
 // --- Attributes ---
 private:
-    KeyState hold_keys;
-    Clock clock;
-    
     GLFWwindow* glfw_window;
 
 // --- Constructors and Initialization ---

@@ -1,10 +1,11 @@
 TODO: 
 == Imidiate tasks
 
-- State caches for modules
-- Change load to map buffer in edit meshes.
 - Optimize select box rendering without geometry shader.
+- Selecting that is bounded by visible vertices. (Don't highlight obscured vertices)
 - Selecting edges and faces.
+- Optimize camera controls. (get rid of slowing valid checks and minimize needed functions)
+- Docs
 
 - Dynamic gridlines
 - User Framebuffers for custom resolution.
@@ -18,7 +19,6 @@ TODO:
 == Rendering ==
 - Camera Object ( optimize pitchYaw, so it doesnt use trig )
 - Rendering basic scences
-
 
 == Game ==
 - Entities

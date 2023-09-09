@@ -3,11 +3,11 @@
 
 // === Constructors and Initialization ===
 ndWindow::ndWindow(int width, int height, const char* title)
-    :ndModule(Module::WINDOW),
+    :ndModule(Module::WINDOW, wLEN),
     glfw_window{ nullptr } {
 
-    scache.fw = width;
-    scache.fh = height;
+    dcache.fw = width;
+    dcache.fh = height;
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

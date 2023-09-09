@@ -3,9 +3,9 @@
 
 #include "event_manager.hpp"
 
-struct StateCache {
-    bool opperation1 = false;
-    bool opperation2 = false;
+struct DimensionCache {
+    // bool opperation1 = false;
+    // bool opperation2 = false;
 
     int fw, fh;
     int ww, wh;
@@ -17,15 +17,27 @@ struct StateCache {
     float WH() { return (float)wh; }
 };
 
+class StateCache {
+private:
+    std::vector<bool> states;
+
+public:
+    StateCache(int n) { states.assign(n, false); }
+    bool operator[](int i)      { return states[i]; }
+    void set(int i, bool value) { states[i] = value; }
+};
+
 class ndModule {
 protected:
     Module         module_name;
+    DimensionCache dcache;
     StateCache     scache;
     EventInterface event_interface;
 
 public:
-    ndModule(Module mod_in)
-        :module_name{ mod_in } {}
+    ndModule(Module mod_in, int state_len)
+        :module_name{ mod_in },
+        scache(state_len) {}
 
 // --- Manager Init ---
 public:

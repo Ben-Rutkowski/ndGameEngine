@@ -42,16 +42,16 @@ void EditSpace::onEndFrame(Event* event) {
 }
 
 void EditSpace::onResizeFrame(Event* event) {
-    scache.fw = event->getInt(0);
-    scache.fh = event->getInt(1);
+    dcache.fw = event->getInt(0);
+    dcache.fh = event->getInt(1);
 
-    float ratio = scache.FW()/scache.FH();
+    float ratio = dcache.FW()/dcache.FH();
     camera.calcProj(ratio);
 }
 
 void EditSpace::onResizeWindow(Event* event) {
-    scache.ww = event->getInt(0);
-    scache.wh = event->getInt(1);
+    dcache.ww = event->getInt(0);
+    dcache.wh = event->getInt(1);
 }
 
 void EditSpace::onRightMouseClick(Event* event) {
@@ -80,11 +80,12 @@ void EditSpace::onLeftMouseClick(Event* event) {
 
     select_box.grab(
         vec2({mouse_x, mouse_y}),
-        scache.WW(),
-        scache.WH()
+        dcache.WW(),
+        dcache.WH()
     );
 
-    scache.opperation1 = true;
+    // dcache.opperation1 = true;
+    scache.set(esLEFT_MOUSE, true);
 
 }
 
@@ -94,13 +95,14 @@ void EditSpace::onLeftMouseHold(Event* event) {
 
     select_box.drag(
         vec2({mouse_x, mouse_y}),
-        scache.WW(),
-        scache.WH()
+        dcache.WW(),
+        dcache.WH()
     );
 }
 
 void EditSpace::onLeftMouseRelease(Event* event) {
-    scache.opperation1 = false;
+    // dcache.opperation1 = false;
+    scache.set(esLEFT_MOUSE, false);
 
     mat4 model = meshes[0].getModel();
     mat4 select_mat = camera.selectMatProj(model, select_box.getBR(), select_box.getTL());

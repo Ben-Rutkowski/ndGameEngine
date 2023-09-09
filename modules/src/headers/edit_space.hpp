@@ -73,6 +73,11 @@ public:
 
 */
 
+enum esState { es_null = 0,
+    /* KEYS */ esLEFT_MOUSE,
+    esLEN
+};
+
 class EditSpace : public ndModule {
 private:
     ShaderProgram  point_shader;

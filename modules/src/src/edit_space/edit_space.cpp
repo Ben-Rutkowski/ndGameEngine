@@ -3,7 +3,7 @@
 // Module EditSpace::module_name = Module::EDIT_SPACE;
 
 EditSpace::EditSpace()
-    :ndModule(Module::EDIT_SPACE),
+    :ndModule(Module::EDIT_SPACE, esLEN),
     x_line( 
         vec4({1.0f, 0.0f ,0.0f, 1.0f}),
         vec4({0.2f, 0.8f, 0.2f, 1.0f})
@@ -17,8 +17,8 @@ EditSpace::EditSpace()
         vec4({0.8f, 0.2f, 0.2f, 1.0f})
     )  {
 
-    scache.ww = 800.0f;
-    scache.wh = 600.0f;
+    dcache.ww = 800.0f;
+    dcache.wh = 600.0f;
 
     point_shader.compileVF(
         EDIT_SPACE_SHADER_SUB_DIR"point.vs",

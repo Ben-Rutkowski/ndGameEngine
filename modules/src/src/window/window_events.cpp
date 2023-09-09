@@ -41,35 +41,37 @@ void ndWindow::onCollectMenuKeys(Event* event) {
     }
     if (isMousePress(GLFW_MOUSE_BUTTON_RIGHT)) {
         glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
-        if ( hold_keys.right_mouse_hold ) {
+        if ( scache[wRIGHT_MOUSE] ) {
             event_interface.queueEvent2f(
                 module_name, Data::RIGHT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
             );
         } else {
-            hold_keys.right_mouse_hold = true;
+            scache.set(wRIGHT_MOUSE, true);
             event_interface.queueEvent2f(
                 module_name, Data::RIGHT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
             );
         }
-    } else { hold_keys.right_mouse_hold = false; }
+    } else {
+        scache.set(wRIGHT_MOUSE, false);
+    }
     if (isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
         glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
-        if ( hold_keys.left_mouse_hold ) {
+        if ( scache[wLEFT_MOUSE] ) {
             event_interface.queueEvent2f(
                 module_name, Data::LEFT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
             );
         } else {
-            hold_keys.left_mouse_hold = true;
+            scache.set(wLEFT_MOUSE, true);
             event_interface.queueEvent2f(
                 module_name, Data::LEFT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
             );
         }
     } 
 
-    if (hold_keys.left_mouse_hold) {
+    if (scache[wLEFT_MOUSE]) {
         if (!isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
             glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
-            hold_keys.left_mouse_hold = false;
+            scache.set(wLEFT_MOUSE, false);
             event_interface.queueEvent2f(
                 module_name, Data::LEFT_MOUSE_RELEASE, vec2({(float)mouse_x, (float)mouse_y})
             );
@@ -82,7 +84,7 @@ void ndWindow::onStartFrame(Event* event) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Clock
-    scache.fdelta = clock.delta(Watch::FRAME_DELTA);
+    dcache.fdelta = clock.delta(Watch::FRAME_DELTA);
     clock.click(Watch::FRAME_DELTA);
 
     Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
@@ -114,15 +116,15 @@ void ndWindow::onCloseApp(Event* event) {
 }
 
 void ndWindow::onResizeFrame(Event* event) {
-    scache.fw = event->getInt(0);
-    scache.fh = event->getInt(1);
+    dcache.fw = event->getInt(0);
+    dcache.fh = event->getInt(1);
 
-    glViewport(0, 0, scache.fw, scache.fh);
+    glViewport(0, 0, dcache.fw, dcache.fh);
 }
 
 void ndWindow::onResizeWindow(Event* event) {
-    scache.ww = event->getInt(0);
-    scache.wh = event->getInt(1);
+    dcache.ww = event->getInt(0);
+    dcache.wh = event->getInt(1);
 }
 
 // === GLFW CALLBACKS ===
