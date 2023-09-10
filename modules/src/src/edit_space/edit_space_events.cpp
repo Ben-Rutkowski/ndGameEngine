@@ -59,7 +59,6 @@ void EditSpace::onResizeWindow(Event* event) {
 void EditSpace::onRightMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
-    // camera.grab(mouse_x, mouse_y);
     camera.rightClick(mouse_x, mouse_y);
 }
 
@@ -84,10 +83,20 @@ void EditSpace::onLeftMouseHold(Event* event) {
 }
 
 void EditSpace::onLeftMouseRelease(Event* event) {
+    float RADIUS = 0.05f;
+
+    float mouse_x = event->getFloat(0);
+    float mouse_y = event->getFloat(1);
     scache.set(esLEFT_MOUSE, false);
 
     mat4 model = meshes[0].getModel();
     mat4 select_mat = camera.selectMatProj(model, select_box.getRoot(), select_box.getEnd());
+
+    if (!isfinite(select_mat.get(0,0))) {
+        select_mat = camera.selectMatProj(
+            model, vec2({mouse_x - RADIUS, mouse_y - RADIUS}),
+            vec2({mouse_x + RADIUS, mouse_y + RADIUS}));
+    }
 
     meshes[0].setSelectedPoints(select_mat);
 }
