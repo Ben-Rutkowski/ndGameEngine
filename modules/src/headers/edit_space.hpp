@@ -72,9 +72,6 @@ public:
 };
 
 /* CLASS: EditSpace
-
-    Opperation 1 : draw select box
-
 */
 
 enum esState { es_null = 0,
@@ -143,7 +140,8 @@ private:
     void onLeftMouseHold(Event* event);
     void onLeftMouseRelease(Event* event);
     void onScroll(Event* event);
-
+    void onWKey(Event* event);
+    void onSKey(Event* event);
 };
 
 #endif

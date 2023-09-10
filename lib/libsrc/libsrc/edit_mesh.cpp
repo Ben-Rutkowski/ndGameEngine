@@ -1,12 +1,12 @@
 #include "edit_mesh.hpp"
 
-void EditFace::addPoint(unsigned int point_id)
+void EditFace::addPoint(Id point_id)
     { points.push_back(point_id); }
-void EditFace::addVertex(unsigned int vert_id)
+void EditFace::addVertex(Id vert_id)
     { vertices.push_back(vert_id); }
-void EditFace::addEdge(unsigned int edge_id)
+void EditFace::addEdge(Id edge_id)
     { edges.push_back(edge_id); }
-void EditFace::addTri(unsigned int tri_id)
+void EditFace::addTri(Id tri_id)
     { tris.push_back(tri_id); }
 
 int EditFace::pointNum() { return points.size(); }
@@ -81,7 +81,7 @@ unsigned int EditMesh::createEdge(Id2 points) {
 }
 
 Id EditMesh::createTri(Id3 points, Id3 edges) {
-    Id3 tri_verts; 
+    Id3  tri_verts; 
     vec4 curr_pos;
     
     Id new_face_id = face_cache.createFace();
@@ -93,6 +93,7 @@ Id EditMesh::createTri(Id3 points, Id3 edges) {
 
         curr_pos = point_cache[points[i]].getPos();
         Id vert = vertex_cache.addVertex(curr_pos);
+        point_cache.pairVertex(points[i], vert);
         new_face.addVertex(vert);
         tri_verts[i] = vert;
 
@@ -125,6 +126,7 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
 
         curr_pos = point_cache[points[i]].getPos();
         Id vert = vertex_cache.addVertex(curr_pos);
+        point_cache.pairVertex(points[i], vert);
         new_face.addVertex(vert);
         tri_verts[i] = vert;
 
@@ -145,6 +147,62 @@ Id EditMesh::createQuad(Id4 points, Id4 edges) {
     new_face.setCenter(center, vertex_cache);
 
     return new_face_id;
+}
+
+void EditMesh::setPointPos(Id point, vec4 pos) {
+    point_cache[point].setPos(pos);
+    reloadPoint(point);
+
+    Id vert_id;
+    int N = point_cache.vertexNum(point);
+    for (int i=0; i<N; i++) {
+        vert_id = point_cache.getVertex(point, i);
+        vertex_cache[vert_id].setPos(pos);
+    }
+
+    Id face_id;
+    N = point_cache.faceNum(point);
+    for (int i=0; i<N; i++) {
+        face_id = point_cache.getFace(point, i);
+        face_cache[face_id].calcNorm(tri_cache, vertex_cache);
+        face_cache[face_id].calcCenter(point_cache);
+        reloadFace(face_id);
+    }
+}
+
+void EditMesh::translatePoint(Id point, vec4 trans) {
+    vec4 point_pos = point_cache[point].getPos();
+    vec4 pos = vec4::sumK(point_pos, trans, 3);
+    setPointPos(point, pos);
+}
+
+void EditMesh::translateSelectPoints(vec4 trans) {
+    int N = select_points.size();
+    for (int i=0; i<N; i++) {
+        if (select_points[i]) {
+            translatePoint(i, trans);
+        }
+    }
+}
+
+void EditMesh::reloadPoint(Id point) {
+    point_vbi.bindAllBuffers();
+    point_vbi.editVertexData(&point_cache[point], sizeof(EditPoint), point*sizeof(EditPoint));
+    point_vbi.unbindCurrent();
+    line_vbi.bindAllBuffers();
+    line_vbi.editVertexData(&point_cache[point], sizeof(EditPoint), point*sizeof(EditPoint));
+    line_vbi.unbindCurrent();
+}
+
+void EditMesh::reloadFace(Id face) {
+    Id vert_id;
+    int N = face_cache[face].vertNum();
+    face_vbi.bindAllBuffers();
+    for (int i=0; i<N; i++) {
+        vert_id = face_cache[face].getVert(i);
+        face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditVertex), vert_id*sizeof(EditVertex));
+    }
+    face_vbi.unbindCurrent();
 }
 
 // === Debugging ===

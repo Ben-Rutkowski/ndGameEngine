@@ -28,21 +28,22 @@ typedef std::array<unsigned int,4> Id4;
 
 class EditFace {
 private:
-    std::vector<unsigned int> points;
-    std::vector<unsigned int> vertices;
-    std::vector<unsigned int> edges;
-    std::vector<unsigned int> tris;
+    std::vector<Id> points;
+    std::vector<Id> vertices;
+    std::vector<Id> edges;
+    std::vector<Id> tris;
 
 public:
-    void addPoint(unsigned int point_id);
-    void addVertex(unsigned int vert_id);
-    void addEdge(unsigned int edge_id);
-    void addTri(unsigned int tri_id);
+    void addPoint(Id point_id);
+    void addVertex(Id vert_id);
+    void addEdge(Id edge_id);
+    void addTri(Id tri_id);
 
     int pointNum();
     int vertNum();
     int edgeNum();
     int triNum();
+
     Id  getPoint(int i);
     Id  getVert(int i);
     Id  getEdge(int i);
@@ -121,6 +122,14 @@ public:
     Id createEdge(Id2 points);
     Id createTri(Id3 points, Id3 edges);
     Id createQuad(Id4 points, Id4 edges);
+
+    void setPointPos(Id point, vec4 pos);
+    void translatePoint(Id point, vec4 trans);
+    void translateSelectPoints(vec4 trans);
+
+private:
+    void reloadPoint(Id point);
+    void reloadFace(Id face);
 
 // Selecting
 public:

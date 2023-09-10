@@ -13,6 +13,8 @@ void EditSpace::setCallbacks() {
     event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
     event_interface.setCallback(Data::LEFT_MOUSE_HOLD,   PACK(EditSpace::onLeftMouseHold));
     event_interface.setCallback(Data::LEFT_MOUSE_RELEASE, PACK(EditSpace::onLeftMouseRelease));
+    event_interface.setCallback(Data::W_KEY,              PACK(EditSpace::onWKey));
+    event_interface.setCallback(Data::S_KEY,              PACK(EditSpace::onSKey));
 }
 
 void EditSpace::runEvent(Event* event) {
@@ -90,8 +92,21 @@ void EditSpace::onLeftMouseRelease(Event* event) {
     meshes[0].setSelectedPoints(select_mat);
 }
 
-
 void EditSpace::onScroll(Event* event) {
     float offset = event->getFloat(1);
     camera.scroll(offset);
+}
+
+void EditSpace::onWKey(Event* event) {
+    vec4 trans({
+        0.0f, 0.01f, 0.0f, 1.0f
+    });
+    meshes[0].translateSelectPoints(trans);
+}
+
+void EditSpace::onSKey(Event* event) {
+    vec4 trans({
+        0.0f, -0.01f, 0.0f, 1.0f
+    });
+    meshes[0].translateSelectPoints(trans);
 }

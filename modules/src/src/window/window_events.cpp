@@ -44,6 +44,14 @@ void ndWindow::onCollectMenuKeys(Event* event) {
         event_interface.queueEvent(module_name, Data::ESCAPE_KEY);
     }
 
+    if (isKeyPress(GLFW_KEY_W)) {
+        event_interface.queueEvent(module_name, Data::W_KEY);
+    }
+
+    if (isKeyPress(GLFW_KEY_S)) {
+        event_interface.queueEvent(module_name, Data::S_KEY);
+    }
+
     mouse_state = mouseState(wRIGHT_MOUSE, GLFW_MOUSE_BUTTON_RIGHT);
     if (mouse_state == wCLICK) {
         event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_CLICK, mouse);

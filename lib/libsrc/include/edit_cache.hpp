@@ -17,6 +17,7 @@ protected:
     std::vector<T> data;
     std::vector<std::vector<unsigned int>> index_cache_1;
     std::vector<std::vector<unsigned int>> index_cache_2;
+    std::vector<std::vector<unsigned int>> index_cache_3;
 
 public:
     T&    operator[](int i) { return data[i]; }
@@ -37,17 +38,22 @@ protected:
 
     void pushCache1() { index_cache_1.push_back(std::vector<unsigned int>()); }
     void pushCache2() { index_cache_2.push_back(std::vector<unsigned int>()); }
+    void pushCache3() { index_cache_3.push_back(std::vector<unsigned int>()); }
 
     void pairIndexCache1(unsigned int root_id, unsigned int pair_id) 
         { index_cache_1[root_id].push_back(pair_id); }
     void pairIndexCache2(unsigned int root_id, unsigned int pair_id)
         { index_cache_2[root_id].push_back(pair_id); }    
+    void pairIndexCache3(unsigned int root_id, unsigned int pair_id)
+        { index_cache_3[root_id].push_back(pair_id); }   
 
     int cacheNum1(int data_id) { return index_cache_1[data_id].size(); }
     int cacheNum2(int data_id) { return index_cache_2[data_id].size(); }
+    int cacheNum3(int data_id) { return index_cache_3[data_id].size(); }
 
     unsigned int getCache1(int data_id, int i) { return index_cache_1[data_id][i]; }
     unsigned int getCache2(int data_id, int i) { return index_cache_2[data_id][i]; }
+    unsigned int getCache3(int data_id, int i) { return index_cache_3[data_id][i]; }
 };
 
 class EditPoint {
@@ -75,6 +81,7 @@ public:
     unsigned int addPoint(vec4 position) {
         pushCache1();
         pushCache2();
+        pushCache3();
         EditPoint point(position);
         return addData(point);
     }
@@ -83,14 +90,19 @@ public:
         { pairIndexCache1(point_id, edge_id); }
     void pairFace(unsigned int point_id, unsigned int face_id) 
         { pairIndexCache2(point_id, face_id); }
+    void pairVertex(unsigned int point_id, unsigned int vertex_id) 
+        { pairIndexCache3(point_id, vertex_id); }
 
-    int edgeNum(unsigned int point_id) { return cacheNum1(point_id); }
-    int faceNum(unsigned int point_id) { return cacheNum2(point_id); }
+    int edgeNum(unsigned int point_id)   { return cacheNum1(point_id); }
+    int faceNum(unsigned int point_id)   { return cacheNum2(point_id); }
+    int vertexNum(unsigned int point_id) { return cacheNum3(point_id); }
 
     unsigned int getEdge(unsigned int point_id, int i)
         { return getCache1(point_id, i); }
     unsigned int getFace(unsigned int point_id, int i)
         { return getCache2(point_id, i); }
+    unsigned int getVertex(unsigned int point_id, int i)
+        { return getCache3(point_id, i); }
 };
 
 /* CLASS: EditVertex

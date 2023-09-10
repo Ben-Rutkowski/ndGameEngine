@@ -28,6 +28,10 @@ EventNameMap getEventNameMap() {
     map.addEntry(Data::RIGHT_MOUSE_RELEASE, std::string("RIGHT_MOUSE_RELEASE"));
     map.addEntry(Data::LEFT_MOUSE_RELEASE,  std::string("LEFT_MOUSE_RELEASE"));
     map.addEntry(Data::SCROLL,              std::string("SCROLL"));
+    map.addEntry(Data::W_KEY,               std::string("W_KEY"));
+    map.addEntry(Data::A_KEY,               std::string("A_KEY"));
+    map.addEntry(Data::S_KEY,               std::string("S_KEY"));
+    map.addEntry(Data::D_KEY,               std::string("D_KEY"));
 
     return map;
 }
