@@ -1,6 +1,7 @@
 TODO: 
 == Imidiate tasks
 
+- Translate Axis tool
 - Clean inefficient camera and edit_camera routines
 - Selecting that is bounded by visible vertices. (Don't highlight obscured vertices)
 - Selecting edges and faces.
@@ -11,6 +12,27 @@ TODO:
 - User Framebuffers for custom resolution.
 - View/Edit Modes: Vertex, Edge, Face.
 - Editing tools for models
+
+        SELECTING
+        - edge
+        - face
+        - Vertex (exclude those hidden by faces)
+        - edge loops
+        - face loops
+
+        TOOLS FOR EDITING
+        - Translation
+        - Scale face or about center of gravity
+        - Extrude face along normal or along Axis
+        - Inset Face (Create an inner ring in the center)
+        - Subdivide
+        - Bevel edge
+        - Edge slide and Vert slide
+
+        - Glueing Meshes
+
+        - Mirroring for symmetry
+        - 
 
 == Tidy/Optimizing ==
 - Possibly Change events queue to take ref and not ptr

@@ -10,7 +10,8 @@ Vertex < Tri < Face
 
 #include "vertex_buffer_interface.hpp"
 #include "edit_index_objects.hpp"
-#include "matrix.hpp"
+#include "select_algs.hpp"
+// #include "matrix.hpp"
 
 /* CLASS: EditMeshFace
 A MeshFace is the over arching class for tris.
@@ -44,15 +45,20 @@ public:
     int edgeNum();
     int triNum();
 
-    Id  getPoint(int i);
-    Id  getVert(int i);
-    Id  getEdge(int i);
-    Id  getTri(int i);
+    Id getPoint(int i);
+    Id getVert(int i);
+    Id getEdge(int i);
+    Id getTri(int i);
+
+    vec4 edgeTipPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
+    vec4 edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
 
     vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
     vec4 calcCenter(PointCache& point_cache);
     void setNorm(vec4 norm, VertexCache& vertex_cache);
     void setCenter(vec4 center, VertexCache& vertex_cache);
+
+    bool isSelectPointClick(vec2 point, mat4 pvm, EdgeCache& edge_cache, PointCache& point_cache);
 };
 
 /* CLASS FaceCache
@@ -133,6 +139,7 @@ private:
 
 // Selecting
 public:
+    void selectFaces(vec2 click, mat4 pvm);
     void setSelectedPoints(mat4 select_mat);
     void setSelectedPointsAdd(mat4 select_mat);
 

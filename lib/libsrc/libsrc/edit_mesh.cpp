@@ -18,6 +18,14 @@ Id EditFace::getVert(int i)  { return vertices[i]; }
 Id EditFace::getEdge(int i)  { return edges[i]; } 
 Id EditFace::getTri(int i)   { return tris[i]; } 
 
+vec4 EditFace::edgeTipPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache) {
+    return edge_cache[edge].getTip(point_cache);
+}
+
+vec4 EditFace::edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache) {
+    return edge_cache[edge].getTail(point_cache);
+}
+
 vec4 EditFace::calcNorm(TriCache& tri_cache, VertexCache& vertex_cache) {
     int N = triNum();
     vec4 curr_norm;
@@ -52,6 +60,27 @@ void EditFace::setCenter(vec4 center, VertexCache& vertex_cache) {
     for (int i=0; i<N; i++) {
         vertex_cache[vertices[i]].setCenter(center);
     }
+}
+
+bool EditFace::isSelectPointClick(vec2 point, mat4 pvm, EdgeCache& edge_cache, PointCache& point_cache) {
+    int cross_right = 0;
+    int N = edgeNum();
+    Id edge;
+    vec4 root, end;
+    for (int i=0; i<N; i++) {
+        edge = edges[i];
+        root = edgeTailPos(edge, edge_cache, point_cache);
+        end  = edgeTipPos(edge, edge_cache, point_cache);
+        root = sAlg::modelToClip(root, pvm);
+        end  = sAlg::modelToClip(end, pvm);
+
+        if (sAlg::crossRight(point, root, end)) {
+            cross_right = cross_right + 1;
+        }
+    }
+
+    if (cross_right%2 == 1) { return true; }
+    else                    { return false; }
 }
 
 // ======== EditMesh ========
@@ -221,6 +250,16 @@ void EditMesh::printSelect() {
 }
 
 // === Selecting ===
+void EditMesh::selectFaces(vec2 click, mat4 pvm) {
+    int N = face_cache.dataLen();
+    for (int i=0; i<N; i++) {
+        if (face_cache[i].isSelectPointClick(click, pvm, edge_cache, point_cache)) {
+            std::cout << i << " ";
+        }
+    }
+    std::cout << std::endl;
+}
+
 void EditMesh::setSelectedPoints(mat4 select_mat) {
     int N = point_cache.dataLen();
     vec4 point;

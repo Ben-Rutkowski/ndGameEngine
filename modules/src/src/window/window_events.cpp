@@ -94,7 +94,7 @@ void ndWindow::onEndFrame(Event* event) {
 
     // Display Framerate
     if (clock.check(Watch::FRAMERATE, 3.0)) {
-        std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
+        // std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
         clock.click(Watch::FRAMERATE);
     }
 }
