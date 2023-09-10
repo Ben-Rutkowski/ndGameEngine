@@ -28,21 +28,21 @@ protected:
 public:
     Camera();
 
-    mat4 getView();
-    mat4 getProj();
-    vec4 getFront();
-    vec4 getPos();
+    mat4  getView();
+    mat4  getProj();
+    vec4  getFront();
+    vec4  getPos();
     float getNear();
     float getProjW();
     float getProjH();
 
-// --- Controls ---
+// --- Mouse ---
 public:
     void grab(float x, float y);
     vec2 moveMouse(float x, float y);
 
+// --- Move ---
     void translate(vec4 trans);
-    void move(float f, float r, float u);
     void pitchYaw(float pitch_theta, float yaw_theta);
     void pitchYawInc(float pitch_delta, float yaw_delta);
 

@@ -1,7 +1,6 @@
 #ifndef EDIT_SPACE_HPP
 #define EDIT_SPACE_HPP
 
-#define MOUSE_DISTANCE_FACTOR 250.0f
 
 #include "camera.hpp"
 #include "edit_mesh.hpp"
@@ -22,6 +21,8 @@ the position is calculated so the camera is looking at the origin.
 The distance is how far the camera is from the origin.
 */
 
+#define MOUSE_DISTANCE_FACTOR 1.2f
+
 class EditCamera : public Camera {
 private:
     vec4  origin;
@@ -32,16 +33,20 @@ public:
     EditCamera();
 
     void transOrigin(vec2 delta);
-    void setRotate(float pitch_theta, float yaw_theta);
-    void setDistance(float dist);
     void zoom(float delta);
     void rotateInc(float pitch_delta, float yaw_delta);
+
+    void scroll(float offset);
+    void rightClick(float x_pos, float y_pos);
+    void rightDrag(float x_pos, float y_pos);
+
+    void setRotate(float pitch_theta, float yaw_theta);
+    void setDistance(float dist);
 
 private:
     void  calcParams();
     bool  validDistance(float dist);
     float boundedDelta(float delta);
-
 };
 
 /* CLASS GridLine 

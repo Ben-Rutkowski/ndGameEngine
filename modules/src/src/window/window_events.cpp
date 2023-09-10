@@ -37,50 +37,29 @@ void ndWindow::onBeginLoop(Event* event) {
 }
 
 void ndWindow::onCollectMenuKeys(Event* event) {
-    double mouse_x;
-    double mouse_y;
-    vec2 mouse;
+    vec2   mouse = mousePos();
+    wState mouse_state;
 
     if (isKeyPress(GLFW_KEY_ESCAPE)) {
         event_interface.queueEvent(module_name, Data::ESCAPE_KEY);
     }
-    if (isMousePress(GLFW_MOUSE_BUTTON_RIGHT)) {
-        glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
-        if ( scache[wRIGHT_MOUSE] ) {
-            event_interface.queueEvent2f(
-                module_name, Data::RIGHT_MOUSE_HOLD, vec2({(float)mouse_x, (float)mouse_y})
-            );
-        } else {
-            scache.set(wRIGHT_MOUSE, true);
-            event_interface.queueEvent2f(
-                module_name, Data::RIGHT_MOUSE_CLICK, vec2({(float)mouse_x, (float)mouse_y})
-            );
-        }
-    } else {
-        scache.set(wRIGHT_MOUSE, false);
-    }
-    if (isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
-        mouse = mousePos();
-        if ( scache[wLEFT_MOUSE] ) {
-            event_interface.queueEvent2f(
-                module_name, Data::LEFT_MOUSE_HOLD, mouse
-            );
-        } else {
-            scache.set(wLEFT_MOUSE, true);
-            event_interface.queueEvent2f(
-                module_name, Data::LEFT_MOUSE_CLICK, mouse
-            );
-        }
-    } 
 
-    if (scache[wLEFT_MOUSE]) {
-        if (!isMousePress(GLFW_MOUSE_BUTTON_LEFT)) {
-            mouse = mousePos();
-            scache.set(wLEFT_MOUSE, false);
-            event_interface.queueEvent2f(
-                module_name, Data::LEFT_MOUSE_RELEASE, vec2({(float)mouse_x, (float)mouse_y})
-            );
-        }
+    mouse_state = mouseState(wRIGHT_MOUSE, GLFW_MOUSE_BUTTON_RIGHT);
+    if (mouse_state == wCLICK) {
+        event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_CLICK, mouse);
+    } else if (mouse_state == wHOLD) {
+        event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_HOLD, mouse);
+    } else if (mouse_state == wRELEASE) {
+        event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_RELEASE, mouse);
+    }
+
+    mouse_state = mouseState(wLEFT_MOUSE, GLFW_MOUSE_BUTTON_LEFT);
+    if (mouse_state == wCLICK) {
+        event_interface.queueEvent2f(module_name, Data::LEFT_MOUSE_CLICK, mouse);
+    } else if (mouse_state == wHOLD) {
+        event_interface.queueEvent2f(module_name, Data::LEFT_MOUSE_HOLD, mouse);
+    } else if (mouse_state == wRELEASE) {
+        event_interface.queueEvent2f(module_name, Data::LEFT_MOUSE_RELEASE, mouse);
     }
 }
 
@@ -123,7 +102,7 @@ void ndWindow::onCloseApp(Event* event) {
 void ndWindow::onResizeFrame(Event* event) {
     dcache.fw = event->getInt(0);
     dcache.fh = event->getInt(1);
-
+    
     glViewport(0, 0, dcache.fw, dcache.fh);
 }
 

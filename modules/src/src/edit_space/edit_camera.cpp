@@ -18,20 +18,6 @@ void EditCamera::transOrigin(vec2 delta) {
     calcParams();
 }
 
-void EditCamera::setDistance(float dist) {
-    // if (validDistance(dist)) {
-    //     distance = dist;
-    //     calcParams();
-    // }
-    distance = dist;
-    calcParams();
-}
-
-void EditCamera::setRotate(float pitch_theta, float yaw_theta) {
-    pitchYaw(pitch_theta, yaw_theta);
-    calcParams();
-}
-
 void EditCamera::zoom(float delta) {
     const float FACTOR = 0.25f;
 
@@ -45,6 +31,37 @@ void EditCamera::zoom(float delta) {
 
 void EditCamera::rotateInc(float pitch_delta, float yaw_delta) {
     pitchYawInc(pitch_delta, yaw_delta);
+    calcParams();
+}
+
+void EditCamera::rightClick(float x_pos, float y_pos) {
+    grab(x_pos, y_pos);
+}
+
+void EditCamera::rightDrag(float x_pos, float y_pos) {
+    vec2 delta = moveMouse(x_pos, y_pos);
+
+    float yaw_delta   =  asin(delta[0]*MOUSE_DISTANCE_FACTOR);
+    float pitch_delta = -asin(delta[1]*MOUSE_DISTANCE_FACTOR);
+
+    rotateInc(pitch_delta, yaw_delta);
+    calcView();
+}
+
+void EditCamera::scroll(float offset) {
+    zoom(offset);
+    calcView();
+}
+
+void EditCamera::setDistance(float dist) {
+    if (validDistance(dist)) {
+        distance = dist;
+        calcParams();
+    }
+}
+
+void EditCamera::setRotate(float pitch_theta, float yaw_theta) {
+    pitchYaw(pitch_theta, yaw_theta);
     calcParams();
 }
 

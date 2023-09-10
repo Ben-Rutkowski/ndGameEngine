@@ -37,7 +37,8 @@ private:
 
 // ================ ndWindow ================
 enum wState { w_null = 0,
-    /* KEYS */ wLEFT_MOUSE, wRIGHT_MOUSE,
+    /* KEYS */  wLEFT_MOUSE, wRIGHT_MOUSE,
+    /* STATE */ wCLICK, wHOLD, wRELEASE,
     wLEN
 };
 
@@ -63,8 +64,8 @@ public:
 
 private:
     bool isKeyPress(int key);
-    bool isMousePress(int mouse);
     vec2 mousePos();
+    wState mouseState(wState button, int glfw_button);
 
 // --- Event Interface ---
 public:

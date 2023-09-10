@@ -46,17 +46,31 @@ bool ndWindow::requestBool(Request request) {
 }
 
 // === Private ===
-
 bool ndWindow::isKeyPress(int key) {
     return glfwGetKey(glfw_window, key) == GLFW_PRESS;
-}
-
-bool ndWindow::isMousePress(int key) {
-    return glfwGetMouseButton(glfw_window, key) == GLFW_PRESS;
 }
 
 vec2 ndWindow::mousePos() {
     double mouse_x, mouse_y;
     glfwGetCursorPos(glfw_window, &mouse_x, &mouse_y);
     return vec2::screenToClip(mouse_x, mouse_y, dcache.WW(), dcache.WH());
+}
+
+wState ndWindow::mouseState(wState button, int glfw_button) {
+    bool press = glfwGetMouseButton(glfw_window, glfw_button) == GLFW_PRESS;
+    bool hold  = scache[button];
+
+    if (press) {
+        if (!hold) {
+            scache.set(button, true);
+            return wCLICK;
+        } else {
+            return wHOLD;
+        }
+    } else if (hold) {
+        scache.set(button, false);
+        return wRELEASE;
+    } else {
+        return w_null;
+    }
 }

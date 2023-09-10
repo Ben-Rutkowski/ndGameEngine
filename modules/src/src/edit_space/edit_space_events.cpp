@@ -57,32 +57,20 @@ void EditSpace::onResizeWindow(Event* event) {
 void EditSpace::onRightMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
-    camera.grab(mouse_x, mouse_y);
+    // camera.grab(mouse_x, mouse_y);
+    camera.rightClick(mouse_x, mouse_y);
 }
 
 void EditSpace::onRightMouseHold(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
-    vec2 delta = camera.moveMouse(mouse_x, mouse_y);
-    float yaw_delta = asin(delta[0]/MOUSE_DISTANCE_FACTOR);
-    float pitch_delta = asin(delta[1]/MOUSE_DISTANCE_FACTOR);
-
-    if (abs(pitch_delta) >= math::rads(45.0f)) { pitch_delta = 0.0f; }
-    if (abs(yaw_delta) >= math::rads(45.0f))   { yaw_delta = 0.0f; }
-
-    camera.rotateInc(pitch_delta, yaw_delta);
-    camera.calcView();
+    camera.rightDrag(mouse_x, mouse_y);
 }
 
 void EditSpace::onLeftMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
-
-    select_box.grab(
-        vec2({mouse_x, mouse_y}),
-        dcache.WW(),
-        dcache.WH()
-    );
+    select_box.grab(vec2({mouse_x, mouse_y}));
 
     scache.set(esLEFT_MOUSE, true);
 }
@@ -90,12 +78,7 @@ void EditSpace::onLeftMouseClick(Event* event) {
 void EditSpace::onLeftMouseHold(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
-
-    select_box.drag(
-        vec2({mouse_x, mouse_y}),
-        dcache.WW(),
-        dcache.WH()
-    );
+    select_box.drag(vec2({mouse_x, mouse_y}));
 }
 
 void EditSpace::onLeftMouseRelease(Event* event) {
@@ -110,6 +93,5 @@ void EditSpace::onLeftMouseRelease(Event* event) {
 
 void EditSpace::onScroll(Event* event) {
     float offset = event->getFloat(1);
-    camera.zoom(offset);
-    camera.calcView();
+    camera.scroll(offset);
 }

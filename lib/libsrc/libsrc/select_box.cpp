@@ -1,17 +1,13 @@
 #include "select_box.hpp"
 
 SelectBox::SelectBox()
-    :end_points{vec2({0.2f, 0.2f}), vec2({0.6f, 0.6f})},
-    root({0.0f, 0.2f}), end({0.0f, 0.0f}) {
+    :root({0.0f, 0.0f}),
+    end({0.0f, 0.0f}) {
+
+    unsigned int line_indices[] = { 0, 1, 1, 3, 3, 2, 2, 0 };
+    unsigned int face_indices[] = { 0, 1, 3, 3, 2, 0 };
 
     setGrabVData(root);
-    unsigned int line_indices[] = {
-        0, 1, 1, 3, 3, 2, 2, 0
-    };
-
-    unsigned int face_indices[] = {
-        0, 1, 3, 3, 2, 0
-    };
 
     line_vbi.bindAllBuffers();
     line_vbi.loadVerticesStream(&vertex_data[0], sizeof(vertex_data));
@@ -26,11 +22,7 @@ SelectBox::SelectBox()
     face_vbi.unbindCurrent();
 }
 
-void SelectBox::grab(vec2 v, float width, float height) {
-    end_points[0] = toClip(v, width, height);
-    end_points[1] = toClip(v, width, height);
-
-    // setGrabVData(toClip(v, width, height));
+void SelectBox::grab(vec2 v) {
     setGrabVData(v);
 
     line_vbi.bindAllBuffers();
@@ -42,10 +34,7 @@ void SelectBox::grab(vec2 v, float width, float height) {
     face_vbi.unbindCurrent();
 }
 
-void SelectBox::drag(vec2 v, float width, float height) {
-    end_points[1] = toClip(v, width, height);
-
-    // setDragVData(toClip(v, width, height));
+void SelectBox::drag(vec2 v) {
     setDragVData(v);
 
     line_vbi.bindAllBuffers();
@@ -74,20 +63,6 @@ void SelectBox::drawFaces(ShaderProgram& program) {
 vec2 SelectBox::getRoot() { return root; }
 vec2 SelectBox::getEnd()  { return end; }
 
-vec2 SelectBox::getBR() {
-    return vec2({
-        std::min(end_points[0][0], end_points[1][0]),
-        std::min(end_points[0][1], end_points[1][1])
-    });
-}
-
-vec2 SelectBox::getTL() {
-    return vec2({
-        std::max(end_points[0][0], end_points[1][0]),
-        std::max(end_points[0][1], end_points[1][1])
-    });
-}
-
 void SelectBox::setGrabVData(vec2 v) {
     root = v;
     vertex_data[0] = root;
@@ -104,13 +79,7 @@ void SelectBox::setDragVData(vec2 v) {
     vertex_data[3] = end;
 }
 
-vec2 SelectBox::toClip(vec2 v, float window_width, float window_height) {
-    return vec2({
-        2.0f*v[0]/window_width - 1.0f, 1.0f - 2.0f*v[1]/window_height
-    });
-}
-
 void SelectBox::print() {
-    std::cout << "BR: "; getBR().print();
-    std::cout << "TL: "; getTL().print();
+    std::cout << "Root: "; root.print();
+    std::cout << "End: "; end.print();
 }
