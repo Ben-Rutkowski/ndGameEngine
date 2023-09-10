@@ -44,7 +44,7 @@ public:
 // --- Move ---
     void translate(vec4 trans);
     void pitchYaw(float pitch_theta, float yaw_theta);
-    void pitchYawInc(float pitch_delta, float yaw_delta);
+    // void pitchYawInc(float pitch_delta, float yaw_delta);
 
     void calcView();
     void calcProj(float ratio_in);

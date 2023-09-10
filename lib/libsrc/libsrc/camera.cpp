@@ -46,13 +46,13 @@ void Camera::pitchYaw(float pitch_theta, float yaw_theta) {
     calcPitchYaw();
 }
 
-void Camera::pitchYawInc(float pitch_delta, float yaw_delta) {
-    pitchYaw(pitch + pitch_delta, yaw + yaw_delta);
-}
+// void Camera::pitchYawInc(float pitch_delta, float yaw_delta) {
+//     pitchYaw(pitch + pitch_delta, yaw + yaw_delta);
+// }
 
 void Camera::calcPitchYaw() {
     const float FULL_CIRCLE = 2.0f * M_PI;
-    const vec4 TRUE_FRONT({0.0f, 0.0f, -1.0f, 1.0f});
+    const vec4  TRUE_FRONT({0.0f, 0.0f, -1.0f, 1.0f});
 
     if (abs(yaw) > FULL_CIRCLE) {
         yaw = math::remander(yaw, FULL_CIRCLE);
@@ -92,8 +92,7 @@ mat4 Camera::selectMatProj(mat4 model, vec2 br, vec2 tl) {
 // === Protected ===
 void Camera::setFront(vec4 new_front) {
     new_front.normalizeK(3);
-    if (validFront(new_front))
-    {
+    if (validFront(new_front)) {
         front = new_front;
         right = vec4::rightVec(front);
         up = right.cross(front);
@@ -115,7 +114,7 @@ bool Camera::validFront(vec4 new_front) {
 }
 
 bool Camera::validPitch(float pitch_test) {
-    const float BOUND = M_PI / 2.0f - 0.001f;
+    const float BOUND = M_PI/2.0f - 0.001f;
     return (isfinite(pitch_test) && abs(pitch_test) < BOUND);
 }
 

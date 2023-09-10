@@ -29,11 +29,6 @@ void EditCamera::zoom(float delta) {
     }
 }
 
-void EditCamera::rotateInc(float pitch_delta, float yaw_delta) {
-    pitchYawInc(pitch_delta, yaw_delta);
-    calcParams();
-}
-
 void EditCamera::rightClick(float x_pos, float y_pos) {
     grab(x_pos, y_pos);
 }
@@ -44,7 +39,8 @@ void EditCamera::rightDrag(float x_pos, float y_pos) {
     float yaw_delta   =  asin(delta[0]*MOUSE_DISTANCE_FACTOR);
     float pitch_delta = -asin(delta[1]*MOUSE_DISTANCE_FACTOR);
 
-    rotateInc(pitch_delta, yaw_delta);
+    pitchYaw(pitch + pitch_delta, yaw + yaw_delta);
+    calcParams();
     calcView();
 }
 

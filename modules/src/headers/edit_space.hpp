@@ -34,7 +34,6 @@ public:
 
     void transOrigin(vec2 delta);
     void zoom(float delta);
-    void rotateInc(float pitch_delta, float yaw_delta);
 
     void scroll(float offset);
     void rightClick(float x_pos, float y_pos);
