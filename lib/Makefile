@@ -34,9 +34,10 @@ COMPILE.clang  =$(foreach src,$(filter %.cpp,$^),$(CURDIR)/$(src))
 
 # --- Units ---
 units=$(patsubst $(SRC)/%.cpp,$(COMPILED)/%.o,$(wildcard $(SRC)/*.cpp))
+sections=$(patsubst $(SRC)/%/.,%,$(wildcard $(SRC)/*/.))
 
 # --- Archive Library ---
-$(COMPILED)/lib.a: $(units) $(COMPILED)
+$(COMPILED)/lib.a: $(units) $(sections) $(COMPILED)
 	@echo "--- ARCHIVING LIBRARY ---"
 	@touch $(units)
 	ar rs $(COMPILED)/lib.a $(wildcard $(COMPILED)/*.o)
@@ -45,6 +46,12 @@ $(COMPILED)/lib.a: $(units) $(COMPILED)
 # --- Compile Units ---
 $(units): $(COMPILED)/%.o: $(SRC)/%.cpp $(wildcard $(INCLUDE)/*.hpp) $(COMPILED)
 	@echo "--- COMPILING <$(patsubst $(COMPILED)/%.o,%,$@)> LIBRARY UNIT ---"
+	cd $(COMPILED) && $(CXX.clang) $(CXXFLAGS.clang) $(INCLUDE.clang) $(COMPILE.clang)
+
+# --- Compile Sections ---
+.SECONDEXPANSION:
+$(sections): %: $$(wildcard $(SRC)/%/*.cpp) $$(wildcard $(INCLUDE)/%/*.hpp) $(wildcard $(INCLUDE)/*.hpp)
+	@echo "--- COMPILING <$@> LIBRARY SECTION ---"
 	cd $(COMPILED) && $(CXX.clang) $(CXXFLAGS.clang) $(INCLUDE.clang) $(COMPILE.clang)
 
 # --- Create Directories Manully ---
