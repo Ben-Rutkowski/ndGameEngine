@@ -1,7 +1,7 @@
 #ifndef SELECT_BOX_HPP
 #define SELECT_BOX_HPP
 
-#include "vertex_buffer_interface.hpp"
+#include "rendering/vertex_buffer_interface.hpp"
 
 class SelectBox {
 private:

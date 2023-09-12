@@ -1,4 +1,4 @@
-#include "shader.hpp"
+#include "rendering/shader.hpp"
 #include "file_utils.hpp"
 
 #include <iostream>

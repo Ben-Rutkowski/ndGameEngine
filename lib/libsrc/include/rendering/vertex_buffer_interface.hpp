@@ -1,4 +1,4 @@
-#include "shader_program.hpp"
+#include "rendering/shader_program.hpp"
 
 #ifndef VERTEX_BUFFER_INTERFACE_HPP
 #define VERTEX_BUFFER_INTERFACE_HPP

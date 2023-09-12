@@ -1,7 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "matrix.hpp"
+#include "math/matrix.hpp"
 
 class Camera {
 // --- Attributes ---

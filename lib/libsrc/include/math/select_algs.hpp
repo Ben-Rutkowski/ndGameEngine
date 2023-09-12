@@ -1,7 +1,7 @@
 #ifndef SELECT_ALGS_HPP
 #define SELECT_ALGS_HPP
 
-#include "matrix.hpp"
+#include "math/matrix.hpp"
 
 namespace sAlg {
 

@@ -1,4 +1,4 @@
-#include "edit_index_objects.hpp"
+#include "edit_space/edit_index_objects.hpp"
 
 // ======== EdgeIndexObj ========
 EdgeIndexObj::EdgeIndexObj(unsigned int tail, unsigned int tip)

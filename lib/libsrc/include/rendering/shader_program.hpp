@@ -1,5 +1,5 @@
-#include "shader.hpp"
-#include "matrix.hpp"
+#include "rendering/shader.hpp"
+#include "math/matrix.hpp"
 
 #ifndef SHADER_PROGRAM_HPP
 #define SHADER_PROGRAM_HPP

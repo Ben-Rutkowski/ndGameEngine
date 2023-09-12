@@ -7,8 +7,8 @@ Matrices have m rows and n columns. The data is stored as row major.
 
 */
 
-#include "vector.hpp"
-#include "math.hpp"
+#include "math/vector.hpp"
+#include "math/math_functions.hpp"
 
 #ifndef MATRIX_HPP
 #define MATRIX_HPP

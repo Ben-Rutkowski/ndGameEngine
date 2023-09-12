@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include "vector.hpp"
+#include "math/vector.hpp"
 
 #ifndef EVENT_H
 #define EVENT_H

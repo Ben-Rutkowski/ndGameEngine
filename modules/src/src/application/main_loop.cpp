@@ -1,5 +1,4 @@
 #include "application.hpp"
-#include "edit_mesh.hpp"
 
 void ndApp::startApp() {
     beginLoop();

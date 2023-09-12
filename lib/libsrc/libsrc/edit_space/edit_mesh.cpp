@@ -1,4 +1,4 @@
-#include "edit_mesh.hpp"
+#include "edit_space/edit_mesh.hpp"
 
 void EditFace::addPoint(Id point_id)
     { points.push_back(point_id); }

@@ -1,4 +1,4 @@
-#include "vertex_buffer_interface.hpp"
+#include "rendering/vertex_buffer_interface.hpp"
 
 // === Constructors and Initialization ===
 VertexBufferInterface::VertexBufferInterface() {

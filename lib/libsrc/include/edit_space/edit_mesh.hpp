@@ -8,9 +8,9 @@ Vertex < Tri < Face
 #ifndef EDIT_MESH_HPP
 #define EDIT_MESH_HPP
 
-#include "vertex_buffer_interface.hpp"
-#include "edit_index_objects.hpp"
-#include "select_algs.hpp"
+#include "rendering/vertex_buffer_interface.hpp"
+#include "edit_space/edit_index_objects.hpp"
+#include "math/select_algs.hpp"
 // #include "matrix.hpp"
 
 /* CLASS: EditMeshFace

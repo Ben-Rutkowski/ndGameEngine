@@ -1,7 +1,7 @@
 #ifndef EDIT_CACHE_HPP
 #define EDIT_CACHE_HPP
 
-#include "vector.hpp"
+#include "math/vector.hpp"
 
 /* CLASS TEMPLATE: EditCache
 

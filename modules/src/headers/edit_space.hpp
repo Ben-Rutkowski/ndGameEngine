@@ -3,8 +3,8 @@
 
 
 #include "camera.hpp"
-#include "edit_mesh.hpp"
-#include "select_box.hpp"
+#include "edit_space/edit_mesh.hpp"
+#include "edit_space/select_box.hpp"
 #include "nd_module.hpp"
 
 #define EDIT_SPACE_SHADER_SUB_DIR "modules/src/shaders/edit_mesh/"

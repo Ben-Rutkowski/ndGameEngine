@@ -1,4 +1,4 @@
-#include "select_algs.hpp"
+#include "math/select_algs.hpp"
 
 bool sAlg::crossRight(vec2 q, vec4 r, vec4 e) {
     float t;

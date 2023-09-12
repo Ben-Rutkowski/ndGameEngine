@@ -3,7 +3,7 @@
 
 #include "glad_glfw.hpp"
 #include "enum_map.hpp"
-#include "vector.hpp"
+#include "math/vector.hpp"
 
 #include <string>
 

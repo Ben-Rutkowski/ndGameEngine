@@ -4,7 +4,7 @@
 #include <array>
 #include <iostream>
 
-#include "math.hpp"
+#include "math/math_functions.hpp"
 
 namespace cTemp {
 template<typename U> struct Zero {};
