@@ -1,4 +1,5 @@
-#include "edit_space.hpp"
+// #include "edit_space.hpp"
+#include "edit_space/edit_camera.hpp"
 
 EditCamera::EditCamera()
     :origin({0.0f, 0.0f, 0.0f, 1.0f}),

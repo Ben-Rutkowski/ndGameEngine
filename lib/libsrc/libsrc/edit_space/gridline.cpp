@@ -1,4 +1,5 @@
-#include "edit_space.hpp"
+// #include "edit_space.hpp"
+#include "edit_space/gridline.hpp"
 
 GridLine::GridLine(vec4 dir_in, vec4 color_in)
     :direction{ dir_in },

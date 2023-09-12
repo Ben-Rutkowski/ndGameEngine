@@ -1,75 +1,15 @@
 #ifndef EDIT_SPACE_HPP
 #define EDIT_SPACE_HPP
 
-
-#include "camera.hpp"
 #include "edit_space/edit_mesh.hpp"
 #include "edit_space/select_box.hpp"
+#include "edit_space/edit_camera.hpp"
+#include "edit_space/gridline.hpp"
 #include "nd_module.hpp"
 
 #define EDIT_SPACE_SHADER_SUB_DIR "modules/src/shaders/edit_mesh/"
 #define GRIDLINE_SHADER_SUB_DIR "modules/src/shaders/gridline/"
 #define SELECT_BOX_SHADER_SUB_DIR "modules/src/shaders/select_box/"
-
-/* CLASS: EditCamera
-An edit Camera is a camera that is always facing an origin
-point. It can rotate around the origin, zoom in and out, and
-pan the origin. The origin exists in the xz-plane.
-
-The Camera is controlled by pitchYaw. Each time it is rotated,
-the position is calculated so the camera is looking at the origin.
-The distance is how far the camera is from the origin.
-*/
-
-#define MOUSE_DISTANCE_FACTOR 1.2f
-
-class EditCamera : public Camera {
-private:
-    vec4  origin;
-    vec4  plane_front;
-    float distance;
-
-public:
-    EditCamera();
-
-    void transOrigin(vec2 delta);
-    void zoom(float delta);
-
-    void scroll(float offset);
-    void rightClick(float x_pos, float y_pos);
-    void rightDrag(float x_pos, float y_pos);
-
-    void setRotate(float pitch_theta, float yaw_theta);
-    void setDistance(float dist);
-
-private:
-    void  calcParams();
-    bool  validDistance(float dist);
-    float boundedDelta(float delta);
-};
-
-/* CLASS GridLine 
-*/
-
-class GridLine {
-private:
-    VertexBufferInterface vbi;
-
-    float length;
-    vec4 direction;
-    vec4 color;
-
-    float offsets[10];
-    vec4  blank_color;
-    vec4  orthog;
-
-public:
-    GridLine(vec4 dir_in, vec4 color_in);
-    void load(float length_in);
-    void draw(ShaderProgram& program, mat4 view, mat4 proj);
-    void drawPlane(ShaderProgram& program, ShaderProgram& plane_program, mat4 view, mat4 proj);
-    void createPlane(vec4 blank_in, vec4 othog_in);
-};
 
 /* CLASS: EditSpace
 */
