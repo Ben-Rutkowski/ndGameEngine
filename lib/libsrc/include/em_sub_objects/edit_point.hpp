@@ -20,36 +20,39 @@ public:
 /* CLASS: PointCache
 
 A PointCache has as data vec4 for positions and has edge and face indices.
+pair cache1: edge
+pair cache2: face
+pair cache3: vertex
 
 */
 
 class PointCache : public EditCache<EditPoint> {
 public:
-    unsigned int addPoint(vec4 position) {
-        pushCache1();
-        pushCache2();
-        pushCache3();
+    Id addPoint(vec4 position) {
+        pushPairCache1(4);
+        pushPairCache2(4);
+        pushPairCache3(1);
         EditPoint point(position);
         return addData(point);
     }
 
-    void pairEdge(unsigned int point_id, unsigned int edge_id) 
+    void pairEdge(Id point_id, Id edge_id) 
         { pairIndexCache1(point_id, edge_id); }
-    void pairFace(unsigned int point_id, unsigned int face_id) 
+    void pairFace(Id point_id, Id face_id) 
         { pairIndexCache2(point_id, face_id); }
-    void pairVertex(unsigned int point_id, unsigned int vertex_id) 
+    void pairVertex(Id point_id, Id vertex_id) 
         { pairIndexCache3(point_id, vertex_id); }
 
-    int edgeNum(unsigned int point_id)   { return cacheNum1(point_id); }
-    int faceNum(unsigned int point_id)   { return cacheNum2(point_id); }
-    int vertexNum(unsigned int point_id) { return cacheNum3(point_id); }
+    int pairedEdgeLen(Id point_id)   { return pairedLen1(point_id); }
+    int pairedFaceLen(Id point_id)   { return pairedLen2(point_id); }
+    int pairedVertexLen(Id point_id) { return pairedLen3(point_id); }
 
-    unsigned int getEdge(unsigned int point_id, int i)
-        { return getCache1(point_id, i); }
-    unsigned int getFace(unsigned int point_id, int i)
-        { return getCache2(point_id, i); }
-    unsigned int getVertex(unsigned int point_id, int i)
-        { return getCache3(point_id, i); }
+    Id getPairedEdge(Id point_id, int i)
+        { return getPairedCache1(point_id, i); }
+    Id getPairedFace(Id point_id, int i)
+        { return getPairedCache2(point_id, i); }
+    Id getPairedVertex(Id point_id, int i)
+        { return getPairedCache3(point_id, i); }
 };
 
 #endif

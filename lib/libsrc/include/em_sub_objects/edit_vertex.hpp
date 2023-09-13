@@ -14,10 +14,10 @@ default normal and uv, or with a position, normal and uv.
 class EditVertex {
 // ---- Attributes ----
 private:
-    vec4 position;
-    vec4 normal;
-    vec4 center;
-    vec2 uv;
+    vec4  position;
+    vec4  normal;
+    vec4  center;
+    vec2  uv;
     float select;
 
 // ---- Constructor ----
@@ -46,11 +46,11 @@ A VertexCache contains EditVertexs as its data and does not utilize any caches.
 
 class VertexCache : public EditCache<EditVertex> {
 public:
-    unsigned int addVertex(EditVertex vertex) {
+    Id addVertex(EditVertex vertex) {
         return addData(vertex);
     }
 
-    unsigned int addVertex(vec4 position) {
+    Id addVertex(vec4 position) {
         EditVertex vertex(position);
         return addData(vertex);
     }

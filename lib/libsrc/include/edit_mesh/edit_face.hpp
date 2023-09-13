@@ -13,11 +13,6 @@ When expanding the edges in you must add three
 points, the first as the new point, and two edges.
 */
 
-typedef unsigned int Id;
-typedef std::array<unsigned int,2> Id2;
-typedef std::array<unsigned int,3> Id3;
-typedef std::array<unsigned int,4> Id4;
-
 class EditFace {
 private:
     std::vector<Id> points;
@@ -31,15 +26,15 @@ public:
     void addEdge(Id edge_id);
     void addTri(Id tri_id);
 
-    int pointNum();
-    int vertNum();
-    int edgeNum();
-    int triNum();
+    int pointLen();
+    int vertLen();
+    int edgeLen();
+    int triLen();
 
-    Id getPoint(int i);
-    Id getVert(int i);
-    Id getEdge(int i);
-    Id getTri(int i);
+    Id getPointId(int i);
+    Id getVertId(int i);
+    Id getEdgeId(int i);
+    Id getTriId(int i);
 
     vec4 edgeTipPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
     vec4 edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
@@ -59,10 +54,9 @@ Data : EditFace
 
 class FaceCache : public EditCache<EditFace> {
 public:
-    unsigned int createFace() {
+    Id createFace() {
         return createData();
     }
-
 };
 
 #endif

@@ -8,7 +8,7 @@
 
 class EdgeIndexObj {
 private:
-    unsigned int p[2]; // { tail, tip }
+    Id p[2]; // { tail, tip }
 
 public:
     EdgeIndexObj(unsigned int tail_in, unsigned int tip_in);
@@ -25,21 +25,21 @@ Cache1 : Faces
 
 class EdgeCache : public EditCache<EdgeIndexObj> {
 public:
-    unsigned int addEdge(EdgeIndexObj edge) {
-        pushCache1();
+    Id addEdge(EdgeIndexObj edge) {
+        pushPairCache1(2);
         return addData(edge);
     }
 
     int indexLen() { return 2*dataLen(); }
 
-    void pairFace(unsigned int edge_id, unsigned int face_id)
+    void pairFace(Id edge_id, Id face_id)
         { pairIndexCache1(edge_id, face_id); }
 
-    int faceNum(unsigned int edge_id)
-        { return cacheNum1(edge_id); }
+    int pairedFaceLen(Id edge_id)
+        { return pairedLen1(edge_id); }
 
-    unsigned int getFace(unsigned int edge_id, int i)
-        { return getCache1(edge_id, i); }
+    Id getPairedFace(Id edge_id, int i)
+        { return getPairedCache1(edge_id, i); }
 };
 
 #endif

@@ -100,16 +100,16 @@ void EditMesh::setPointPos(Id point, vec4 pos) {
     reloadPoint(point);
 
     Id vert_id;
-    int N = point_cache.vertexNum(point);
+    int N = point_cache.pairedVertexLen(point);
     for (int i=0; i<N; i++) {
-        vert_id = point_cache.getVertex(point, i);
+        vert_id = point_cache.getPairedVertex(point, i);
         vertex_cache[vert_id].setPos(pos);
     }
 
     Id face_id;
-    N = point_cache.faceNum(point);
+    N = point_cache.pairedFaceLen(point);
     for (int i=0; i<N; i++) {
-        face_id = point_cache.getFace(point, i);
+        face_id = point_cache.getPairedFace(point, i);
         face_cache[face_id].calcNorm(tri_cache, vertex_cache);
         face_cache[face_id].calcCenter(point_cache);
         reloadFace(face_id);
@@ -134,7 +134,7 @@ void EditMesh::translateSelectPoints(vec4 trans) {
 void EditMesh::extrudeTest(Id face) {
     float AMOUNT = 0.1f;
 
-    int pointN  = face_cache[face].pointNum();
+    int pointN  = face_cache[face].pointLen();
     vec4 normal = face_cache[face].calcNorm(tri_cache, vertex_cache);
     vec4 displace = normal.multK(AMOUNT, 3);
 
@@ -143,7 +143,7 @@ void EditMesh::extrudeTest(Id face) {
     Id point_id;
     vec4 point_pos;
     for (int i=0; i<pointN; i++) {
-        point_id = face_cache[face].getPoint(i);
+        point_id = face_cache[face].getPointId(i);
         point_pos = point_cache[point_id].getPos();
         point_pos = vec4::sumK(point_pos, displace, 3);
         new_points[i] = createPoint(point_pos);
@@ -177,10 +177,10 @@ void EditMesh::reloadPoint(Id point) {
 
 void EditMesh::reloadFace(Id face) {
     Id vert_id;
-    int N = face_cache[face].vertNum();
+    int N = face_cache[face].vertLen();
     face_vbi.bindAllBuffers();
     for (int i=0; i<N; i++) {
-        vert_id = face_cache[face].getVert(i);
+        vert_id = face_cache[face].getVertId(i);
         face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditVertex), vert_id*sizeof(EditVertex));
     }
     face_vbi.unbindCurrent();
@@ -274,10 +274,10 @@ void EditMesh::selectPoint(Id id, bool value) {
 
 void EditMesh::selectFace(Id id, bool value) {
     select_faces[id] = value;
-    int N = face_cache[id].vertNum();
+    int N = face_cache[id].vertLen();
     Id vert;
     for (int i=0; i<N; i++) {
-        vert = face_cache[id].getVert(i);
+        vert = face_cache[id].getVertId(i);
         vertex_cache[vert].setSelect(value);
         updateVertex(vert);
     }
