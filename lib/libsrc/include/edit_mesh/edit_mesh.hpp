@@ -9,69 +9,7 @@ Vertex < Tri < Face
 #define EDIT_MESH_HPP
 
 #include "rendering/vertex_buffer_interface.hpp"
-#include "edit_space/edit_index_objects.hpp"
-#include "math/select_algs.hpp"
-
-/* CLASS: EditMeshFace
-A MeshFace is the over arching class for tris.
-When constructing users can make a tri or quad.
-
-It must be done through the EditMesh class.
-When expanding the edges in you must add three
-points, the first as the new point, and two edges.
-*/
-
-typedef unsigned int Id;
-typedef std::array<unsigned int,2> Id2;
-typedef std::array<unsigned int,3> Id3;
-typedef std::array<unsigned int,4> Id4;
-
-class EditFace {
-private:
-    std::vector<Id> points;
-    std::vector<Id> vertices;
-    std::vector<Id> edges;
-    std::vector<Id> tris;
-
-public:
-    void addPoint(Id point_id);
-    void addVertex(Id vert_id);
-    void addEdge(Id edge_id);
-    void addTri(Id tri_id);
-
-    int pointNum();
-    int vertNum();
-    int edgeNum();
-    int triNum();
-
-    Id getPoint(int i);
-    Id getVert(int i);
-    Id getEdge(int i);
-    Id getTri(int i);
-
-    vec4 edgeTipPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
-    vec4 edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
-    vec4 triPos(Id tri, int i, TriCache& tri_cache, VertexCache& vertex_cache);
-
-    vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
-    vec4 calcCenter(PointCache& point_cache);
-    void setNorm(vec4 norm, VertexCache& vertex_cache);
-    void setCenter(vec4 center, VertexCache& vertex_cache);
-
-    float rayIntersect(vec4 u, vec4 d, TriCache& tri_cache, VertexCache& vertex_cache); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
-};
-
-/* CLASS FaceCache
-Data : EditFace
-*/
-
-class FaceCache : public EditCache<EditFace> {
-public:
-    unsigned int createFace() {
-        return createData();
-    }
-
-};
+#include "edit_mesh/edit_face.hpp"
 
 /* CLASS: EditMesh
 ======== ATTRIBUTES ========

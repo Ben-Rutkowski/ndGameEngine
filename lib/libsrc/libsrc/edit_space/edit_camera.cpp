@@ -1,4 +1,3 @@
-// #include "edit_space.hpp"
 #include "edit_space/edit_camera.hpp"
 
 EditCamera::EditCamera()
