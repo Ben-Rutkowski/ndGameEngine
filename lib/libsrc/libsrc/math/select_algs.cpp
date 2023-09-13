@@ -31,13 +31,13 @@ float sAlg::parRayIntersect(vec4 v1, vec4 v2, vec4 v3, vec4 u, vec4 d) {
 }
 
 vec3 sAlg::planeRayIntersect(vec4 v1, vec4 v2, vec4 v3, vec4 u, vec4 d) {
-    float TOL = 0.001f;
+    // float TOL = 0.001f;
 
     vec4 basis_0 = vec4::subtrK(v2, v1, 3);
     vec4 basis_1 = vec4::subtrK(v3, v1, 3);
 
-    float angle_0 = vec4::dotK(d, basis_0, 3);
-    float angle_1 = vec4::dotK(d, basis_1, 3);
+    // float angle_0 = vec4::dotK(d, basis_0, 3);
+    // float angle_1 = vec4::dotK(d, basis_1, 3);
 
     mat4 A({ basis_0, basis_1, d.multK(-1.0f, 3), vec4::basis(3) });
     vec4 b   = vec4::subtrK(u, v1, 3);

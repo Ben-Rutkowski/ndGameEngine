@@ -33,6 +33,9 @@ vec4 TriIndexObj::getNorm(int i, VertexCache& vertex_cache)
     { return vertex_cache[v[i]].getNorm(); }
 vec2 TriIndexObj::getUV(int i, VertexCache& vertex_cache)
     { return vertex_cache[v[i]].getUV(); }
+unsigned int TriIndexObj::getVertId(int i) {
+    return v[i];
+}
 
 vec4 TriIndexObj::calcNorm(VertexCache& vertex_cache) {    
     vec4 p0 = getPos(0, vertex_cache);

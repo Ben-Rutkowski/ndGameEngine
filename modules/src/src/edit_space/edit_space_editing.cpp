@@ -53,7 +53,10 @@ void EditSpace::selectPointsBox() {
     vec4 v3 = camera.clipToWorld(select_box.getBasisY());
     vec4 v4 = camera.clipToWorld(select_box.getEnd());
 
-    // debug_box.setVerts(v1, v2, v4, v3);
+    meshes[0].selectPointsBox(v1, v2, v3, camera.getPos());
+}
 
-    meshes[0].selectPointBox(v1, v2, v3, camera.getPos());
+void EditSpace::selectFacesClick(vec2 click) {
+    vec4 point = camera.clipToWorld(click);
+    meshes[0].selectFacesClick(point, camera.getPos());
 }

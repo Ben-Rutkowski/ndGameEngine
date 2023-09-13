@@ -58,7 +58,6 @@ public:
     void setNorm(vec4 norm, VertexCache& vertex_cache);
     void setCenter(vec4 center, VertexCache& vertex_cache);
 
-    bool isSelectPointClick(vec2 point, mat4 pvm, EdgeCache& edge_cache, PointCache& point_cache);
     float rayIntersect(vec4 u, vec4 d, TriCache& tri_cache, VertexCache& vertex_cache); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
 };
 
@@ -114,6 +113,7 @@ private:
 
 // Other Attributes
     std::vector<bool> select_points;
+    std::vector<bool> select_faces;
 
 public:
     EditMesh();
@@ -140,13 +140,14 @@ private:
 
 // Selecting
 public:
-    void selectFaces(vec2 click, mat4 pvm);
-
-    void selectPointBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos);
+    void selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos);
+    void selectFacesClick(vec4 point, vec4 camera_pos);
 
 private:
     void resetSelectPoints();
+    void resetSelectFaces();
     void selectPoint(Id id, bool value);
+    void selectFace(Id id, bool value);
     void cullPoint(Id id, vec4 camera_pos); // Sets point to false select if it is behind a face.
 
 // Debugging
@@ -158,6 +159,7 @@ public:
 public:
     void load();
     void updatePoint(Id id);
+    void updateVertex(Id id);
     void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
     void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
     void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 camera_pos);

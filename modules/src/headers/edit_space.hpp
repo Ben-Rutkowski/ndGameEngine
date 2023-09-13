@@ -52,6 +52,7 @@ private:
     EditMesh& ref(Id);
 
     void selectPointsBox();
+    void selectFacesClick(vec2 click);
 
 // --- Rendering ---
 private:

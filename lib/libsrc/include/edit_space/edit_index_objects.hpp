@@ -57,6 +57,7 @@ public:
     vec4 getPos(int i, VertexCache& vertex_cache);
     vec4 getNorm(int i, VertexCache& vertex_cache);
     vec2 getUV(int i, VertexCache& vertex_cache);
+    unsigned int getVertId(int i);
 
     vec4 calcNorm(VertexCache& vertex_cache);
 };

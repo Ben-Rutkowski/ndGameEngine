@@ -120,6 +120,7 @@ private:
     vec4 normal;
     vec4 center;
     vec2 uv;
+    float select;
 
 // ---- Constructor ----
 public:
@@ -137,6 +138,8 @@ public:
     void setNorm(vec4 norm_in);
     void setCenter(vec4 cent_in);
     void setUV(vec2 uv_in);
+
+    void setSelect(bool value);
 };
 
 /* CLASS: VertexCache

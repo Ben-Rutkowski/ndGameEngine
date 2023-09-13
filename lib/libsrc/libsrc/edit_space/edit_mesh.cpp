@@ -66,27 +66,6 @@ void EditFace::setCenter(vec4 center, VertexCache& vertex_cache) {
     }
 }
 
-bool EditFace::isSelectPointClick(vec2 point, mat4 pvm, EdgeCache& edge_cache, PointCache& point_cache) {
-    int cross_right = 0;
-    int N = edgeNum();
-    Id edge;
-    vec4 root, end;
-    for (int i=0; i<N; i++) {
-        edge = edges[i];
-        root = edgeTailPos(edge, edge_cache, point_cache);
-        end  = edgeTipPos(edge, edge_cache, point_cache);
-        root = sAlg::modelToClip(root, pvm);
-        end  = sAlg::modelToClip(end, pvm);
-
-        if (sAlg::crossRight(point, root, end)) {
-            cross_right = cross_right + 1;
-        }
-    }
-
-    if (cross_right%2 == 1) { return true; }
-    else                    { return false; }
-}
-
 float EditFace::rayIntersect(vec4 u, vec4 d, TriCache& tri_cache, VertexCache& vertex_cache) {
     vec4 v1, v2, v3;
     int N = triNum();
@@ -270,17 +249,36 @@ void EditMesh::printSelect() {
 }
 
 // === Selecting ===
-void EditMesh::selectFaces(vec2 click, mat4 pvm) {
+void EditMesh::selectFacesClick(vec4 point, vec4 camera_pos) {
+    point = inverse_model_pos*point;
+    vec4 u = inverse_model_pos*camera_pos;
+    vec4 d = vec4::subtrK(point, u, 3);
+
+    float curr_dist;
+    float least_dist = -1.0f;
+    int selected_face = -1;
     int N = face_cache.dataLen();
     for (int i=0; i<N; i++) {
-        if (face_cache[i].isSelectPointClick(click, pvm, edge_cache, point_cache)) {
-            std::cout << i << " ";
+        curr_dist = face_cache[i].rayIntersect(u, d, tri_cache, vertex_cache);
+        if (curr_dist != -1.0f) {
+            if (least_dist == -1.0f) {
+                least_dist = curr_dist;
+                selected_face = i;
+            } else if ( curr_dist < least_dist ) {
+                least_dist = curr_dist;
+                selected_face = i;
+            }
         }
     }
-    std::cout << std::endl;
+    
+    bool select;
+    for (int i=0; i<N; i++) {
+        select = i == selected_face;
+        selectFace(i, select);
+    }
 }
 
-void EditMesh::selectPointBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
+void EditMesh::selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
     v1 = inverse_model_pos*v1;
     v2 = inverse_model_pos*v2;
     v3 = inverse_model_pos*v3;
@@ -310,10 +308,26 @@ void EditMesh::resetSelectPoints() {
     select_points.assign(N, false);
 }
 
+void EditMesh::resetSelectFaces() {
+    int N = face_cache.dataLen();
+    select_faces.assign(N, false);
+}
+
 void EditMesh::selectPoint(Id id, bool value) {
     select_points[id] = value;
     point_cache[id].setSelect(value);
     updatePoint(id);
+}
+
+void EditMesh::selectFace(Id id, bool value) {
+    select_faces[id] = value;
+    int N = face_cache[id].vertNum();
+    Id vert;
+    for (int i=0; i<N; i++) {
+        vert = face_cache[id].getVert(i);
+        vertex_cache[vert].setSelect(value);
+        updateVertex(vert);
+    }
 }
 
 void EditMesh::cullPoint(Id id, vec4 camera_pos) {
@@ -351,9 +365,11 @@ void EditMesh::load() {
     face_vbi.configAttribf(0, 4, sizeof(EditVertex), (void*)0);
     face_vbi.configAttribf(1, 4, sizeof(EditVertex), (void*)(sizeof(vec4)));
     face_vbi.configAttribf(2, 4, sizeof(EditVertex), (void*)(2*sizeof(vec4)));
+    face_vbi.configAttribf(3, 1, sizeof(EditVertex), (void*)(3*sizeof(vec4) + sizeof(vec2)));
     face_vbi.unbindCurrent();
 
     resetSelectPoints();
+    resetSelectFaces();
 }
 
 void EditMesh::updatePoint(Id id) {
@@ -364,6 +380,12 @@ void EditMesh::updatePoint(Id id) {
     line_vbi.bindAllBuffers();
     line_vbi.editVertexData(&point_cache[id], sizeof(EditPoint), id*sizeof(EditPoint));
     line_vbi.unbindCurrent();
+}
+
+void EditMesh::updateVertex(Id id) {
+    face_vbi.bindAllBuffers();
+    face_vbi.editVertexData(&vertex_cache[id], sizeof(EditVertex), id*sizeof(EditVertex));
+    face_vbi.unbindCurrent();
 }
 
 void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color) {
