@@ -134,6 +134,8 @@ public:
     void translatePoint(Id point, vec4 trans);
     void translateSelectPoints(vec4 trans);
 
+    void extrudeTest(Id face);
+
 private:
     void reloadPoint(Id point);
     void reloadFace(Id face);

@@ -94,15 +94,17 @@ void EditSpace::onScroll(Event* event) {
 }
 
 void EditSpace::onWKey(Event* event) {
-    vec4 trans({
-        0.0f, 0.01f, 0.0f, 1.0f
-    });
-    meshes[0].translateSelectPoints(trans);
+    // vec4 trans({
+    //     0.0f, 0.01f, 0.0f, 1.0f
+    // });
+    // meshes[0].translateSelectPoints(trans);
 }
 
 void EditSpace::onSKey(Event* event) {
-    vec4 trans({
-        0.0f, -0.01f, 0.0f, 1.0f
-    });
-    meshes[0].translateSelectPoints(trans);
+    // vec4 trans({
+    //     0.0f, -0.01f, 0.0f, 1.0f
+    // });
+    // meshes[0].translateSelectPoints(trans);
+
+    // meshes[0].extrudeTest(0);
 }

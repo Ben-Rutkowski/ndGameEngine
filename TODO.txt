@@ -1,10 +1,13 @@
 TODO: 
 == Imidiate tasks
 
+- Organize edit_space lib
+- Buttons for select type (hold control to add more to select).
+- Rendering type, face or wire.
+- Clean up edit mesh and others
 - Translate Axis tool
 - Clean inefficient camera and edit_camera routines
-- Selecting that is bounded by visible vertices. (Don't highlight obscured vertices)
-- Selecting edges and faces.
+- Selecting edges.
 - Optimize camera controls. (get rid of slowing valid checks and minimize needed functions)
 - Docs
 

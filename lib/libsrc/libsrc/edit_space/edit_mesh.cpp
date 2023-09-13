@@ -213,6 +213,41 @@ void EditMesh::translateSelectPoints(vec4 trans) {
     }
 }
 
+void EditMesh::extrudeTest(Id face) {
+    float AMOUNT = 0.1f;
+
+    int pointN  = face_cache[face].pointNum();
+    vec4 normal = face_cache[face].calcNorm(tri_cache, vertex_cache);
+    vec4 displace = normal.multK(AMOUNT, 3);
+
+    // Create the new points
+    std::vector<Id> new_points(pointN);
+    Id point_id;
+    vec4 point_pos;
+    for (int i=0; i<pointN; i++) {
+        point_id = face_cache[face].getPoint(i);
+        point_pos = point_cache[point_id].getPos();
+        point_pos = vec4::sumK(point_pos, displace, 3);
+        new_points[i] = createPoint(point_pos);
+    }
+    std::vector<Id> new_edges(pointN);
+    for (int i=0; i<pointN; i++) {
+        new_edges[i] = createEdge({new_points[i%4], new_points[(i+1)%4]});
+    }
+
+    std::array<Id,4> points_quad {
+        new_points[0], new_points[1], new_points[2], new_points[3]
+    };
+    std::array<Id,4> edges_quad = {
+        new_edges[0], new_edges[1], new_edges[2], new_edges[3]
+    };
+    createQuad(points_quad, edges_quad);
+
+    std::cout << "Point Number: " << point_cache.dataLen() << std::endl;
+
+    load();
+}
+
 void EditMesh::reloadPoint(Id point) {
     point_vbi.bindAllBuffers();
     point_vbi.editVertexData(&point_cache[point], sizeof(EditPoint), point*sizeof(EditPoint));
