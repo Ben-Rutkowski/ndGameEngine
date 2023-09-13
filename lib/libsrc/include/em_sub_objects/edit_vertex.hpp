@@ -31,12 +31,12 @@ public:
     vec4 getNorm();
     vec4 getCenter();
     vec2 getUV();
+    bool getSelect();
 
     void setPos(vec4 pos_in);
     void setNorm(vec4 norm_in);
     void setCenter(vec4 cent_in);
     void setUV(vec2 uv_in);
-
     void setSelect(bool value);
 };
 

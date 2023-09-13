@@ -15,10 +15,10 @@ points, the first as the new point, and two edges.
 
 class EditFace {
 private:
-    std::vector<Id> points;
-    std::vector<Id> vertices;
-    std::vector<Id> edges;
-    std::vector<Id> tris;
+    std::vector<Id> point_ids;
+    std::vector<Id> vert_ids;
+    std::vector<Id> edge_ids;
+    std::vector<Id> tri_ids;
 
 public:
     void addPoint(Id point_id);
@@ -31,21 +31,23 @@ public:
     int edgeLen();
     int triLen();
 
-    Id getPointId(int i);
-    Id getVertId(int i);
-    Id getEdgeId(int i);
-    Id getTriId(int i);
+    Id pointId(int i);
+    Id vertId(int i);
+    Id edgeId(int i);
+    Id triId(int i);
 
-    vec4 edgeTipPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
-    vec4 edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
-    vec4 triPos(Id tri, int i, TriCache& tri_cache, VertexCache& vertex_cache);
+    EditPoint&  point(int i, PointCache& pc);
+    EditVertex& vert(int i, VertexCache& vc);
+    EdgeIndexObj& edge(int i, EdgeCache& ec);
+    TriIndexObj&  tri(int i, TriCache& tc);
 
-    vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
-    vec4 calcCenter(PointCache& point_cache);
-    void setNorm(vec4 norm, VertexCache& vertex_cache);
-    void setCenter(vec4 center, VertexCache& vertex_cache);
+    void setNorm(vec4 norm, VertexCache& vc);
+    void setCenter(vec4 center, VertexCache& vc);
 
-    float rayIntersect(vec4 u, vec4 d, TriCache& tri_cache, VertexCache& vertex_cache); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
+// --- Calculations ---
+    vec4  calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
+    vec4  calcCenter(PointCache& point_cache);
+    float rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
 };
 
 /* CLASS FaceCache

@@ -8,14 +8,17 @@
 
 class EdgeIndexObj {
 private:
-    Id p[2]; // { tail, tip }
+    Id point_ids[2]; // { tail, tip }
 
 public:
-    EdgeIndexObj(unsigned int tail_in, unsigned int tip_in);
-    vec4  getTail(PointCache& point_cache);
-    vec4  getTip(PointCache& point_cache);
-    vec4  calcEdgeVec(PointCache& point_cache);
-    float calcLength(PointCache& point_cache);
+    EdgeIndexObj(Id tail_in, Id tip_in);
+    EditPoint& point(int i, PointCache& pc);
+    Id pointId(int i);
+
+// --- Calculations ---
+public:
+    vec4  calcEdgeVec(PointCache& pc);
+    float calcLength(PointCache& pc);
 };
 
 /* CLASS: EdgeCache

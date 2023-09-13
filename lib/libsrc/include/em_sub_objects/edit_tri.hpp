@@ -10,16 +10,17 @@ Users should not touch or create TriIndexObjects.
 
 class TriIndexObj {
 private:
-    Id v[3];
+    Id vertex_ids[3];
 
 public:
-    TriIndexObj(unsigned int v0_in, unsigned int v1_in, unsigned int v2_in);
-    vec4 getPos(int i, VertexCache& vertex_cache);
-    vec4 getNorm(int i, VertexCache& vertex_cache);
-    vec2 getUV(int i, VertexCache& vertex_cache);
-    Id   getVertId(int i);
+    TriIndexObj(Id v0_in, Id v1_in, Id v2_in);
 
-    vec4 calcNorm(VertexCache& vertex_cache);
+    EditVertex& vert(int i, VertexCache& vc);
+    Id vertId(int i);
+
+// --- Calculations ---
+public:
+    vec4 calcNorm(VertexCache& vc);
 };
 
 /* CLASS: TriCache

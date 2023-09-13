@@ -11,8 +11,12 @@ private:
 
 public:
     EditPoint(vec4 pos_in);
+
+// --- Gets and Sets ---
+public:
     vec4 getPos();
     bool getSelect();
+    
     void setPos(vec4 pos_in);
     void setSelect(bool value);
 };

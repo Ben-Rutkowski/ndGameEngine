@@ -106,5 +106,5 @@ void EditSpace::onSKey(Event* event) {
     // });
     // meshes[0].translateSelectPoints(trans);
 
-    // meshes[0].extrudeTest(0);
+    meshes[0].extrudeTest(0);
 }

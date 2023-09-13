@@ -38,21 +38,18 @@ private:
     VertexBufferInterface line_vbi;
     VertexBufferInterface face_vbi;
 
-// Vertex Data
+// Caches
     PointCache  point_cache;
     VertexCache vertex_cache;
-
-// Index Data
-    EdgeCache edge_cache;
-    TriCache  tri_cache;
-
-// Face Data
-    FaceCache face_cache;
+    EdgeCache   edge_cache;
+    TriCache    tri_cache;
+    FaceCache   face_cache;
 
 // Other Attributes
     std::vector<bool> select_points;
     std::vector<bool> select_faces;
 
+// --- Constructor ---
 public:
     EditMesh();
     mat4 getModel();
@@ -61,7 +58,7 @@ public:
 public:
     void translate(vec4 trans);
 
-// Editing
+// --- Editing ---
 public:
     Id createPoint(vec4 point);
     Id createEdge(Id2 points);

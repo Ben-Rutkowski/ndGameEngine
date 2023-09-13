@@ -14,6 +14,13 @@ vec4 EditVertex::getPos()    { return position; }
 vec4 EditVertex::getNorm()   { return normal; }
 vec4 EditVertex::getCenter() { return center; }
 vec2 EditVertex::getUV()     { return uv; }
+bool EditVertex::getSelect() { 
+    if (select == 1.0f) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 void EditVertex::setPos(vec4 pos_in)     { position = pos_in; }
 void EditVertex::setNorm(vec4 norm_in)   { normal = norm_in; }
