@@ -1,8 +1,6 @@
 #ifndef EDIT_INDEX_OBJECT_HPP
 #define EDIT_INDEX_OBJECT_HPP
 
-#include "vector"
-// #include "edit_cache.hpp"
 #include "edit_space/edit_cache.hpp"
 
 /* CLASS: EdgeIndexObj

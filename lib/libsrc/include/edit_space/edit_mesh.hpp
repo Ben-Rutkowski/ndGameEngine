@@ -11,7 +11,6 @@ Vertex < Tri < Face
 #include "rendering/vertex_buffer_interface.hpp"
 #include "edit_space/edit_index_objects.hpp"
 #include "math/select_algs.hpp"
-// #include "matrix.hpp"
 
 /* CLASS: EditMeshFace
 A MeshFace is the over arching class for tris.
@@ -52,6 +51,7 @@ public:
 
     vec4 edgeTipPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
     vec4 edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cache);
+    vec4 triPos(Id tri, int i, TriCache& tri_cache, VertexCache& vertex_cache);
 
     vec4 calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
     vec4 calcCenter(PointCache& point_cache);
@@ -59,6 +59,7 @@ public:
     void setCenter(vec4 center, VertexCache& vertex_cache);
 
     bool isSelectPointClick(vec2 point, mat4 pvm, EdgeCache& edge_cache, PointCache& point_cache);
+    float rayIntersect(vec4 u, vec4 d, TriCache& tri_cache, VertexCache& vertex_cache); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
 };
 
 /* CLASS FaceCache
@@ -93,6 +94,7 @@ class EditMesh {
 private:
 // Position
     mat4 model_pos;
+    mat4 inverse_model_pos;
 
 // Rendering
     VertexBufferInterface point_vbi;
@@ -120,7 +122,6 @@ public:
 // Transformation
 public:
     void translate(vec4 trans);
-    void setModelMat(mat4 model);
 
 // Editing
 public:
@@ -140,13 +141,13 @@ private:
 // Selecting
 public:
     void selectFaces(vec2 click, mat4 pvm);
-    void setSelectedPoints(mat4 select_mat);
-    void setSelectedPointsAdd(mat4 select_mat);
+
+    void selectPointBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos);
 
 private:
     void resetSelectPoints();
-    bool checkSelect(mat4& select_mat, vec4 point);
     void selectPoint(Id id, bool value);
+    void cullPoint(Id id, vec4 camera_pos); // Sets point to false select if it is behind a face.
 
 // Debugging
 public:

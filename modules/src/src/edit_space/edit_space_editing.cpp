@@ -43,6 +43,17 @@ Id EditSpace::createDefaultCube() {
             {be[i%4], se[(i+1)%4], te[i%4], se[i%4]}
         );
     }
-    cube.translate(vec4({0.0f, 0.5f, 0.0f, 1.0f}));
+    // cube.translate(vec4({0.0f, 0.5f, 0.0f, 1.0f}));
     return cube_id;
+}
+
+void EditSpace::selectPointsBox() {
+    vec4 v1 = camera.clipToWorld(select_box.getRoot());
+    vec4 v2 = camera.clipToWorld(select_box.getBasisX());
+    vec4 v3 = camera.clipToWorld(select_box.getBasisY());
+    vec4 v4 = camera.clipToWorld(select_box.getEnd());
+
+    // debug_box.setVerts(v1, v2, v4, v3);
+
+    meshes[0].selectPointBox(v1, v2, v3, camera.getPos());
 }

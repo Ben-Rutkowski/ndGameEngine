@@ -14,7 +14,7 @@ Camera::Camera()
     view{mat4::view(position, front, right)},
     proj{mat4::projPer(fov, ratio, near, far)} {}
 
-mat4  Camera::getView() { return view; }
+mat4 Camera::getView() { return view; }
 mat4  Camera::getProj() { return proj; }
 vec4  Camera::getFront() { return front; }
 vec4  Camera::getPos()   { return position; }
@@ -45,10 +45,6 @@ void Camera::pitchYaw(float pitch_theta, float yaw_theta) {
     if (validYaw(yaw_theta))     { yaw   = yaw_theta; }
     calcPitchYaw();
 }
-
-// void Camera::pitchYawInc(float pitch_delta, float yaw_delta) {
-//     pitchYaw(pitch + pitch_delta, yaw + yaw_delta);
-// }
 
 void Camera::calcPitchYaw() {
     const float FULL_CIRCLE = 2.0f * M_PI;
@@ -83,10 +79,23 @@ void Camera::setProj(float fov_in, float near_in, float far_in) {
 }
 
 // === Selecting ===
-mat4 Camera::selectMatProj(mat4 model, vec2 br, vec2 tl) {
+// mat4 Camera::selectMatProj(mat4 model, vec2 br, vec2 tl) {
+//     float h = near*tan(fov);
+//     float w = ratio*h;
+//     return mat4::selectProjPartial(br, tl, w, h, near)*view*model;
+// }
+
+vec4 Camera::clipToWorld(vec2 v) {
     float h = near*tan(fov);
     float w = ratio*h;
-    return mat4::selectProjPartial(br, tl, w, h, near)*view*model;
+
+    vec4 r = right.multK(v[0]*w, 3);
+    vec4 u = up.multK(v[1]*h, 3);
+    vec4 f = front.multK(near, 3);
+
+    vec4 out = vec4::sumK(r, u, 3);
+    out = vec4::sumK(out, f, 3);
+    return vec4::sumK(out, position, 3);
 }
 
 // === Protected ===

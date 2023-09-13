@@ -60,7 +60,10 @@ void SelectBox::drawFaces(ShaderProgram& program) {
     face_vbi.unbindCurrent();
 }
 
-vec2 SelectBox::getRoot() { return root; }
+vec2 SelectBox::getRoot()   { return vertex_data[0]; }
+vec2 SelectBox::getBasisX() { return vertex_data[1]; }
+vec2 SelectBox::getBasisY() { return vertex_data[2]; }
+
 vec2 SelectBox::getEnd()  { return end; }
 
 void SelectBox::setGrabVData(vec2 v) {

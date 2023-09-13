@@ -1,11 +1,9 @@
 #ifndef EDIT_SPACE_HPP
 #define EDIT_SPACE_HPP
 
-#include "edit_space/edit_mesh.hpp"
-#include "edit_space/select_box.hpp"
-#include "edit_space/edit_camera.hpp"
-#include "edit_space/gridline.hpp"
+#include "edit_space_lib.hpp"
 #include "nd_module.hpp"
+#include "debug_box.hpp"
 
 #define EDIT_SPACE_SHADER_SUB_DIR "modules/src/shaders/edit_mesh/"
 #define GRIDLINE_SHADER_SUB_DIR "modules/src/shaders/gridline/"
@@ -41,18 +39,19 @@ private:
     std::vector<EditMesh> meshes;
     SelectBox  select_box;
 
+    // DebugBox   debug_box;
+
 public:
     EditSpace();
     void setManagerPtr(EventManager* ptr);
 
 // --- Editing ---
-public:
+private:
     Id createMesh();
     Id createDefaultCube();
     EditMesh& ref(Id);
 
-public:
-    // void selectPoints(mat4 select_mat, Id mesh_id);
+    void selectPointsBox();
 
 // --- Rendering ---
 private:

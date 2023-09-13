@@ -95,4 +95,6 @@ void EditSpace::draw() {
 
         select_box.drawLines(select_box_line_shader);
     }
+
+    // debug_box.draw(camera.getView(), camera.getProj());
 }

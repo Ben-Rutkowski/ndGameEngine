@@ -95,6 +95,8 @@ public:
 public:
     virtual int   getInt(int index);
     virtual float getFloat(int index);
+    virtual vec2  getVec2();
+    virtual vec4  getVec4();
 
 // --- Debugging ---
 public:
@@ -148,9 +150,8 @@ public:
         :Event(EventType::VEC2F, module_name, data),
         vector_2f{ vector } {}
 
-    float getFloat(int index) {
-        return vector_2f[index];
-    }
+    float getFloat(int index) { return vector_2f[index]; }
+    vec2  getVec2() { return vector_2f; }
 };
 
 class Event4f : public Event {
@@ -169,6 +170,9 @@ public:
     float getFloat(int index) {
         return vector_4f[index];
     }
+
+    vec2 getVec2() { return vec2({ vector_4f[0], vector_4f[1] }); }
+    vec4 getVec4() { return vector_4f; }
 };
 
 #endif

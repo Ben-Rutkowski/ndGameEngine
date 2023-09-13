@@ -26,6 +26,10 @@ vec4 EditFace::edgeTailPos(Id edge, EdgeCache& edge_cache, PointCache& point_cac
     return edge_cache[edge].getTail(point_cache);
 }
 
+vec4 EditFace::triPos(Id tri, int i, TriCache& tri_cache, VertexCache& vertex_cache) {
+    return tri_cache[tri].getPos(i, vertex_cache);
+}
+
 vec4 EditFace::calcNorm(TriCache& tri_cache, VertexCache& vertex_cache) {
     int N = triNum();
     vec4 curr_norm;
@@ -83,9 +87,27 @@ bool EditFace::isSelectPointClick(vec2 point, mat4 pvm, EdgeCache& edge_cache, P
     else                    { return false; }
 }
 
+float EditFace::rayIntersect(vec4 u, vec4 d, TriCache& tri_cache, VertexCache& vertex_cache) {
+    vec4 v1, v2, v3;
+    int N = triNum();
+    float dist = -1.0f;
+    float curr_dist = -1.0f;
+    for (int i=0; i<N; i++) {
+        v1 = triPos(tris[i], 0, tri_cache, vertex_cache);
+        v2 = triPos(tris[i], 1, tri_cache, vertex_cache);
+        v3 = triPos(tris[i], 2, tri_cache, vertex_cache);
+        curr_dist = sAlg::triRayIntersect(v1, v2, v3, u, d);
+        if (curr_dist != -1.0f) {
+            dist = curr_dist;
+        } 
+    }
+    return dist;
+}
+
 // ======== EditMesh ========
 EditMesh::EditMesh()
-    :model_pos{ mat4::iden() } {} 
+    :model_pos{ mat4::iden() },
+    inverse_model_pos{ mat4::iden() } {} 
 
 mat4 EditMesh::getModel() {
     return model_pos;
@@ -93,10 +115,8 @@ mat4 EditMesh::getModel() {
 
 void EditMesh::translate(vec4 trans) {
     model_pos = mat4::translate(trans)*model_pos;
-}
-
-void EditMesh::setModelMat(mat4 model) {
-    model_pos = model;
+    mat4 inverse = mat4::itranslate(trans);
+    inverse_model_pos = inverse_model_pos*inverse;
 }
 
 Id EditMesh::createPoint(vec4 point)
@@ -260,38 +280,31 @@ void EditMesh::selectFaces(vec2 click, mat4 pvm) {
     std::cout << std::endl;
 }
 
-void EditMesh::setSelectedPoints(mat4 select_mat) {
-    int N = point_cache.dataLen();
+void EditMesh::selectPointBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
+    v1 = inverse_model_pos*v1;
+    v2 = inverse_model_pos*v2;
+    v3 = inverse_model_pos*v3;
+    camera_pos = inverse_model_pos*camera_pos;
+    vec4 u = camera_pos;
+    vec4 d;
     vec4 point;
-    bool value;
-    for (int i=0; i<N; i++) {
-        point = point_cache[i].getPos();
-        value = checkSelect(select_mat, point);
-        selectPoint(i, value);
-    }
-}
+    float dist;
+    bool selected;
 
-void EditMesh::setSelectedPointsAdd(mat4 select_mat) {
     int N = point_cache.dataLen();
-    vec4 point;
     for (int i=0; i<N; i++) {
         point = point_cache[i].getPos();
-        if (checkSelect(select_mat, point)) {
-            selectPoint(i, true);
+        d     = vec4::subtrK(point, camera_pos, 3);
+        dist  = sAlg::parRayIntersect(v1, v2, v3, u, d);
+        selected = dist > 0.0f;
+        selectPoint(i, selected);
+        if ( selected ) {
+            cullPoint(i, camera_pos);
         }
     }
 }
 
 // === Private ===
-bool EditMesh::checkSelect(mat4& select_mat, vec4 point) {
-    vec4 p = select_mat*point;
-    float s = 1.0f/p[2];
-    float x = p[0]*s;
-    float y = p[1]*s;
-
-    return  s>0.0f && x>=0.0f && y>=0.0f && x <= 1.0f && y <= 1.0f;
-}
-
 void EditMesh::resetSelectPoints() {
     int N = point_cache.dataLen();
     select_points.assign(N, false);
@@ -301,6 +314,20 @@ void EditMesh::selectPoint(Id id, bool value) {
     select_points[id] = value;
     point_cache[id].setSelect(value);
     updatePoint(id);
+}
+
+void EditMesh::cullPoint(Id id, vec4 camera_pos) {
+    float dist;
+    vec4 u = point_cache[id].getPos();
+    vec4 d = vec4::subtrK(camera_pos, u, 3);
+    int N = face_cache.dataLen();
+    for (int i=0; i<N; i++) {
+        dist = face_cache[i].rayIntersect(u, d, tri_cache, vertex_cache);
+        if ( dist != -1.0f) {
+            selectPoint(id, false);
+            return;
+        }
+    }
 }
 
 // === Rendering ===

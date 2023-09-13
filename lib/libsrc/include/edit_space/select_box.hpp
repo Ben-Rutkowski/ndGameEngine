@@ -15,6 +15,8 @@ public:
     SelectBox();
 
     vec2 getRoot();
+    vec2 getBasisX();
+    vec2 getBasisY();
     vec2 getEnd();
 
     void grab(vec2 v);

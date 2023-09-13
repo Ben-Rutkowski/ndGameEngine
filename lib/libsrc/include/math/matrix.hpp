@@ -94,6 +94,19 @@ public:
         return Matrix<T,M,P>(output);
     }
 
+    T det3() {
+        T term_0 = get(0,0)*det2_3x3(0);
+        T term_1 = get(1,0)*det2_3x3(1);
+        T term_2 = get(2,0)*det2_3x3(2);
+        return term_0 + term_1 + term_2;
+    }
+
+    T det2_3x3(int k) {
+        int i = (k+1)%3;
+        int j = (k+2)%3;
+        return get(i,1)*get(j,2) - get(i,2)*get(j,1);
+    }
+
 // --- Operations ---
 public:
     Matrix<T,N,M> transpose() {
@@ -149,6 +162,21 @@ public:
             output.set(vector[i], i, i);
         }
         return output;
+    }
+
+    static Matrix<T,M,N> replaceColumn(Matrix<T,M,N> mat, Vector<T,M> v, int k) {
+        for (int i=0; i<M; i++) {
+            mat.set(v[i], i, k);
+        }
+        return mat;
+    }
+
+    static Vector<T,3> cramer3(Matrix<T,M,N> A, Vector<T,M> b) {
+        T denom = 1.0f/A.det3();
+        T x_num = replaceColumn(A,b,0).det3();
+        T y_num = replaceColumn(A,b,1).det3();
+        T z_num = replaceColumn(A,b,2).det3();
+        return Vector<T,3>({x_num*denom, y_num*denom, z_num*denom});
     }
 
     static Matrix<float,4,4> scale(vec3 scale) {

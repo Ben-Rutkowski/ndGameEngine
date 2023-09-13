@@ -278,6 +278,18 @@ public:
         });
     }
 
+    // Returns the 2x2 det of the last two columns in a 3x3 matrix
+    /*
+        a b c          k = 0    k = 1   k = 2
+        d e f    ->    |e f| , -|b c| , |b c|
+        g h i          |h i|    |h i|   |e f|
+    */
+    static Vector<T,N> det3_2x2(Vector<T,N> a, Vector<T,N> b, int k) {
+        int i = (k+1)%3;
+        int j = (k+2)%3;
+        return a[i]*b[j] - a[j]*b[i];
+    }
+
 // --- Debugging ---
 public:
     void print() {

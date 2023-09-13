@@ -30,6 +30,8 @@ bool      Event::operator!() { return code.type == EventType::null; }
 // === Virtual ===
 int   Event::getInt(int index)   { return 0; }
 float Event::getFloat(int index) { return 0.0f; }
+vec2  Event::getVec2()           { return vec2(0.0f); }
+vec4  Event::getVec4()           { return vec4(0.0f); }
 
 // === Debugging ===
 void Event::print() {

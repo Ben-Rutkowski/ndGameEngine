@@ -29,6 +29,13 @@ void EditSpace::onBeginLoop(Event* event) {
     camera.calcProj(800.0f/600.0f);
     createDefaultCube();
     load();
+
+    // debug_box.setVerts(
+    //     vec4({-0.25f, -0.25f, 0.0f, 1.0f}),
+    //     vec4({ 0.25f, -0.25f, 0.0f, 1.0f}),
+    //     vec4({ 0.25f,  0.25f, 0.0f, 1.0f}),
+    //     vec4({-0.25f,  0.25f, 0.0f, 1.0f})
+    // );
 }
 
 void EditSpace::onStartFrame(Event* event) {
@@ -71,11 +78,11 @@ void EditSpace::onRightMouseHold(Event* event) {
 void EditSpace::onLeftMouseClick(Event* event) {
     float mouse_x = event->getFloat(0);
     float mouse_y = event->getFloat(1);
+    vec2 click = event->getVec2();
     // === Vertex Select Box ===
     select_box.grab(vec2({mouse_x, mouse_y}));
     scache.set(esLEFT_MOUSE, true);
 
-    vec2 click({mouse_x, mouse_y});
 
     mat4 model = meshes[0].getModel();
     mat4 view  = camera.getView();
@@ -98,14 +105,19 @@ void EditSpace::onLeftMouseRelease(Event* event) {
     // === Vertex Select Box ===
     float RADIUS = 0.05f;
     scache.set(esLEFT_MOUSE, false);
-    mat4 model = meshes[0].getModel();
-    mat4 select_mat = camera.selectMatProj(model, select_box.getRoot(), select_box.getEnd());
-    if (!isfinite(select_mat.get(0,0))) {
-        select_mat = camera.selectMatProj(
-            model, vec2({mouse_x - RADIUS, mouse_y - RADIUS}),
-            vec2({mouse_x + RADIUS, mouse_y + RADIUS}));
-    }
-    meshes[0].setSelectedPoints(select_mat);
+
+    selectPointsBox();
+
+    // mat4 model = meshes[0].getModel();
+    // mat4 select_mat = camera.selectMatProj(model, select_box.getRoot(), select_box.getEnd());
+    // if (!isfinite(select_mat.get(0,0))) {
+    //     select_mat = camera.selectMatProj(
+    //         model, vec2({mouse_x - RADIUS, mouse_y - RADIUS}),
+    //         vec2({mouse_x + RADIUS, mouse_y + RADIUS}));
+    // }
+    // meshes[0].setSelectedPoints(select_mat);
+
+    
 }
 
 void EditSpace::onScroll(Event* event) {

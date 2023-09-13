@@ -44,7 +44,6 @@ public:
 // --- Move ---
     void translate(vec4 trans);
     void pitchYaw(float pitch_theta, float yaw_theta);
-    // void pitchYawInc(float pitch_delta, float yaw_delta);
 
     void calcView();
     void calcProj(float ratio_in);
@@ -52,7 +51,8 @@ public:
 
 // --- Selecting ---
 public:
-    mat4 selectMatProj(mat4 model, vec2 br, vec2 tl);
+    // mat4 selectMatProj(mat4 model, vec2 br, vec2 tl);
+    vec4 clipToWorld(vec2 v);
 
 // --- Debugging ---
 public:
