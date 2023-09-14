@@ -31,30 +31,53 @@ void EditMesh::selectFacesClick(vec4 point, vec4 camera_pos) {
 }
 
 void EditMesh::selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
+    float TOL = 0.01f;
+
     v1 = inverse_model_pos*v1;
     v2 = inverse_model_pos*v2;
     v3 = inverse_model_pos*v3;
     camera_pos = inverse_model_pos*camera_pos;
     vec4 u = camera_pos;
     vec4 d;
-    vec4 point;
+    vec4 pos;
     float dist;
-    bool selected;
+    bool  selected;
 
-    int N = point_cache.dataLen();
-    for (int i=0; i<N; i++) {
-        point = point_cache[i].getPos();
-        d     = vec4::subtrK(point, camera_pos, 3);
-        dist  = sAlg::parRayIntersect(v1, v2, v3, u, d);
-        selected = dist > 0.0f;
+    int N_points = point_cache.dataLen();
+    for (int i=0; i<N_points; i++) {
+        if (isPointSelect(i)) { continue; }
+
+        pos  = point(i).getPos();
+        d    = vec4::subtrK(pos, camera_pos, 3);
+        dist = sAlg::parRayIntersect(v1, v2, v3, u, d);
+        selected = dist > TOL && !checkCullPoint(i, camera_pos);
         selectPoint(i, selected);
-        if ( selected ) {
-            cullPoint(i, camera_pos);
-        }
     }
 }
 
+void EditMesh::clearSelectedPoints() {
+    int N_select = selected_points.size();
+    for (int i=0; i<N_select; i++) {
+        selectPoint(selected_points[i], false);
+    }
+
+    selected_points.clear();
+}
+
 // === Private ===
+// === New ===
+void EditMesh::selectPoint(Id point_id, bool value) {
+    if (value) { selected_points.add(point_id, 0); }
+
+    point(point_id).setSelect(value);
+    reloadPoint(point_id);
+}
+
+bool EditMesh::isPointSelect(Id point_id) {
+    return selected_points.isElement(point_id);
+}
+
+// === Old ===
 void EditMesh::resetSelectPoints() {
     int N = point_cache.dataLen();
     select_points.assign(N, false);
@@ -63,13 +86,6 @@ void EditMesh::resetSelectPoints() {
 void EditMesh::resetSelectFaces() {
     int N = face_cache.dataLen();
     select_faces.assign(N, false);
-}
-
-void EditMesh::selectPoint(Id point_id, bool value) {
-    select_points[point_id] = value;
-
-    point(point_id).setSelect(value);
-    reloadPoint(point_id);
 }
 
 void EditMesh::selectFace(Id face_id, bool value) {
@@ -97,4 +113,21 @@ void EditMesh::cullPoint(Id id, vec4 camera_pos) {
             return;
         }
     }
+}
+
+bool EditMesh::checkCullPoint(Id point_id, vec4 camera_pos) {
+    float TOL = 0.01f;
+
+    float dist;
+    vec4 u = point(point_id).getPos();
+    vec4 d = vec4::subtrK(camera_pos, u, 3);
+    int N_faces = face_cache.dataLen();
+    for (int i=0; i<N_faces; i++) {
+        dist = face(i).rayIntersect(u, d, tri_cache, vertex_cache);
+        if ( dist > TOL ) {
+            return true;
+        }
+    }
+
+    return false;
 }

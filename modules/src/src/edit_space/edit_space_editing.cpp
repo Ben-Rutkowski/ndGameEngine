@@ -51,8 +51,8 @@ void EditSpace::selectPointsBox() {
     vec4 v1 = camera.clipToWorld(select_box.getRoot());
     vec4 v2 = camera.clipToWorld(select_box.getBasisX());
     vec4 v3 = camera.clipToWorld(select_box.getBasisY());
-    // vec4 v4 = camera.clipToWorld(select_box.getEnd());
 
+    meshes[0].clearSelectedPoints();
     meshes[0].selectPointsBox(v1, v2, v3, camera.getPos());
 }
 

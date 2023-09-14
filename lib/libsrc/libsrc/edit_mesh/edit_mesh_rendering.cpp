@@ -24,25 +24,12 @@ void EditMesh::load() {
     face_vbi.configAttribf(3, 1, sizeof(EditVertex), (void*)(3*sizeof(vec4) + sizeof(vec2)));
     face_vbi.unbindCurrent();
 
+    selected_points.resize(point_cache.dataLen());
+    selected_points.print();
+
     resetSelectPoints();
     resetSelectFaces();
 }
-
-// void EditMesh::updatePoint(Id point_id) {
-//     point_vbi.bindAllBuffers();
-//     point_vbi.editVertexData(&point_cache[point_id], sizeof(EditPoint), point_id*sizeof(EditPoint));
-//     point_vbi.unbindCurrent();
-
-//     line_vbi.bindAllBuffers();
-//     line_vbi.editVertexData(&point_cache[point_id], sizeof(EditPoint), point_id*sizeof(EditPoint));
-//     line_vbi.unbindCurrent();
-// }
-
-// void EditMesh::updateVertex(Id vert_id) {
-//     face_vbi.bindAllBuffers();
-//     face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditVertex), vert_id*sizeof(EditVertex));
-//     face_vbi.unbindCurrent();
-// }
 
 void EditMesh::reloadPoint(Id point_id) {
     point_vbi.bindAllBuffers();
@@ -71,18 +58,6 @@ void EditMesh::reloadFace(Id face_id) {
     }
     face_vbi.unbindCurrent();
 }
-
-// void EditMesh::updatePointUnbindPoint(Id point_id) {
-//     point_vbi.editVertexData(&point_cache[point_id], sizeof(EditPoint), point_id*sizeof(EditPoint));
-// }
-
-// void EditMesh::updatePointUnbindLine(Id point_id) {
-//     line_vbi.editVertexData(&point_cache[point_id], sizeof(EditPoint), point_id*sizeof(EditPoint));
-// }
-
-// void EditMesh::updateVertexUnbind(Id vert_id) {
-//     face_vbi.editVertexData(&point_cache[vert_id], sizeof(EditPoint), vert_id*sizeof(EditPoint));
-// }
 
 void EditMesh::drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color) {
     program.use();

@@ -8,6 +8,13 @@ UIntHashTable::UIntHashTable(int size_in)
     table(size_in, Node()),
     collides{ 0 } { }
 
+UIntHashTable::UIntHashTable()
+    :capacity{ 0 },
+    next_open{ 0 },
+    helper_table(0, HelperNode()),
+    table(0, Node()),
+    collides{ 0 } { }
+
 unsigned int UIntHashTable::hash(unsigned int key) {
     key = key * 37;
     // key = key << 1;
@@ -17,6 +24,22 @@ unsigned int UIntHashTable::hash(unsigned int key) {
 int UIntHashTable::size() { return next_open; }
 unsigned int UIntHashTable::operator[](int i) {
     return table[i].key;
+}
+
+void UIntHashTable::resize(int n) {
+    helper_table.resize(n);
+    table.resize(n);
+
+    std::fill_n(helper_table.begin(), n, HelperNode());
+    std::fill_n(table.begin(), n, Node());
+    capacity  = n;
+    next_open = 0;
+}
+
+void UIntHashTable::clear() {
+    std::fill_n(helper_table.begin(), capacity, HelperNode());
+    std::fill_n(table.begin(), capacity, Node());
+    next_open = 0;
 }
 
 bool UIntHashTable::isElement(unsigned int key) {

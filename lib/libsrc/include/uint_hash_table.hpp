@@ -27,10 +27,13 @@ private:
     int collides;
 
 public:
+    UIntHashTable();
     UIntHashTable(int size_in);
     void add(unsigned int key, unsigned int value);
 
     int size();
+    void resize(int n);
+    void clear();
     unsigned int operator[](int i);
 
     bool isElement(unsigned int key);
