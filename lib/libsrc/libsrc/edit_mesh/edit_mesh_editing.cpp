@@ -94,61 +94,23 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
     return face_id;
 }
 
-void EditMesh::transformPoints(std::vector<Id>& point_ids, mat4 mat) {
-    // // Move and Reload Points and Vertices
-    // vec4 curr_pos;
-    // int N_points = point_ids.size();
-    // int M_verts;
-    // for (int i=0; i<N_points; i++) {
-    //     curr_pos = point(point_ids[i]).getPos();
-    //     curr_pos = mat*curr_pos;
-
-    //     // Set and Reload Point
-    //     point(point_ids[i]).setPos(curr_pos);
-    //     reloadPoint(point_ids[i]);
-
-    //     // Set Vertices
-    //     M_verts = point_cache.pairedVertexLen(point_ids[i]);
-    //     for (int j=0; j<M_verts; j++) {
-    //         vertex(pointToVert(point_ids[i], j)).setPos(curr_pos);
-    //     }
-    // }
-
-    // // Collect Affected Faces
-    // UIntHashTable face_ids(face_cache.dataLen());
-    // int M_faces;
-    // for (int i=0; i<N_points; i++) {
-    //     M_faces = point_cache.pairedFaceLen(point_ids[i]);
-    //     for (int j=0; j<M_faces; j++) {
-    //         face_ids.add(pointToFace(point_ids[i], j), point_ids[i]);
-    //     }
-    // }
-
-    // // Recalculate and Reload Faces
-    // M_faces = face_ids.size();
-    // for (int i=0; i<M_faces; i++) {
-    //     recalculateFace(face_ids[i]);
-    //     reloadFace(face_ids[i]);
-    // }
-}
-
-void EditMesh::transformPoints(mat4 mat) {
+void EditMesh::transformPoints(IdSet& point_ids, mat4 mat) {
     // Move and Reload Points and Vertices
     vec4 curr_pos;
-    int N_points = selected_points.size();
+    int N_points = point_ids.size();
     int M_verts;
     for (int i=0; i<N_points; i++) {
-        curr_pos = point(selected_points[i]).getPos();
+        curr_pos = point(point_ids[i]).getPos();
         curr_pos = mat*curr_pos;
 
         // Set and Reload Point
-        point(selected_points[i]).setPos(curr_pos);
-        reloadPoint(selected_points[i]);
+        point(point_ids[i]).setPos(curr_pos);
+        reloadPoint(point_ids[i]);
 
         // Set Vertices
-        M_verts = point_cache.pairedVertexLen(selected_points[i]);
+        M_verts = point_cache.pairedVertexLen(point_ids[i]);
         for (int j=0; j<M_verts; j++) {
-            vertex(pointToVert(selected_points[i], j)).setPos(curr_pos);
+            vertex(pointToVert(point_ids[i], j)).setPos(curr_pos);
         }
     }
 
@@ -156,9 +118,9 @@ void EditMesh::transformPoints(mat4 mat) {
     UIntHashTable face_ids(face_cache.dataLen());
     int M_faces;
     for (int i=0; i<N_points; i++) {
-        M_faces = point_cache.pairedFaceLen(selected_points[i]);
+        M_faces = point_cache.pairedFaceLen(point_ids[i]);
         for (int j=0; j<M_faces; j++) {
-            face_ids.add(pointToFace(selected_points[i], j), selected_points[i]);
+            face_ids.add(pointToFace(point_ids[i], j), point_ids[i]);
         }
     }
 
@@ -168,6 +130,10 @@ void EditMesh::transformPoints(mat4 mat) {
         recalculateFace(face_ids[i]);
         reloadFace(face_ids[i]);
     }
+}
+
+void EditMesh::transformPoints(mat4 mat) {
+    transformPoints(selected_points, mat);
 }
 
 void EditMesh::recalculateFace(Id face_id) {

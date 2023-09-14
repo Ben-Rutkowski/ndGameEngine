@@ -43,7 +43,7 @@ Id EditSpace::createDefaultCube() {
             {be[i%4], se[(i+1)%4], te[i%4], se[i%4]}
         );
     }
-    // cube.translate(vec4({0.0f, 0.5f, 0.0f, 1.0f}));
+    cube.translate(vec4({0.0f, 0.5f, 0.0f, 1.0f}));
     return cube_id;
 }
 
@@ -58,5 +58,7 @@ void EditSpace::selectPointsBox() {
 
 void EditSpace::selectFacesClick(vec2 click) {
     vec4 point = camera.clipToWorld(click);
-    meshes[0].selectFacesClick(point, camera.getPos());
+
+    meshes[0].clearSelectedFaces();
+    meshes[0].selectFaceClick(point, camera.getPos());
 }

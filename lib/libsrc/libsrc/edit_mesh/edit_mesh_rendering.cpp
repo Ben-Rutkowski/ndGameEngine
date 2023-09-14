@@ -25,10 +25,10 @@ void EditMesh::load() {
     face_vbi.unbindCurrent();
 
     selected_points.resize(point_cache.dataLen());
-    selected_points.print();
+    selected_faces.resize(face_cache.dataLen());
 
-    resetSelectPoints();
-    resetSelectFaces();
+    // resetSelectPoints();
+    // resetSelectFaces();
 }
 
 void EditMesh::reloadPoint(Id point_id) {
@@ -43,7 +43,7 @@ void EditMesh::reloadPoint(Id point_id) {
 
 void EditMesh::reloadVertex(Id vert_id) {
     face_vbi.bindAllBuffers();
-    face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditPoint), vert_id*sizeof(EditPoint));
+    face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditVertex), vert_id*sizeof(EditVertex));
     face_vbi.unbindCurrent();
 }
 
@@ -51,9 +51,9 @@ void EditMesh::reloadFace(Id face_id) {
     Id vert_id;
     
     face_vbi.bindAllBuffers();
-    int N = face_cache[face_id].vertLen();
+    int N = face(face_id).vertLen();
     for (int i=0; i<N; i++) {
-        vert_id = face_cache[face_id].vertId(i);
+        vert_id = face(face_id).vertId(i);
         face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditVertex), vert_id*sizeof(EditVertex));
     }
     face_vbi.unbindCurrent();

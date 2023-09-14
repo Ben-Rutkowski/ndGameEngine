@@ -28,6 +28,8 @@ then the edges, then the face
 
 */
 
+typedef UIntHashTable IdSet;
+
 class EditMesh {
 private:
 // Position
@@ -50,7 +52,8 @@ private:
     std::vector<bool> select_points;
     std::vector<bool> select_faces;
 
-    UIntHashTable selected_points;
+    IdSet selected_points;
+    IdSet selected_faces;
 
 // --- Constructor ---
 public:
@@ -70,7 +73,7 @@ private:
     Id pointToFace(Id point_id, int i);
     Id edgeToFace(Id edge_id, int i);
 
-// Transformation
+// --- Model Transformations ---
 public:
     void translate(vec4 trans);
 
@@ -81,7 +84,7 @@ public:
     Id createTri(Id3 point_ids, Id3 edge_ids); // Points must be in CCW culling order
     Id createQuad(Id4 point_ids, Id4 edge_ids);    
 
-    void transformPoints(std::vector<Id>& point_ids, mat4 mat);
+    void transformPoints(IdSet& point_ids, mat4 mat);
     void transformPoints(mat4 mat);
 
 private:
@@ -94,26 +97,17 @@ public:
 // --- Selecting ---
 public:
     void selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos);
+    void selectFaceClick(vec4 click, vec4 camera_pos);
+
     void clearSelectedPoints();
+    void clearSelectedFaces();
 
 private:
-    void selectPoint(Id point_id, bool value);
+    void setSelectPoint(Id point_id, bool value);
+    void setSelectFace(Id face_id, bool value);
 
     bool isPointSelect(Id point_id);
-    bool checkCullPoint(Id id, vec4 camera_pos);
-
-    // --- Old ---
-public:
-    void selectFacesClick(vec4 point, vec4 camera_pos);
-
-private:
-    void resetSelectPoints();
-    void resetSelectFaces();
-
-    // void selectPoint(Id point_id, bool value);
-    void selectFace(Id vert_id, bool value);
-    void cullPoint(Id id, vec4 camera_pos); // Sets point to false select if it is behind a face.
-    
+    bool checkCullPoint(Id id, vec4 camera_pos);    
 
 // --- Debugging ---
 public:

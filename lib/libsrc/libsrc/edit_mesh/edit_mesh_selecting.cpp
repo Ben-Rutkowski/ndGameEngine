@@ -1,35 +1,6 @@
 #include "edit_mesh/edit_mesh.hpp"
 #include "math/select_algs.hpp"
 
-void EditMesh::selectFacesClick(vec4 point, vec4 camera_pos) {
-    point = inverse_model_pos*point;
-    vec4 u = inverse_model_pos*camera_pos;
-    vec4 d = vec4::subtrK(point, u, 3);
-
-    float curr_dist;
-    float least_dist = -1.0f;
-    int selected_face = -1;
-    int N = face_cache.dataLen();
-    for (int i=0; i<N; i++) {
-        curr_dist = face_cache[i].rayIntersect(u, d, tri_cache, vertex_cache);
-        if (curr_dist != -1.0f) {
-            if (least_dist == -1.0f) {
-                least_dist = curr_dist;
-                selected_face = i;
-            } else if ( curr_dist < least_dist ) {
-                least_dist = curr_dist;
-                selected_face = i;
-            }
-        }
-    }
-    
-    bool select;
-    for (int i=0; i<N; i++) {
-        select = i == selected_face;
-        selectFace(i, select);
-    }
-}
-
 void EditMesh::selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
     float TOL = 0.01f;
 
@@ -41,7 +12,6 @@ void EditMesh::selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
     vec4 d;
     vec4 pos;
     float dist;
-    bool  selected;
 
     int N_points = point_cache.dataLen();
     for (int i=0; i<N_points; i++) {
@@ -50,77 +20,84 @@ void EditMesh::selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
         pos  = point(i).getPos();
         d    = vec4::subtrK(pos, camera_pos, 3);
         dist = sAlg::parRayIntersect(v1, v2, v3, u, d);
-        selected = dist > TOL && !checkCullPoint(i, camera_pos);
-        selectPoint(i, selected);
+        if ( dist > TOL && !checkCullPoint(i, camera_pos) ) {
+            selected_points.add(i, 0);
+            setSelectPoint(i, true);
+        }
+    }
+}
+
+void EditMesh::selectFaceClick(vec4 click, vec4 camera_pos) {
+    float TOL = 0.01f;
+
+    click  = inverse_model_pos*click;
+    vec4 u = inverse_model_pos*camera_pos;
+    vec4 d = vec4::subtrK(click, u, 3);
+    Id closest_face_id;
+    float closest_dist = -1.0f;
+    float curr_dist;
+
+    int N_faces = face_cache.dataLen();
+    for (int i=0; i<N_faces; i++) {
+        curr_dist = face(i).rayIntersect(u, d, tri_cache, vertex_cache);
+        if ( curr_dist > TOL ) {
+            if ( closest_dist == -1.0f || curr_dist < closest_dist ) {
+                closest_dist = curr_dist;
+                closest_face_id = i;
+            }
+        }
+    }
+
+    if ( closest_dist != -1.0f ) {
+        selected_faces.add(closest_face_id, 0);
+        setSelectFace(closest_face_id, true);
     }
 }
 
 void EditMesh::clearSelectedPoints() {
     int N_select = selected_points.size();
     for (int i=0; i<N_select; i++) {
-        selectPoint(selected_points[i], false);
+        setSelectPoint(selected_points[i], false);
     }
-
     selected_points.clear();
 }
 
-// === Private ===
-// === New ===
-void EditMesh::selectPoint(Id point_id, bool value) {
-    if (value) { selected_points.add(point_id, 0); }
+void EditMesh::clearSelectedFaces() {
+    int N_select = selected_faces.size();
+    for (int i=0; i<N_select; i++) {
+        setSelectFace(selected_faces[i], false);
+    }
+    selected_faces.clear();
+}
 
+// === Private ===
+void EditMesh::setSelectPoint(Id point_id, bool value) {
     point(point_id).setSelect(value);
     reloadPoint(point_id);
+}
+
+void EditMesh::setSelectFace(Id face_id, bool value) {
+    Id vert_id;
+    int N_verts = face(face_id).vertLen();
+    for (int i=0; i<N_verts; i++) {
+        vert_id = face(face_id).vertId(i);
+
+        vertex(vert_id).setSelect(value);
+        reloadVertex(vert_id);
+    }
 }
 
 bool EditMesh::isPointSelect(Id point_id) {
     return selected_points.isElement(point_id);
 }
 
-// === Old ===
-void EditMesh::resetSelectPoints() {
-    int N = point_cache.dataLen();
-    select_points.assign(N, false);
-}
-
-void EditMesh::resetSelectFaces() {
-    int N = face_cache.dataLen();
-    select_faces.assign(N, false);
-}
-
-void EditMesh::selectFace(Id face_id, bool value) {
-    select_faces[face_id] = value;
-
-    int N_verts = face_cache[face_id].vertLen();
-    for (int i=0; i<N_verts; i++) {
-        face(face_id).vert(i, vertex_cache).setSelect(value);
-    }
-
-    reloadFace(face_id);
-}
-
-void EditMesh::cullPoint(Id id, vec4 camera_pos) {
-    float TOL = 0.01f;
-
-    float dist;
-    vec4 u = point_cache[id].getPos();
-    vec4 d = vec4::subtrK(camera_pos, u, 3);
-    int N = face_cache.dataLen();
-    for (int i=0; i<N; i++) {
-        dist = face_cache[i].rayIntersect(u, d, tri_cache, vertex_cache);
-        if ( dist > TOL ) {
-            selectPoint(id, false);
-            return;
-        }
-    }
-}
-
 bool EditMesh::checkCullPoint(Id point_id, vec4 camera_pos) {
     float TOL = 0.01f;
 
-    float dist;
     vec4 u = point(point_id).getPos();
     vec4 d = vec4::subtrK(camera_pos, u, 3);
+    float dist;
+
     int N_faces = face_cache.dataLen();
     for (int i=0; i<N_faces; i++) {
         dist = face(i).rayIntersect(u, d, tri_cache, vertex_cache);
@@ -128,6 +105,5 @@ bool EditMesh::checkCullPoint(Id point_id, vec4 camera_pos) {
             return true;
         }
     }
-
     return false;
 }
