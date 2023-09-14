@@ -54,28 +54,43 @@ public:
     EditMesh();
     mat4 getModel();
 
+private:
+    EditPoint&    point(Id point_id);
+    EditVertex&   vertex(Id vert_id);
+    EdgeIndexObj& edge(Id edge_id);
+    TriIndexObj&  tri(Id tri_id);
+    EditFace&     face(Id face_id);
+
+    Id vertToPoint(Id vert_id);
+    Id pointToVert(Id point_id, int i);
+    Id pointToEdge(Id point_id, int i);
+    Id pointToFace(Id point_id, int i);
+    Id edgeToFace(Id edge_id, int i);
+
 // Transformation
 public:
     void translate(vec4 trans);
 
 // --- Editing ---
 public:
-    Id createPoint(vec4 point);
-    Id createEdge(Id2 points);
-    Id createTri(Id3 points, Id3 edges);
-    Id createQuad(Id4 points, Id4 edges);
+    Id createPoint(vec4 pos);
+    Id createEdge(Id2 point_ids);
+    Id createTri(Id3 point_ids, Id3 edge_ids); // Points must be in CCW culling order
+    Id createQuad(Id4 point_ids, Id4 edge_ids);
+    
+    // --- Old ---
+    // void setPointPos(Id point_id, vec4 pos);
+    // void translatePoint(Id point_id, vec4 trans);
+    // void translateSelectPoints(vec4 trans);
 
-    void setPointPos(Id point, vec4 pos);
-    void translatePoint(Id point, vec4 trans);
-    void translateSelectPoints(vec4 trans);
-
-    void extrudeTest(Id face);
+    // --- New ---
+    void transformPoints(std::vector<Id>& point_ids, mat4 mat);
+    void extrudeTest(Id face_id);
 
 private:
-    void reloadPoint(Id point);
-    void reloadFace(Id face);
+    void recalculateFace(Id face_id);
 
-// Selecting
+// --- Selecting ---
 public:
     void selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos);
     void selectFacesClick(vec4 point, vec4 camera_pos);
@@ -83,23 +98,32 @@ public:
 private:
     void resetSelectPoints();
     void resetSelectFaces();
-    void selectPoint(Id id, bool value);
-    void selectFace(Id id, bool value);
+
+    void selectPoint(Id point_id, bool value);
+    void selectFace(Id vert_id, bool value);
+
     void cullPoint(Id id, vec4 camera_pos); // Sets point to false select if it is behind a face.
 
-// Debugging
+// --- Debugging ---
 public:
     vec4 getPoint(Id id);
     void printSelect();
 
-// Rendering
+// --- Rendering ---
 public:
     void load();
-    void updatePoint(Id id);
-    void updateVertex(Id id);
     void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
     void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
     void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 camera_pos);
+
+private:
+    void reloadPoint(Id point_id);
+    void reloadVertex(Id vert_id);
+    void reloadFace(Id face_id);
+
+    // void updatePointUnbindPoint(Id point_id);
+    // void updatePointUnbindLine(Id point_id);
+    // void updateVertexUnbind(Id vert_id);
 };
 
 #endif

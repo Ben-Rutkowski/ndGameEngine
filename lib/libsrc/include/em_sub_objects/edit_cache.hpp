@@ -12,9 +12,9 @@ the point.
 */
 
 typedef unsigned int Id;
-typedef std::array<unsigned int,2> Id2;
-typedef std::array<unsigned int,3> Id3;
-typedef std::array<unsigned int,4> Id4;
+typedef std::array<Id,2> Id2;
+typedef std::array<Id,3> Id3;
+typedef std::array<Id,4> Id4;
 
 template<typename T>
 class EditCache {

@@ -42,18 +42,31 @@ public:
 
 /* CLASS: VertexCache
 A VertexCache contains EditVertexs as its data and does not utilize any caches. 
+Cache 1: Points
 */
 
 class VertexCache : public EditCache<EditVertex> {
 public:
     Id addVertex(EditVertex vertex) {
+        pushPairCache1(1);
         return addData(vertex);
     }
 
     Id addVertex(vec4 position) {
         EditVertex vertex(position);
+        pushPairCache1(1);
         return addData(vertex);
     }
+
+    void pairPoint(Id vertex_id, Id point_id) 
+        { pairIndexCache1(vertex_id, point_id); }
+    
+    int pairedPointLen(Id vert_id) 
+        { return pairedLen1(vert_id); }
+
+    Id getPairedPoint(Id vert_id, int i)
+        { return getPairedCache1(vert_id, i); }
+
 };
 
 #endif

@@ -1,4 +1,3 @@
-// #include "edit_space/edit_tri.hpp"
 #include "em_sub_objects/edit_tri.hpp"
 
 TriIndexObj::TriIndexObj(Id v0, Id v1, Id v2)

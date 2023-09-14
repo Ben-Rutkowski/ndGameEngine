@@ -33,6 +33,8 @@ float sAlg::parRayIntersect(vec4 v1, vec4 v2, vec4 v3, vec4 u, vec4 d) {
 vec3 sAlg::planeRayIntersect(vec4 v1, vec4 v2, vec4 v3, vec4 u, vec4 d) {
     // float TOL = 0.001f;
 
+    d.normalizeK(3);
+
     vec4 basis_0 = vec4::subtrK(v2, v1, 3);
     vec4 basis_1 = vec4::subtrK(v3, v1, 3);
 

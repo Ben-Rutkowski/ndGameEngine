@@ -86,6 +86,12 @@ void EditSpace::onLeftMouseRelease(Event* event) {
     scache.set(esLEFT_MOUSE, false);
 
     selectPointsBox();
+
+    std::vector<Id> vec({0, 1, 2, 3});
+
+    meshes[0].transformPoints(
+        vec, mat4::iden()
+    );
 }
 
 void EditSpace::onScroll(Event* event) {
@@ -98,6 +104,14 @@ void EditSpace::onWKey(Event* event) {
     //     0.0f, 0.01f, 0.0f, 1.0f
     // });
     // meshes[0].translateSelectPoints(trans);
+
+    float T = 1.05f;
+
+    mat4 trans = mat4::scale(T);
+
+    std::vector<Id> points({4, 5, 6, 7});
+
+    meshes[0].transformPoints(points, trans);
 }
 
 void EditSpace::onSKey(Event* event) {
@@ -106,5 +120,11 @@ void EditSpace::onSKey(Event* event) {
     // });
     // meshes[0].translateSelectPoints(trans);
 
-    meshes[0].extrudeTest(0);
+    float T = 0.95f;
+
+    mat4 trans = mat4::scale(T);
+
+    std::vector<Id> points({4, 5, 6, 7});
+
+    meshes[0].transformPoints(points, trans);
 }

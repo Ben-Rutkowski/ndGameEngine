@@ -31,6 +31,16 @@ public:
     Id addTri(TriIndexObj tri) 
         { return addData(tri); }
 
+    Id addTri(Id3 vert_ids) {
+        TriIndexObj tri(vert_ids[0], vert_ids[1], vert_ids[2]);
+        return addData(tri);
+    }
+
+    Id addTri(Id v0, Id v1, Id v2) {
+        TriIndexObj tri(v0, v1, v2);
+        return addData(tri);
+    }
+
     int indexLen() {
         return 3*data.size();
     }

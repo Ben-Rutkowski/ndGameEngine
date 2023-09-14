@@ -35,6 +35,7 @@ public:
     void bindCurrent();
 
 // --- Loading ---
+public:
     void loadVerticesStatic(void* data, int size);
     void loadVerticesStream(void* data, int size);
     void loadIndicesStatic(void* data, int size);
@@ -42,15 +43,21 @@ public:
     void editVertexData(void* data, int size, int buffer_offset);
 
 // --- Config ---
+public:
     void configAttribf(int attrib_index, int size, int stride, void* offeset);
     void configAttribi(int attrib_index, int size, int stride, void* offeset);
     void configAttribui(int attrib_index, int size, int stride, void* offeset);
     void configAttribb(int attrib_index, int size, int stride, void* offeset);
 
 // --- Drawing ---
+public:
     void drawElementsTriangles(int size);
     void drawElementsLines(int size);
     void drawPoints(int size);
+
+// --- Debugging ---
+public:
+    void print();
 };
 
 #endif

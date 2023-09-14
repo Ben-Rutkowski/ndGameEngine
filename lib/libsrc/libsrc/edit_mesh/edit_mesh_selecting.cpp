@@ -65,31 +65,34 @@ void EditMesh::resetSelectFaces() {
     select_faces.assign(N, false);
 }
 
-void EditMesh::selectPoint(Id id, bool value) {
-    select_points[id] = value;
-    point_cache[id].setSelect(value);
-    updatePoint(id);
+void EditMesh::selectPoint(Id point_id, bool value) {
+    select_points[point_id] = value;
+
+    point(point_id).setSelect(value);
+    reloadPoint(point_id);
 }
 
-void EditMesh::selectFace(Id id, bool value) {
-    select_faces[id] = value;
-    int N = face_cache[id].vertLen();
-    Id vert;
-    for (int i=0; i<N; i++) {
-        vert = face_cache[id].vertId(i);
-        vertex_cache[vert].setSelect(value);
-        updateVertex(vert);
+void EditMesh::selectFace(Id face_id, bool value) {
+    select_faces[face_id] = value;
+
+    int N_verts = face_cache[face_id].vertLen();
+    for (int i=0; i<N_verts; i++) {
+        face(face_id).vert(i, vertex_cache).setSelect(value);
     }
+
+    reloadFace(face_id);
 }
 
 void EditMesh::cullPoint(Id id, vec4 camera_pos) {
+    float TOL = 0.01f;
+
     float dist;
     vec4 u = point_cache[id].getPos();
     vec4 d = vec4::subtrK(camera_pos, u, 3);
     int N = face_cache.dataLen();
     for (int i=0; i<N; i++) {
         dist = face_cache[i].rayIntersect(u, d, tri_cache, vertex_cache);
-        if ( dist != -1.0f) {
+        if ( dist > TOL ) {
             selectPoint(id, false);
             return;
         }

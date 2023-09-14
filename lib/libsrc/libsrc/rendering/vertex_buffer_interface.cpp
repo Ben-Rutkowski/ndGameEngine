@@ -76,3 +76,10 @@ void VertexBufferInterface::drawElementsLines(int size) {
 void VertexBufferInterface::drawPoints(int size) {
     glDrawArrays(GL_POINTS, 0, size);
 }
+
+// === Debugging ===
+void VertexBufferInterface::print() {
+    std::cout << "VBO Id: " << vbo << std::endl;
+    std::cout << "VAO Id: " << vao << std::endl;
+    std::cout << "EBO Id: " << ebo << std::endl;
+}
