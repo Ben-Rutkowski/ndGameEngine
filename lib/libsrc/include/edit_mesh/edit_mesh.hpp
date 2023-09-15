@@ -1,10 +1,3 @@
-/*
-
-Point < Edge 
-Vertex < Tri < Face
-
-*/
-
 #ifndef EDIT_MESH_HPP
 #define EDIT_MESH_HPP
 
@@ -49,9 +42,6 @@ private:
     FaceCache   face_cache;
 
 // Other Attributes
-    std::vector<bool> select_points;
-    std::vector<bool> select_faces;
-
     IdSet selected_points;
     IdSet selected_faces;
 
@@ -88,10 +78,14 @@ public:
     void transformPoints(mat4 mat);
 
 private:
-    void recalculateFace(Id face_id);
+    void recalculateFaceCenter(Id face_id);
+    void recalculateFaceNormal(Id face_id);
+    // TODO: void recalculateFaceVerts(Id face_id);
 
     // --- Testing ---
 public:
+    void replaceTest(Id old_point_id, Id top_face_id);
+    void replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached);
     void extrudeTest(Id face_id);
 
 // --- Selecting ---

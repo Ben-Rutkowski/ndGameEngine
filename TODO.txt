@@ -1,7 +1,9 @@
 TODO: 
 == Imidiate tasks
 
-- Organize edit_space lib
+- Change faces to use a hash map instead of a a vector
+- hash maps change to dynamic and get rid of the helper table check if empty,
+        have it point to the null square, and have remove/replace options
 - Buttons for select type (hold control to add more to select).
 - Rendering type, face or wire.
 - Clean up edit mesh and others

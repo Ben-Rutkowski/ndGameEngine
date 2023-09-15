@@ -11,6 +11,14 @@ Id EdgeIndexObj::pointId(int i) {
     return point_ids[i];
 }
 
+Id EdgeIndexObj::otherId(Id point_id) {
+    if (point_ids[0] == point_id) {
+        return point_ids[1];
+    } else {
+        return point_ids[0];
+    }
+}
+
 // === Calculations ===
 vec4 EdgeIndexObj::calcEdgeVec(PointCache& pc) {
     vec4 tail_pos = point(0, pc).getPos();

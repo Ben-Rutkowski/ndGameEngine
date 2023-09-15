@@ -69,6 +69,7 @@
         "stack": "cpp",
         "iterator": "cpp",
         "utility": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "numeric": "cpp"
     }
 }

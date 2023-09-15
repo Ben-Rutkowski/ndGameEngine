@@ -6,7 +6,7 @@ void EditFace::addVertex(Id vert_id) { vert_ids.push_back(vert_id); }
 void EditFace::addEdge(Id edge_id)   { edge_ids.push_back(edge_id); }
 void EditFace::addTri(Id tri_id)     { tri_ids.push_back(tri_id); }
 
-int EditFace::pointLen() { return point_ids.size(); }
+int EditFace::pointLen() { return vert_ids.size(); }
 int EditFace::vertLen()  { return vert_ids.size(); }
 int EditFace::edgeLen()  { return edge_ids.size(); }
 int EditFace::triLen()   { return tri_ids.size(); }
@@ -21,6 +21,49 @@ EditVertex& EditFace::vert(int i, VertexCache& vc) { return vc[vert_ids[i]]; }
 EdgeIndexObj& EditFace::edge(int i, EdgeCache& ec) { return ec[edge_ids[i]]; }
 TriIndexObj&  EditFace::tri(int i, TriCache& tc)   { return tc[tri_ids[i]]; }
 
+// === Replacing ===
+bool EditFace::replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, VertexCache& vc) {
+    bool contains = false;
+
+    // Replace Point
+    int N_point = point_ids.size();
+    for (int i=0; i<N_point; i++) {
+        if (point_ids[i] == old_point_id) {
+            point_ids[i] = new_point_id;
+            contains = true;
+            break;
+        }
+    }
+
+    if (!contains) { return contains; }
+
+    // Replace Vert
+    Id curr_point_id;
+    int N_vert = vert_ids.size();
+    for (int i=0; i<N_vert; i++) {
+        curr_point_id = vc.getPairedPoint(vert_ids[i]);
+        if (curr_point_id == old_point_id) {
+            vc.pairPoint(vert_ids[i], new_point_id);
+            pc.pairVertex(new_point_id, vert_ids[i]);
+            break;
+        }
+    }
+
+    return contains;
+}
+
+bool EditFace::replaceEdge(Id old_edge_id, Id new_edge_id) {
+    int N_edge = edge_ids.size();
+    for (int i=0; i<N_edge; i++) {
+        if (edge_ids[i] == old_edge_id) {
+            edge_ids[i] = new_edge_id;
+            return true;
+        }
+    }
+    return false;
+}
+
+// === Calculations ===
 vec4 EditFace::calcNorm(TriCache& tc, VertexCache& vc) {
     // int N = triLen();
     // vec4 curr_norm;

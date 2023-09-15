@@ -44,6 +44,11 @@ public:
     void setNorm(vec4 norm, VertexCache& vc);
     void setCenter(vec4 center, VertexCache& vc);
 
+// --- Replacing ---
+    // Returns true if the point or edge is in the face
+    bool replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, VertexCache& vc);
+    bool replaceEdge(Id old_edge_id, Id new_edge_id);
+
 // --- Calculations ---
     vec4  calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
     vec4  calcCenter(PointCache& point_cache);

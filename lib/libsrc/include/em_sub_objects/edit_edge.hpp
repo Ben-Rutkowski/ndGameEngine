@@ -14,6 +14,7 @@ public:
     EdgeIndexObj(Id tail_in, Id tip_in);
     EditPoint& point(int i, PointCache& pc);
     Id pointId(int i);
+    Id otherId(Id point_id);
 
 // --- Calculations ---
 public:

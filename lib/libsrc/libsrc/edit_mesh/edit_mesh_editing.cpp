@@ -44,10 +44,8 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
     // Add to Face
     face(face_id).addTri(tri_id);
 
-    vec4 center = face(face_id).calcCenter(point_cache);
-    vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
-    face(face_id).setCenter(center, vertex_cache);
-    face(face_id).setNorm(normal, vertex_cache);
+    recalculateFaceCenter(face_id);
+    recalculateFaceNormal(face_id);
 
     return face_id;
 }
@@ -86,10 +84,8 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
     face(face_id).addTri(tri_ids[0]);
     face(face_id).addTri(tri_ids[1]);
 
-    vec4 center = face(face_id).calcCenter(point_cache);
-    vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
-    face(face_id).setCenter(center, vertex_cache);
-    face(face_id).setNorm(normal, vertex_cache);
+    recalculateFaceCenter(face_id);
+    recalculateFaceNormal(face_id);
 
     return face_id;
 }
@@ -115,7 +111,7 @@ void EditMesh::transformPoints(IdSet& point_ids, mat4 mat) {
     }
 
     // Collect Affected Faces
-    UIntHashTable face_ids(face_cache.dataLen());
+    IdSet face_ids(face_cache.dataLen());
     int M_faces;
     for (int i=0; i<N_points; i++) {
         M_faces = point_cache.pairedFaceLen(point_ids[i]);
@@ -127,7 +123,8 @@ void EditMesh::transformPoints(IdSet& point_ids, mat4 mat) {
     // Recalculate and Reload Faces
     M_faces = face_ids.size();
     for (int i=0; i<M_faces; i++) {
-        recalculateFace(face_ids[i]);
+        recalculateFaceCenter(face_ids[i]);
+        recalculateFaceNormal(face_ids[i]);
         reloadFace(face_ids[i]);
     }
 }
@@ -136,46 +133,64 @@ void EditMesh::transformPoints(mat4 mat) {
     transformPoints(selected_points, mat);
 }
 
-void EditMesh::recalculateFace(Id face_id) {
+void EditMesh::recalculateFaceCenter(Id face_id) {
     vec4 center = face(face_id).calcCenter(point_cache);
-    vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
     face(face_id).setCenter(center, vertex_cache);
+}
+
+void EditMesh::recalculateFaceNormal(Id face_id) {
+    vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
     face(face_id).setNorm(normal, vertex_cache);
 }
 
 // === Testing ===
+void EditMesh::replaceTest(Id old_point_id, Id top_face_id) {
+    
+}
 
-void EditMesh::extrudeTest(Id face) {
-    float AMOUNT = 0.1f;
-
-    int pointN  = face_cache[face].pointLen();
-    vec4 normal = face_cache[face].calcNorm(tri_cache, vertex_cache);
-    vec4 displace = normal.multK(AMOUNT, 3);
-
-    // Create the new points
-    std::vector<Id> new_points(pointN);
-    Id point_id;
-    vec4 point_pos;
-    for (int i=0; i<pointN; i++) {
-        point_id = face_cache[face].pointId(i);
-        point_pos = point_cache[point_id].getPos();
-        point_pos = vec4::sumK(point_pos, displace, 3);
-        new_points[i] = createPoint(point_pos);
-    }
-    std::vector<Id> new_edges(pointN);
-    for (int i=0; i<pointN; i++) {
-        new_edges[i] = createEdge({new_points[i%4], new_points[(i+1)%4]});
+void EditMesh::replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached) {
+    // Create New Edges
+    Id old_edge_id, new_edge_id;
+    Id other_point_id;
+    int N_edge = point_cache.pairedEdgeLen(old_point_id);
+    IdSet edge_map(N_edge);
+    for (int i=0; i<N_edge; i++) {
+        old_edge_id    = pointToEdge(old_point_id, i);
+        other_point_id = edge(old_edge_id).otherId(old_point_id);
+        new_edge_id    = createEdge({other_point_id, new_point_id});
+        point_cache.pairEdge(new_point_id, new_edge_id);
+        edge_map.add(old_edge_id, new_edge_id);
     }
 
-    std::array<Id,4> points_quad {
-        new_points[0], new_points[1], new_points[2], new_points[3]
-    };
-    std::array<Id,4> edges_quad = {
-        new_edges[0], new_edges[1], new_edges[2], new_edges[3]
-    };
-    createQuad(points_quad, edges_quad);
+    // Collect Affected Faces, Replace Point and Pair Face
+    Id cur_face_id;
+    int N_face = point_cache.pairedFaceLen(old_point_id);
+    IdSet aff_face_ids(N_face);
+    for (int i=0; i<N_face; i++) {
+        cur_face_id = point_cache.getPairedFace(old_point_id, i);
+        if (!faces_attached.isElement(cur_face_id)) {
+            face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
+            point_cache.pairFace(new_point_id, cur_face_id);
+            aff_face_ids.add(cur_face_id, 0);
+        }
+    }
 
-    std::cout << "Point Number: " << point_cache.dataLen() << std::endl;
+    // Replace and Pair New Edges in Affected Faces
+    bool contains;
+    N_edge = edge_map.size();
+    N_face = aff_face_ids.size();
+    for (int i=0; i<N_edge; i++) {              // i edge 
+        old_edge_id = edge_map[i];
+        new_edge_id = edge_map.getValue(old_edge_id);
+        for (int j=0; j<N_face; j++) {          // j face
+            contains = face(aff_face_ids[j]).replaceEdge(old_edge_id, new_edge_id);
+            if (contains) {
+                edge_cache.pairFace(new_edge_id, aff_face_ids[j]);
+            }
+        }
+    }
+}
 
-    load();
+void EditMesh::extrudeTest(Id face_id) {
+    
 }

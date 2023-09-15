@@ -16,7 +16,7 @@ TriIndexObj&  EditMesh::tri(Id tri_id)     { return tri_cache[tri_id]; }
 EditFace&     EditMesh::face(Id face_id)   { return face_cache[face_id]; }
 
 Id EditMesh::vertToPoint(Id vert_id) 
-    { return vertex_cache.getPairedPoint(vert_id, 0); }
+    { return vertex_cache.getPairedPoint(vert_id); }
 Id EditMesh::pointToVert(Id point_id, int i) 
     { return point_cache.getPairedVertex(point_id, i); }
 Id EditMesh::pointToEdge(Id point_id, int i)
@@ -38,11 +38,9 @@ vec4 EditMesh::getPoint(Id id) {
 }
 
 void EditMesh::printSelect() {
-    int N = point_cache.dataLen();
-    for (int i=0; i<N; i++) {
-        if (select_points[i]) {
-            std::cout << i << " ";
-        }
+    int N_select = selected_points.size();
+    for (int i=0; i<N_select; i++) {
+        std::cout << selected_points[i] << " ";
     }
     std::cout << std::endl;
 }
