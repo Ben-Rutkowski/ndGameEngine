@@ -69,6 +69,7 @@ protected:
 
     // Open Spaces
     uint getNextOpen();
+    void stepNextOpen();
 
 // --- Debugging ---
 public:
@@ -97,7 +98,7 @@ public:
     IdHashTableDynamic(uint n);
 
     bool remove(uint key);
-    bool hasData(int i);
+    bool canForceKey();
     uint forceGetKey(int i);
 
 private:

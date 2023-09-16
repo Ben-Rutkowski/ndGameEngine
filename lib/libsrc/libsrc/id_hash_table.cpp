@@ -92,6 +92,7 @@ void IdHashTableBase::resizeClear(int n) {
 bool IdHashTableBase::isHelperEmpty(uint hash) { return helper[hash] == 0; }
 uint IdHashTableBase::linkHelper(uint hash) {
     uint next_open = getNextOpen();
+    stepNextOpen();
 
     helper[hash] = next_open;
     return next_open;
@@ -111,6 +112,7 @@ void IdHashTableBase::startThread(uint thread_i, uint key, uint value) {
 
 void IdHashTableBase::addToThread(uint bottom, uint key, uint value) {
     uint next_open = getNextOpen();
+    stepNextOpen();
 
     data[bottom].next = next_open;
 
@@ -153,6 +155,9 @@ bool IdHashTableBase::isSameKey(uint thread_i, uint key_compare) { return data[t
 // === Open Spaces ===
 uint IdHashTableBase::getNextOpen() {
     return open_spaces[open_marker];
+}
+
+void IdHashTableBase::stepNextOpen() {
     open_spaces[open_marker] = 0;
     open_marker = (open_marker + 1) % capacity;
 }
@@ -230,7 +235,7 @@ bool IdHashTableDynamic::remove(uint key) {
     return false;
 }
 
-bool IdHashTableDynamic::hasData(int i)     { return data[i].value != 0; }
+bool IdHashTableDynamic::canForceKey()      { return isTableFull(); }
 uint IdHashTableDynamic::forceGetKey(int i) { return data[i].key; }
 
 // === Private ===
