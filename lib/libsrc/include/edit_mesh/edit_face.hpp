@@ -3,6 +3,7 @@
 
 #include "em_sub_objects/edit_edge.hpp"
 #include "em_sub_objects/edit_tri.hpp"
+#include "id_hash_table.hpp"
 
 /* CLASS: EditMeshFace
 A MeshFace is the over arching class for tris.
@@ -15,12 +16,22 @@ points, the first as the new point, and two edges.
 
 class EditFace {
 private:
+    int N_sides;
+
     std::vector<Id> point_ids;
     std::vector<Id> vert_ids;
     std::vector<Id> edge_ids;
     std::vector<Id> tri_ids;
 
+
+    IdHashTableDynamic point_ids_new;
+    IdHashTableDynamic vert_ids_new;
+    IdHashTableDynamic edge_ids_new;
+    IdHashTableDynamic tri_ids_new;
+
 public:
+    EditFace(int n);
+
     void addPoint(Id point_id);
     void addVertex(Id vert_id);
     void addEdge(Id edge_id);
@@ -53,6 +64,10 @@ public:
     vec4  calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
     vec4  calcCenter(PointCache& point_cache);
     float rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
+
+// --- Debugging ---
+public:
+    void debug(VertexCache& vc);
 };
 
 /* CLASS FaceCache
@@ -61,8 +76,12 @@ Data : EditFace
 
 class FaceCache : public EditCache<EditFace> {
 public:
-    Id createFace() {
-        return createData();
+    // Id createFace() {
+    //     return createData();
+    // }
+
+    Id createFace(int n) {
+        return addData(EditFace(n));
     }
 };
 

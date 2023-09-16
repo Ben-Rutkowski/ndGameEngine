@@ -44,3 +44,10 @@ void EditMesh::printSelect() {
     }
     std::cout << std::endl;
 }
+
+void EditMesh::debug() {
+    for (int i=0; i<6; i++) {
+        std::cout << "Face: " << i << std::endl;
+        face_cache[i].debug(vertex_cache);
+    }
+}

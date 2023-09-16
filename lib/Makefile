@@ -16,6 +16,7 @@
 
 # --- Directory Paths ---
 COMPILED =compiled
+FLAGS    =compiled/flags
 INCLUDE  =libsrc/include
 SRC      =libsrc/libsrc
 
@@ -34,7 +35,7 @@ COMPILE.clang  =$(foreach src,$(filter %.cpp,$^),$(CURDIR)/$(src))
 
 # --- Units ---
 units=$(patsubst $(SRC)/%.cpp,$(COMPILED)/%.o,$(wildcard $(SRC)/*.cpp))
-sections=$(patsubst $(SRC)/%/.,%,$(wildcard $(SRC)/*/.))
+sections=$(patsubst $(SRC)/%/.,$(FLAGS)/%.txt,$(wildcard $(SRC)/*/.))
 
 # --- Archive Library ---
 $(COMPILED)/lib.a: $(units) $(sections) $(COMPILED)
@@ -50,9 +51,10 @@ $(units): $(COMPILED)/%.o: $(SRC)/%.cpp $(wildcard $(INCLUDE)/*.hpp) $(COMPILED)
 
 # --- Compile Sections ---
 .SECONDEXPANSION:
-$(sections): %: $$(wildcard $(SRC)/%/*.cpp) $$(wildcard $(INCLUDE)/%/*.hpp) $(wildcard $(INCLUDE)/*.hpp)
+$(sections): $(FLAGS)/%.txt: $$(wildcard $(SRC)/%/*.cpp) $$(wildcard $(INCLUDE)/%/*.hpp) $(wildcard $(INCLUDE)/*.hpp)
 	@echo "--- COMPILING <$@> LIBRARY SECTION ---"
 	cd $(COMPILED) && $(CXX.clang) $(CXXFLAGS.clang) $(INCLUDE.clang) $(COMPILE.clang)
+	@touch $@
 
 # --- Create Directories Manully ---
 $(COMPILED):
@@ -62,6 +64,7 @@ $(COMPILED):
 clean:
 	@echo "--- CLEANING *.o ---"
 	rm $(COMPILED)/*.o
+	rm $(FLAGS)/*
 	@echo "-- CLEANING lib.a ---"
 	rm $(COMPILED)/lib.a
 

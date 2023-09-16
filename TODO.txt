@@ -1,10 +1,8 @@
 TODO: 
 == Imidiate tasks
 
-- Change sets to static and dynamic, dynamic can remove but not iterate
-- Change faces to use a hash map instead of a a vector
-- hash maps change to dynamic and get rid of the helper table check if empty,
-        have it point to the null square, and have remove/replace options
+- Faces have dynamic sets, so have a thing where when creating n-faces, check to see if
+        the sets are full, otherwise, getForce will not work. (Have getForce raise an error)
 - Buttons for select type (hold control to add more to select).
 - Rendering type, face or wire.
 - Clean up edit mesh and others

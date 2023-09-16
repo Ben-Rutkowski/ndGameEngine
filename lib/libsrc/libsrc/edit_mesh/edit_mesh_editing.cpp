@@ -14,7 +14,7 @@ Id EditMesh::createEdge(Id2 point_ids) {
 Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
     Id3 vert_ids;
     Id  tri_id;
-    Id  face_id = face_cache.createFace();
+    Id  face_id = face_cache.createFace(3);
 
     vec4 curr_point_pos;
     for (int i=0; i<3; i++) {
@@ -52,7 +52,7 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
 Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
     Id4 vert_ids;
     Id2 tri_ids;
-    Id  face_id = face_cache.createFace();
+    Id  face_id = face_cache.createFace(4);
 
     vec4 curr_point_pos;
     for (int i=0; i<4; i++) {

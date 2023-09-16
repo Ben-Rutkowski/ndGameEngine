@@ -1,25 +1,53 @@
 #include "edit_mesh/edit_face.hpp"
 #include "math/select_algs.hpp"
 
-void EditFace::addPoint(Id point_id) { point_ids.push_back(point_id); }
-void EditFace::addVertex(Id vert_id) { vert_ids.push_back(vert_id); }
-void EditFace::addEdge(Id edge_id)   { edge_ids.push_back(edge_id); }
-void EditFace::addTri(Id tri_id)     { tri_ids.push_back(tri_id); }
+EditFace::EditFace(int n)
+    :N_sides{n},
+    point_ids_new(n),
+    vert_ids_new(n),
+    edge_ids_new(n),
+    tri_ids_new(n-2) {}
 
-int EditFace::pointLen() { return vert_ids.size(); }
-int EditFace::vertLen()  { return vert_ids.size(); }
-int EditFace::edgeLen()  { return edge_ids.size(); }
-int EditFace::triLen()   { return tri_ids.size(); }
+// void EditFace::addPoint(Id point_id) { point_ids.push_back(point_id); }
+// void EditFace::addEdge(Id edge_id)   { edge_ids.push_back(edge_id); }
+// void EditFace::addVertex(Id vert_id) { vert_ids.push_back(vert_id); }
+// void EditFace::addTri(Id tri_id)     { tri_ids.push_back(tri_id); }
 
-Id EditFace::pointId(int i) { return point_ids[i]; }
-Id EditFace::vertId(int i)  { return vert_ids[i]; }
-Id EditFace::edgeId(int i)  { return edge_ids[i]; } 
-Id EditFace::triId(int i)   { return tri_ids[i]; } 
+// int EditFace::pointLen() { return vert_ids.size(); }
+// int EditFace::edgeLen()  { return edge_ids.size(); }
+// int EditFace::vertLen()  { return vert_ids.size(); }
+// int EditFace::triLen()   { return tri_ids.size(); }
 
-EditPoint&  EditFace::point(int i, PointCache& pc) { return pc[point_ids[i]]; }
-EditVertex& EditFace::vert(int i, VertexCache& vc) { return vc[vert_ids[i]]; }
-EdgeIndexObj& EditFace::edge(int i, EdgeCache& ec) { return ec[edge_ids[i]]; }
-TriIndexObj&  EditFace::tri(int i, TriCache& tc)   { return tc[tri_ids[i]]; }
+// Id EditFace::pointId(int i) { return point_ids[i]; }
+// Id EditFace::edgeId(int i)  { return edge_ids[i]; } 
+// Id EditFace::vertId(int i)  { return vert_ids[i]; }
+// Id EditFace::triId(int i)   { return tri_ids[i]; } 
+
+// EditPoint&  EditFace::point(int i, PointCache& pc) { return pc[point_ids[i]]; }
+// EdgeIndexObj& EditFace::edge(int i, EdgeCache& ec) { return ec[edge_ids[i]]; }
+// EditVertex& EditFace::vert(int i, VertexCache& vc) { return vc[vert_ids[i]]; }
+// TriIndexObj&  EditFace::tri(int i, TriCache& tc)   { return tc[tri_ids[i]]; }
+
+
+void EditFace::addPoint(Id point_id) { point_ids_new.add(point_id); }
+void EditFace::addEdge(Id edge_id)   { edge_ids_new.add(edge_id); }
+void EditFace::addVertex(Id vert_id) { vert_ids_new.add(vert_id); }
+void EditFace::addTri(Id tri_id)     { tri_ids_new.add(tri_id); }
+
+int EditFace::pointLen() { return N_sides; }
+int EditFace::edgeLen()  { return N_sides; }
+int EditFace::vertLen()  { return N_sides; }
+int EditFace::triLen()   { return N_sides - 2; }
+
+Id EditFace::pointId(int i) { return point_ids_new.forceGetKey(i); }
+Id EditFace::edgeId(int i)  { return edge_ids_new.forceGetKey(i); } 
+Id EditFace::vertId(int i)  { return vert_ids_new.forceGetKey(i); }
+Id EditFace::triId(int i)   { return tri_ids_new.forceGetKey(i); } 
+
+EditPoint&  EditFace::point(int i, PointCache& pc) { return pc[point_ids_new.forceGetKey(i)]; }
+EdgeIndexObj& EditFace::edge(int i, EdgeCache& ec) { return ec[edge_ids_new.forceGetKey(i)]; }
+EditVertex& EditFace::vert(int i, VertexCache& vc) { return vc[vert_ids_new.forceGetKey(i)]; }
+TriIndexObj&  EditFace::tri(int i, TriCache& tc)   { return tc[tri_ids_new.forceGetKey(i)]; }
 
 // === Replacing ===
 bool EditFace::replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, VertexCache& vc) {
@@ -102,6 +130,7 @@ vec4 EditFace::calcCenter(PointCache& pc) {
         sum = vec4::sumK(sum, curr_center, 3);
     }
     return sum.multK(1.0f/((float)N_point), 3);
+    
 }
 
 void EditFace::setNorm(vec4 norm, VertexCache& vc) {
@@ -164,4 +193,8 @@ float EditFace::rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc) {
         }
     }
     return dist;
+}
+
+void EditFace::debug(VertexCache& vc) {
+    vert(0, vc).getCenter().print();
 }

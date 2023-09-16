@@ -109,6 +109,7 @@ private:
 public:
     vec4 getPoint(Id id);
     void printSelect();
+    void debug();
 
 // --- Rendering ---
 public:

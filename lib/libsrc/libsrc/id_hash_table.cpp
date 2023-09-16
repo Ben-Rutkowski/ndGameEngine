@@ -241,7 +241,7 @@ bool IdHashTableDynamic::remove(uint key) {
 }
 
 bool IdHashTableDynamic::canForceKey()      { return isTableFull(); }
-uint IdHashTableDynamic::forceGetKey(int i) { return data[i].key; }
+uint IdHashTableDynamic::forceGetKey(int i) { return data[i+1].key; }
 
 // === Private ===
 void IdHashTableDynamic::removeFromThread(uint hash, uint place) {
