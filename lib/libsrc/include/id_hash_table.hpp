@@ -22,7 +22,7 @@ struct HTNode {
 
 class IdHashTableBase {
 protected:
-    uint capacity;
+    uint capacity_size;
 
     std::vector<uint> helper;      // Hash index, points to data
     std::vector<HTNode> data;      // Contains the threads, ie linked lists
@@ -40,7 +40,7 @@ public:
     uint value(uint key);
     bool isElement(uint key);
 
-    int  size();
+    int  capacity();
     void clear();
     void resizeClear(int n);
 
@@ -84,8 +84,7 @@ public:
     IdHashTableStatic();
     IdHashTableStatic(uint n);
 
-    int begin();
-    int end();
+    int size();
     uint operator[](int i);
 };
 

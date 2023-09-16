@@ -38,7 +38,7 @@ vec4 EditMesh::getPoint(Id id) {
 }
 
 void EditMesh::printSelect() {
-    int N_select = selected_points.size();
+    int N_select = selected_points.capacity();
     for (int i=0; i<N_select; i++) {
         std::cout << selected_points[i] << " ";
     }

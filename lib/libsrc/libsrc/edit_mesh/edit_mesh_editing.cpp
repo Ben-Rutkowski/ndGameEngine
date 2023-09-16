@@ -147,48 +147,48 @@ void EditMesh::replaceTest(Id old_point_id, Id top_face_id) {
     
 }
 
-void EditMesh::replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached) {
-    // Create New Edges
-    Id old_edge_id, new_edge_id;
-    Id other_point_id;
-    int N_edge = point_cache.pairedEdgeLen(old_point_id);
-    IdSet edge_map(N_edge);
-    for (int i=0; i<N_edge; i++) {
-        old_edge_id    = pointToEdge(old_point_id, i);
-        other_point_id = edge(old_edge_id).otherId(old_point_id);
-        new_edge_id    = createEdge({other_point_id, new_point_id});
-        point_cache.pairEdge(new_point_id, new_edge_id);
-        edge_map.add(old_edge_id, new_edge_id);
-    }
+// void EditMesh::replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached) {
+//     // Create New Edges
+//     Id old_edge_id, new_edge_id;
+//     Id other_point_id;
+//     int N_edge = point_cache.pairedEdgeLen(old_point_id);
+//     IdSet edge_map(N_edge);
+//     for (int i=0; i<N_edge; i++) {
+//         old_edge_id    = pointToEdge(old_point_id, i);
+//         other_point_id = edge(old_edge_id).otherId(old_point_id);
+//         new_edge_id    = createEdge({other_point_id, new_point_id});
+//         point_cache.pairEdge(new_point_id, new_edge_id);
+//         edge_map.add(old_edge_id, new_edge_id);
+//     }
 
-    // Collect Affected Faces, Replace Point and Pair Face
-    Id cur_face_id;
-    int N_face = point_cache.pairedFaceLen(old_point_id);
-    IdSet aff_face_ids(N_face);
-    for (int i=0; i<N_face; i++) {
-        cur_face_id = point_cache.getPairedFace(old_point_id, i);
-        if (!faces_attached.isElement(cur_face_id)) {
-            face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
-            point_cache.pairFace(new_point_id, cur_face_id);
-            aff_face_ids.add(cur_face_id, 0);
-        }
-    }
+//     // Collect Affected Faces, Replace Point and Pair Face
+//     Id cur_face_id;
+//     int N_face = point_cache.pairedFaceLen(old_point_id);
+//     IdSet aff_face_ids(N_face);
+//     for (int i=0; i<N_face; i++) {
+//         cur_face_id = point_cache.getPairedFace(old_point_id, i);
+//         if (!faces_attached.isElement(cur_face_id)) {
+//             face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
+//             point_cache.pairFace(new_point_id, cur_face_id);
+//             aff_face_ids.add(cur_face_id, 0);
+//         }
+//     }
 
-    // Replace and Pair New Edges in Affected Faces
-    bool contains;
-    N_edge = edge_map.size();
-    N_face = aff_face_ids.size();
-    for (int i=0; i<N_edge; i++) {              // i edge 
-        old_edge_id = edge_map[i];
-        new_edge_id = edge_map.getValue(old_edge_id);
-        for (int j=0; j<N_face; j++) {          // j face
-            contains = face(aff_face_ids[j]).replaceEdge(old_edge_id, new_edge_id);
-            if (contains) {
-                edge_cache.pairFace(new_edge_id, aff_face_ids[j]);
-            }
-        }
-    }
-}
+//     // Replace and Pair New Edges in Affected Faces
+//     bool contains;
+//     N_edge = edge_map.size();
+//     N_face = aff_face_ids.size();
+//     for (int i=0; i<N_edge; i++) {              // i edge 
+//         old_edge_id = edge_map[i];
+//         new_edge_id = edge_map.getValue(old_edge_id);
+//         for (int j=0; j<N_face; j++) {          // j face
+//             contains = face(aff_face_ids[j]).replaceEdge(old_edge_id, new_edge_id);
+//             if (contains) {
+//                 edge_cache.pairFace(new_edge_id, aff_face_ids[j]);
+//             }
+//         }
+//     }
+// }
 
 void EditMesh::extrudeTest(Id face_id) {
     

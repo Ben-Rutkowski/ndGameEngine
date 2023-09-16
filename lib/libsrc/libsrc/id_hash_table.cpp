@@ -8,15 +8,15 @@ IdHashTableBase::IdHashTableBase()
     :IdHashTableBase(0) {}
 
 IdHashTableBase::IdHashTableBase(uint n)
-    :capacity{ n },
+    :capacity_size{ n },
     open_marker{ 0 } {
 
-    helper.resize(capacity);
-    std::fill_n(helper.begin(), capacity, 0);
+    helper.resize(capacity_size);
+    std::fill_n(helper.begin(), capacity_size, 0);
     
-    data.resize(capacity + 1);
+    data.resize(capacity_size + 1);
 
-    open_spaces.resize(capacity);
+    open_spaces.resize(capacity_size);
     std::iota(open_spaces.begin(), open_spaces.end(), 1);
 }
 
@@ -24,16 +24,16 @@ IdHashTableBase::IdHashTableBase(uint n)
 bool IdHashTableBase::isTableFull() { return open_spaces[open_marker] == 0; }
 uint IdHashTableBase::hashFunction(uint key) {
     key = key * 37;
-    return key % capacity;
+    return key % capacity_size;
 }
 
 // === Interface ===
 void IdHashTableBase::add(uint key) { add(key, 0); }
 void IdHashTableBase::add(uint key, uint value) {
-    if (isTableFull()) {
-        std::cout << "Table is Full!" << std::endl;
-        return;
-    }
+    // if (isTableFull()) {
+    //     std::cout << "Table is Full!" << std::endl;
+    //     return;
+    // }
     uint place;
     uint hash = hashFunction(key);
     if (isHelperEmpty(hash)) {
@@ -45,7 +45,7 @@ void IdHashTableBase::add(uint key, uint value) {
         if (place != 0) {
             addToThread(place, key, value);
         } else {
-            std::cout << "Added Redundant Key!" << std::endl;
+            // std::cout << "Added Redundant Key!" << std::endl;
             return;
         }
     }
@@ -66,25 +66,25 @@ bool IdHashTableBase::isElement(uint key) {
     return place != 0;
 }
 
-int  IdHashTableBase::size()  { return capacity; }
+int  IdHashTableBase::capacity()  { return capacity_size; }
 void IdHashTableBase::clear() {
     open_marker = 0;
 
-    std::fill_n(helper.begin(), capacity, 0);    
-    std::fill_n(data.begin(), capacity + 1, HTNode());
+    std::fill_n(helper.begin(), capacity_size, 0);    
+    std::fill_n(data.begin(), capacity_size + 1, HTNode());
     std::iota(open_spaces.begin(), open_spaces.end(), 1);
 }
 
 void IdHashTableBase::resizeClear(int n) {
-    capacity = n;
+    capacity_size = n;
     open_marker = 0;
 
-    helper.resize(capacity);
-    data.resize(capacity + 1);
-    open_spaces.resize(capacity);
+    helper.resize(capacity_size);
+    data.resize(capacity_size + 1);
+    open_spaces.resize(capacity_size);
 
-    std::fill_n(helper.begin(), capacity, 0);
-    std::fill_n(data.begin(), capacity + 1, HTNode());
+    std::fill_n(helper.begin(), capacity_size, 0);
+    std::fill_n(data.begin(), capacity_size + 1, HTNode());
     std::iota(open_spaces.begin(), open_spaces.end(), 1);
 }
 
@@ -159,13 +159,13 @@ uint IdHashTableBase::getNextOpen() {
 
 void IdHashTableBase::stepNextOpen() {
     open_spaces[open_marker] = 0;
-    open_marker = (open_marker + 1) % capacity;
+    open_marker = (open_marker + 1) % capacity_size;
 }
 
 // === Debugging ===
 void IdHashTableBase::printHelper() {
     std::cout << "Helper: " << std::endl;
-    for (int i=0; i<capacity; i++) {
+    for (int i=0; i<capacity_size; i++) {
         std::cout << helper[i] << std::endl;
     } 
 }
@@ -173,14 +173,14 @@ void IdHashTableBase::printHelper() {
 void IdHashTableBase::printData() {
     std::cout << "Data: " << std::endl;
 
-    for (int i=0; i<capacity+1; i++) {
+    for (int i=0; i<capacity_size+1; i++) {
         data[i].print(i);
     }
 }
 
 void IdHashTableBase::printOpen() {
     std::cout << "Open Spaces: " << std::endl;
-    for (int i=0; i<capacity; i++) {
+    for (int i=0; i<capacity_size; i++) {
         if (i == open_marker) {
             std::cout << "+";
         } else {
@@ -207,8 +207,13 @@ IdHashTableStatic::IdHashTableStatic()
 IdHashTableStatic::IdHashTableStatic(uint n)
     :IdHashTableBase(n) {}
 
-int IdHashTableStatic::begin()            { return 0; }
-int IdHashTableStatic::end()              { return open_marker; }
+int IdHashTableStatic::size() {
+    if (open_marker == 0 && open_spaces[0] == 0) {
+        return capacity_size;
+    } else {
+        return open_marker;
+    }
+}
 uint IdHashTableStatic::operator[](int i) { return data[i+1].key; }
 
 // ================ IdHashTableDynamic ================
@@ -276,7 +281,7 @@ void IdHashTableDynamic::joinThreadNotTop(uint place) {
 
 void IdHashTableDynamic::freeNewOpen(uint place) {
     open_spaces[next_empty_open_marker] = place;
-    next_empty_open_marker = (next_empty_open_marker + 1) % capacity;
+    next_empty_open_marker = (next_empty_open_marker + 1) % capacity_size;
 }
 
 

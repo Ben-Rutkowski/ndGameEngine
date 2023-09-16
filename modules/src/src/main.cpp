@@ -12,14 +12,5 @@ int main() {
     EditSpace edit_space;
     window.linkEditSpace(&edit_space);
 
-    // app.startApp();
-
-    IdHashTableDynamic set(5);
-
-    set.add(4, 4);
-    set.print();
-    set.add(4, 12);
-    set.remove(4);
-    set.add(4, 11);
-    set.print();
+    app.startApp();
 }

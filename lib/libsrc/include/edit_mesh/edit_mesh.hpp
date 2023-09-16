@@ -4,6 +4,7 @@
 #include "rendering/vertex_buffer_interface.hpp"
 #include "edit_mesh/edit_face.hpp"
 #include "id_hash_table_old.hpp"
+#include "id_hash_table.hpp"
 
 /* CLASS: EditMesh
 ======== ATTRIBUTES ========
@@ -21,7 +22,8 @@ then the edges, then the face
 
 */
 
-typedef IdHashTableOld IdSet;
+// typedef IdHashTableOld IdSet;
+typedef IdHashTableStatic IdSet;
 
 class EditMesh {
 private:
@@ -85,7 +87,7 @@ private:
     // --- Testing ---
 public:
     void replaceTest(Id old_point_id, Id top_face_id);
-    void replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached);
+    // void replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached);
     void extrudeTest(Id face_id);
 
 // --- Selecting ---
