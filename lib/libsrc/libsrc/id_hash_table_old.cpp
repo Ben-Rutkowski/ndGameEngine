@@ -1,32 +1,32 @@
-#include "uint_hash_table.hpp"
+#include "id_hash_table_old.hpp"
 #include <iostream>
 
-UIntHashTable::UIntHashTable(int size_in)
+IdHashTableOld::IdHashTableOld(int size_in)
     :capacity{ size_in },
     next_open{ 0 },
     helper_table(size_in, HelperNode()),
     table(size_in, Node()),
     collides{ 0 } { }
 
-UIntHashTable::UIntHashTable()
+IdHashTableOld::IdHashTableOld()
     :capacity{ 0 },
     next_open{ 0 },
     helper_table(0, HelperNode()),
     table(0, Node()),
     collides{ 0 } { }
 
-unsigned int UIntHashTable::hash(unsigned int key) {
+unsigned int IdHashTableOld::hash(unsigned int key) {
     key = key * 37;
     // key = key << 1;
     return key % capacity;
 }
 
-int UIntHashTable::size() { return next_open; }
-unsigned int UIntHashTable::operator[](int i) {
+int IdHashTableOld::size() { return next_open; }
+unsigned int IdHashTableOld::operator[](int i) {
     return table[i].key;
 }
 
-void UIntHashTable::resize(int n) {
+void IdHashTableOld::resizeClear(int n) {
     helper_table.resize(n);
     table.resize(n);
 
@@ -36,13 +36,13 @@ void UIntHashTable::resize(int n) {
     next_open = 0;
 }
 
-void UIntHashTable::clear() {
+void IdHashTableOld::clear() {
     std::fill_n(helper_table.begin(), capacity, HelperNode());
     std::fill_n(table.begin(), capacity, Node());
     next_open = 0;
 }
 
-bool UIntHashTable::isElement(unsigned int key) {
+bool IdHashTableOld::isElement(unsigned int key) {
     unsigned int hash_id = hash(key);
     if ( helper_table[hash_id].is_empty ) {
         return false;
@@ -51,7 +51,7 @@ bool UIntHashTable::isElement(unsigned int key) {
     }
 }
 
-unsigned int UIntHashTable::getValue(unsigned int key) {
+unsigned int IdHashTableOld::getValue(unsigned int key) {
     unsigned int node_id = helper_table[hash(key)].node_id;
 
     bool is_end = false;
@@ -67,7 +67,7 @@ unsigned int UIntHashTable::getValue(unsigned int key) {
     return 0;
 }
 
-void UIntHashTable::add(unsigned int key, unsigned int value) {
+void IdHashTableOld::add(unsigned int key, unsigned int value) {
     unsigned int node_id;
     unsigned int hash_id = hash(key);
 
@@ -80,7 +80,7 @@ void UIntHashTable::add(unsigned int key, unsigned int value) {
     }
 }
 
-unsigned int UIntHashTable::activateHelper(unsigned int hash_id) {
+unsigned int IdHashTableOld::activateHelper(unsigned int hash_id) {
     helper_table[hash_id].is_empty = false;
     helper_table[hash_id].node_id = next_open;
     next_open = next_open + 1;
@@ -88,12 +88,12 @@ unsigned int UIntHashTable::activateHelper(unsigned int hash_id) {
     return helper_table[hash_id].node_id;
 }
 
-void UIntHashTable::startThread(unsigned int node_id, unsigned int key, unsigned int value) {
+void IdHashTableOld::startThread(unsigned int node_id, unsigned int key, unsigned int value) {
     table[node_id].key   = key;
     table[node_id].value = value;
 }
 
-void UIntHashTable::addToThread(unsigned int node_id, unsigned int key, unsigned int value) {
+void IdHashTableOld::addToThread(unsigned int node_id, unsigned int key, unsigned int value) {
     bool is_end = false;
 
     while (!is_end) {
@@ -110,7 +110,7 @@ void UIntHashTable::addToThread(unsigned int node_id, unsigned int key, unsigned
     }
 }
 
-void UIntHashTable::linkToNewNode(unsigned int node_id, unsigned int key, unsigned int value) {
+void IdHashTableOld::linkToNewNode(unsigned int node_id, unsigned int key, unsigned int value) {
     table[node_id].is_end = false;
     table[node_id].next_node = next_open;
 
@@ -121,7 +121,7 @@ void UIntHashTable::linkToNewNode(unsigned int node_id, unsigned int key, unsign
     next_open = next_open + 1;
 }
 
-bool UIntHashTable::searchThread(unsigned int node_id, unsigned int key) {
+bool IdHashTableOld::searchThread(unsigned int node_id, unsigned int key) {
     bool is_end = false;
     
     while (!is_end) {
@@ -137,7 +137,7 @@ bool UIntHashTable::searchThread(unsigned int node_id, unsigned int key) {
 }
 
 // === Debugging ===
-void UIntHashTable::print() {
+void IdHashTableOld::print() {
     std::cout << "Collides: " << collides << std::endl;
 
     for (int i=0; i<next_open; i++) {

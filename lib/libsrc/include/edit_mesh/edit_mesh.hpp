@@ -3,7 +3,7 @@
 
 #include "rendering/vertex_buffer_interface.hpp"
 #include "edit_mesh/edit_face.hpp"
-#include "uint_hash_table.hpp"
+#include "id_hash_table_old.hpp"
 
 /* CLASS: EditMesh
 ======== ATTRIBUTES ========
@@ -21,7 +21,7 @@ then the edges, then the face
 
 */
 
-typedef UIntHashTable IdSet;
+typedef IdHashTableOld IdSet;
 
 class EditMesh {
 private:

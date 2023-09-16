@@ -1,5 +1,4 @@
 #include "edit_mesh/edit_mesh.hpp"
-#include "uint_hash_table.hpp"
 
 Id EditMesh::createPoint(vec4 pos) {
     return point_cache.addPoint(pos);

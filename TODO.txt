@@ -1,6 +1,7 @@
 TODO: 
 == Imidiate tasks
 
+- Change sets to static and dynamic, dynamic can remove but not iterate
 - Change faces to use a hash map instead of a a vector
 - hash maps change to dynamic and get rid of the helper table check if empty,
         have it point to the null square, and have remove/replace options

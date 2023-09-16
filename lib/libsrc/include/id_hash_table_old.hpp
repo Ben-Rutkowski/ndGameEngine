@@ -1,5 +1,5 @@
-#ifndef UINT_HASH_TABLE_HPP
-#define UINT_HASH_TABLE_HPP
+#ifndef ID_HASH_TABLE_OLD_HPP
+#define ID_HASH_TABLE_OLD_HPP
 
 #include <vector>
 
@@ -16,7 +16,7 @@ struct Node {
 };
 
 
-class UIntHashTable {
+class IdHashTableOld {
 private:
     int capacity;
     unsigned int next_open;
@@ -27,12 +27,12 @@ private:
     int collides;
 
 public:
-    UIntHashTable();
-    UIntHashTable(int size_in);
+    IdHashTableOld();
+    IdHashTableOld(int size_in);
     void add(unsigned int key, unsigned int value);
 
     int size();
-    void resize(int n);
+    void resizeClear(int n);
     void clear();
     unsigned int operator[](int i);
 

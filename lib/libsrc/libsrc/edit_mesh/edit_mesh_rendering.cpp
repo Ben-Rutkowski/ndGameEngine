@@ -24,8 +24,8 @@ void EditMesh::load() {
     face_vbi.configAttribf(3, 1, sizeof(EditVertex), (void*)(3*sizeof(vec4) + sizeof(vec2)));
     face_vbi.unbindCurrent();
 
-    selected_points.resize(point_cache.dataLen());
-    selected_faces.resize(face_cache.dataLen());
+    selected_points.resizeClear(point_cache.dataLen());
+    selected_faces.resizeClear(face_cache.dataLen());
 
     // resetSelectPoints();
     // resetSelectFaces();
