@@ -1,6 +1,7 @@
 #include "edit_space.hpp"
 
 void EditSpace::setCallbacks() {
+    event_interface.setCallback(Data::DEBUG,       PACK(EditSpace::onDebug));
     event_interface.setCallback(Data::BEGIN_LOOP,  PACK(EditSpace::onBeginLoop));
     event_interface.setCallback(Data::START_FRAME, PACK(EditSpace::onStartFrame));
     event_interface.setCallback(Data::DRAW_FRAME,  PACK(EditSpace::onDrawFrame));
@@ -85,7 +86,11 @@ void EditSpace::onLeftMouseHold(Event* event) {
 void EditSpace::onLeftMouseRelease(Event* event) {
     scache.set(esLEFT_MOUSE, false);
 
+    Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
+    Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
+    event_interface.runEvent(&startTimer);
     selectPointsBox();
+    event_interface.runEvent(&checkTimer);
 }
 
 void EditSpace::onScroll(Event* event) {
@@ -113,4 +118,12 @@ void EditSpace::onSKey(Event* event) {
 
     // meshes[0].transformPoints(points, trans);
     meshes[0].transformPoints(trans);
+}
+
+void EditSpace::onDebug(Event* event) {
+    Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
+    Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
+    event_interface.runEvent(&startTimer);
+    meshes[0].debug();
+    event_interface.runEvent(&checkTimer);
 }

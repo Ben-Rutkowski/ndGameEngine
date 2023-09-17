@@ -36,7 +36,7 @@ private:
 };
 
 // ================ ndWindow ================
-enum wState { w_null = 0,
+enum wState { w_null = 0, wDEBUG,
     /* KEYS */  wLEFT_MOUSE, wRIGHT_MOUSE,
     /* STATE */ wCLICK, wHOLD, wRELEASE,
     wLEN
@@ -85,6 +85,8 @@ public:
     void onCloseApp(Event* event);
     void onResizeFrame(Event* event);
     void onResizeWindow(Event* event);
+    void onClickDebugTimer(Event* event);
+    void onDeltaDebugTimer(Event* event);
 
 private:
     void queueFrameResize();

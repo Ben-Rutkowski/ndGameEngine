@@ -46,8 +46,7 @@ void EditMesh::printSelect() {
 }
 
 void EditMesh::debug() {
-    for (int i=0; i<6; i++) {
-        std::cout << "Face: " << i << std::endl;
-        face_cache[i].debug(vertex_cache);
-    }
+    IdSet faces(1); faces.add(0);
+    ripPointTest(5, faces);
+    // load();
 }

@@ -18,7 +18,7 @@ enum class Module { null = 0, TEST,
     LEN
 };
 
-enum class Data { null = 0, TEST,
+enum class Data { null = 0, TEST, DEBUG,
     /* Operations */ CLOSE_APP, RESIZE_FRAME, RESIZE_WINDOW, 
     /* Runtime */    BEGIN_LOOP, START_FRAME, DRAW_FRAME, END_FRAME,          
     /* Key Events */ COLLECT_MENU_KEYS, ESCAPE_KEY, SCROLL,
@@ -26,6 +26,7 @@ enum class Data { null = 0, TEST,
                      RIGHT_MOUSE_CLICK, LEFT_MOUSE_CLICK,
                      RIGHT_MOUSE_HOLD, LEFT_MOUSE_HOLD,
                      RIGHT_MOUSE_RELEASE, LEFT_MOUSE_RELEASE,
+    /* Timers */     CLICK_DEBUG_TIMER, DELTA_DEBUG_TIMER,
     LEN
 };
 
@@ -42,7 +43,7 @@ enum class ShaderType { null = 0,
 
 // === Clock Enums ===
 enum class Watch { null = 0,
-    FRAMERATE, FRAME_DELTA,
+    FRAMERATE, FRAME_DELTA, DEBUG, 
     LEN
 };
 

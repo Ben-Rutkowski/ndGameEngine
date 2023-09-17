@@ -88,7 +88,7 @@ void EditMesh::setSelectFace(Id face_id, bool value) {
 }
 
 bool EditMesh::isPointSelect(Id point_id) {
-    return selected_points.isElement(point_id);
+    return selected_points.hasElement(point_id);
 }
 
 bool EditMesh::checkCullPoint(Id point_id, vec4 camera_pos) {

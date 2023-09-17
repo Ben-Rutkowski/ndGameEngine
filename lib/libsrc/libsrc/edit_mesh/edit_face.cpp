@@ -29,7 +29,8 @@ EditFace::EditFace(int n)
 // TriIndexObj&  EditFace::tri(int i, TriCache& tc)   { return tc[tri_ids[i]]; }
 
 
-void EditFace::addPoint(Id point_id) { point_ids_new.add(point_id); }
+// void EditFace::addPoint(Id point_id) { point_ids_new.add(point_id); }
+void EditFace::addPoint(Id point_id, Id vert_id) { point_ids_new.add(point_id, vert_id); }
 void EditFace::addEdge(Id edge_id)   { edge_ids_new.add(edge_id); }
 void EditFace::addVertex(Id vert_id) { vert_ids_new.add(vert_id); }
 void EditFace::addTri(Id tri_id)     { tri_ids_new.add(tri_id); }
@@ -49,46 +50,35 @@ EdgeIndexObj& EditFace::edge(int i, EdgeCache& ec) { return ec[edge_ids_new.forc
 EditVertex& EditFace::vert(int i, VertexCache& vc) { return vc[vert_ids_new.forceGetKey(i)]; }
 TriIndexObj&  EditFace::tri(int i, TriCache& tc)   { return tc[tri_ids_new.forceGetKey(i)]; }
 
+bool EditFace::hasPoint(Id point_id) { return point_ids_new.hasElement(point_id); }
+bool EditFace::hasEdge(Id edge_id)   { return edge_ids_new.hasElement(edge_id); }
+
 // === Replacing ===
 bool EditFace::replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, VertexCache& vc) {
-    bool contains = false;
-
-    // Replace Point
-    int N_point = point_ids.size();
-    for (int i=0; i<N_point; i++) {
-        if (point_ids[i] == old_point_id) {
-            point_ids[i] = new_point_id;
-            contains = true;
-            break;
-        }
+    bool contains;
+    Id vert_id = point_ids_new.value(old_point_id);
+    contains = point_ids_new.remove(old_point_id);
+    if (contains) { 
+        point_ids_new.add(new_point_id, vert_id);
+        vec4 pos = pc[new_point_id].getPos();
+        vc[vert_id].setPos(pos);
+        vc.pairPoint(vert_id, new_point_id);
+        pc.removeVertex(old_point_id, vert_id);
+        pc.pairVertex(new_point_id, vert_id);
+        return true;
+    } else {
+        return false;
     }
-
-    if (!contains) { return contains; }
-
-    // Replace Vert
-    Id curr_point_id;
-    int N_vert = vert_ids.size();
-    for (int i=0; i<N_vert; i++) {
-        curr_point_id = vc.getPairedPoint(vert_ids[i]);
-        if (curr_point_id == old_point_id) {
-            vc.pairPoint(vert_ids[i], new_point_id);
-            pc.pairVertex(new_point_id, vert_ids[i]);
-            break;
-        }
-    }
-
-    return contains;
-}
+}   
 
 bool EditFace::replaceEdge(Id old_edge_id, Id new_edge_id) {
-    int N_edge = edge_ids.size();
-    for (int i=0; i<N_edge; i++) {
-        if (edge_ids[i] == old_edge_id) {
-            edge_ids[i] = new_edge_id;
-            return true;
-        }
+    bool contains = edge_ids_new.remove(old_edge_id);
+    if (contains) {
+        edge_ids_new.add(new_edge_id);
+        return true;
+    } else {
+        return false;
     }
-    return false;
 }
 
 // === Calculations ===
@@ -104,6 +94,7 @@ vec4 EditFace::calcNorm(TriCache& tc, VertexCache& vc) {
 
     vec4 curr_norm;
     vec4 norm = tri(0, tc).calcNorm(vc);
+    // vec4 norm = tc[tre]
     int N_tri = triLen();
     for (int i=1; i<N_tri; i++) {
         curr_norm = tri(i, tc).calcNorm(vc);
@@ -195,6 +186,31 @@ float EditFace::rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc) {
     return dist;
 }
 
+// === Debugging ===
+void EditFace::print() {
+
+    std::cout << std::endl << std::endl << std::endl;
+    std::cout << "Points: " << std::endl;
+
+    point_ids_new.printData();
+    point_ids_new.printOpen();
+
+    std::cout << "Verts: " << std::endl;
+
+    vert_ids_new.printData();
+    vert_ids_new.printOpen();
+
+    std::cout << "Edges: " << std::endl;
+
+    edge_ids_new.printData();
+    edge_ids_new.printOpen();
+
+    std::cout << "Tris: " << std::endl;
+
+    tri_ids_new.printData();
+    tri_ids_new.printOpen();
+}
+
 void EditFace::debug(VertexCache& vc) {
-    vert(0, vc).getCenter().print();
+    print();
 }

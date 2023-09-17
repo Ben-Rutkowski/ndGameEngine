@@ -19,6 +19,8 @@ void ndWindow::setCallbacks() {
     event_interface.setCallback(Data::RESIZE_WINDOW, PACK(ndWindow::onResizeWindow));
     event_interface.setCallback(Data::BEGIN_LOOP,  PACK(ndWindow::onBeginLoop));
     event_interface.setCallback(Data::END_FRAME,   PACK(ndWindow::onEndFrame));
+    event_interface.setCallback(Data::CLICK_DEBUG_TIMER,  PACK(ndWindow::onClickDebugTimer));
+    event_interface.setCallback(Data::DELTA_DEBUG_TIMER,   PACK(ndWindow::onDeltaDebugTimer));
 
     // GLFW Callbacks
     glfwSetFramebufferSizeCallback(glfw_window, framebufferResizeCallback);
@@ -50,6 +52,11 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 
     if (isKeyPress(GLFW_KEY_S)) {
         event_interface.queueEvent(module_name, Data::S_KEY);
+    }
+
+    if (isKeyPress(GLFW_KEY_P) && !scache[wDEBUG]) {
+        scache.set(wDEBUG, true);
+        event_interface.queueEvent(module_name, Data::DEBUG);
     }
 
     mouse_state = mouseState(wRIGHT_MOUSE, GLFW_MOUSE_BUTTON_RIGHT);
@@ -117,6 +124,15 @@ void ndWindow::onResizeFrame(Event* event) {
 void ndWindow::onResizeWindow(Event* event) {
     dcache.ww = event->getInt(0);
     dcache.wh = event->getInt(1);
+}
+
+void ndWindow::onClickDebugTimer(Event* event) {
+    clock.click(Watch::DEBUG);
+}
+
+void ndWindow::onDeltaDebugTimer(Event* event) {
+    float time = clock.delta(Watch::DEBUG);
+    std::cout << "Delta Time: " << time*1000.0f << " ms" << std::endl;
 }
 
 // === Private ===

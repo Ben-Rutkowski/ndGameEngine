@@ -34,7 +34,7 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
         edge_cache.pairFace(edges_id[i], face_id);
 
         // Add to Face
-        face(face_id).addPoint(point_ids[i]);
+        face(face_id).addPoint(point_ids[i], vert_ids[i]);
         face(face_id).addVertex(vert_ids[i]);
         face(face_id).addEdge(edges_id[i]);
     }
@@ -72,7 +72,7 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
         edge_cache.pairFace(edge_ids[i], face_id);
 
         // Add to Face
-        face(face_id).addPoint(point_ids[i]);
+        face(face_id).addPoint(point_ids[i], vert_ids[i]);
         face(face_id).addVertex(vert_ids[i]);
         face(face_id).addEdge(edge_ids[i]);
     }
@@ -147,48 +147,150 @@ void EditMesh::replaceTest(Id old_point_id, Id top_face_id) {
     
 }
 
-// void EditMesh::replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached) {
-//     // Create New Edges
-//     Id old_edge_id, new_edge_id;
-//     Id other_point_id;
-//     int N_edge = point_cache.pairedEdgeLen(old_point_id);
-//     IdSet edge_map(N_edge);
-//     for (int i=0; i<N_edge; i++) {
-//         old_edge_id    = pointToEdge(old_point_id, i);
-//         other_point_id = edge(old_edge_id).otherId(old_point_id);
-//         new_edge_id    = createEdge({other_point_id, new_point_id});
-//         point_cache.pairEdge(new_point_id, new_edge_id);
-//         edge_map.add(old_edge_id, new_edge_id);
-//     }
+void EditMesh::ripPointTest(Id old_point_id, IdSet& faces_attached) {
+/*
+    There are three types of edges, those that belong only to 
+    the attatched faces, those that only to the bottom faces,
+    and those are on the seem. The seem edges are split into
+    two: top and bottom, these are created.
+*/    
 
-//     // Collect Affected Faces, Replace Point and Pair Face
-//     Id cur_face_id;
-//     int N_face = point_cache.pairedFaceLen(old_point_id);
-//     IdSet aff_face_ids(N_face);
-//     for (int i=0; i<N_face; i++) {
-//         cur_face_id = point_cache.getPairedFace(old_point_id, i);
-//         if (!faces_attached.isElement(cur_face_id)) {
-//             face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
-//             point_cache.pairFace(new_point_id, cur_face_id);
-//             aff_face_ids.add(cur_face_id, 0);
-//         }
-//     }
+    // IdSet test_1(3);
+    // IdSet test_3(4);
 
-//     // Replace and Pair New Edges in Affected Faces
-//     bool contains;
-//     N_edge = edge_map.size();
-//     N_face = aff_face_ids.size();
-//     for (int i=0; i<N_edge; i++) {              // i edge 
-//         old_edge_id = edge_map[i];
-//         new_edge_id = edge_map.getValue(old_edge_id);
-//         for (int j=0; j<N_face; j++) {          // j face
-//             contains = face(aff_face_ids[j]).replaceEdge(old_edge_id, new_edge_id);
-//             if (contains) {
-//                 edge_cache.pairFace(new_edge_id, aff_face_ids[j]);
-//             }
-//         }
-//     }
-// }
+    // vec4 pos = point(old_point_id).getPos();
+    // Id new_point_id = createPoint(pos);
+
+    // replacePointInFaces(old_point_id, new_point_id, faces_attached, true);
+
+    // int N_edges = point_cache.pairedEdgeLen(old_point_id);
+    // IdSet edge_class(N_edges);
+    // IdSet edge_map(N_edges);
+    // for (int i=0; i<N_edges; i++) {
+    //     edge_class.add(pointToEdge(old_point_id, i));
+    // }
+    // classifyEdges(edge_class, faces_attached);
+
+    // Id new_edge_id, old_edge_id, other_point_id;
+    // uint type;
+    // for (int i=0; i<N_edges; i++) {
+    //     old_edge_id = edge_class[i];
+    //     type        = edge_class.forceGetValue(i);
+    //     if (type == emSEEM) {
+    //         other_point_id = edge(old_edge_id).otherId(old_point_id);
+    //         new_edge_id    = createEdge({new_point_id, other_point_id});
+    //         replaceEdgeInFaces(old_edge_id, new_edge_id, faces_attached, true);
+    //         point_cache.removeEdge(old_point_id, old_edge_id);
+    //     } else if (type == emBOTTOM) {
+    //         edge(old_edge_id).replacePoint(old_edge_id, new_point_id);
+    //         point_cache.removeEdge(old_point_id, old_edge_id);
+    //     } else if (type == emTOP) {
+    //         // Top
+    //     }
+    // }
+
+    // load();
+
+    // vec4 TRANS({0.0f, 0.5f, 0.0f, 1.0f});
+    // IdSet points(1); points.add(old_point_id);
+    // transformPoints(points, mat4::translate(TRANS));
+
+    // Id atch_point_id = createPoint(att_pos);
+    // Id bot_point_id = createPoint(pos);
+
+    // replacePointInFaces(old_point_id, atch_point_id, faces_attached, false);
+    // replacePointInFaces(old_point_id, bot_point_id, faces_attached, true);    
+
+    // Id cur_edge_id;
+    // int N_edges = point_cache.pairedEdgeLen(old_point_id);
+    // IdSet edges(N_edges);
+    // for (int i=0; i<N_edges; i++) {
+    //     cur_edge_id = pointToEdge(old_point_id, i);
+    //     edges.add(cur_edge_id);
+    // }
+    // classifyEdges(edges, faces_attached);
+
+    // Id new_atch_edge_id;
+    // Id new_bot_edge_id;
+    // Id other_point_id;
+    // uint type;
+    // for (int i=0; i<N_edges; i++) {
+    //     cur_edge_id = edges[i];
+    //     type        = edges.forceGetValue(i);
+    //     if ( type == emSEEM ) {
+    //         other_point_id = edge(cur_edge_id).otherId(old_point_id);
+    //         new_atch_edge_id = createEdge({atch_point_id, other_point_id});
+    //         new_bot_edge_id  = createEdge({bot_point_id, other_point_id});
+    //         replaceEdgeInFaces(old_point_id, new_atch_edge_id, faces_attached, false);
+    //         replaceEdgeInFaces(old_point_id, new_bot_edge_id, faces_attached, true);
+    //         edge_cache.depairEdge(cur_edge_id);
+    //     } else if ( type == emTOP ) {
+    //         edge(cur_edge_id).replacePoint(old_point_id, atch_point_id);
+    //     } else if ( type == emBOTTOM ) {
+    //         edge(cur_edge_id).replacePoint(old_point_id, bot_point_id);
+    //     }
+    // }
+}
+
+void EditMesh::replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& face_ids, bool invert) {
+    Id cur_face_id;
+    bool in_set;
+    int N_faces = point_cache.pairedFaceLen(old_point_id);
+    for (int i=0; i<N_faces; i++) {
+        cur_face_id = pointToFace(old_point_id, i);
+        in_set      = face_ids.hasElement(cur_face_id);
+        if ( in_set == !invert ) {
+            face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
+            point_cache.removeFace(old_point_id, cur_face_id);
+            point_cache.pairFace(new_point_id, cur_face_id);
+        }
+    }
+}
+
+void EditMesh::replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& face_ids, bool invert) {
+    Id cur_face_id;
+    bool in_set;
+    int N_faces = edge_cache.pairedFaceLen(old_edge_id);
+    for (int i=0; i<N_faces; i++) {
+        cur_face_id = edgeToFace(old_edge_id, i);
+        in_set      = face_ids.hasElement(cur_face_id);
+        if ( in_set == !invert ) {
+            face(cur_face_id).replaceEdge(old_edge_id, new_edge_id);
+            edge_cache.removeFace(old_edge_id, cur_face_id);
+            edge_cache.pairFace(new_edge_id, cur_face_id);
+        }
+    }
+}
+
+void EditMesh::classifyEdges(IdSet& edges, IdSet& faces_attached) {
+    Id cur_edge_id, cur_face_id;
+    int N_edges, N_faces;
+    bool in_atch, n_in_atch;
+
+    N_edges = edges.size();
+    for (int i=0; i<N_edges; i++) {
+        in_atch = false; n_in_atch = false;
+        cur_edge_id = edges[i];
+        N_faces = edge_cache.pairedFaceLen(cur_edge_id);
+        for (int j=0; j<N_faces; j++) {
+            cur_face_id = edgeToFace(cur_edge_id, j);
+            if (faces_attached.hasElement(cur_face_id)) {
+                in_atch = true;
+            } else {
+                n_in_atch = true;
+            }
+        }
+
+        if (in_atch && n_in_atch) {
+            edges.forceSetValue(emSEEM, i);
+        } else if (in_atch) {
+            edges.forceSetValue(emTOP, i);
+        } else {
+            edges.forceSetValue(emBOTTOM, i);
+        }
+
+    }
+}
 
 void EditMesh::extrudeTest(Id face_id) {
     

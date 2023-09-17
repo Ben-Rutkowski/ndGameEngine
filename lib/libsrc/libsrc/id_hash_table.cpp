@@ -28,8 +28,9 @@ uint IdHashTableBase::hashFunction(uint key) {
 }
 
 // === Interface ===
-void IdHashTableBase::add(uint key) { add(key, 0); }
-void IdHashTableBase::add(uint key, uint value) {
+void IdHashTableBase::add(uint key) { add(key, 0, 0, 0); }
+void IdHashTableBase::add(uint key, uint value) { add(key, value, 0, 0); }
+void IdHashTableBase::add(uint key, uint value_1, uint value_2, uint value_3) {
     // if (isTableFull()) {
     //     std::cout << "Table is Full!" << std::endl;
     //     return;
@@ -38,12 +39,12 @@ void IdHashTableBase::add(uint key, uint value) {
     uint hash = hashFunction(key);
     if (isHelperEmpty(hash)) {
         place = linkHelper(hash);
-        startThread(place, key, value);
+        startThread(place, key, value_1, value_2, value_3);
     } else {
         place = top(hash);
         place = searchThreadToBottom(place, key);
         if (place != 0) {
-            addToThread(place, key, value);
+            addToThread(place, key, value_1, value_2, value_3);
         } else {
             // std::cout << "Added Redundant Key!" << std::endl;
             return;
@@ -55,12 +56,33 @@ uint IdHashTableBase::value(uint key) {
     uint place = top(hashFunction(key));
     place = searchThreadForKey(place, key);
     if (place != 0 ) {
-        return data[place].value - 1;
+        return data[place].value_1 - 1;
     } else {
         return 0;
     }
 }
-bool IdHashTableBase::isElement(uint key) {
+
+// uint IdHashTableBase::value_2(uint key) {
+//     uint place = top(hashFunction(key));
+//     place = searchThreadForKey(place, key);
+//     if (place != 0 ) {
+//         return data[place].value_2 - 1;
+//     } else {
+//         return 0;
+//     }
+// }
+
+// uint IdHashTableBase::value_3(uint key) {
+//     uint place = top(hashFunction(key));
+//     place = searchThreadForKey(place, key);
+//     if (place != 0 ) {
+//         return data[place].value_3 - 1;
+//     } else {
+//         return 0;
+//     }
+// }
+
+bool IdHashTableBase::hasElement(uint key) {
     uint place = top(hashFunction(key));
     place = searchThreadForKey(place, key);
     return place != 0;
@@ -88,6 +110,14 @@ void IdHashTableBase::resizeClear(int n) {
     std::iota(open_spaces.begin(), open_spaces.end(), 1);
 }
 
+void IdHashTableBase::forceSetValue(uint value, int i) {
+    data[i+1].value_1 = value + 1;
+}
+
+uint IdHashTableBase::forceGetValue(int i) {
+    return data[i+1].value_1 - 1;
+}
+
 // === Helper ===
 bool IdHashTableBase::isHelperEmpty(uint hash) { return helper[hash] == 0; }
 uint IdHashTableBase::linkHelper(uint hash) {
@@ -103,21 +133,25 @@ uint IdHashTableBase::next(uint place) { return data[place].next; }
 uint IdHashTableBase::prev(uint place) { return data[place].previous; }
 uint IdHashTableBase::top(uint hash)   { return helper[hash]; }
 
-void IdHashTableBase::startThread(uint thread_i, uint key, uint value) {
+void IdHashTableBase::startThread(uint thread_i, uint key, uint value_1, uint value_2, uint value_3) {
     data[thread_i].key      = key;
-    data[thread_i].value    = value + 1;
+    data[thread_i].value_1  = value_1 + 1;
+    // data[thread_i].value_2  = value_2 + 1;
+    // data[thread_i].value_3  = value_3 + 1;
     data[thread_i].previous = 0;
     data[thread_i].next     = 0;
 }
 
-void IdHashTableBase::addToThread(uint bottom, uint key, uint value) {
+void IdHashTableBase::addToThread(uint bottom, uint key, uint value_1, uint value_2, uint value_3) {
     uint next_open = getNextOpen();
     stepNextOpen();
 
     data[bottom].next = next_open;
 
     data[next_open].key      = key;
-    data[next_open].value    = value + 1;
+    data[next_open].value_1  = value_1 + 1;
+    // data[next_open].value_2  = value_2 + 1;
+    // data[next_open].value_3  = value_3 + 1;
     data[next_open].previous = bottom;
     data[next_open].next     = 0;
 }

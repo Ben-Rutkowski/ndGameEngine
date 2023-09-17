@@ -57,6 +57,49 @@ public:
         { return getPairedCache2(point_id, i); }
     Id getPairedVertex(Id point_id, int i)
         { return getPairedCache3(point_id, i); }
+
+    void depairPoint(Id point_id) {
+        emptyIndexCache1(point_id);
+        emptyIndexCache2(point_id);
+        emptyIndexCache3(point_id);
+    }
+
+    void removeEdge(Id point_id, Id edge_id) {
+        int N = pairedEdgeLen(point_id);
+        for (int i=0; i<N; i++) {
+            if (pair_cache_1[point_id][i] == edge_id) {
+                pair_cache_1[point_id].erase(pair_cache_1[point_id].begin()+i);
+            }
+        }
+    }
+
+    void removeFace(Id point_id, Id face_id) {
+        int N = pairedFaceLen(point_id);
+        for (int i=0; i<N; i++) {
+            if (pair_cache_2[point_id][i] == face_id) {
+                pair_cache_2[point_id].erase(pair_cache_2[point_id].begin()+i);
+            }
+        }
+    }
+
+    // void replaceVertex(Id point_id, Id old_vert_id, Id new_vert_id) {
+    //     int N = pairedVertexLen(point_id);
+    //     for (int i=0; i<N; i++) {
+    //         if (pair_cache_3[point_id][i] == old_vert_id) {
+    //             pair_cache_3[point_id][i] = new_vert_id;
+    //             break;
+    //         }
+    //     }
+    // }
+
+    void removeVertex(Id point_id, Id vert_id) {
+        int N = pairedVertexLen(point_id);
+        for (int i=0; i<N; i++) {
+            if (pair_cache_3[point_id][i] == vert_id) {
+                pair_cache_3[point_id].erase(pair_cache_3[point_id].begin()+i);
+            }
+        }
+    }
 };
 
 #endif

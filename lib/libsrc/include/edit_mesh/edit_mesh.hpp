@@ -1,3 +1,13 @@
+/*  (-) Arbitrary Paired, (+) One Paired
+
+    Point       Vertex     Edge        Tri           Face
+    -----       ------     ====        ===           ====
+    - Vertex    + Point    ++ Point    +++ Vertex    - Point
+    - Edge                 ----                      - Vertex
+    - Face                 - Face                    - Edge
+                                                     - Tri
+*/                                                   
+
 #ifndef EDIT_MESH_HPP
 #define EDIT_MESH_HPP
 
@@ -5,6 +15,8 @@
 #include "edit_mesh/edit_face.hpp"
 #include "id_hash_table_old.hpp"
 #include "id_hash_table.hpp"
+
+enum emEdgeType { null = 0, emSEEM, emTOP, emBOTTOM };
 
 /* CLASS: EditMesh
 ======== ATTRIBUTES ========
@@ -87,7 +99,11 @@ private:
     // --- Testing ---
 public:
     void replaceTest(Id old_point_id, Id top_face_id);
-    // void replacePointDoesntWork(Id old_point_id, Id new_point_id, IdSet& faces_attached);
+    void ripPointTest(Id old_point_id, IdSet& faces_attached);
+    void replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& face_ids, bool invert);
+    void replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& face_ids, bool invert);
+    void classifyEdges(IdSet& edges, IdSet& faces_attached);
+    
     void extrudeTest(Id face_id);
 
 // --- Selecting ---

@@ -66,6 +66,13 @@ protected:
     void pairIndexCache4(Id root_id, Id pair_id)
         { pair_cache_4[root_id] = pair_id; } 
 
+    void emptyIndexCache1(Id root_id)
+        { pair_cache_1[root_id].clear(); }
+    void emptyIndexCache2(Id root_id)
+        { pair_cache_2[root_id].clear(); }
+    void emptyIndexCache3(Id root_id)
+        { pair_cache_3[root_id].clear(); }
+
     int pairedLen1(Id data_id) { return pair_cache_1[data_id].size(); }
     int pairedLen2(Id data_id) { return pair_cache_2[data_id].size(); }
     int pairedLen3(Id data_id) { return pair_cache_3[data_id].size(); }

@@ -18,21 +18,21 @@ class EditFace {
 private:
     int N_sides;
 
-    std::vector<Id> point_ids;
-    std::vector<Id> vert_ids;
-    std::vector<Id> edge_ids;
-    std::vector<Id> tri_ids;
+    // std::vector<Id> point_ids;
+    // std::vector<Id> vert_ids;
+    // std::vector<Id> edge_ids;
+    // std::vector<Id> tri_ids;
 
-
-    IdHashTableDynamic point_ids_new;
-    IdHashTableDynamic vert_ids_new;
-    IdHashTableDynamic edge_ids_new;
-    IdHashTableDynamic tri_ids_new;
+    IdHashTableDynamic point_ids_new; // Point -> Vert
+    IdHashTableDynamic vert_ids_new;  // Vert
+    IdHashTableDynamic edge_ids_new;  // Edge  -> Point
+    IdHashTableDynamic tri_ids_new;   // Tri   -> Vert
 
 public:
     EditFace(int n);
 
-    void addPoint(Id point_id);
+    // void addPoint(Id point_id);
+    void addPoint(Id point_id, Id vert_id);
     void addVertex(Id vert_id);
     void addEdge(Id edge_id);
     void addTri(Id tri_id);
@@ -55,10 +55,13 @@ public:
     void setNorm(vec4 norm, VertexCache& vc);
     void setCenter(vec4 center, VertexCache& vc);
 
+    bool hasPoint(Id point_id);
+    bool hasEdge(Id edge_id);
+
 // --- Replacing ---
     // Returns true if the point or edge is in the face
     bool replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, VertexCache& vc);
-    bool replaceEdge(Id old_edge_id, Id new_edge_id);
+    bool replaceEdge(Id old_edge_id, Id new_edge_ids);
 
 // --- Calculations ---
     vec4  calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
@@ -67,6 +70,7 @@ public:
 
 // --- Debugging ---
 public:
+    void print();
     void debug(VertexCache& vc);
 };
 

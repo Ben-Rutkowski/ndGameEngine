@@ -19,6 +19,14 @@ Id EdgeIndexObj::otherId(Id point_id) {
     }
 }
 
+void EdgeIndexObj::replacePoint(Id old_point_id, Id new_point_id) {
+    if (point_ids[0] == old_point_id) {
+        point_ids[0] = new_point_id;
+    } else if (point_ids[1] == old_point_id) {
+        point_ids[1] = new_point_id;
+    }
+}
+
 // === Calculations ===
 vec4 EdgeIndexObj::calcEdgeVec(PointCache& pc) {
     vec4 tail_pos = point(0, pc).getPos();

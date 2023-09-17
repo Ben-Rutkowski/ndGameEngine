@@ -68,6 +68,7 @@ private:
 
 // --- On Events ---
 private:
+    void onDebug(Event* event);
     void onBeginLoop(Event* event);
     void onStartFrame(Event* event);
     void onDrawFrame(Event* event);

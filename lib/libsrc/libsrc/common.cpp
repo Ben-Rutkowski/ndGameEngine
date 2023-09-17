@@ -12,6 +12,7 @@ ShaderEnumMap getShaderEnumMap() {
 EventNameMap getEventNameMap() {
     EventNameMap map;
     map.addEntry(Data::TEST,              std::string("TEST"));
+    map.addEntry(Data::DEBUG,             std::string("DEBUG"));
     map.addEntry(Data::CLOSE_APP,         std::string("CLOSE_APP"));
     map.addEntry(Data::RESIZE_FRAME,      std::string("RESIZE_FRAME"));
     map.addEntry(Data::RESIZE_WINDOW,     std::string("RESIZE_WINDOW"));
@@ -32,6 +33,8 @@ EventNameMap getEventNameMap() {
     map.addEntry(Data::A_KEY,               std::string("A_KEY"));
     map.addEntry(Data::S_KEY,               std::string("S_KEY"));
     map.addEntry(Data::D_KEY,               std::string("D_KEY"));
+    map.addEntry(Data::CLICK_DEBUG_TIMER,   std::string("CLICK_DEBUG_TIMER"));
+    map.addEntry(Data::DELTA_DEBUG_TIMER,   std::string("DELTA_DEBUG_TIMER"));
 
     return map;
 }

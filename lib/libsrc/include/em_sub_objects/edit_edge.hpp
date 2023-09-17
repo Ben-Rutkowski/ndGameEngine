@@ -16,6 +16,8 @@ public:
     Id pointId(int i);
     Id otherId(Id point_id);
 
+    void replacePoint(Id old_point_id, Id new_point_id);
+
 // --- Calculations ---
 public:
     vec4  calcEdgeVec(PointCache& pc);
@@ -44,6 +46,19 @@ public:
 
     Id getPairedFace(Id edge_id, int i)
         { return getPairedCache1(edge_id, i); }
+
+    void depairEdge(Id edge_id) {
+        emptyIndexCache1(edge_id);
+    }
+
+    void removeFace(Id edge_id, Id face_id) {
+        int N = pairedFaceLen(edge_id);
+        for (int i=0; i<N; i++) {
+            if (pair_cache_1[edge_id][i] == face_id) {
+                pair_cache_1[edge_id].erase(pair_cache_1[edge_id].begin()+i);
+            }
+        }
+    }
 };
 
 #endif

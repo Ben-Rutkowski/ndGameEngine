@@ -8,13 +8,24 @@ typedef unsigned int uint;
 
 struct HTNode {
     uint key;
-    uint value;
+    uint value_1;
+    // uint value_2;
+    // uint value_3;
     uint previous = 0;
     uint next     = 0;
 
     void print(int i) {
         std::cout << "[" << i << "] Key: " << key;
-        std::cout << " Value: " << value << std::endl;
+        std::cout << " Value: " << value_1 << std::endl;
+        std::cout << "    Previous: " << previous;
+        std::cout << "    Next: " << next << std::endl << std::endl;
+    }
+
+    void printFull(int i) {
+        std::cout << "[" << i << "] Key: " << key;
+        std::cout << " Value 1: " << value_1 << std::endl;
+        // std::cout << " Value 2: " << value_2 << std::endl;
+        // std::cout << " Value 3: " << value_3 << std::endl;
         std::cout << "    Previous: " << previous;
         std::cout << "    Next: " << next << std::endl << std::endl;
     }
@@ -34,15 +45,21 @@ public:
     IdHashTableBase();
     IdHashTableBase(uint n);
 
+    void add(uint key, uint value_1, uint value_2, uint value_3);
     void add(uint key, uint value);
     void add(uint key);
 
     uint value(uint key);
-    bool isElement(uint key);
+    // uint value_2(uint key);
+    // uint value_3(uint key);
+    bool hasElement(uint key);
 
     int  capacity();
     void clear();
     void resizeClear(int n);
+
+    void forceSetValue(uint value, int i);
+    uint forceGetValue(int i);
 
 
 protected:
@@ -58,8 +75,8 @@ protected:
     uint prev(uint place);
     uint top(uint hash);
 
-    void startThread(uint thread_i, uint key, uint value);
-    void addToThread(uint bottom, uint key, uint value);
+    void startThread(uint thread_i, uint key, uint value_1, uint value_2, uint value_3);
+    void addToThread(uint bottom, uint key, uint value_1, uint value_2, uint value_3);
     uint searchThreadToBottom(uint place, uint key); // 0 if set has key, else bottom of thread
     uint searchThreadForKey(uint place, uint key); // place of key if set has key, else 0
 

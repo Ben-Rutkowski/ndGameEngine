@@ -52,7 +52,7 @@ $(units): $(COMPILED)/%.o: $(SRC)/%.cpp $(wildcard $(INCLUDE)/*.hpp) $(COMPILED)
 # --- Compile Sections ---
 .SECONDEXPANSION:
 $(sections): $(FLAGS)/%.txt: $$(wildcard $(SRC)/%/*.cpp) $$(wildcard $(INCLUDE)/%/*.hpp) $(wildcard $(INCLUDE)/*.hpp)
-	@echo "--- COMPILING <$@> LIBRARY SECTION ---"
+	@echo "--- COMPILING <$(patsubst $(FLAGS)/%.txt,%,$@)> LIBRARY SECTION ---"
 	cd $(COMPILED) && $(CXX.clang) $(CXXFLAGS.clang) $(INCLUDE.clang) $(COMPILE.clang)
 	@touch $@
 
