@@ -32,6 +32,8 @@ int   Event::getInt(int index)   { return 0; }
 float Event::getFloat(int index) { return 0.0f; }
 vec2  Event::getVec2()           { return vec2(0.0f); }
 vec4  Event::getVec4()           { return vec4(0.0f); }
+vec2i Event::getVec2i()          { return vec2i(0); }
+vec4i Event::getVec4i()          { return vec4i(0); }
 
 // === Debugging ===
 void Event::print() {

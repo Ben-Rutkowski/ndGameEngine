@@ -32,7 +32,8 @@ ndWindow::ndWindow(int width, int height, const char* title)
 //     event_interface.linkManager(ptr);
 // }
 
-void ndWindow::setUserPointerGLFW(EventManager* ptr) {
+void ndWindow::setManagerPtr(EventManager* ptr) {
+    event_interface.manager = ptr;
     glfwSetWindowUserPointer(glfw_window, ptr);
 }
 

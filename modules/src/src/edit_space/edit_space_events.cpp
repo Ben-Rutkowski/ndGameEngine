@@ -103,13 +103,15 @@ void EditSpace::onLeftMouseHold(Event* event) {
 void EditSpace::onLeftMouseRelease(Event* event) {
     scache.set(esLEFT_MOUSE, false);
 
-    Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
-    Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
+    // Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
+    // Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
     // event_interface.runEvent(&startTimer);
-    event_interface.manager->propogateEvent(&startTimer);
+    // event_interface.manager->propogateEvent(&startTimer);
+    event_interface.manager->propogateEvent(module_name, Data::CLICK_DEBUG_TIMER);
     selectPointsBox();
     // event_interface.runEvent(&checkTimer);
-    event_interface.manager->propogateEvent(&checkTimer);
+    // event_interface.manager->propogateEvent(&checkTimer);
+    event_interface.manager->propogateEvent(module_name, Data::DELTA_DEBUG_TIMER);
 }
 
 void EditSpace::onScroll(Event* event) {
@@ -140,11 +142,13 @@ void EditSpace::onSKey(Event* event) {
 }
 
 void EditSpace::onDebug(Event* event) {
-    Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
-    Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
+    // Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
+    // Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
     // event_interface.runEvent(&startTimer);
-    event_interface.manager->propogateEvent(&startTimer);
+    // event_interface.manager->propogateEvent(&startTimer);
+    event_interface.manager->propogateEvent(module_name, Data::CLICK_DEBUG_TIMER);
     meshes[0].debug();
     // event_interface.runEvent(&checkTimer);
-    event_interface.manager->propogateEvent(&checkTimer);
+    // event_interface.manager->propogateEvent(&checkTimer);
+    event_interface.manager->propogateEvent(module_name, Data::DELTA_DEBUG_TIMER);
 }

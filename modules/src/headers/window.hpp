@@ -57,7 +57,7 @@ private:
 // --- Constructors and Initialization ---
 public:
     ndWindow(int width, int height, const char* title);
-    void setUserPointerGLFW(EventManager* ptr);
+    void setManagerPtr(EventManager* ptr);
     void linkEditSpace(ndModule* edit_space_ptr);
 
     // void setManagerPtr(EventManagerOld* ptr);

@@ -83,10 +83,11 @@ public:
         onEventFunc<MOD> on_event = event_interface.on_event.get(data);
         if (!on_event.is_null) {
             on_event.func((MOD*)this, event);
-        } else {
-            // std::cout << "Event Callback Not Set :: " << std::endl;
-            // event->print();
-        }
+        } 
+        // else {
+        //     std::cout << "Event Callback Not Set :: " << std::endl;
+        //     event->print();
+        // }
     }
 };
 

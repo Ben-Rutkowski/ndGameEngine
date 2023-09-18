@@ -36,7 +36,7 @@ void ndWindow::setCallbacks() {
     setEvent(Data::DELTA_DEBUG_TIMER, {&ndWindow::onDeltaDebugTimer});
 
     // GLFW Callbacks
-    setUserPointerGLFW(event_interface.manager);
+    // setUserPointerGLFW(event_interface.manager);
     glfwSetFramebufferSizeCallback(glfw_window, framebufferResizeCallback);
     glfwSetWindowSizeCallback(glfw_window, windowResizeCallback);
     glfwSetScrollCallback(glfw_window, scrollCallback);
@@ -53,7 +53,8 @@ void ndWindow::onBeginLoop(Event* event) {
 }
 
 void ndWindow::onCollectMenuKeys(Event* event) {
-    vec2   mouse = mousePos();
+    vec2 m = mousePos();
+    vec4 mouse({m[0], m[1], 0.0f, 0.0f});
     wState mouse_state;
 
     if (isKeyPress(GLFW_KEY_ESCAPE)) {
@@ -80,25 +81,31 @@ void ndWindow::onCollectMenuKeys(Event* event) {
     mouse_state = mouseState(wRIGHT_MOUSE, GLFW_MOUSE_BUTTON_RIGHT);
     if (mouse_state == wCLICK) {
         // event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_CLICK, mouse);
-        event_interface.manager->queueEvent2f(module_name, Data::RIGHT_MOUSE_CLICK, mouse);
+        // event_interface.manager->queueEvent2f(module_name, Data::RIGHT_MOUSE_CLICK, mouse);
+        event_interface.manager->queueEvent4f(module_name, Data::RIGHT_MOUSE_CLICK, mouse);
     } else if (mouse_state == wHOLD) {
         // event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_HOLD, mouse);
-        event_interface.manager->queueEvent2f(module_name, Data::RIGHT_MOUSE_HOLD, mouse);
+        // event_interface.manager->queueEvent2f(module_name, Data::RIGHT_MOUSE_HOLD, mouse);
+        event_interface.manager->queueEvent4f(module_name, Data::RIGHT_MOUSE_HOLD, mouse);
     } else if (mouse_state == wRELEASE) {
         // event_interface.queueEvent2f(module_name, Data::RIGHT_MOUSE_RELEASE, mouse);
-        event_interface.manager->queueEvent2f(module_name, Data::RIGHT_MOUSE_RELEASE, mouse);
+        // event_interface.manager->queueEvent2f(module_name, Data::RIGHT_MOUSE_RELEASE, mouse);
+        event_interface.manager->queueEvent4f(module_name, Data::RIGHT_MOUSE_RELEASE, mouse);
     }
 
     mouse_state = mouseState(wLEFT_MOUSE, GLFW_MOUSE_BUTTON_LEFT);
     if (mouse_state == wCLICK) {
         // event_interface.queueEvent2f(module_name, Data::LEFT_MOUSE_CLICK, mouse);
-        event_interface.manager->queueEvent2f(module_name, Data::LEFT_MOUSE_CLICK, mouse);
+        // event_interface.manager->queueEvent2f(module_name, Data::LEFT_MOUSE_CLICK, mouse);
+        event_interface.manager->queueEvent4f(module_name, Data::LEFT_MOUSE_CLICK, mouse);
     } else if (mouse_state == wHOLD) {
         // event_interface.queueEvent2f(module_name, Data::LEFT_MOUSE_HOLD, mouse);
-        event_interface.manager->queueEvent2f(module_name, Data::LEFT_MOUSE_HOLD, mouse);
+        // event_interface.manager->queueEvent2f(module_name, Data::LEFT_MOUSE_HOLD, mouse);
+        event_interface.manager->queueEvent4f(module_name, Data::LEFT_MOUSE_HOLD, mouse);
     } else if (mouse_state == wRELEASE) {
         // event_interface.queueEvent2f(module_name, Data::LEFT_MOUSE_RELEASE, mouse);
-        event_interface.manager->queueEvent2f(module_name, Data::LEFT_MOUSE_RELEASE, mouse);
+        // event_interface.manager->queueEvent2f(module_name, Data::LEFT_MOUSE_RELEASE, mouse);
+        event_interface.manager->queueEvent4f(module_name, Data::LEFT_MOUSE_RELEASE, mouse);
     }
 }
 
@@ -110,9 +117,10 @@ void ndWindow::onStartFrame(Event* event) {
     dcache.fdelta = clock.delta(Watch::FRAME_DELTA);
     clock.click(Watch::FRAME_DELTA);
 
-    Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
+    // Event menu_event(module_name, Data::COLLECT_MENU_KEYS);
     // event_interface.runEvent(&menu_event);
-    event_interface.manager->propogateEvent(&menu_event);
+    // event_interface.manager->propogateEvent(&menu_event);
+    event_interface.manager->propogateEvent(module_name, Data::COLLECT_MENU_KEYS);
 }
 
 void ndWindow::onDrawFrame(Event* event) {
@@ -166,30 +174,43 @@ void ndWindow::queueFrameResize() {
     int width, height;
     glfwGetFramebufferSize(glfw_window, &width, &height);
     // event_interface.queueEvent2i(module_name, Data::RESIZE_FRAME, vec2i({width, height}));
-    event_interface.manager->queueEvent2i(module_name, Data::RESIZE_FRAME, vec2i({width, height}));
+    // event_interface.manager->queueEvent2i(module_name, Data::RESIZE_FRAME, vec2i({width, height}));
+    event_interface.manager->queueEvent4i(module_name, Data::RESIZE_FRAME, vec4i({width, height, 0, 0}));
 }
 
 void ndWindow::queueWindowResize() {
     int width, height;
     glfwGetWindowSize(glfw_window, &width, &height);
     // event_interface.queueEvent2i(module_name, Data::RESIZE_WINDOW, vec2i({width, height}));
-    event_interface.manager->queueEvent2i(module_name, Data::RESIZE_WINDOW, vec2i({width, height}));
+    // event_interface.manager->queueEvent2i(module_name, Data::RESIZE_WINDOW, vec2i({width, height}));
+    event_interface.manager->queueEvent4i(module_name, Data::RESIZE_WINDOW, vec4i({width, height, 0, 0}));
 }
 
 // === GLFW CALLBACKS ===
 void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
-    Event2i event(Module::WINDOW, Data::RESIZE_FRAME, width, height);
-    getManager(window)->propogateEvent(&event);
+    // Event2i event(Module::WINDOW, Data::RESIZE_FRAME, width, height);
+    // getManager(window)->propogateEvent(&event);
+
+    getManager(window)->propogateEvent4i(
+        Module::WINDOW, Data::RESIZE_FRAME, vec4i({width, height, 0, 0})
+    );
 }
 
 void ndWindow::windowResizeCallback(GLFWwindow* window, int width, int height) {
-    Event2i event(Module::WINDOW, Data::RESIZE_WINDOW, width, height);
-    getManager(window)->propogateEvent(&event);
+    // Event2i event(Module::WINDOW, Data::RESIZE_WINDOW, width, height);
+    // getManager(window)->propogateEvent(&event);
+
+    getManager(window)->propogateEvent4i(
+        Module::WINDOW, Data::RESIZE_WINDOW, vec4i({width, height, 0, 0})
+    );
 }
 
 void ndWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-    Event2f event(Module::WINDOW, Data::SCROLL, vec2({(float)xoffset, (float)yoffset}));
-    getManager(window)->propogateEvent(&event);
+    // Event2f event(Module::WINDOW, Data::SCROLL, vec2({(float)xoffset, (float)yoffset}));
+    // getManager(window)->propogateEvent(&event);
+    getManager(window)->propogateEvent4f(
+        Module::WINDOW, Data::SCROLL, vec4({(float)xoffset, (float)yoffset, 0.0f, 0.0f})
+    );
 }
 
 // EventManagerOld* ndWindow::getManager(GLFWwindow* window) {

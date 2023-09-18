@@ -97,6 +97,8 @@ public:
     virtual float getFloat(int index);
     virtual vec2  getVec2();
     virtual vec4  getVec4();
+    virtual vec2i getVec2i();
+    virtual vec4i getVec4i();
 
 // --- Debugging ---
 public:
@@ -104,55 +106,45 @@ public:
     void print(Module module_name);
 };
 
-/* CLASS: Event2i 
-    Parent : Event
 
-An Event2i extends Events with an attatched vec2i
+// class Event2i : public Event {
+// private:
+//     vec2i vector_2i;
 
-======== ATTRIBUTES ========
-...
-- vec2i vector_2i
-
-*/
-
-class Event2i : public Event {
-private:
-    vec2i vector_2i;
-
-public:
-    Event2i()
-        :Event(),
-        vector_2i() {}
+// public:
+//     Event2i()
+//         :Event(),
+//         vector_2i() {}
         
-    Event2i(Module module_name, Data data, int arg0, int arg1)
-        :Event(EventType::VEC2I, module_name, data),
-        vector_2i({arg0, arg1}) {}
+//     Event2i(Module module_name, Data data, int arg0, int arg1)
+//         :Event(EventType::VEC2I, module_name, data),
+//         vector_2i({arg0, arg1}) {}
 
-    Event2i(Module module_name, Data data, vec2i vector)
-        :Event(EventType::VEC2I, module_name, data),
-        vector_2i{ vector } {}
+//     Event2i(Module module_name, Data data, vec2i vector)
+//         :Event(EventType::VEC2I, module_name, data),
+//         vector_2i{ vector } {}
 
-    int getInt(int index) {
-        return vector_2i[index];
-    }
-};
+//     int getInt(int index) {
+//         return vector_2i[index];
+//     }
+// };
 
-class Event2f : public Event {
-private:
-    vec2 vector_2f;
+// class Event2f : public Event {
+// private:
+//     vec2 vector_2f;
 
-public:
-    Event2f()
-        :Event(),
-        vector_2f() {}
+// public:
+//     Event2f()
+//         :Event(),
+//         vector_2f() {}
 
-    Event2f(Module module_name, Data data, vec2 vector)
-        :Event(EventType::VEC2F, module_name, data),
-        vector_2f{ vector } {}
+//     Event2f(Module module_name, Data data, vec2 vector)
+//         :Event(EventType::VEC2F, module_name, data),
+//         vector_2f{ vector } {}
 
-    float getFloat(int index) { return vector_2f[index]; }
-    vec2  getVec2() { return vector_2f; }
-};
+//     float getFloat(int index) { return vector_2f[index]; }
+//     vec2  getVec2() { return vector_2f; }
+// };
 
 class Event4f : public Event {
 private:
@@ -173,6 +165,27 @@ public:
 
     vec2 getVec2() { return vec2({ vector_4f[0], vector_4f[1] }); }
     vec4 getVec4() { return vector_4f; }
+};
+
+class Event4i : public Event {
+private:
+    vec4i vector_4i;
+
+public:
+    Event4i()
+        :Event(),
+        vector_4i() {}
+
+    Event4i(Module module_name, Data data, vec4i vector)
+        :Event(EventType::VEC4I, module_name, data),
+        vector_4i{ vector } {}
+
+    int getInt(int index) {
+        return vector_4i[index];
+    }
+
+    vec2i getVec2i() { return vec2i({ vector_4i[0], vector_4i[0] }); }
+    vec4i getVec4i() { return vector_4i; }
 };
 
 #endif
