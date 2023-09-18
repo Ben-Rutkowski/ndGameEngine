@@ -7,9 +7,9 @@ static bool display;
 
 void* operator new(size_t size) {
     if (display) {
-        std::cout << "Allocating: " << size << " bytes\n";
-        if (size > 32000) {
-            // std::cout << "Big: " << size << " bytes\n";
+        // std::cout << "Allocating: " << size << " bytes\n";
+        if (size > 100) {
+            std::cout << "Big: " << size << " bytes\n";
         } else if (size == 24) {
 
         }

@@ -9,14 +9,17 @@ IdHashTableBase::IdHashTableBase()
 
 IdHashTableBase::IdHashTableBase(uint n)
     :capacity_size{ n },
-    open_marker{ 0 } {
+    open_marker{ 0 },
+    helper(capacity_size),
+    data(capacity_size+1),
+    open_spaces(capacity_size) {
 
-    helper.resize(capacity_size);
+    // helper.resize(capacity_size);
     std::fill_n(helper.begin(), capacity_size, 0);
     
-    data.resize(capacity_size + 1);
+    // data.resize(capacity_size + 1);
 
-    open_spaces.resize(capacity_size);
+    // open_spaces.resize(capacity_size);
     std::iota(open_spaces.begin(), open_spaces.end(), 1);
 }
 

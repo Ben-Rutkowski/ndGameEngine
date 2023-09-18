@@ -155,9 +155,6 @@ void EditMesh::ripPointTest(Id old_point_id, IdSet& faces_attached) {
     two: top and bottom, these are created.
 */    
 
-    // IdSet test_1(3);
-    // IdSet test_3(4);
-
     // vec4 pos = point(old_point_id).getPos();
     // Id new_point_id = createPoint(pos);
 

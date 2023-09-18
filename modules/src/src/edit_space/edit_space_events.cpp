@@ -1,22 +1,7 @@
 #include "edit_space.hpp"
 
 void EditSpace::setCallbacks() {
-    // event_interface.setCallback(Data::DEBUG,       PACK(EditSpace::onDebug));
-    // event_interface.setCallback(Data::BEGIN_LOOP,  PACK(EditSpace::onBeginLoop));
-    // event_interface.setCallback(Data::START_FRAME, PACK(EditSpace::onStartFrame));
-    // event_interface.setCallback(Data::DRAW_FRAME,  PACK(EditSpace::onDrawFrame));
-    // event_interface.setCallback(Data::END_FRAME,   PACK(EditSpace::onEndFrame));
-    // event_interface.setCallback(Data::RESIZE_FRAME,      PACK(EditSpace::onResizeFrame));
-    // event_interface.setCallback(Data::RESIZE_WINDOW,     PACK(EditSpace::onResizeWindow));
-    // event_interface.setCallback(Data::SCROLL,            PACK(EditSpace::onScroll));
-    // event_interface.setCallback(Data::RIGHT_MOUSE_CLICK, PACK(EditSpace::onRightMouseClick));
-    // event_interface.setCallback(Data::RIGHT_MOUSE_HOLD,  PACK(EditSpace::onRightMouseHold));
-    // event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
-    // event_interface.setCallback(Data::LEFT_MOUSE_HOLD,   PACK(EditSpace::onLeftMouseHold));
-    // event_interface.setCallback(Data::LEFT_MOUSE_RELEASE, PACK(EditSpace::onLeftMouseRelease));
-    // event_interface.setCallback(Data::W_KEY,              PACK(EditSpace::onWKey));
-    // event_interface.setCallback(Data::S_KEY,              PACK(EditSpace::onSKey));
-
+    // Events
     setEvent(Data::DEBUG, {&EditSpace::onDebug});
     setEvent(Data::BEGIN_LOOP, {&EditSpace::onBeginLoop});
     setEvent(Data::START_FRAME, {&EditSpace::onStartFrame});
@@ -103,14 +88,8 @@ void EditSpace::onLeftMouseHold(Event* event) {
 void EditSpace::onLeftMouseRelease(Event* event) {
     scache.set(esLEFT_MOUSE, false);
 
-    // Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
-    // Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
-    // event_interface.runEvent(&startTimer);
-    // event_interface.manager->propogateEvent(&startTimer);
     event_interface.manager->propogateEvent(module_name, Data::CLICK_DEBUG_TIMER);
     selectPointsBox();
-    // event_interface.runEvent(&checkTimer);
-    // event_interface.manager->propogateEvent(&checkTimer);
     event_interface.manager->propogateEvent(module_name, Data::DELTA_DEBUG_TIMER);
 }
 
@@ -142,13 +121,7 @@ void EditSpace::onSKey(Event* event) {
 }
 
 void EditSpace::onDebug(Event* event) {
-    // Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
-    // Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
-    // event_interface.runEvent(&startTimer);
-    // event_interface.manager->propogateEvent(&startTimer);
     event_interface.manager->propogateEvent(module_name, Data::CLICK_DEBUG_TIMER);
     meshes[0].debug();
-    // event_interface.runEvent(&checkTimer);
-    // event_interface.manager->propogateEvent(&checkTimer);
     event_interface.manager->propogateEvent(module_name, Data::DELTA_DEBUG_TIMER);
 }

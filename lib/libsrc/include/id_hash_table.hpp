@@ -34,12 +34,12 @@ struct HTNode {
 class IdHashTableBase {
 protected:
     uint capacity_size;
-
-    std::vector<uint> helper;      // Hash index, points to data
-    std::vector<HTNode> data;      // Contains the threads, ie linked lists
-    std::vector<uint> open_spaces; // Contains the indices for the next open spaces
-
     uint open_marker;
+
+    std::vector<uint>   helper;      // Hash index, points to data
+    std::vector<HTNode> data;      // Contains the threads, ie linked lists
+    std::vector<uint>   open_spaces; // Contains the indices for the next open spaces
+
 
 public:
     IdHashTableBase();
