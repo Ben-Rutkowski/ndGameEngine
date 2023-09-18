@@ -2,7 +2,8 @@
 #define EDIT_SPACE_HPP
 
 #include "edit_space_lib.hpp"
-#include "nd_module_old.hpp"
+// #include "nd_module_old.hpp"
+#include "nd_module.hpp"
 #include "debug_box.hpp"
 
 #define EDIT_SPACE_SHADER_SUB_DIR "modules/src/shaders/edit_mesh/"
@@ -17,7 +18,7 @@ enum esState { es_null = 0,
     esLEN
 };
 
-class EditSpace : public ndModuleOld {
+class EditSpace : public ndModuleInstance<EditSpace> {
 private:
     ShaderProgram point_shader;
     ShaderProgram line_shader;
@@ -43,7 +44,7 @@ private:
 
 public:
     EditSpace();
-    void setManagerPtr(EventManagerOld* ptr);
+    // void setManagerPtr(EventManagerOld* ptr);
 
 // --- Editing ---
 private:

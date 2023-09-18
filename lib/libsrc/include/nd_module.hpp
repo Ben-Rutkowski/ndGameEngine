@@ -1,7 +1,7 @@
 #ifndef ND_MODULE_NEW_HPP
 #define ND_MODULE_NEW_HPP
 
-#include "event_manager_new.hpp"
+#include "event_manager.hpp"
 
 struct DimensionCacheTEMPORARY {
     int fw, fh;
@@ -78,14 +78,14 @@ public:
         );
     }
 
-    void runEvent(Event* event) {
+    void runEventInLayer(Event* event) {
         Data data = event->getData();
         onEventFunc<MOD> on_event = event_interface.on_event.get(data);
         if (!on_event.is_null) {
             on_event.func((MOD*)this, event);
         } else {
-            std::cout << "Event Callback Not Set :: " << std::endl;
-            event->print();
+            // std::cout << "Event Callback Not Set :: " << std::endl;
+            // event->print();
         }
     }
 };

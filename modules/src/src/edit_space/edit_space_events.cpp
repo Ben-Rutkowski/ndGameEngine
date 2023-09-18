@@ -1,25 +1,42 @@
 #include "edit_space.hpp"
 
 void EditSpace::setCallbacks() {
-    event_interface.setCallback(Data::DEBUG,       PACK(EditSpace::onDebug));
-    event_interface.setCallback(Data::BEGIN_LOOP,  PACK(EditSpace::onBeginLoop));
-    event_interface.setCallback(Data::START_FRAME, PACK(EditSpace::onStartFrame));
-    event_interface.setCallback(Data::DRAW_FRAME,  PACK(EditSpace::onDrawFrame));
-    event_interface.setCallback(Data::END_FRAME,   PACK(EditSpace::onEndFrame));
-    event_interface.setCallback(Data::RESIZE_FRAME,      PACK(EditSpace::onResizeFrame));
-    event_interface.setCallback(Data::RESIZE_WINDOW,     PACK(EditSpace::onResizeWindow));
-    event_interface.setCallback(Data::SCROLL,            PACK(EditSpace::onScroll));
-    event_interface.setCallback(Data::RIGHT_MOUSE_CLICK, PACK(EditSpace::onRightMouseClick));
-    event_interface.setCallback(Data::RIGHT_MOUSE_HOLD,  PACK(EditSpace::onRightMouseHold));
-    event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
-    event_interface.setCallback(Data::LEFT_MOUSE_HOLD,   PACK(EditSpace::onLeftMouseHold));
-    event_interface.setCallback(Data::LEFT_MOUSE_RELEASE, PACK(EditSpace::onLeftMouseRelease));
-    event_interface.setCallback(Data::W_KEY,              PACK(EditSpace::onWKey));
-    event_interface.setCallback(Data::S_KEY,              PACK(EditSpace::onSKey));
+    // event_interface.setCallback(Data::DEBUG,       PACK(EditSpace::onDebug));
+    // event_interface.setCallback(Data::BEGIN_LOOP,  PACK(EditSpace::onBeginLoop));
+    // event_interface.setCallback(Data::START_FRAME, PACK(EditSpace::onStartFrame));
+    // event_interface.setCallback(Data::DRAW_FRAME,  PACK(EditSpace::onDrawFrame));
+    // event_interface.setCallback(Data::END_FRAME,   PACK(EditSpace::onEndFrame));
+    // event_interface.setCallback(Data::RESIZE_FRAME,      PACK(EditSpace::onResizeFrame));
+    // event_interface.setCallback(Data::RESIZE_WINDOW,     PACK(EditSpace::onResizeWindow));
+    // event_interface.setCallback(Data::SCROLL,            PACK(EditSpace::onScroll));
+    // event_interface.setCallback(Data::RIGHT_MOUSE_CLICK, PACK(EditSpace::onRightMouseClick));
+    // event_interface.setCallback(Data::RIGHT_MOUSE_HOLD,  PACK(EditSpace::onRightMouseHold));
+    // event_interface.setCallback(Data::LEFT_MOUSE_CLICK,  PACK(EditSpace::onLeftMouseClick));
+    // event_interface.setCallback(Data::LEFT_MOUSE_HOLD,   PACK(EditSpace::onLeftMouseHold));
+    // event_interface.setCallback(Data::LEFT_MOUSE_RELEASE, PACK(EditSpace::onLeftMouseRelease));
+    // event_interface.setCallback(Data::W_KEY,              PACK(EditSpace::onWKey));
+    // event_interface.setCallback(Data::S_KEY,              PACK(EditSpace::onSKey));
+
+    setEvent(Data::DEBUG, {&EditSpace::onDebug});
+    setEvent(Data::BEGIN_LOOP, {&EditSpace::onBeginLoop});
+    setEvent(Data::START_FRAME, {&EditSpace::onStartFrame});
+    setEvent(Data::DRAW_FRAME, {&EditSpace::onDrawFrame});
+    setEvent(Data::END_FRAME, {&EditSpace::onEndFrame});
+    setEvent(Data::RESIZE_FRAME, {&EditSpace::onResizeFrame});
+    setEvent(Data::RESIZE_WINDOW, {&EditSpace::onResizeWindow});
+    setEvent(Data::SCROLL, {&EditSpace::onScroll});
+    setEvent(Data::RIGHT_MOUSE_CLICK, {&EditSpace::onRightMouseClick});
+    setEvent(Data::RIGHT_MOUSE_HOLD, {&EditSpace::onRightMouseHold});
+    setEvent(Data::LEFT_MOUSE_CLICK, {&EditSpace::onLeftMouseClick});
+    setEvent(Data::LEFT_MOUSE_HOLD, {&EditSpace::onLeftMouseHold});
+    setEvent(Data::LEFT_MOUSE_RELEASE, {&EditSpace::onLeftMouseRelease});
+    setEvent(Data::W_KEY, {&EditSpace::onWKey});
+    setEvent(Data::S_KEY, {&EditSpace::onSKey});
 }
 
 void EditSpace::runEvent(Event* event) {
-    event_interface(event);
+    // event_interface(event);
+    runEventInLayer(event);
 }
 
 // === On Events ===
@@ -88,9 +105,11 @@ void EditSpace::onLeftMouseRelease(Event* event) {
 
     Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
     Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
-    event_interface.runEvent(&startTimer);
+    // event_interface.runEvent(&startTimer);
+    event_interface.manager->propogateEvent(&startTimer);
     selectPointsBox();
-    event_interface.runEvent(&checkTimer);
+    // event_interface.runEvent(&checkTimer);
+    event_interface.manager->propogateEvent(&checkTimer);
 }
 
 void EditSpace::onScroll(Event* event) {
@@ -123,7 +142,9 @@ void EditSpace::onSKey(Event* event) {
 void EditSpace::onDebug(Event* event) {
     Event startTimer(module_name, Data::CLICK_DEBUG_TIMER);
     Event checkTimer(module_name, Data::DELTA_DEBUG_TIMER);
-    event_interface.runEvent(&startTimer);
+    // event_interface.runEvent(&startTimer);
+    event_interface.manager->propogateEvent(&startTimer);
     meshes[0].debug();
-    event_interface.runEvent(&checkTimer);
+    // event_interface.runEvent(&checkTimer);
+    event_interface.manager->propogateEvent(&checkTimer);
 }

@@ -7,7 +7,8 @@ GLFW intialization must be done before creating a window.
 */
 
 #include "glad_glfw.hpp"
-#include "nd_module_old.hpp"
+// #include "nd_module_old.hpp"
+#include "nd_module.hpp"
 #include "stopwatch.hpp"
 
 #ifndef WINDOW_HPP
@@ -42,10 +43,11 @@ enum wState { w_null = 0, wDEBUG,
     wLEN
 };
 
-class ndWindow : public ndModuleOld {
+class ndWindow : public ndModuleInstance<ndWindow> {
 // --- Layers ---
 private:
-    ndModuleOld* edit_space;
+    // ndModuleOld* edit_space;
+    ndModule* edit_space;
     Clock     clock;
     
 // --- Attributes ---
@@ -55,8 +57,11 @@ private:
 // --- Constructors and Initialization ---
 public:
     ndWindow(int width, int height, const char* title);
-    void setManagerPtr(EventManagerOld* ptr);
-    void linkEditSpace(ndModuleOld* edit_space_ptr);
+    void setUserPointerGLFW(EventManager* ptr);
+    void linkEditSpace(ndModule* edit_space_ptr);
+
+    // void setManagerPtr(EventManagerOld* ptr);
+    // void linkEditSpace(ndModuleOld* edit_space_ptr);
 
 // --- Gets and Sets ---
 public:
@@ -98,7 +103,8 @@ private:
     static void windowResizeCallback(GLFWwindow*, int, int);
     static void scrollCallback(GLFWwindow*, double, double);
 
-    static EventManagerOld* getManager(GLFWwindow* window);
+    // static EventManagerOld* getManager(GLFWwindow* window);
+    static EventManager* getManager(GLFWwindow* window);
 };
 
 #endif
