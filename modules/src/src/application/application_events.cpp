@@ -28,3 +28,9 @@ void ndApp::endFrame() {
     Event event(module_name, Data::END_FRAME);
     propogateEvent(&event);
 }
+
+// === Static ===
+void ndApp::propogateEventCallback(void* app_ptr, Event* event) {
+    ndApp* app = (ndApp*)app_ptr;
+    app->propogateEvent(event);
+}

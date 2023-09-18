@@ -38,6 +38,9 @@ EVENTS:
 #include "nd_module.hpp"
 #include "event_manager.hpp"
 
+// #include "nd_module_new.hpp"
+// #include "event_manager_new.hpp"
+
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
@@ -49,17 +52,22 @@ private:
 // --- Layers ---
 private:
     EventManager event_manager;
-    // ndWindow*    window;
     ndModule* window;
+
+    // EventManagerNew<ndApp> event_manager_new;
+    // ndModuleNew* test;
 
 // --- Constructors and Initialization ---
 public:
     ndApp();
     void linkWindow(ndModule* window_ptr);
 
+    // void linkTest(ndModuleNew* test_ptr);
+
 // --- Runtime ---
 public:
     void startApp();
+    // void debug();
 
 // --- Events ---
 public:
@@ -71,6 +79,9 @@ private:
     void drawFrame();
     void endFrame();
     void pollEvents();
+
+public:
+    static void propogateEventCallback(void* app_ptr, Event* event);
 };
 
 #endif

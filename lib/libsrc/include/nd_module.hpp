@@ -4,9 +4,6 @@
 #include "event_manager.hpp"
 
 struct DimensionCache {
-    // bool opperation1 = false;
-    // bool opperation2 = false;
-
     int fw, fh;
     int ww, wh;
     float fdelta;

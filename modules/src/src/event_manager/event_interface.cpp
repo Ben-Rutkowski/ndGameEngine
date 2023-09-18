@@ -33,7 +33,7 @@ void EventInterface::queueEvent4f(Module module_name, Data data, vec4 vector) {
 }
 
 void EventInterface::runEvent(Event* event) {
-    event_manager->runEvent(event);
+    event_manager->propogateEvent(event);
 }
 
 EventManager* EventInterface::ptr() { return event_manager; }

@@ -80,7 +80,7 @@ public:
     void queueEvent2f(Module module_name, Data data, vec2 vector);
     void queueEvent4f(Module module_name, Data data, vec4 vector);
     
-    void runEvent(Event* event);
+    void propogateEvent(Event* event);
     void pollEvents();
 };
 

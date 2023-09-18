@@ -151,17 +151,17 @@ void ndWindow::queueWindowResize() {
 // === GLFW CALLBACKS ===
 void ndWindow::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
     Event2i event(Module::WINDOW, Data::RESIZE_FRAME, width, height);
-    getManager(window)->runEvent(&event);
+    getManager(window)->propogateEvent(&event);
 }
 
 void ndWindow::windowResizeCallback(GLFWwindow* window, int width, int height) {
     Event2i event(Module::WINDOW, Data::RESIZE_WINDOW, width, height);
-    getManager(window)->runEvent(&event);
+    getManager(window)->propogateEvent(&event);
 }
 
 void ndWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
     Event2f event(Module::WINDOW, Data::SCROLL, vec2({(float)xoffset, (float)yoffset}));
-    getManager(window)->runEvent(&event);
+    getManager(window)->propogateEvent(&event);
 }
 
 EventManager* ndWindow::getManager(GLFWwindow* window) {

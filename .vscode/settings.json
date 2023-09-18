@@ -70,6 +70,7 @@
         "iterator": "cpp",
         "utility": "cpp",
         "filesystem": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "queue": "cpp"
     }
 }

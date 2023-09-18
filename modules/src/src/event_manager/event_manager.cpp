@@ -24,7 +24,7 @@ void EventManager::queueEvent4f(Module module_name, Data data, vec4 vector) {
     event4f_queue.queue(Event4f(module_name, data, vector));
 }
 
-void EventManager::runEvent(Event* event) {
+void EventManager::propogateEvent(Event* event) {
     propogateEventCall(event);
 }
 
