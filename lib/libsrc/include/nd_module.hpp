@@ -3,38 +3,14 @@
 
 #include "event_manager.hpp"
 
-struct DimensionCacheTEMPORARY {
-    int fw, fh;
-    int ww, wh;
-    float fdelta;
-
-    float FW() { return (float)fw; }
-    float FH() { return (float)fh; }
-    float WW() { return (float)ww; }
-    float WH() { return (float)wh; }
-};
-
-class StateCacheTEMPORARY {
-private:
-    std::vector<bool> states;
-
-public:
-    StateCacheTEMPORARY(int n) { states.assign(n, false); }
-    bool operator[](int i)      { return states[i]; }
-    void set(int i, bool value) { states[i] = value; }
-};
-
 // ======== Module Reference ========
 class ndModule {
 protected:
     Module module_name;
-    DimensionCacheTEMPORARY dcache;
-    StateCacheTEMPORARY     scache;
 
 public:
-    ndModule(Module mod_in, int state_len)
-        :module_name{ mod_in },
-        scache(state_len) {}
+    ndModule(Module mod_in)
+        :module_name{ mod_in } {}
 
 public:
     virtual void setManagerPtr(EventManager* ptr) = 0;
@@ -42,7 +18,7 @@ public:
     virtual void runEvent(Event* event) = 0;
 };
 
-// ======== Types =========
+// ======== Caches =========
 
 template<typename T>
 struct onEventFunc {
@@ -58,15 +34,39 @@ typedef EnumMap<Data, onEventFunc<T>, EVENT_DATA_LEN> FunctionArray;
     EventManager* manager;
 };
 
+struct DimensionCache {
+    int fw, fh;
+    int ww, wh;
+    float fdelta;
+
+    float FW() { return (float)fw; }
+    float FH() { return (float)fh; }
+    float WW() { return (float)ww; }
+    float WH() { return (float)wh; }
+};
+
+template<int N>
+class StateCache {
+private:
+    std::array<bool,N> states;
+
+public:
+    StateCache()                { std::fill_n(states.begin(), N, false); }
+    bool operator[](int i)      { return states[i]; }
+    void set(int i, bool value) { states[i] = value; }
+};
+
 // ======== Module Instance ========
-template<typename MOD>
+template<typename MOD, int N>
 class ndModuleInstance : public ndModule {
 protected:
     EventInterface<MOD> event_interface;
+    DimensionCache      dcache;
+    StateCache<N>       scache;
 
 public:
-    ndModuleInstance(Module mod_in, int state_len)
-        :ndModule(mod_in, state_len) {}
+    ndModuleInstance(Module mod_in)
+        :ndModule(mod_in) {}
 
     void setManagerPtr(EventManager* ptr) {
         event_interface.manager = ptr;
@@ -83,11 +83,7 @@ public:
         onEventFunc<MOD> on_event = event_interface.on_event.get(data);
         if (!on_event.is_null) {
             on_event.func((MOD*)this, event);
-        } 
-        // else {
-        //     std::cout << "Event Callback Not Set :: " << std::endl;
-        //     event->print();
-        // }
+        }
     }
 };
 

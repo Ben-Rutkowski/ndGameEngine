@@ -18,7 +18,7 @@ enum esState { es_null = 0,
     esLEN
 };
 
-class EditSpace : public ndModuleInstance<EditSpace> {
+class EditSpace : public ndModuleInstance<EditSpace, esLEN> {
 private:
     ShaderProgram point_shader;
     ShaderProgram line_shader;

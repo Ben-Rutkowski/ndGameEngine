@@ -43,7 +43,7 @@ enum wState { w_null = 0, wDEBUG,
     wLEN
 };
 
-class ndWindow : public ndModuleInstance<ndWindow> {
+class ndWindow : public ndModuleInstance<ndWindow, wLEN> {
 // --- Layers ---
 private:
     // ndModuleOld* edit_space;
