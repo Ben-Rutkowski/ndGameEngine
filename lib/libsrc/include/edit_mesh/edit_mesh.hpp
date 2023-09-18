@@ -13,7 +13,6 @@
 
 #include "rendering/vertex_buffer_interface.hpp"
 #include "edit_mesh/edit_face.hpp"
-#include "id_hash_table_old.hpp"
 #include "id_hash_table.hpp"
 
 enum emEdgeType { null = 0, emSEEM, emTOP, emBOTTOM };
