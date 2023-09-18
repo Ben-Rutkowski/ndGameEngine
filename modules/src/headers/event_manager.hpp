@@ -27,8 +27,8 @@ INTERFACE:
 #include "queue.hpp"
 #include "event.hpp"
 
-#ifndef EVENT_MANAGER_HPP
-#define EVENT_MANAGER_HPP
+#ifndef EVENT_MANAGER_OLD_HPP
+#define EVENT_MANAGER_OLD_HPP
 
 #include <functional>
 
@@ -43,23 +43,23 @@ INTERFACE:
 
 
 // ================ EventCall ================
-typedef std::function<void(Event*)> EventCallType;
-class EventCall {
+typedef std::function<void(Event*)> EventCallTypeOld;
+class EventCallOld {
 private:
-    EventCallType function;
+    EventCallTypeOld function;
 
 public:
-    EventCall();
-    EventCall(EventCallType func_in);
+    EventCallOld();
+    EventCallOld(EventCallTypeOld func_in);
 
     void operator()(Event* event);
 };
 
 
-// ================ EventManager ================
-class EventManager {
+// ================ EventManagerOld ================
+class EventManagerOld {
 private:
-    EventCall propogateEventCall;
+    EventCallOld propogateEventCall;
     
 // --- Queues ---
 private:
@@ -70,8 +70,8 @@ private:
 
 // --- Constructors and Initialization ---
 public:
-    EventManager();
-    void setCallback(EventCall event_call);
+    EventManagerOld();
+    void setCallback(EventCallOld event_call);
 
 // --- Interface ---
 public:
@@ -85,18 +85,18 @@ public:
 };
 
 
-// ================ EventInterface ================
-typedef EnumMap<Data, EventCall, EVENT_DATA_LEN> FunctionArray;
+// ================ EventInterfaceOld ================
+typedef EnumMap<Data, EventCallOld, EVENT_DATA_LEN> FunctionArray;
 
-class EventInterface {
+class EventInterfaceOld {
 private:
     FunctionArray function_array;
-    EventManager* event_manager;
+    EventManagerOld* event_manager;
 
 public:
-    EventInterface();
-    void linkManager(EventManager* ptr);
-    void setCallback(Data data, EventCallType function);
+    EventInterfaceOld();
+    void linkManager(EventManagerOld* ptr);
+    void setCallback(Data data, EventCallTypeOld function);
 
     void operator()(Event* event);
 
@@ -107,7 +107,7 @@ public:
 
     void runEvent(Event* event);
 
-    EventManager* ptr();
+    EventManagerOld* ptr();
 };
 
 

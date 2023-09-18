@@ -3,7 +3,7 @@
 
 #include "event_manager.hpp"
 
-struct DimensionCache {
+struct DimensionCacheOld {
     int fw, fh;
     int ww, wh;
     float fdelta;
@@ -14,31 +14,31 @@ struct DimensionCache {
     float WH() { return (float)wh; }
 };
 
-class StateCache {
+class StateCacheOld {
 private:
     std::vector<bool> states;
 
 public:
-    StateCache(int n) { states.assign(n, false); }
+    StateCacheOld(int n) { states.assign(n, false); }
     bool operator[](int i)      { return states[i]; }
     void set(int i, bool value) { states[i] = value; }
 };
 
-class ndModule {
+class ndModuleOld {
 protected:
     Module         module_name;
-    DimensionCache dcache;
-    StateCache     scache;
-    EventInterface event_interface;
+    DimensionCacheOld dcache;
+    StateCacheOld     scache;
+    EventInterfaceOld event_interface;
 
 public:
-    ndModule(Module mod_in, int state_len)
+    ndModuleOld(Module mod_in, int state_len)
         :module_name{ mod_in },
         scache(state_len) {}
 
 // --- Manager Init ---
 public:
-    virtual void setManagerPtr(EventManager* ptr) = 0;
+    virtual void setManagerPtr(EventManagerOld* ptr) = 0;
 
 protected:
     virtual void setCallbacks() = 0;

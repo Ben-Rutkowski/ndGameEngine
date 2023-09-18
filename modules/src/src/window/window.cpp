@@ -3,7 +3,7 @@
 
 // === Constructors and Initialization ===
 ndWindow::ndWindow(int width, int height, const char* title)
-    :ndModule(Module::WINDOW, wLEN),
+    :ndModuleOld(Module::WINDOW, wLEN),
     glfw_window{ nullptr } {
 
     dcache.fw = width;
@@ -26,12 +26,12 @@ ndWindow::ndWindow(int width, int height, const char* title)
     setCallbacks();
 }
 
-void ndWindow::setManagerPtr(EventManager* ptr) {
+void ndWindow::setManagerPtr(EventManagerOld* ptr) {
     glfwSetWindowUserPointer(glfw_window, ptr);
     event_interface.linkManager(ptr);
 }
 
-void ndWindow::linkEditSpace(ndModule* edit_space_ptr) {
+void ndWindow::linkEditSpace(ndModuleOld* edit_space_ptr) {
     edit_space = edit_space_ptr;
     edit_space->setManagerPtr(event_interface.ptr());
 }

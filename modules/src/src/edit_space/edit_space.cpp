@@ -3,7 +3,7 @@
 // Module EditSpace::module_name = Module::EDIT_SPACE;
 
 EditSpace::EditSpace()
-    :ndModule(Module::EDIT_SPACE, esLEN),
+    :ndModuleOld(Module::EDIT_SPACE, esLEN),
     x_line( 
         vec4({1.0f, 0.0f ,0.0f, 1.0f}),
         vec4({0.2f, 0.8f, 0.2f, 1.0f})
@@ -58,7 +58,7 @@ EditSpace::EditSpace()
     setCallbacks();
 }
 
-void EditSpace::setManagerPtr(EventManager* ptr) {
+void EditSpace::setManagerPtr(EventManagerOld* ptr) {
     event_interface.linkManager(ptr);
 }
 

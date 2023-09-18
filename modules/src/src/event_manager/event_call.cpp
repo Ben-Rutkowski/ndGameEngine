@@ -1,11 +1,11 @@
 #include "event_manager.hpp"
 
-EventCall::EventCall() 
+EventCallOld::EventCallOld() 
     :function{ [](Event*)->void{} } {}
 
-EventCall::EventCall(EventCallType func_in)
+EventCallOld::EventCallOld(EventCallTypeOld func_in)
     :function{ func_in } {}
 
-void EventCall::operator()(Event* event) {
+void EventCallOld::operator()(Event* event) {
     function(event);
 }

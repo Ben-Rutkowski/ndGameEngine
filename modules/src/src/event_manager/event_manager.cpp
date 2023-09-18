@@ -1,34 +1,34 @@
 #include "event_manager.hpp"
 
 // === Constructors and Initialization ===
-EventManager::EventManager() {}
+EventManagerOld::EventManagerOld() {}
 
-void EventManager::setCallback(EventCall event_call) {
+void EventManagerOld::setCallback(EventCallOld event_call) {
     propogateEventCall = event_call;
 }
 
 // === Interface ===
-void EventManager::queueEvent(Module module_name, Data data) {
+void EventManagerOld::queueEvent(Module module_name, Data data) {
     event_queue.queue(Event(module_name, data));
 }
 
-void EventManager::queueEvent2i(Module module_name, Data data, vec2i vector) {
+void EventManagerOld::queueEvent2i(Module module_name, Data data, vec2i vector) {
     event2i_queue.queue(Event2i(module_name, data, vector));
 }
 
-void EventManager::queueEvent2f(Module module_name, Data data, vec2 vector) {
+void EventManagerOld::queueEvent2f(Module module_name, Data data, vec2 vector) {
     event2f_queue.queue(Event2f(module_name, data, vector));
 }
 
-void EventManager::queueEvent4f(Module module_name, Data data, vec4 vector) {
+void EventManagerOld::queueEvent4f(Module module_name, Data data, vec4 vector) {
     event4f_queue.queue(Event4f(module_name, data, vector));
 }
 
-void EventManager::propogateEvent(Event* event) {
+void EventManagerOld::propogateEvent(Event* event) {
     propogateEventCall(event);
 }
 
-void EventManager::pollEvents() {
+void EventManagerOld::pollEvents() {
     Event* current_event;
 
     while (!event_queue.isEmpty()) {

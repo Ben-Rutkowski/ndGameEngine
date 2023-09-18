@@ -9,17 +9,20 @@
 #define EVENT2F_QUEUE_LEN 4
 #define EVENT4F_QUEUE_LEN 4
 
+// ======== TYPES ========
 typedef void(*EventCallTypeStatic)(void*, Event*);
 
 template<typename T>
-struct EventCallTypeNew {
+struct EventCallType {
     void(T::*callback)(Event*);
 
     void operator()(T* ptr, Event* event) 
         { ((*ptr).*callback)(event); }
 };
 
-class EventManagerNew {
+// ========= Event Manager ========
+
+class EventManager {
 private:
     EventCallTypeStatic propogateEventCallback;
     void* app_ptr;
@@ -30,8 +33,8 @@ private:
     Queue<Event4f, EVENT4F_QUEUE_LEN> event4f_queue;
 
 public:
-    EventManagerNew() {}
-    void setCallbacK(void* ptr, EventCallTypeStatic callback) {
+    EventManager() {}
+    void setCallback(void* ptr, EventCallTypeStatic callback) {
         propogateEventCallback = callback;
         app_ptr = ptr;
     }

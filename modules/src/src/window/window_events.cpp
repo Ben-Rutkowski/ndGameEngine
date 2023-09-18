@@ -164,7 +164,7 @@ void ndWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset
     getManager(window)->propogateEvent(&event);
 }
 
-EventManager* ndWindow::getManager(GLFWwindow* window) {
+EventManagerOld* ndWindow::getManager(GLFWwindow* window) {
     void* void_ptr = glfwGetWindowUserPointer(window);
-    return static_cast<EventManager*>(void_ptr);
+    return static_cast<EventManagerOld*>(void_ptr);
 }

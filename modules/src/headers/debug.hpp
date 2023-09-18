@@ -16,14 +16,14 @@ void DEBUG();
 
 
 // template<typename APP>
-// class EventManager {
+// class EventManagerOld {
 // typedef void(APP::*call)(Event*);
 // private:
 //     call propogateEvent;
 //     APP* app_ptr;
 
 // public:
-//     EventManager() {}
+//     EventManagerOld() {}
 
 //     void linkApp(APP* ptr, call fun) {
 //         app_ptr = ptr;
@@ -37,7 +37,7 @@ void DEBUG();
 
 // class tApp {
 // private:
-//     EventManager<tApp> manager;
+//     EventManagerOld<tApp> manager;
 
 // public:
 //     tApp();

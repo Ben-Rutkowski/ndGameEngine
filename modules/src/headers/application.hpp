@@ -35,7 +35,7 @@ EVENTS:
 
 */
 
-#include "nd_module.hpp"
+#include "nd_module_old.hpp"
 #include "event_manager.hpp"
 
 // #include "nd_module_new.hpp"
@@ -51,18 +51,18 @@ private:
 
 // --- Layers ---
 private:
-    EventManager event_manager;
-    ndModule* window;
+    EventManagerOld event_manager;
+    ndModuleOld* window;
 
-    // EventManagerNew<ndApp> event_manager_new;
-    // ndModuleNew* test;
+    // EventManager<ndApp> event_manager_new;
+    // ndModule* test;
 
 // --- Constructors and Initialization ---
 public:
     ndApp();
-    void linkWindow(ndModule* window_ptr);
+    void linkWindow(ndModuleOld* window_ptr);
 
-    // void linkTest(ndModuleNew* test_ptr);
+    // void linkTest(ndModule* test_ptr);
 
 // --- Runtime ---
 public:
