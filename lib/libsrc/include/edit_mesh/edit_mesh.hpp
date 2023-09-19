@@ -90,20 +90,19 @@ public:
     void transformPoints(IdSet& point_ids, mat4 mat);
     void transformPoints(mat4 mat);
 
+    void ripPoints(IdSet& old_point_ids, IdSet& edge_pairs, IdSet& faces_attatched);
+
 private:
     void recalculateFaceCenter(Id face_id);
     void recalculateFaceNormal(Id face_id);
     // TODO: void recalculateFaceVerts(Id face_id);
-
-    // --- Testing ---
-public:
-    void replaceTest(Id old_point_id, Id top_face_id);
-    void ripPointTest(Id old_point_id, IdSet& faces_attached);
-    void replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& face_ids, bool invert);
-    void replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& face_ids, bool invert);
-    void classifyEdges(IdSet& edges, IdSet& faces_attached);
     
-    void extrudeTest(Id face_id);
+    void replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& faces_attatched, bool invert);
+    void replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& faces_attatched, bool invert);
+    void replacePointsInEdge(IdSet& point_id_pairs, Id edge_id);
+    Id   duplicateEdge(Id old_edge_id, IdSet& point_id_pairs);
+    int  classifyEdges(IdSet& edges, IdSet& faces_attached);
+
 
 // --- Selecting ---
 public:

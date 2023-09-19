@@ -21,6 +21,11 @@ struct HTNode {
         std::cout << "    Next: " << next << std::endl << std::endl;
     }
 
+    void printSmall(int i) {
+        std::cout << "[" << i << "] ";
+        std::cout << key << " -> " << value_1 << std::endl;
+    }
+
     void printFull(int i) {
         std::cout << "[" << i << "] Key: " << key;
         std::cout << " Value 1: " << value_1 << std::endl;
@@ -87,10 +92,12 @@ protected:
     // Open Spaces
     uint getNextOpen();
     void stepNextOpen();
+    void resetMarkers();
 
 // --- Debugging ---
 public:
     void print();
+    void printDataSmall();
     void printHelper();
     void printData();
     void printOpen();
@@ -122,6 +129,7 @@ private:
     void joinThreadTop(uint hash, uint place);
     void joinThreadNotTop(uint place);
     void freeNewOpen(uint place);
+    void resetMarkers();
 };
 
 // class IdHashTableRemovable {

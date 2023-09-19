@@ -46,7 +46,17 @@ void EditMesh::printSelect() {
 }
 
 void EditMesh::debug() {
-    IdSet faces(1); faces.add(0);
-    ripPointTest(5, faces);
-    // load();
+    IdSet points_attatched(4);
+    IdSet faces_attatched(1);
+    IdSet edge_pairs;
+    points_attatched.add(4);
+    points_attatched.add(5);
+    points_attatched.add(6);
+    points_attatched.add(7);
+    faces_attatched.add(0);
+    ripPoints(points_attatched, edge_pairs, faces_attatched);
+    load();
+
+    mat4 TRANS = mat4::translate(vec4({0.0f, 0.1f, 0.0f, 0.0f}));
+    transformPoints(points_attatched, TRANS);
 }
