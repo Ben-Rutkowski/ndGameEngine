@@ -25,6 +25,14 @@ void EditMesh::selectPointsBox(vec4 v1, vec4 v2, vec4 v3, vec4 camera_pos) {
             setSelectPoint(i, true);
         }
     }
+
+    if ( selected_points.size() != 0 ) {
+        std::cout << "Selected Points: ";
+        for (int i=0; i<selected_points.size(); i++) {
+            std::cout << selected_points[i] << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 void EditMesh::selectFaceClick(vec4 click, vec4 camera_pos) {
@@ -51,6 +59,8 @@ void EditMesh::selectFaceClick(vec4 click, vec4 camera_pos) {
     if ( closest_dist != -1.0f ) {
         selected_faces.add(closest_face_id, 0);
         setSelectFace(closest_face_id, true);
+        std::cout << "Selected Face: " << closest_face_id << std::endl;
+        face(closest_face_id).printSmall();
     }
 }
 

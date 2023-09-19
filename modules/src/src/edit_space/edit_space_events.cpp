@@ -88,9 +88,9 @@ void EditSpace::onLeftMouseHold(Event* event) {
 void EditSpace::onLeftMouseRelease(Event* event) {
     scache.set(esLEFT_MOUSE, false);
 
-    event_interface.manager->propogateEvent(module_name, Data::CLICK_DEBUG_TIMER);
+    // event_interface.manager->propogateEvent(module_name, Data::CLICK_DEBUG_TIMER);
     selectPointsBox();
-    event_interface.manager->propogateEvent(module_name, Data::DELTA_DEBUG_TIMER);
+    // event_interface.manager->propogateEvent(module_name, Data::DELTA_DEBUG_TIMER);
 }
 
 void EditSpace::onScroll(Event* event) {

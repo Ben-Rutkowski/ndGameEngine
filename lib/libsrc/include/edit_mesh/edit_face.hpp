@@ -71,6 +71,7 @@ public:
 // --- Debugging ---
 public:
     void print();
+    void printSmall();
     void debug(VertexCache& vc);
 };
 

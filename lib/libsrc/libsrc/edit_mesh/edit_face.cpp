@@ -57,7 +57,7 @@ bool EditFace::hasEdge(Id edge_id)   { return edge_ids_new.hasElement(edge_id); 
 bool EditFace::replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, VertexCache& vc) {
     bool contains;
     Id vert_id = point_ids_new.value(old_point_id);
-    contains = point_ids_new.remove(old_point_id);
+    contains   = point_ids_new.remove(old_point_id);
     if (contains) { 
         point_ids_new.add(new_point_id, vert_id);
         vec4 pos = pc[new_point_id].getPos();
@@ -209,6 +209,25 @@ void EditFace::print() {
 
     tri_ids_new.printData();
     tri_ids_new.printOpen();
+}
+
+void EditFace::printSmall() {
+    std::cout << std::endl;
+    std::cout << "Points: " << std::endl;
+
+    point_ids_new.printDataSmall();
+
+    std::cout << "Verts: " << std::endl;
+
+    vert_ids_new.printDataSmall();
+
+    std::cout << "Edges: " << std::endl;
+
+    edge_ids_new.printDataSmall();
+
+    std::cout << "Tris: " << std::endl;
+
+    tri_ids_new.printDataSmall();
 }
 
 void EditFace::debug(VertexCache& vc) {

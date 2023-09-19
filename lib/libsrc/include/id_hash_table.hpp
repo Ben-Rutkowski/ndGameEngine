@@ -16,14 +16,14 @@ struct HTNode {
 
     void print(int i) {
         std::cout << "[" << i << "] Key: " << key;
-        std::cout << " Value: " << value_1 << std::endl;
+        std::cout << " Value: " << value_1 - 1 << std::endl;
         std::cout << "    Previous: " << previous;
         std::cout << "    Next: " << next << std::endl << std::endl;
     }
 
     void printSmall(int i) {
         std::cout << "[" << i << "] ";
-        std::cout << key << " -> " << value_1 << std::endl;
+        std::cout << key << " -> " << value_1 - 1 << std::endl;
     }
 
     void printFull(int i) {

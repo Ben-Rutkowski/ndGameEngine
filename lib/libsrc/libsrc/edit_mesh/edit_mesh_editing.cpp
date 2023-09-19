@@ -158,9 +158,6 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
     and those are on the seem. The seem edges are split into
     two: top and bottom, these are created.
 */
-    // mat4 TRANS = mat4::translate(vec4({0.0f, -0.3f, 0.0f, 0.0f}));
-    // vec4 new_pos;
-
     IdSet edge_map;
     
     // Create new points.
@@ -225,32 +222,54 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
 }
 
 void EditMesh::replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& face_ids, bool invert) {
-    Id cur_face_id;
+    std::vector<Id> affected_faces;
+
+    // Collect affected faces
+    Id   cur_face_id;
     bool in_set;
-    int N_faces = point_cache.pairedFaceLen(old_point_id);
+    int  N_faces = point_cache.pairedFaceLen(old_point_id);
+    affected_faces.reserve(N_faces);
     for (int i=0; i<N_faces; i++) {
         cur_face_id = pointToFace(old_point_id, i);
         in_set      = face_ids.hasElement(cur_face_id);
         if ( in_set == !invert ) {
-            face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
-            point_cache.removeFace(old_point_id, cur_face_id);
-            point_cache.pairFace(new_point_id, cur_face_id);
+            affected_faces.push_back(cur_face_id);
         }
+    }
+
+    // Replace points in affected faces
+    N_faces = affected_faces.size();
+    for (int i=0; i<N_faces; i++) {
+        cur_face_id = affected_faces[i];
+        face(cur_face_id).replacePoint(old_point_id, new_point_id, point_cache, vertex_cache);
+        point_cache.removeFace(old_point_id, cur_face_id);
+        point_cache.pairFace(new_point_id, cur_face_id);
     }
 }
 
 void EditMesh::replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& face_ids, bool invert) {
+    std::vector<Id> affected_faces;
+
+    // Collect affected faces
     Id   cur_face_id;
     bool in_set;
     int  N_faces = edge_cache.pairedFaceLen(old_edge_id);
+    affected_faces.reserve(N_faces);
     for (int i=0; i<N_faces; i++) {
         cur_face_id = edgeToFace(old_edge_id, i);
         in_set      = face_ids.hasElement(cur_face_id);
         if ( in_set == !invert ) {
-            face(cur_face_id).replaceEdge(old_edge_id, new_edge_id);
-            edge_cache.removeFace(old_edge_id, cur_face_id);
-            edge_cache.pairFace(new_edge_id, cur_face_id);
+            affected_faces.push_back(cur_face_id);
         }
+    }
+
+    // Replace Edges in affected faces
+    N_faces = affected_faces.size();
+    for (int i=0; i<N_faces; i++) {
+        cur_face_id = affected_faces[i];
+        face(cur_face_id).replaceEdge(old_edge_id, new_edge_id);
+        edge_cache.removeFace(old_edge_id, cur_face_id);
+        edge_cache.pairFace(new_edge_id, cur_face_id);
     }
 }
 
