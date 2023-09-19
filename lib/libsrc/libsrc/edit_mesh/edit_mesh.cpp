@@ -46,22 +46,24 @@ void EditMesh::printSelect() {
 }
 
 void EditMesh::debug() {
-    IdSet points_attatched(6);
-    IdSet faces_attatched(2);
-    IdSet edge_pairs;
-    points_attatched.add(1);
-    points_attatched.add(2);
-    points_attatched.add(4);
-    points_attatched.add(5);
-    points_attatched.add(6);
-    points_attatched.add(7);
+    // IdSet points_attatched(6);
+    // IdSet faces_attatched(2);
+    // IdSet edge_pairs;
+    // points_attatched.add(1);
+    // points_attatched.add(2);
+    // points_attatched.add(4);
+    // points_attatched.add(5);
+    // points_attatched.add(6);
+    // points_attatched.add(7);
 
-    faces_attatched.add(0);
-    faces_attatched.add(3);
+    // faces_attatched.add(0);
+    // faces_attatched.add(3);
     
-    ripPoints(points_attatched, edge_pairs, faces_attatched);
-    load();
+    // ripPoints(points_attatched, edge_pairs, faces_attatched);
+    // load();
 
-    mat4 TRANS = mat4::translate(vec4({0.3f, 0.3f, 0.0f, 0.0f}));
-    transformPoints(points_attatched, TRANS);
+    // mat4 TRANS = mat4::translate(vec4({0.3f, 0.3f, 0.0f, 0.0f}));
+    // transformPoints(points_attatched, TRANS);
+
+    extrudeFaceTest(0);
 }

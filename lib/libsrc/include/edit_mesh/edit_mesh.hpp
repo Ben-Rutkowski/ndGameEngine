@@ -84,13 +84,20 @@ public:
 public:
     Id createPoint(vec4 pos);
     Id createEdge(Id2 point_ids);
-    Id createTri(Id3 point_ids, Id3 edge_ids); // Points must be in CCW culling order
+    Id createTri(Id3 point_ids, Id3 edge_ids); // Points must be in CCW winding order
     Id createQuad(Id4 point_ids, Id4 edge_ids);    
+
+     // Points 1 and 2 are the first in four in the CCW winding order
+    Id createQuadFromEdge(Id point_id_0, Id point_id_1, IdSet& point_id_pairs, IdSet& edge_id_pairs);
+
 
     void transformPoints(IdSet& point_ids, mat4 mat);
     void transformPoints(mat4 mat);
 
     void ripPoints(IdSet& old_point_ids, IdSet& edge_pairs, IdSet& faces_attatched);
+
+// --- Test Features ---
+    void extrudeFaceTest(Id face_id);
 
 private:
     void recalculateFaceCenter(Id face_id);
@@ -111,6 +118,8 @@ public:
 
     void clearSelectedPoints();
     void clearSelectedFaces();
+
+    Id findEdge(Id point_id_0, Id point_id_1);
 
 private:
     void setSelectPoint(Id point_id, bool value);

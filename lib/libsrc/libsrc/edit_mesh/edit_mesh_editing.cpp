@@ -89,6 +89,20 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
     return face_id;
 }
 
+Id EditMesh::createQuadFromEdge(Id point_id_0, Id point_id_1, IdSet& point_id_pairs, IdSet& edge_id_pairs) {
+    Id point_id_2   = point_id_pairs.value(point_id_1);
+    Id point_id_3   = point_id_pairs.value(point_id_0);
+    Id edge_id_root = findEdge(point_id_0, point_id_1);
+    Id edge_id_op   = edge_id_pairs.value(edge_id_root);
+    Id edge_side_0  = createEdge({point_id_0, point_id_3});
+    Id edge_side_1  = createEdge({point_id_1, point_id_2});
+    Id quad_id      = createQuad(
+        {point_id_0, point_id_1, point_id_2, point_id_3},
+        {edge_id_root, edge_id_op, edge_side_0, edge_side_1}
+    );
+    return quad_id;
+}
+
 void EditMesh::transformPoints(IdSet& point_ids, mat4 mat) {
     // Move and Reload Points and Vertices
     vec4 curr_pos;
@@ -132,17 +146,6 @@ void EditMesh::transformPoints(mat4 mat) {
     transformPoints(selected_points, mat);
 }
 
-void EditMesh::recalculateFaceCenter(Id face_id) {
-    vec4 center = face(face_id).calcCenter(point_cache);
-    face(face_id).setCenter(center, vertex_cache);
-}
-
-void EditMesh::recalculateFaceNormal(Id face_id) {
-    vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
-    face(face_id).setNorm(normal, vertex_cache);
-}
-
-// === Testing ===
 void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& faces_attatched) {
 /*
     Function rips the points off of a mesh. The old points are 
@@ -202,6 +205,7 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
 
     // Classify edges
     int seem_num = classifyEdges(edge_map, faces_attatched);
+    edge_map.printDataSmall();
     edge_pairs.resizeClear(seem_num);
 
     // Process Edges
@@ -219,6 +223,47 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
             replacePointsInEdge(points_attatched, cur_edge_id);
         }
     }
+}
+
+// ================ Testing ================
+void EditMesh::extrudeFaceTest(Id face_id) {
+    std::vector<Id> wrap_order = {4, 5, 6, 7};
+    IdSet face_ids(1);
+    face_ids.add(0);
+    IdSet point_ids;
+    IdSet edge_pairs;
+
+    Id cur_point_id;
+    int N_points = face(face_id).pointLen();
+    point_ids.resizeClear(N_points);
+    for (int i=0; i<N_points; i++) {
+        cur_point_id = face(face_id).pointId(i);
+        point_ids.add(cur_point_id);
+    }
+
+    ripPoints(point_ids, edge_pairs, face_ids);
+
+    mat4 TRANS = mat4::translate(vec4({0.0f, 0.5f, 0.0f, 0.0f}));
+    transformPoints(point_ids, TRANS);
+
+    int j;
+    for (int i=0; i<4; i++) {
+        j = (i+1)%4;
+        createQuadFromEdge(wrap_order[i], wrap_order[j], point_ids, edge_pairs);
+    }
+
+    load();
+}
+
+// ================ Private ================
+void EditMesh::recalculateFaceCenter(Id face_id) {
+    vec4 center = face(face_id).calcCenter(point_cache);
+    face(face_id).setCenter(center, vertex_cache);
+}
+
+void EditMesh::recalculateFaceNormal(Id face_id) {
+    vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
+    face(face_id).setNorm(normal, vertex_cache);
 }
 
 void EditMesh::replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& face_ids, bool invert) {
@@ -338,6 +383,5 @@ int EditMesh::classifyEdges(IdSet& edges, IdSet& faces_attached) {
             edges.forceSetValue(emBOTTOM, i);
         }
     }
-
     return seem_num;
 }

@@ -80,6 +80,20 @@ void EditMesh::clearSelectedFaces() {
     selected_faces.clear();
 }
 
+Id EditMesh::findEdge(Id point_id_0, Id point_id_1) {
+    Id cur_edge_id;
+    Id other_point_id;
+    int N_edges = point_cache.pairedEdgeLen(point_id_0);
+    for (int i=0; i<N_edges; i++) {
+        cur_edge_id = pointToEdge(point_id_0, i);
+        other_point_id = edge(cur_edge_id).otherId(point_id_0);
+        if (other_point_id == point_id_1) {
+            return cur_edge_id;
+        }
+    }
+    return 0;
+}
+
 // === Private ===
 void EditMesh::setSelectPoint(Id point_id, bool value) {
     point(point_id).setSelect(value);
