@@ -38,11 +38,29 @@ void ndWindow::linkEditSpace(ndModule* edit_space_ptr) {
 
 // === Gets and Sets ===
 bool ndWindow::requestBool(Request request) {
+    bool out = false;
     if (request == Request::SHOULD_CLOSE) {
-        return glfwWindowShouldClose(glfw_window);
-    } else {
-        return false;
+        out = glfwWindowShouldClose(glfw_window);
+    } 
+    return out;
+}
+
+float ndWindow::requestFloat(Request request) {
+    float out = 0.0f;
+    if (request == Request::FRAME_DELTA) {
+        out = clock.delta(Watch::FRAME_DELTA);
+        clock.click(Watch::FRAME_DELTA);
     }
+    return out;
+}
+
+vec4 ndWindow::requestVec4(Request request) {
+    vec4 out(0.0f);
+    if (request == Request::MOUSE_POSITION) {
+        vec2 mouse = mousePos();
+        out = vec4({mouse[0], mouse[1], 0.0f, 0.0f});
+    }
+    return out;
 }
 
 // === Private ===
@@ -69,6 +87,25 @@ wState ndWindow::mouseState(wState button, int glfw_button) {
         }
     } else if (hold) {
         scache.set(button, false);
+        return wRELEASE;
+    } else {
+        return w_null;
+    }
+}
+
+wState ndWindow::keyState(wState key, int glfw_key) {
+    bool press = isKeyPress(glfw_key);
+    bool hold  = scache[key];
+
+    if (press) {
+        if (!hold) {
+            scache.set(key, true);
+            return wPRESS;
+        } else {
+            return wHOLD;
+        }
+    } else if (hold) {
+        scache.set(key, false);
         return wRELEASE;
     } else {
         return w_null;

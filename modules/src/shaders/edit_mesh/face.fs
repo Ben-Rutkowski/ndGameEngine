@@ -10,7 +10,7 @@ uniform vec4 camera_pos;
 
 const vec3 DARK_COLOR  = 0.6*vec3(0.18, 0.2, 0.25);
 const vec3 LIGHT_COLOR = 0.8*vec3(0.8, 0.7, 0.6);
-const vec3 SELECT      = vec3(1.0, 1.0, 1.0); 
+const vec3 SELECT      = vec3(0.8, 0.8, 0.8); 
 
 float calcDiffuse() {
     vec3 frag_normal = normalize(fNorm);
@@ -25,5 +25,5 @@ void main() {
 
     vec3 final_color = mix(lighting_color, SELECT, fSelect);
 
-    fragColor = vec4(final_color, 0.6);
+    fragColor = vec4(final_color, 0.55);
 }

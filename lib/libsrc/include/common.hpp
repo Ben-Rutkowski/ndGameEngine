@@ -22,16 +22,16 @@ enum class Data { null = 0, TEST, DEBUG,
     /* Operations */ CLOSE_APP, RESIZE_FRAME, RESIZE_WINDOW, 
     /* Runtime */    BEGIN_LOOP, START_FRAME, DRAW_FRAME, END_FRAME,          
     /* Key Events */ COLLECT_MENU_KEYS, ESCAPE_KEY, SCROLL,
-                     W_KEY, A_KEY, S_KEY, D_KEY,
-                     RIGHT_MOUSE_CLICK, LEFT_MOUSE_CLICK,
-                     RIGHT_MOUSE_HOLD, LEFT_MOUSE_HOLD,
-                     RIGHT_MOUSE_RELEASE, LEFT_MOUSE_RELEASE,
+                     W_KEY, A_KEY, S_KEY, D_KEY, G_KEY_PRESS, G_KEY_RELEASE,
+                     RIGHT_MOUSE_CLICK, RIGHT_MOUSE_HOLD, RIGHT_MOUSE_RELEASE,
+                     LEFT_MOUSE_CLICK, LEFT_MOUSE_HOLD, LEFT_MOUSE_RELEASE,
+                     SHIFT_PRESS, SHIFT_RELEASE,
     /* Timers */     CLICK_DEBUG_TIMER, DELTA_DEBUG_TIMER,
     LEN
 };
 
 enum class Request { null = 0,
-    /* Window */ SHOULD_CLOSE,
+    /* Window */ SHOULD_CLOSE, MOUSE_POSITION, FRAME_DELTA,
     LEN
 };
 

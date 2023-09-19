@@ -172,10 +172,6 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
         old_point_id = points_attatched[i];
         cur_pos      = point(old_point_id).getPos();
         new_point_id = createPoint(cur_pos);
-
-        // new_pos = TRANS*cur_pos;
-        // new_point_id = createPoint(new_pos);
-
         points_attatched.forceSetValue(new_point_id, i);
     }
 
@@ -227,6 +223,8 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
 
 // ================ Testing ================
 void EditMesh::extrudeFaceTest(Id face_id) {
+    clearSelectedPoints();
+
     std::vector<Id> wrap_order = {4, 5, 6, 7};
     IdSet face_ids(1);
     face_ids.add(0);
@@ -355,6 +353,7 @@ Id EditMesh::duplicateEdge(Id old_edge_id, IdSet& point_id_pairs) {
 }
 
 int EditMesh::classifyEdges(IdSet& edges, IdSet& faces_attached) {
+    /* Returns the number of eSEEM edges in the set */
     Id cur_edge_id, cur_face_id;
     bool in_atch, n_in_atch;
     int N_edges, N_faces;

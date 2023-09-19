@@ -33,8 +33,12 @@ EventNameMap getEventNameMap() {
     map.addEntry(Data::A_KEY,               std::string("A_KEY"));
     map.addEntry(Data::S_KEY,               std::string("S_KEY"));
     map.addEntry(Data::D_KEY,               std::string("D_KEY"));
+    map.addEntry(Data::G_KEY_PRESS,         std::string("G_KEY_PRESS"));
+    map.addEntry(Data::G_KEY_RELEASE,       std::string("G_KEY_RELEASE"));
     map.addEntry(Data::CLICK_DEBUG_TIMER,   std::string("CLICK_DEBUG_TIMER"));
     map.addEntry(Data::DELTA_DEBUG_TIMER,   std::string("DELTA_DEBUG_TIMER"));
+    map.addEntry(Data::SHIFT_PRESS,         std::string("SHIFT_PRESS"));
+    map.addEntry(Data::SHIFT_RELEASE,       std::string("SHIFT_RELEASE"));
 
     return map;
 }

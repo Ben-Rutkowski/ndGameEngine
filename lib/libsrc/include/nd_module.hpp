@@ -14,8 +14,10 @@ public:
 
 public:
     virtual void setManagerPtr(EventManager* ptr) = 0;
-    virtual bool requestBool(Request request) { return false; }
     virtual void runEvent(Event* event) = 0;
+    virtual bool requestBool(Request request)   { return false; }
+    virtual float requestFloat(Request request) { return 0.0f; }
+    virtual vec4 requestVec4(Request requset)   { return vec4(0); }
 };
 
 // ======== Caches =========
@@ -38,6 +40,8 @@ struct DimensionCache {
     int fw, fh;
     int ww, wh;
     float fdelta;
+    float mousex, mousey;
+    float mousedx, mousedy;
 
     float FW() { return (float)fw; }
     float FH() { return (float)fh; }

@@ -31,6 +31,8 @@ public:
     mat4  getView();
     mat4  getProj();
     vec4  getFront();
+    vec4  getRight();
+    vec4  getUp();
     vec4  getPos();
     float getNear();
     float getProjW();

@@ -14,11 +14,13 @@ Camera::Camera()
     view{mat4::view(position, front, right)},
     proj{mat4::projPer(fov, ratio, near, far)} {}
 
-mat4 Camera::getView() { return view; }
-mat4  Camera::getProj() { return proj; }
+mat4  Camera::getView()  { return view; }
+mat4  Camera::getProj()  { return proj; }
 vec4  Camera::getFront() { return front; }
 vec4  Camera::getPos()   { return position; }
-float Camera::getNear() { return near; }
+vec4  Camera::getRight() { return right; }
+vec4  Camera::getUp()    { return up; }
+float Camera::getNear()  { return near; }
 float Camera::getProjH() { return near*tan(fov); }
 float Camera::getProjW() { return getProjH()*ratio; }
 

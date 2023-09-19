@@ -42,9 +42,24 @@ void ndWindow::onCollectMenuKeys(Event* event) {
     vec2 m = mousePos();
     vec4 mouse({m[0], m[1], 0.0f, 0.0f});
     wState mouse_state;
+    wState key_state;
 
     if (isKeyPress(GLFW_KEY_ESCAPE)) {
         event_interface.manager->queueEvent(module_name, Data::ESCAPE_KEY);
+    }
+
+    key_state = keyState(wSHIFT, GLFW_KEY_LEFT_SHIFT);
+    if (key_state == wPRESS) {
+        event_interface.manager->queueEvent(module_name, Data::SHIFT_PRESS);
+    } else if (key_state == wRELEASE) {
+        event_interface.manager->queueEvent(module_name, Data::SHIFT_RELEASE);
+    }
+
+    key_state = keyState(wGKEY, GLFW_KEY_G);
+    if (key_state == wPRESS) {
+        event_interface.manager->queueEvent(module_name, Data::G_KEY_PRESS);
+    } else if (key_state == wRELEASE) {
+        event_interface.manager->queueEvent(module_name, Data::G_KEY_RELEASE);
     }
 
     if (isKeyPress(GLFW_KEY_W)) {
@@ -82,11 +97,7 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 void ndWindow::onStartFrame(Event* event) {
     // OpenGL
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-    // Clock
-    dcache.fdelta = clock.delta(Watch::FRAME_DELTA);
-    clock.click(Watch::FRAME_DELTA);
-
+    
     event_interface.manager->propogateEvent(module_name, Data::COLLECT_MENU_KEYS);
 }
 

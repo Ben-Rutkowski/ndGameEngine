@@ -2,7 +2,6 @@
 #define EDIT_SPACE_HPP
 
 #include "edit_space_lib.hpp"
-// #include "nd_module_old.hpp"
 #include "nd_module.hpp"
 #include "debug_box.hpp"
 
@@ -14,7 +13,9 @@
 */
 
 enum esState { es_null = 0,
-    /* KEYS */ esLEFT_MOUSE,
+    /* FUNCTIONS */ esCARRY, 
+    /* MODES */     esPOINT, esEDGE, esFACE,
+    /* KEYS */      esLEFT_MOUSE, esSHIFT, 
     esLEN
 };
 
@@ -38,13 +39,10 @@ private:
 // --- Attributes ---
 private:
     std::vector<EditMesh> meshes;
-    SelectBox  select_box;
-
-    // DebugBox   debug_box;
+    SelectBox select_box;
 
 public:
     EditSpace();
-    // void setManagerPtr(EventManagerOld* ptr);
 
 // --- Editing ---
 private:
@@ -52,8 +50,13 @@ private:
     Id createDefaultCube();
     EditMesh& ref(Id);
 
+    void translateSelectedPoints();
+    void translateSelectedPoints(vec4 axis);
+
     void selectPointsBox();
+    void selectPointsBoxAdd();
     void selectFacesClick(vec2 click);
+    void selectFacesClickAdd(vec2 click);
 
 // --- Rendering ---
 private:
@@ -76,6 +79,8 @@ private:
     void onEndFrame(Event* event);
     void onResizeFrame(Event* event);
     void onResizeWindow(Event* event);
+    void onShiftPress(Event* event);
+    void onShiftRelease(Event* event);
     void onRightMouseClick(Event* event);
     void onRightMouseHold(Event* event);
     void onLeftMouseClick(Event* event);
@@ -84,6 +89,8 @@ private:
     void onScroll(Event* event);
     void onWKey(Event* event);
     void onSKey(Event* event);
+    void onGKeyPress(Event* event);
+    void onGKeyRelease(Event* event);
 };
 
 #endif

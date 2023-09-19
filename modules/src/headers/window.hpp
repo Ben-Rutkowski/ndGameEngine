@@ -38,8 +38,8 @@ private:
 
 // ================ ndWindow ================
 enum wState { w_null = 0, wDEBUG,
-    /* KEYS */  wLEFT_MOUSE, wRIGHT_MOUSE,
-    /* STATE */ wCLICK, wHOLD, wRELEASE,
+    /* KEYS */  wLEFT_MOUSE, wRIGHT_MOUSE, wSHIFT, wGKEY,
+    /* STATE */ wCLICK, wPRESS, wHOLD, wRELEASE,
     wLEN
 };
 
@@ -65,12 +65,15 @@ public:
 
 // --- Gets and Sets ---
 public:
-    bool requestBool(Request request);
+    bool  requestBool(Request request);
+    float requestFloat(Request request);
+    vec4  requestVec4(Request request);
 
 private:
     bool isKeyPress(int key);
     vec2 mousePos();
     wState mouseState(wState button, int glfw_button);
+    wState keyState(wState key, int glfw_key);
 
 // --- Event Interface ---
 public:

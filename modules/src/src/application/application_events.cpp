@@ -10,23 +10,22 @@ void ndApp::pollEvents() {
 }
 
 void ndApp::beginLoop() {
-    Event event(module_name, Data::BEGIN_LOOP);
-    propogateEvent(&event);
+    event_manager.propogateEvent(module_name, Data::BEGIN_LOOP);
 }
 
 void ndApp::startFrame() {
-    Event event(module_name, Data::START_FRAME);
-    propogateEvent(&event);
+    float delta = window->requestFloat(Request::FRAME_DELTA);
+    vec4  mouse = window->requestVec4(Request::MOUSE_POSITION);
+    mouse.set(delta, 2);
+    event_manager.propogateEvent4f(module_name, Data::START_FRAME, mouse);
 }
 
 void ndApp::drawFrame() {
-    Event event(module_name, Data::DRAW_FRAME);
-    propogateEvent(&event);
+    event_manager.propogateEvent(module_name, Data::DRAW_FRAME);
 }
 
 void ndApp::endFrame() {
-    Event event(module_name, Data::END_FRAME);
-    propogateEvent(&event);
+    event_manager.propogateEvent(module_name, Data::END_FRAME);
 }
 
 // === Static ===

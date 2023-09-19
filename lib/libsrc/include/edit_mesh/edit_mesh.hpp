@@ -86,15 +86,14 @@ public:
     Id createEdge(Id2 point_ids);
     Id createTri(Id3 point_ids, Id3 edge_ids); // Points must be in CCW winding order
     Id createQuad(Id4 point_ids, Id4 edge_ids);    
-
-     // Points 1 and 2 are the first in four in the CCW winding order
-    Id createQuadFromEdge(Id point_id_0, Id point_id_1, IdSet& point_id_pairs, IdSet& edge_id_pairs);
+    Id createQuadFromEdge(Id point_id_0, Id point_id_1, IdSet& point_id_pairs, IdSet& edge_id_pairs); // Points 1 and 2 are the first in four in the CCW winding order
+    Id duplicateEdge(Id old_edge_id, IdSet& point_id_pairs);
 
 
     void transformPoints(IdSet& point_ids, mat4 mat);
     void transformPoints(mat4 mat);
 
-    void ripPoints(IdSet& old_point_ids, IdSet& edge_pairs, IdSet& faces_attatched);
+    void ripPoints(IdSet& old_point_ids, IdSet& edge_pairs_empty, IdSet& faces_attatched);
 
 // --- Test Features ---
     void extrudeFaceTest(Id face_id);
@@ -102,14 +101,11 @@ public:
 private:
     void recalculateFaceCenter(Id face_id);
     void recalculateFaceNormal(Id face_id);
-    // TODO: void recalculateFaceVerts(Id face_id);
     
     void replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& faces_attatched, bool invert);
-    void replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& faces_attatched, bool invert);
     void replacePointsInEdge(IdSet& point_id_pairs, Id edge_id);
-    Id   duplicateEdge(Id old_edge_id, IdSet& point_id_pairs);
+    void replaceEdgeInFaces(Id old_edge_id, Id new_edge_id, IdSet& faces_attatched, bool invert);
     int  classifyEdges(IdSet& edges, IdSet& faces_attached);
-
 
 // --- Selecting ---
 public:
