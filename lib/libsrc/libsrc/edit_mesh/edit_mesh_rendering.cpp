@@ -51,7 +51,7 @@ void EditMesh::reloadFace(Id face_id) {
     Id vert_id;
     
     face_vbi.bindAllBuffers();
-    int N = face(face_id).vertLen();
+    int N = face(face_id).pointLen();
     for (int i=0; i<N; i++) {
         vert_id = face(face_id).vertId(i);
         face_vbi.editVertexData(&vertex_cache[vert_id], sizeof(EditVertex), vert_id*sizeof(EditVertex));

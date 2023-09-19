@@ -23,7 +23,11 @@ struct HTNode {
 
     void printSmall(int i) {
         std::cout << "[" << i << "] ";
-        std::cout << key << " -> " << value_1 - 1 << std::endl;
+        if (value_1 != 0) {
+            std::cout << key << " -> " << value_1 - 1 << std::endl;
+        } else {
+            std::cout << key << " -> " << value_1 << std::endl;
+        }
     }
 
     void printFull(int i) {

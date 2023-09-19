@@ -58,7 +58,7 @@ void EditSpace::translateSelectedPoints() {
     trans.scalarK(RATE, 3);
     mat4 mat = mat4::translate(trans);
 
-    meshes[0].transformPoints(mat);
+    meshes[selected_mesh].transformPoints(mat);
 }
 
 void EditSpace::translateSelectedPoints(vec4 axis) {
@@ -76,7 +76,7 @@ void EditSpace::translateSelectedPoints(vec4 axis) {
 
     mat4 mat = mat4::translate(axis);
 
-    meshes[0].transformPoints(mat);
+    meshes[selected_mesh].transformPoints(mat);
 }
 
 void EditSpace::selectPointsBox() {
@@ -84,8 +84,8 @@ void EditSpace::selectPointsBox() {
     vec4 v2 = camera.clipToWorld(select_box.getBasisX());
     vec4 v3 = camera.clipToWorld(select_box.getBasisY());
 
-    meshes[0].clearSelectedPoints();
-    meshes[0].selectPointsBox(v1, v2, v3, camera.getPos());
+    meshes[selected_mesh].clearSelectedPoints();
+    meshes[selected_mesh].selectPointsBox(v1, v2, v3, camera.getPos());
 }
 
 void EditSpace::selectPointsBoxAdd() {
@@ -93,18 +93,18 @@ void EditSpace::selectPointsBoxAdd() {
     vec4 v2 = camera.clipToWorld(select_box.getBasisX());
     vec4 v3 = camera.clipToWorld(select_box.getBasisY());
 
-    meshes[0].selectPointsBox(v1, v2, v3, camera.getPos());
+    meshes[selected_mesh].selectPointsBox(v1, v2, v3, camera.getPos());
 }
 
 void EditSpace::selectFacesClick(vec2 click) {
     vec4 point = camera.clipToWorld(click);
 
-    meshes[0].clearSelectedFaces();
-    meshes[0].selectFaceClick(point, camera.getPos());
+    meshes[selected_mesh].clearSelectedFaces();
+    meshes[selected_mesh].selectFaceClick(point, camera.getPos());
 }
 
 void EditSpace::selectFacesClickAdd(vec2 click) {
     vec4 point = camera.clipToWorld(click);
 
-    meshes[0].selectFaceClick(point, camera.getPos());
+    meshes[selected_mesh].selectFaceClick(point, camera.getPos());
 }

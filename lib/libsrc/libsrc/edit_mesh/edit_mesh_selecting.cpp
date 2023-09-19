@@ -102,7 +102,7 @@ void EditMesh::setSelectPoint(Id point_id, bool value) {
 
 void EditMesh::setSelectFace(Id face_id, bool value) {
     Id vert_id;
-    int N_verts = face(face_id).vertLen();
+    int N_verts = face(face_id).pointLen();
     for (int i=0; i<N_verts; i++) {
         vert_id = face(face_id).vertId(i);
 

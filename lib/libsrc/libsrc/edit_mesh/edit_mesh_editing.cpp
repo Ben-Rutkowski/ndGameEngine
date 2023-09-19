@@ -27,15 +27,11 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
         point_cache.pairVertex(point_ids[i], vert_ids[i]);
         point_cache.pairFace(point_ids[i], face_id);
 
-        // Pair Vertex Cache
-        vertex_cache.pairPoint(vert_ids[i], point_ids[i]);
-
         // Pair Edge Cache
         edge_cache.pairFace(edges_id[i], face_id);
 
         // Add to Face
         face(face_id).addPoint(point_ids[i], vert_ids[i]);
-        face(face_id).addVertex(vert_ids[i]);
         face(face_id).addEdge(edges_id[i]);
     }
     tri_id = tri_cache.addTri(vert_ids);
@@ -65,15 +61,11 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
         point_cache.pairVertex(point_ids[i], vert_ids[i]);
         point_cache.pairFace(point_ids[i], face_id);
 
-        // Pair Vertex Cache
-        vertex_cache.pairPoint(vert_ids[i], point_ids[i]);
-
         // Pair Edge Cache
         edge_cache.pairFace(edge_ids[i], face_id);
 
         // Add to Face
         face(face_id).addPoint(point_ids[i], vert_ids[i]);
-        face(face_id).addVertex(vert_ids[i]);
         face(face_id).addEdge(edge_ids[i]);
     }
     tri_ids[0] = tri_cache.addTri(vert_ids[0], vert_ids[1], vert_ids[2]);
@@ -201,7 +193,6 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
 
     // Classify edges
     int seem_num = classifyEdges(edge_map, faces_attatched);
-    edge_map.printDataSmall();
     edge_pairs.resizeClear(seem_num);
 
     // Process Edges

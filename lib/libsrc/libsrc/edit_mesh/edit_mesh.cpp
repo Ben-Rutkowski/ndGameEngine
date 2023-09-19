@@ -15,8 +15,8 @@ EdgeIndexObj& EditMesh::edge(Id edge_id)   { return edge_cache[edge_id]; }
 TriIndexObj&  EditMesh::tri(Id tri_id)     { return tri_cache[tri_id]; }
 EditFace&     EditMesh::face(Id face_id)   { return face_cache[face_id]; }
 
-Id EditMesh::vertToPoint(Id vert_id) 
-    { return vertex_cache.getPairedPoint(vert_id); }
+// Id EditMesh::vertToPoint(Id vert_id) 
+//     { return vertex_cache.getPairedPoint(vert_id); }
 Id EditMesh::pointToVert(Id point_id, int i) 
     { return point_cache.getPairedVertex(point_id, i); }
 Id EditMesh::pointToEdge(Id point_id, int i)

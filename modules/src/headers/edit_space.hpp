@@ -40,6 +40,7 @@ private:
 private:
     std::vector<EditMesh> meshes;
     SelectBox select_box;
+    int selected_mesh;
 
 public:
     EditSpace();

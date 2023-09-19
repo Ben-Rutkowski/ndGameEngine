@@ -58,14 +58,14 @@ public:
         return addData(vertex);
     }
 
-    void pairPoint(Id vertex_id, Id point_id) 
-        { pairIndexCache4(vertex_id, point_id); }
+    // void pairPoint(Id vertex_id, Id point_id) 
+    //     { pairIndexCache4(vertex_id, point_id); }
     
     // int pairedPointLen(Id vert_id) 
     //     { return pairedLen1(vert_id); }
 
-    Id getPairedPoint(Id vert_id)
-        { return getPairedCache4(vert_id); }
+    // Id getPairedPoint(Id vert_id)
+    //     { return getPairedCache4(vert_id); }
 
 };
 

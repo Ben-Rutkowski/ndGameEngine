@@ -18,27 +18,18 @@ class EditFace {
 private:
     int N_sides;
 
-    // std::vector<Id> point_ids;
-    // std::vector<Id> vert_ids;
-    // std::vector<Id> edge_ids;
-    // std::vector<Id> tri_ids;
-
-    IdHashTableDynamic point_ids_new; // Point -> Vert
-    IdHashTableDynamic vert_ids_new;  // Vert
-    IdHashTableDynamic edge_ids_new;  // Edge  -> Point
-    IdHashTableDynamic tri_ids_new;   // Tri   -> Vert
+    IdHashTableDynamic point_id_cache; // Point -> Vert
+    IdHashTableDynamic edge_id_cache;  // Edge
+    IdHashTableDynamic tri_id_cache;   // Tri
 
 public:
     EditFace(int n);
 
-    // void addPoint(Id point_id);
     void addPoint(Id point_id, Id vert_id);
-    void addVertex(Id vert_id);
     void addEdge(Id edge_id);
     void addTri(Id tri_id);
 
     int pointLen();
-    int vertLen();
     int edgeLen();
     int triLen();
 

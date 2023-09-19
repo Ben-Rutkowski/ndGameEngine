@@ -35,6 +35,8 @@ void EditSpace::onBeginLoop(Event* event) {
     dcache.mousex  = 0.0f;
     dcache.mousey  = 0.0f;
 
+    selected_mesh = 0;
+
     camera.setDistance(6);
     camera.setRotate(math::rads(30.0f), math::rads(-20.0f));
     camera.calcView();
@@ -52,8 +54,8 @@ void EditSpace::onStartFrame(Event* event) {
     dcache.fdelta = v[2];
 
     if (scache[esCARRY]) {
-        // translateSelectedPoints();
-        translateSelectedPoints(vec4::basis(2));
+        translateSelectedPoints();
+        // translateSelectedPoints(vec4::basis(1));
     }
 }
 void EditSpace::onDrawFrame(Event* event) { draw(); }
