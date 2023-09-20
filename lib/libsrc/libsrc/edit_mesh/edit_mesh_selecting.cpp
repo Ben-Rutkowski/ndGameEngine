@@ -111,6 +111,46 @@ void EditMesh::setSelectFace(Id face_id, bool value) {
     }
 }
 
+void EditMesh::collectAffectedEdges(IdSet& point_ids, IdSet& emtpy_edge_ids) {
+    int max = 0;
+    int N_points = point_ids.size();
+    for (int i=0; i<N_points; i++) {
+        max += point_cache.pairedEdgeLen(point_ids[i]);
+    }
+    max = std::min(max, edge_cache.dataLen());
+
+    Id cur_edge_id;
+    emtpy_edge_ids.resizeClear(max);
+    int M_edges;
+    for (int i=0; i<N_points; i++) {
+        M_edges = point_cache.pairedEdgeLen(point_ids[i]);
+        for (int j=0; j<M_edges; j++) {
+            cur_edge_id = pointToEdge(point_ids[i], j);
+            emtpy_edge_ids.add(cur_edge_id);
+        }
+    }
+}
+
+void EditMesh::collectAffectedFaces(IdSet& point_ids, IdSet& emtpy_face_ids) {
+    int max = 0;
+    int N_points = point_ids.size();
+    for (int i=0; i<N_points; i++) {
+        max += point_cache.pairedFaceLen(point_ids[i]);
+    }
+    max = std::min(max, face_cache.dataLen());
+
+    Id cur_face_id;
+    emtpy_face_ids.resizeClear(max);
+    int M_faces;
+    for (int i=0; i<N_points; i++) {
+        M_faces = point_cache.pairedFaceLen(point_ids[i]);
+        for (int j=0; j<M_faces; j++) {
+            cur_face_id = pointToFace(point_ids[i], j);
+            emtpy_face_ids.add(cur_face_id);
+        }
+    }
+}
+
 bool EditMesh::isPointSelect(Id point_id) {
     return selected_points.hasElement(point_id);
 }

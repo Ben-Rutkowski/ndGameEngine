@@ -45,6 +45,7 @@ public:
 
     void setNorm(vec4 norm, VertexCache& vc);
     void setCenter(vec4 center, VertexCache& vc);
+    void setPos(Id point_id, vec4 pos, VertexCache& vc);
 
     bool hasPoint(Id point_id);
     bool hasEdge(Id edge_id);
@@ -57,6 +58,7 @@ public:
 // --- Calculations ---
     vec4  calcNorm(TriCache& tri_cache, VertexCache& vertex_cache);
     vec4  calcCenter(PointCache& point_cache);
+    vec4  calcVertPos(Id point_id, PointCache& pc);
     float rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc); // Returns the length of the ray that it hits the face, if it intersects, else -1.0f
 
 // --- Debugging ---

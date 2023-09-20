@@ -70,7 +70,6 @@ private:
     TriIndexObj&  tri(Id tri_id);
     EditFace&     face(Id face_id);
 
-    Id vertToPoint(Id vert_id);
     Id pointToVert(Id point_id, int i);
     Id pointToEdge(Id point_id, int i);
     Id pointToFace(Id point_id, int i);
@@ -95,12 +94,15 @@ public:
 
     void ripPoints(IdSet& old_point_ids, IdSet& edge_pairs_empty, IdSet& faces_attatched);
 
+    // void transformPointsOld(IdSet& point_ids, mat4 mat);
+
 // --- Test Features ---
     void extrudeFaceTest(Id face_id);
 
 private:
     void recalculateFaceCenter(Id face_id);
     void recalculateFaceNormal(Id face_id);
+    void recalculateFacePos(Id face_id, IdSet& point_ids);
     
     void replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& faces_attatched, bool invert);
     void replacePointsInEdge(IdSet& point_id_pairs, Id edge_id);
@@ -120,6 +122,9 @@ public:
 private:
     void setSelectPoint(Id point_id, bool value);
     void setSelectFace(Id face_id, bool value);
+
+    void collectAffectedEdges(IdSet& point_ids, IdSet& emtpy_edge_ids);
+    void collectAffectedFaces(IdSet& point_ids, IdSet& emtpy_face_ids);
 
     bool isPointSelect(Id point_id);
     bool checkCullPoint(Id id, vec4 camera_pos);    

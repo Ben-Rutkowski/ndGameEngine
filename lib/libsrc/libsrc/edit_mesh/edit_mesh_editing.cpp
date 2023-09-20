@@ -24,7 +24,7 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
         vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
 
         // Pair Point Cache
-        point_cache.pairVertex(point_ids[i], vert_ids[i]);
+        // point_cache.pairVertex(point_ids[i], vert_ids[i]);
         point_cache.pairFace(point_ids[i], face_id);
 
         // Pair Edge Cache
@@ -58,7 +58,7 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
         vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
 
         // Pair Point Cache
-        point_cache.pairVertex(point_ids[i], vert_ids[i]);
+        // point_cache.pairVertex(point_ids[i], vert_ids[i]);
         point_cache.pairFace(point_ids[i], face_id);
 
         // Pair Edge Cache
@@ -96,41 +96,37 @@ Id EditMesh::createQuadFromEdge(Id point_id_0, Id point_id_1, IdSet& point_id_pa
 }
 
 void EditMesh::transformPoints(IdSet& point_ids, mat4 mat) {
-    // Move and Reload Points and Vertices
-    vec4 curr_pos;
-    int N_points = point_ids.size();
-    int M_verts;
-    for (int i=0; i<N_points; i++) {
-        curr_pos = point(point_ids[i]).getPos();
-        curr_pos = mat*curr_pos;
-
-        // Set and Reload Point
-        point(point_ids[i]).setPos(curr_pos);
-        reloadPoint(point_ids[i]);
-
-        // Set Vertices
-        M_verts = point_cache.pairedVertexLen(point_ids[i]);
-        for (int j=0; j<M_verts; j++) {
-            vertex(pointToVert(point_ids[i], j)).setPos(curr_pos);
-        }
-    }
-
     // Collect Affected Faces
-    IdSet face_ids(face_cache.dataLen());
-    int M_faces;
+    IdSet affected_faces;
+    collectAffectedFaces(point_ids, affected_faces);
+
+    // Move Points
+    vec4 cur_pos;
+    int N_points = point_ids.size();
     for (int i=0; i<N_points; i++) {
-        M_faces = point_cache.pairedFaceLen(point_ids[i]);
-        for (int j=0; j<M_faces; j++) {
-            face_ids.add(pointToFace(point_ids[i], j), point_ids[i]);
-        }
+        cur_pos = point(point_ids[i]).getPos();
+        cur_pos = mat*cur_pos;
+        point(point_ids[i]).setPos(cur_pos);
     }
 
-    // Recalculate and Reload Faces
-    M_faces = face_ids.size();
-    for (int i=0; i<M_faces; i++) {
-        recalculateFaceCenter(face_ids[i]);
-        recalculateFaceNormal(face_ids[i]);
-        reloadFace(face_ids[i]);
+    // Recalculate Faces
+    Id cur_face_id;
+    int N_faces = affected_faces.size();
+    for (int i=0; i<N_faces; i++) {
+        cur_face_id = affected_faces[i];
+        recalculateFacePos(cur_face_id, point_ids);
+        recalculateFaceCenter(cur_face_id);
+        recalculateFaceNormal(cur_face_id);
+    }
+
+    // Reload Point
+    for (int i=0; i<N_points; i++) {
+        reloadPoint(point_ids[i]);
+    }
+
+    // Reload Faces
+    for (int i=0; i<N_faces; i++) {
+        reloadFace(affected_faces[i]);
     }
 }
 
@@ -174,28 +170,13 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
         replacePointInFaces(old_point_id, new_point_id, faces_attatched, true);
     }
 
-    // Collect all edges considered.
-    int max_edges = 0;
-    for (int i=0; i<N_points; i++) {
-        max_edges += point_cache.pairedEdgeLen(points_attatched[i]);
-    }
-    edge_map.resizeClear(max_edges);
-
-    Id    cur_edge_id;
-    int   M_edges;
-    for (int i=0; i<N_points; i++) {
-        M_edges = point_cache.pairedEdgeLen(points_attatched[i]);
-        for (int j=0; j<M_edges; j++) {
-            cur_edge_id = pointToEdge(points_attatched[i], j);
-            edge_map.add(cur_edge_id);
-        }
-    }
-
     // Classify edges
+    collectAffectedEdges(points_attatched, edge_map);
     int seem_num = classifyEdges(edge_map, faces_attatched);
     edge_pairs.resizeClear(seem_num);
 
     // Process Edges
+    Id cur_edge_id;
     Id new_edge_id;
     uint edge_type;
     int N_edges = edge_map.size();
@@ -213,6 +194,45 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
 }
 
 // ================ Testing ================
+// void EditMesh::transformPointsOld(IdSet& point_ids, mat4 mat) {
+//     // Move and Reload Points and Vertices
+//     vec4 curr_pos;
+//     int N_points = point_ids.size();
+//     int M_verts;
+//     for (int i=0; i<N_points; i++) {
+//         curr_pos = point(point_ids[i]).getPos();
+//         curr_pos = mat*curr_pos;
+
+//         // Set and Reload Point
+//         point(point_ids[i]).setPos(curr_pos);
+//         reloadPoint(point_ids[i]);
+
+//         // Set Vertices
+//         M_verts = point_cache.pairedVertexLen(point_ids[i]);
+//         for (int j=0; j<M_verts; j++) {
+//             vertex(pointToVert(point_ids[i], j)).setPos(curr_pos);
+//         }
+//     }
+
+//     // Collect Affected Faces
+//     IdSet face_ids(face_cache.dataLen());
+//     int M_faces;
+//     for (int i=0; i<N_points; i++) {
+//         M_faces = point_cache.pairedFaceLen(point_ids[i]);
+//         for (int j=0; j<M_faces; j++) {
+//             face_ids.add(pointToFace(point_ids[i], j), point_ids[i]);
+//         }
+//     }
+
+//     // Recalculate and Reload Faces
+//     M_faces = face_ids.size();
+//     for (int i=0; i<M_faces; i++) {
+//         recalculateFaceCenter(face_ids[i]);
+//         recalculateFaceNormal(face_ids[i]);
+//         reloadFace(face_ids[i]);
+//     }
+// }
+
 void EditMesh::extrudeFaceTest(Id face_id) {
     clearSelectedPoints();
 
@@ -253,6 +273,19 @@ void EditMesh::recalculateFaceCenter(Id face_id) {
 void EditMesh::recalculateFaceNormal(Id face_id) {
     vec4 normal = face(face_id).calcNorm(tri_cache, vertex_cache);
     face(face_id).setNorm(normal, vertex_cache);
+}
+
+void EditMesh::recalculateFacePos(Id face_id, IdSet& point_ids) {
+    vec4 pos;   
+    Id   cur_point_id;
+    int N_points = face(face_id).pointLen();
+    for (int i=0; i<N_points; i++) {
+        cur_point_id = face(face_id).pointId(i);
+        if (point_ids.hasElement(cur_point_id)) {
+            pos = face(face_id).calcVertPos(cur_point_id, point_cache);
+            face(face_id).setPos(cur_point_id, pos, vertex_cache);
+        }
+    }
 }
 
 void EditMesh::replacePointInFaces(Id old_point_id, Id new_point_id, IdSet& face_ids, bool invert) {

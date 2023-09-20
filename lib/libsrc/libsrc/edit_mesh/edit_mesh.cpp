@@ -15,10 +15,8 @@ EdgeIndexObj& EditMesh::edge(Id edge_id)   { return edge_cache[edge_id]; }
 TriIndexObj&  EditMesh::tri(Id tri_id)     { return tri_cache[tri_id]; }
 EditFace&     EditMesh::face(Id face_id)   { return face_cache[face_id]; }
 
-// Id EditMesh::vertToPoint(Id vert_id) 
-//     { return vertex_cache.getPairedPoint(vert_id); }
-Id EditMesh::pointToVert(Id point_id, int i) 
-    { return point_cache.getPairedVertex(point_id, i); }
+// Id EditMesh::pointToVert(Id point_id, int i) 
+//     { return point_cache.getPairedVertex(point_id, i); }
 Id EditMesh::pointToEdge(Id point_id, int i)
     { return point_cache.getPairedEdge(point_id, i); }
 Id EditMesh::pointToFace(Id point_id, int i)
@@ -46,24 +44,5 @@ void EditMesh::printSelect() {
 }
 
 void EditMesh::debug() {
-    // IdSet points_attatched(6);
-    // IdSet faces_attatched(2);
-    // IdSet edge_pairs;
-    // points_attatched.add(1);
-    // points_attatched.add(2);
-    // points_attatched.add(4);
-    // points_attatched.add(5);
-    // points_attatched.add(6);
-    // points_attatched.add(7);
-
-    // faces_attatched.add(0);
-    // faces_attatched.add(3);
-    
-    // ripPoints(points_attatched, edge_pairs, faces_attatched);
-    // load();
-
-    // mat4 TRANS = mat4::translate(vec4({0.3f, 0.3f, 0.0f, 0.0f}));
-    // transformPoints(points_attatched, TRANS);
-
     extrudeFaceTest(0);
 }

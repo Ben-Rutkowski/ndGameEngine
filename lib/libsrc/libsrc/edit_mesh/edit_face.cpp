@@ -35,8 +35,8 @@ bool EditFace::replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, Ve
     contains   = point_id_cache.remove(old_point_id);
     if (contains) { 
         point_id_cache.add(new_point_id, vert_id);
-        pc.removeVertex(old_point_id, vert_id);
-        pc.pairVertex(new_point_id, vert_id);
+        // pc.removeVertex(old_point_id, vert_id);
+        // pc.pairVertex(new_point_id, vert_id);
         return true;
     } else {
         return false;
@@ -74,7 +74,10 @@ vec4 EditFace::calcCenter(PointCache& pc) {
         sum = vec4::sumK(sum, curr_center, 3);
     }
     return sum.multK(1.0f/((float)N_point), 3);
-    
+}
+
+vec4 EditFace::calcVertPos(Id point_id, PointCache& pc) {
+    return pc[point_id].getPos();
 }
 
 void EditFace::setNorm(vec4 norm, VertexCache& vc) {
@@ -89,6 +92,11 @@ void EditFace::setCenter(vec4 center, VertexCache& vc) {
     for (int i=0; i<N_vert; i++) {
         vert(i, vc).setCenter(center);
     }
+}
+
+void EditFace::setPos(Id point_id, vec4 pos, VertexCache& vc) {
+    Id vert_id = point_id_cache.value(point_id);
+    vc[vert_id].setPos(pos);
 }
 
 float EditFace::rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc) {

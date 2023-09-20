@@ -258,7 +258,9 @@ IdHashTableStatic::IdHashTableStatic(uint n)
     :IdHashTableBase(n) {}
 
 int IdHashTableStatic::size() {
-    if (open_marker == 0 && open_spaces[0] == 0) {
+    if (open_spaces.size() == 0) {
+        return 0;
+    } else if (open_marker == 0 && open_spaces[0] == 0) {
         return capacity_size;
     } else {
         return open_marker;
