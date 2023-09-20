@@ -10,13 +10,11 @@ mat4 EditMesh::getModel() {
 }
 
 EditPoint&    EditMesh::point(Id point_id) { return point_cache[point_id]; }
-EditVertex&   EditMesh::vertex(Id vert_id) { return vertex_cache[vert_id]; }
 EdgeIndexObj& EditMesh::edge(Id edge_id)   { return edge_cache[edge_id]; }
-TriIndexObj&  EditMesh::tri(Id tri_id)     { return tri_cache[tri_id]; }
 EditFace&     EditMesh::face(Id face_id)   { return face_cache[face_id]; }
+EditVertex&   EditMesh::vertex(Id vert_id) { return vertex_cache[vert_id]; }
+TriIndexObj&  EditMesh::tri(Id tri_id)     { return tri_cache[tri_id]; }
 
-// Id EditMesh::pointToVert(Id point_id, int i) 
-//     { return point_cache.getPairedVertex(point_id, i); }
 Id EditMesh::pointToEdge(Id point_id, int i)
     { return point_cache.getPairedEdge(point_id, i); }
 Id EditMesh::pointToFace(Id point_id, int i)

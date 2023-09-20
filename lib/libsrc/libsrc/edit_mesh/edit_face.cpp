@@ -35,8 +35,6 @@ bool EditFace::replacePoint(Id old_point_id, Id new_point_id, PointCache& pc, Ve
     contains   = point_id_cache.remove(old_point_id);
     if (contains) { 
         point_id_cache.add(new_point_id, vert_id);
-        // pc.removeVertex(old_point_id, vert_id);
-        // pc.pairVertex(new_point_id, vert_id);
         return true;
     } else {
         return false;

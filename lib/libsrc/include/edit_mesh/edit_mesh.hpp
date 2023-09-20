@@ -65,12 +65,11 @@ public:
 
 private:
     EditPoint&    point(Id point_id);
-    EditVertex&   vertex(Id vert_id);
     EdgeIndexObj& edge(Id edge_id);
-    TriIndexObj&  tri(Id tri_id);
     EditFace&     face(Id face_id);
+    EditVertex&   vertex(Id vert_id);
+    TriIndexObj&  tri(Id tri_id);
 
-    Id pointToVert(Id point_id, int i);
     Id pointToEdge(Id point_id, int i);
     Id pointToFace(Id point_id, int i);
     Id edgeToFace(Id edge_id, int i);
@@ -93,8 +92,6 @@ public:
     void transformPoints(mat4 mat);
 
     void ripPoints(IdSet& old_point_ids, IdSet& edge_pairs_empty, IdSet& faces_attatched);
-
-    // void transformPointsOld(IdSet& point_ids, mat4 mat);
 
 // --- Test Features ---
     void extrudeFaceTest(Id face_id);

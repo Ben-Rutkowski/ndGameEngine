@@ -22,7 +22,6 @@ protected:
     std::vector<T> data;
     std::vector<std::vector<Id>> pair_cache_1;
     std::vector<std::vector<Id>> pair_cache_2;
-    std::vector<std::vector<Id>> pair_cache_3;
 
 public:
     T&    operator[](int i) { return data[i]; }
@@ -43,7 +42,6 @@ protected:
 
     void pushPairCache1() { pair_cache_1.push_back(std::vector<Id>()); }
     void pushPairCache2() { pair_cache_2.push_back(std::vector<Id>()); }
-    void pushPairCache3() { pair_cache_3.push_back(std::vector<Id>()); }
 
     void pushPairCache1(int reserve) {
         pair_cache_1.push_back(std::vector<Id>());
@@ -51,31 +49,22 @@ protected:
     void pushPairCache2(int reserve) {
         pair_cache_2.push_back(std::vector<Id>());
         pair_cache_2.back().reserve(reserve); }
-    void pushPairCache3(int reserve) {
-        pair_cache_3.push_back(std::vector<Id>());
-        pair_cache_3.back().reserve(reserve); }
 
     void pairIndexCache1(Id root_id, Id pair_id) 
         { pair_cache_1[root_id].push_back(pair_id); }
     void pairIndexCache2(Id root_id, Id pair_id)
         { pair_cache_2[root_id].push_back(pair_id); }    
-    void pairIndexCache3(Id root_id, Id pair_id)
-        { pair_cache_3[root_id].push_back(pair_id); }  
 
     void emptyIndexCache1(Id root_id)
         { pair_cache_1[root_id].clear(); }
     void emptyIndexCache2(Id root_id)
         { pair_cache_2[root_id].clear(); }
-    void emptyIndexCache3(Id root_id)
-        { pair_cache_3[root_id].clear(); }
 
     int pairedLen1(Id data_id) { return pair_cache_1[data_id].size(); }
     int pairedLen2(Id data_id) { return pair_cache_2[data_id].size(); }
-    int pairedLen3(Id data_id) { return pair_cache_3[data_id].size(); }
 
     Id getPairedCache1(Id data_id, int i) { return pair_cache_1[data_id][i]; }
     Id getPairedCache2(Id data_id, int i) { return pair_cache_2[data_id][i]; }
-    Id getPairedCache3(Id data_id, int i) { return pair_cache_3[data_id][i]; }
 };
 
 #endif

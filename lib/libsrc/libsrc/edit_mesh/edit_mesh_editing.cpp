@@ -23,11 +23,8 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
         // Create Vertex
         vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
 
-        // Pair Point Cache
-        // point_cache.pairVertex(point_ids[i], vert_ids[i]);
+        // Pair Point and Edge
         point_cache.pairFace(point_ids[i], face_id);
-
-        // Pair Edge Cache
         edge_cache.pairFace(edges_id[i], face_id);
 
         // Add to Face
@@ -57,11 +54,8 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
         // Create Vertex
         vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
 
-        // Pair Point Cache
-        // point_cache.pairVertex(point_ids[i], vert_ids[i]);
+        // Pair Point and Edge
         point_cache.pairFace(point_ids[i], face_id);
-
-        // Pair Edge Cache
         edge_cache.pairFace(edge_ids[i], face_id);
 
         // Add to Face
@@ -194,45 +188,6 @@ void EditMesh::ripPoints(IdSet& points_attatched, IdSet& edge_pairs, IdSet& face
 }
 
 // ================ Testing ================
-// void EditMesh::transformPointsOld(IdSet& point_ids, mat4 mat) {
-//     // Move and Reload Points and Vertices
-//     vec4 curr_pos;
-//     int N_points = point_ids.size();
-//     int M_verts;
-//     for (int i=0; i<N_points; i++) {
-//         curr_pos = point(point_ids[i]).getPos();
-//         curr_pos = mat*curr_pos;
-
-//         // Set and Reload Point
-//         point(point_ids[i]).setPos(curr_pos);
-//         reloadPoint(point_ids[i]);
-
-//         // Set Vertices
-//         M_verts = point_cache.pairedVertexLen(point_ids[i]);
-//         for (int j=0; j<M_verts; j++) {
-//             vertex(pointToVert(point_ids[i], j)).setPos(curr_pos);
-//         }
-//     }
-
-//     // Collect Affected Faces
-//     IdSet face_ids(face_cache.dataLen());
-//     int M_faces;
-//     for (int i=0; i<N_points; i++) {
-//         M_faces = point_cache.pairedFaceLen(point_ids[i]);
-//         for (int j=0; j<M_faces; j++) {
-//             face_ids.add(pointToFace(point_ids[i], j), point_ids[i]);
-//         }
-//     }
-
-//     // Recalculate and Reload Faces
-//     M_faces = face_ids.size();
-//     for (int i=0; i<M_faces; i++) {
-//         recalculateFaceCenter(face_ids[i]);
-//         recalculateFaceNormal(face_ids[i]);
-//         reloadFace(face_ids[i]);
-//     }
-// }
-
 void EditMesh::extrudeFaceTest(Id face_id) {
     clearSelectedPoints();
 

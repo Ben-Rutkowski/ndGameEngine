@@ -26,9 +26,6 @@ void EditMesh::load() {
 
     selected_points.resizeClear(point_cache.dataLen());
     selected_faces.resizeClear(face_cache.dataLen());
-
-    // resetSelectPoints();
-    // resetSelectFaces();
 }
 
 void EditMesh::reloadPoint(Id point_id) {

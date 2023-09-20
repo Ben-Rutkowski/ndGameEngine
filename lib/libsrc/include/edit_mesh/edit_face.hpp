@@ -74,10 +74,6 @@ Data : EditFace
 
 class FaceCache : public EditCache<EditFace> {
 public:
-    // Id createFace() {
-    //     return createData();
-    // }
-
     Id createFace(int n) {
         return addData(EditFace(n));
     }
