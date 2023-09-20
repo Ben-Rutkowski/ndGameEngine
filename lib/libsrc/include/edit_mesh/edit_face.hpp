@@ -38,10 +38,10 @@ public:
     Id edgeId(int i);
     Id triId(int i);
 
-    EditPoint&  point(int i, PointCache& pc);
-    EditVertex& vert(int i, VertexCache& vc);
-    EdgeIndexObj& edge(int i, EdgeCache& ec);
-    TriIndexObj&  tri(int i, TriCache& tc);
+    // EditPoint&  point(int i, PointCache& pc);
+    // EditVertex& vert(int i, VertexCache& vc);
+    // EdgeIndexObj& edge(int i, EdgeCache& ec);
+    // TriIndexObj&  tri(int i, TriCache& tc);
 
     void setNorm(vec4 norm, VertexCache& vc);
     void setCenter(vec4 center, VertexCache& vc);
