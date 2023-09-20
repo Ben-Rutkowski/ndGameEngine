@@ -3,9 +3,9 @@
 EdgeIndexObj::EdgeIndexObj(Id tail, Id tip)
     :point_ids{ tail, tip } {}
 
-EditPoint& EdgeIndexObj::point(int i, PointCache& pc) {
-    return pc[point_ids[i]];
-}
+// EditPoint& EdgeIndexObj::point(int i, PointCache& pc) {
+//     return pc[point_ids[i]];
+// }
 
 Id EdgeIndexObj::pointId(int i) {
     return point_ids[i];
@@ -29,8 +29,10 @@ void EdgeIndexObj::replacePoint(Id old_point_id, Id new_point_id) {
 
 // === Calculations ===
 vec4 EdgeIndexObj::calcEdgeVec(PointCache& pc) {
-    vec4 tail_pos = point(0, pc).getPos();
-    vec4 tip_pos  = point(1, pc).getPos();
+    // vec4 tail_pos = point(0, pc).getPos();
+    // vec4 tip_pos  = point(1, pc).getPos();
+    vec4 tail_pos = pc[pointId(0)].getPos();
+    vec4 tip_pos  = pc[pointId(1)].getPos();
     return vec4::subtrK(tip_pos, tail_pos, 3);
 }
 

@@ -16,8 +16,6 @@ public:
     TriIndexObj(Id v0_in, Id v1_in, Id v2_in);
     Id vertId(int i);
 
-    // EditVertex& vert(int i, VertexCache& vc);
-
 // --- Calculations ---
 public:
     vec4 calcNorm(VertexCache& vc);
