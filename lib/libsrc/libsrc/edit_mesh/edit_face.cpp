@@ -49,11 +49,9 @@ bool EditFace::replaceEdge(Id old_edge_id, Id new_edge_id) {
 // === Calculations ===
 vec4 EditFace::calcNorm(TriCache& tc, VertexCache& vc) {
     vec4 curr_norm;
-    // vec4 norm = tri(0, tc).calcNorm(vc);
     vec4 norm = tc[triId(0)].calcNorm(vc);
     int N_tri = triLen();
     for (int i=1; i<N_tri; i++) {
-        // curr_norm = tri(i, tc).calcNorm(vc);
         curr_norm = tc[triId(i)].calcNorm(vc);
         norm = vec4::aveUnits4f(norm, curr_norm);
     }
