@@ -1,11 +1,11 @@
 /*  (-) Arbitrary Paired, (+) One Paired
 
-    Point       Vertex     Edge        Tri           Face
-    -----       ------     ====        ===           ====
-    - Vertex    + Point    ++ Point    +++ Vertex    - Point
-    - Edge                 ----                      - Vertex
-    - Face                 - Face                    - Edge
-                                                     - Tri
+    Point     Edge      Face (n)
+    -----     ----      ----
+    - Edge    - Face    n   Point -> Vert ( Vertices are unique to a face )
+    - Face              n   Edge
+                        n-2 Tri           ( Tris are in CCW winding order )
+              
 */                                                   
 
 #ifndef EDIT_MESH_HPP
