@@ -20,11 +20,6 @@ Id EditFace::vertId(int i)  { return point_id_cache.forceGetValue(i); }
 Id EditFace::edgeId(int i)  { return edge_id_cache.forceGetKey(i); } 
 Id EditFace::triId(int i)   { return tri_id_cache.forceGetKey(i); } 
 
-// EditPoint&    EditFace::point(int i, PointCache& pc) { return pc[pointId(i)]; }
-// EditVertex&   EditFace::vert(int i, VertexCache& vc) { return vc[vertId(i)]; }
-// EdgeIndexObj& EditFace::edge(int i, EdgeCache& ec)   { return ec[edgeId(i)]; }
-// TriIndexObj&  EditFace::tri(int i, TriCache& tc)     { return tc[triId(i)]; }
-
 bool EditFace::hasPoint(Id point_id) { return point_id_cache.hasElement(point_id); }
 bool EditFace::hasEdge(Id edge_id)   { return edge_id_cache.hasElement(edge_id); }
 
@@ -70,7 +65,6 @@ vec4 EditFace::calcCenter(PointCache& pc) {
     int N_point = pointLen();
     vec4 sum = vec4::basis(3);
     for (int i=0; i<N_point; i++) {
-        // curr_center = point(i, pc).getPos();
         curr_center = pc[pointId(i)].getPos();
         sum = vec4::sumK(sum, curr_center, 3);
     }
@@ -84,7 +78,6 @@ vec4 EditFace::calcVertPos(Id point_id, PointCache& pc) {
 void EditFace::setNorm(vec4 norm, VertexCache& vc) {
     int N_vert = pointLen();
     for (int i=0; i<N_vert; i++) {
-        // vert(i, vc).setNorm(norm);
         vc[vertId(i)].setNorm(norm);
     }
 }
@@ -92,7 +85,6 @@ void EditFace::setNorm(vec4 norm, VertexCache& vc) {
 void EditFace::setCenter(vec4 center, VertexCache& vc) {
     int N_vert = pointLen();
     for (int i=0; i<N_vert; i++) {
-        // vert(i, vc).setCenter(center);
         vc[vertId(i)].setCenter(center);
     }
 }
@@ -104,22 +96,15 @@ void EditFace::setPos(Id point_id, vec4 pos, VertexCache& vc) {
 
 float EditFace::rayIntersect(vec4 u, vec4 d, TriCache& tc, VertexCache& vc) {
     vec4 v1, v2, v3;
-    Id   v1_id, v2_id, v3_id;
     bool intersect  = false;
     float dist      = -1.0f;
     float curr_dist = 1.0f;
     int N_tri = triLen();
     for (int i=0; i<N_tri; i++) {
-        // v1 = tri(i, tc).vert(0, vc).getPos();
-        // v2 = tri(i, tc).vert(1, vc).getPos();
-        // v3 = tri(i, tc).vert(2, vc).getPos();
-
-        v1    = vc[tc[triId(i)].vertId(0)].getPos();
-        v2    = vc[tc[triId(i)].vertId(1)].getPos();
-        v3    = vc[tc[triId(i)].vertId(2)].getPos();
-
+        v1 = vc[tc[triId(i)].vertId(0)].getPos();
+        v2 = vc[tc[triId(i)].vertId(1)].getPos();
+        v3 = vc[tc[triId(i)].vertId(2)].getPos();
         curr_dist = sAlg::triRayIntersect(v1, v2, v3, u, d);
-
         if (curr_dist != -1.0f) {
             if (!intersect) {
                 dist = curr_dist;
