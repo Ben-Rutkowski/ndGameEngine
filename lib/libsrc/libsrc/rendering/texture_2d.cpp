@@ -1,5 +1,6 @@
 #include "rendering/texture_2d.hpp"
 
+Texture2D::~Texture2D() { glDeleteTextures(1, &texture_id); }
 Texture2D::Texture2D(int width, int height)
     :frame_width{ width }, frame_height{ height } {
 

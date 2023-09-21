@@ -18,6 +18,7 @@ private:
 
 public:
     Texture2D(int width, int height);
+    ~Texture2D();
     void config(t2Type type);
     void config(t2Type type, int width, int height);
     void setFilter(t2Filter min, t2Filter max);

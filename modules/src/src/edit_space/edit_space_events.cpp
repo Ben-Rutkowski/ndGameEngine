@@ -31,11 +31,6 @@ void EditSpace::runEvent(Event* event) {
 // === On Events ===
 // === Loop Events ===
 void EditSpace::onBeginLoop(Event* event) {
-    // dcache.mousedx = 0.0f;
-    // dcache.mousedy = 0.0f;
-    // dcache.mousex  = 0.0f;
-    // dcache.mousey  = 0.0f;
-
     selected_mesh = 0;
 
     camera.setDistance(6);
@@ -48,10 +43,6 @@ void EditSpace::onBeginLoop(Event* event) {
 
 void EditSpace::onStartFrame(Event* event) {
     vec4 v = event->getVec4();
-    // dcache.mousedx = v[0] - dcache.mousex;
-    // dcache.mousedy = v[1] - dcache.mousey;
-    // dcache.mousex = v[0];
-    // dcache.mousey = v[1];
     dcache.setMouse(v[0], v[1]);
     dcache.fdelta = v[2];
 
@@ -88,15 +79,9 @@ void EditSpace::onResizeWindow(Event* event) {
 
 // === Mouse Events ===
 void EditSpace::onRightMouseClick(Event* event) {
-    // float mouse_x = event->getFloat(0);
-    // float mouse_y = event->getFloat(1);
-    // camera.rightClick(mouse_x, mouse_y);
     camera.rightClick(dcache.mousex, dcache.mousey);
 }
 void EditSpace::onRightMouseHold(Event* event) {
-    // float mouse_x = event->getFloat(0);
-    // float mouse_y = event->getFloat(1);
-    // camera.rightDrag(mouse_x, mouse_y);
     camera.rightDrag(dcache.mousex, dcache.mousey);
 }
 

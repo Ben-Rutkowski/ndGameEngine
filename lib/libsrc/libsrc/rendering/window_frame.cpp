@@ -53,9 +53,7 @@ void wFrameBase::setIndices() {
 }
 
 // ======== FrameCDS ========
-wFrameCDS::~wFrameCDS() {
-    std::cout << "TODO: Delete Textures" << std::endl;
-}
+wFrameCDS::~wFrameCDS() {}
 wFrameCDS::wFrameCDS(vec2 root, vec2 end, int width, int height)
     :wFrameBase(root, end, width, height),
     color_texture(width, height),
