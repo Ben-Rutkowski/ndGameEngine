@@ -14,11 +14,12 @@ enum t2Filter {
 class Texture2D {
 private:
     unsigned int texture_id;
-    int width, height;
+    int frame_width, frame_height;
 
 public:
     Texture2D(int width, int height);
     void config(t2Type type);
+    void config(t2Type type, int width, int height);
     void setFilter(t2Filter min, t2Filter max);
 
     unsigned int getId();

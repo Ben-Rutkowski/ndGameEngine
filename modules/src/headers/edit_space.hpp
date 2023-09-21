@@ -96,7 +96,8 @@ private:
     void onDebug(Event* event);
     void onBeginLoop(Event* event);
     void onStartFrame(Event* event);
-    void onDrawFrame(Event* event);
+    void onDrawWindowFrame(Event* event);
+    void onDraw(Event* event);
     void onEndFrame(Event* event);
     void onResizeFrame(Event* event);
     void onResizeWindow(Event* event);

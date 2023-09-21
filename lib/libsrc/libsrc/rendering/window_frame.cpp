@@ -2,7 +2,9 @@
 
 wFrameBase::wFrameBase(vec2 root, vec2 end, int width, int height)
     :frame_width{ width },
-    frame_height{ height } {
+    frame_height{ height },
+    root{ root },
+    end{ end } {
     glGenFramebuffers(1, &fbo);
 
     setVerts(root, end);
@@ -51,6 +53,9 @@ void wFrameBase::setIndices() {
 }
 
 // ======== FrameCDS ========
+wFrameCDS::~wFrameCDS() {
+    std::cout << "TODO: Delete Textures" << std::endl;
+}
 wFrameCDS::wFrameCDS(vec2 root, vec2 end, int width, int height)
     :wFrameBase(root, end, width, height),
     color_texture(width, height),
@@ -82,10 +87,23 @@ void wFrameCDS::draw(ShaderProgram& program) {
     vbi.unbindCurrent();
 }
 
-void wFrameCDS::bindColorTexture() {
+void wFrameCDS::resize(int width, int height) {
+    frame_width  = width;
+    frame_height = height;
+
     color_texture.bind();
+    color_texture.config(t2RGBA, frame_width, frame_height);
+    depth_stencil_texture.bind();
+    depth_stencil_texture.config(t2DEPTH_STENCIL, frame_width, frame_height);
+    depth_stencil_texture.unbind();
 }
 
-wFrameCDS::~wFrameCDS() {
-    std::cout << "TODO: Delete Textures" << std::endl;
+void wFrameCDS::resizeRelative(int global_width, int global_height) {
+    // std::cout << "Global Width: " << global_width << ", Global Height: " << global_height << std::endl;
+
+    int width   = math::clipToPixel(end[0], global_width) - math::clipToPixel(root[0], global_width);
+    int height  = math::clipToPixel(end[1], global_height) - math::clipToPixel(root[1], global_height);
+
+    // std::cout << "Width: " << width << ", Height: " << height << std::endl;
+    resize(width, height);
 }

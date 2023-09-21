@@ -1,6 +1,8 @@
 TODO: 
 == Imidiate tasks
 
+- All mouse operations are relative to the frame.
+
 - Face Mode and Wire Mode
 - Logging operations to allow undo
 - Extrude Faces 

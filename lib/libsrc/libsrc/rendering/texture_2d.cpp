@@ -1,12 +1,16 @@
 #include "rendering/texture_2d.hpp"
 
 Texture2D::Texture2D(int width, int height)
-    :width{ width }, height{ height } {
+    :frame_width{ width }, frame_height{ height } {
 
     glGenTextures(1, &texture_id);
 }
 
-void Texture2D::config(t2Type type) {
+void Texture2D::config(t2Type type) { config(type, frame_width, frame_height); }
+void Texture2D::config(t2Type type, int width, int height) {
+    frame_width  = width;
+    frame_height = height;
+
     switch (type) {
     case t2RGBA:
         glTexImage2D(

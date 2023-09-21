@@ -43,6 +43,13 @@ struct DimensionCache {
     float mousex, mousey;
     float mousedx, mousedy;
 
+    void setMouse(float x, float y) {
+        mousedx = x - mousex;
+        mousedy = y - mousey;
+        mousex = x;
+        mousey = y;
+    }
+
     float FW() { return (float)fw; }
     float FH() { return (float)fh; }
     float WW() { return (float)ww; }

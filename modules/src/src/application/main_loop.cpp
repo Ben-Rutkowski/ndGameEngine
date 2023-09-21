@@ -11,7 +11,8 @@ void ndApp::startApp() {
         startFrame();
         pollEvents();
 
-        drawFrame();
+        drawWindowFrame();
+        draw();
         pollEvents();
         
         endFrame();

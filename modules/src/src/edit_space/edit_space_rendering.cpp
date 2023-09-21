@@ -125,6 +125,7 @@ void EditSpace::drawFaceMode() {
 
     int N_mesh = meshes.size();
 
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     for (int i=0; i<N_mesh; i++) {

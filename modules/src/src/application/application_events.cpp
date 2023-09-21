@@ -20,8 +20,12 @@ void ndApp::startFrame() {
     event_manager.propogateEvent4f(module_name, Data::START_FRAME, mouse);
 }
 
-void ndApp::drawFrame() {
-    event_manager.propogateEvent(module_name, Data::DRAW_FRAME);
+void ndApp::drawWindowFrame() {
+    event_manager.propogateEvent(module_name, Data::DRAW_WINDOW_FRAME);
+}
+
+void ndApp::draw() {
+    event_manager.propogateEvent(module_name, Data::DRAW);
 }
 
 void ndApp::endFrame() {

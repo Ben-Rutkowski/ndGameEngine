@@ -17,7 +17,8 @@ EventNameMap getEventNameMap() {
     map.addEntry(Data::RESIZE_FRAME,      std::string("RESIZE_FRAME"));
     map.addEntry(Data::RESIZE_WINDOW,     std::string("RESIZE_WINDOW"));
     map.addEntry(Data::START_FRAME,       std::string("START_FRAME"));
-    map.addEntry(Data::DRAW_FRAME,        std::string("DRAW_FRAME"));
+    map.addEntry(Data::DRAW_WINDOW_FRAME, std::string("DRAW_WINDOW_FRAME"));
+    map.addEntry(Data::DRAW,              std::string("DRAW"));
     map.addEntry(Data::END_FRAME,         std::string("END_FRAME"));
     map.addEntry(Data::COLLECT_MENU_KEYS, std::string("COLLECT_MENU_KEYS"));
     map.addEntry(Data::ESCAPE_KEY,        std::string("ESCAPE_KEY"));

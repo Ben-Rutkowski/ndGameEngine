@@ -74,7 +74,8 @@ public:
 private:
     void beginLoop();
     void startFrame();
-    void drawFrame();
+    void drawWindowFrame();
+    void draw();
     void endFrame();
     void pollEvents();
 

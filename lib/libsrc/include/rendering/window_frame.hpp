@@ -19,6 +19,7 @@ class wFrameBase {
 protected:
     unsigned int fbo;
     int frame_width, frame_height;
+    vec2 root, end;
 
 // --- Rendering ---
     VertexBufferInterface vbi;
@@ -31,7 +32,8 @@ public:
 
     void load();
     virtual void draw(ShaderProgram& program) = 0;
-    // virtual void resize(int width, int height) = 0;
+    virtual void resize(int width, int height) = 0;
+    virtual void resizeRelative(int global_width, int global_height) = 0;
 
     void startDraw();
     void endDraw();
@@ -58,7 +60,8 @@ public:
     ~wFrameCDS();
 
     void draw(ShaderProgram& program);
-    void bindColorTexture();
+    void resize(int width, int height);
+    void resizeRelative(int global_width, int global_height);
 };
 
 #endif

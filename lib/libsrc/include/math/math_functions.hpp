@@ -15,6 +15,10 @@ T roundPlace(T value, int place) {
 
 float rads(float value);
 float remander(float numerator, float denomenator);
+// coordinate in clip space to the pixel in the span  
+// eg 0.0 -> 300 when width is 600
+float clipToPixel(float coord, int pixel_span); 
+
 
 }
 

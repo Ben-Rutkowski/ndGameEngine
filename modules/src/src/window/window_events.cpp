@@ -12,7 +12,8 @@ void ndWindow::setCallbacks() {
     // Event Callbacks
     setEvent(Data::COLLECT_MENU_KEYS, {&ndWindow::onCollectMenuKeys});
     setEvent(Data::START_FRAME, {&ndWindow::onStartFrame});
-    setEvent(Data::DRAW_FRAME, {&ndWindow::onDrawFrame});
+    setEvent(Data::DRAW_WINDOW_FRAME, {&ndWindow::onDrawWindowFrame});
+    setEvent(Data::DRAW, {&ndWindow::onDraw});
     setEvent(Data::ESCAPE_KEY, {&ndWindow::onEscapeKey});
     setEvent(Data::CLOSE_APP, {&ndWindow::onCloseApp});
     setEvent(Data::RESIZE_FRAME, {&ndWindow::onResizeFrame});
@@ -95,14 +96,12 @@ void ndWindow::onCollectMenuKeys(Event* event) {
 }
 
 void ndWindow::onStartFrame(Event* event) {
-    // OpenGL
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    
     event_interface.manager->propogateEvent(module_name, Data::COLLECT_MENU_KEYS);
 }
 
-void ndWindow::onDrawFrame(Event* event) {
-
+void ndWindow::onDrawWindowFrame(Event* event) {}
+void ndWindow::onDraw(Event* event) {
+    glViewport(0, 0, dcache.fw, dcache.fh);
 }
 
 void ndWindow::onEndFrame(Event* event) {
@@ -112,7 +111,7 @@ void ndWindow::onEndFrame(Event* event) {
 
     // Display Framerate
     if (clock.check(Watch::FRAMERATE, 3.0)) {
-        // std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
+        std::cout << clock.rate(Watch::FRAMERATE) << std::endl;
         clock.click(Watch::FRAMERATE);
     }
 }

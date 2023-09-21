@@ -12,3 +12,8 @@ float math::remander(float numerator, float denomenator) {
     if (numerator > 0.0f) { return remainder; } 
     else                  { return -remainder; }
 }
+
+float math::clipToPixel(float coord, int pixel_span) {
+    float screen = 0.5f*(coord + 1.0f);
+    return floor(screen*pixel_span);
+}

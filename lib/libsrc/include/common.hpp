@@ -20,7 +20,7 @@ enum class Module { null = 0, TEST,
 
 enum class Data { null = 0, TEST, DEBUG,
     /* Operations */ CLOSE_APP, RESIZE_FRAME, RESIZE_WINDOW, 
-    /* Runtime */    BEGIN_LOOP, START_FRAME, DRAW_FRAME, END_FRAME,          
+    /* Runtime */    BEGIN_LOOP, START_FRAME, DRAW_WINDOW_FRAME, DRAW, END_FRAME,          
     /* Key Events */ COLLECT_MENU_KEYS, ESCAPE_KEY, SCROLL,
                      W_KEY, A_KEY, S_KEY, D_KEY, G_KEY_PRESS, G_KEY_RELEASE,
                      RIGHT_MOUSE_CLICK, RIGHT_MOUSE_HOLD, RIGHT_MOUSE_RELEASE,

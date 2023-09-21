@@ -87,7 +87,8 @@ public:
     void onBeginLoop(Event* event);
     void onCollectMenuKeys(Event* event);
     void onStartFrame(Event* event);
-    void onDrawFrame(Event* event);
+    void onDrawWindowFrame(Event* event);
+    void onDraw(Event* evnet);
     void onEndFrame(Event* event);
     void onEscapeKey(Event* event);
     void onCloseApp(Event* event);
