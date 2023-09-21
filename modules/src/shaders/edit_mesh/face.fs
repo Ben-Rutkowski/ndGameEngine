@@ -7,6 +7,9 @@ in float fSelect;
 out vec4 fragColor;
 
 uniform vec4 camera_pos;
+uniform vec4 color;
+uniform vec4 select_color;
+
 
 const vec3 DARK_COLOR  = 0.6*vec3(0.18, 0.2, 0.25);
 const vec3 LIGHT_COLOR = 0.8*vec3(0.8, 0.7, 0.6);

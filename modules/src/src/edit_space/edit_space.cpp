@@ -1,7 +1,5 @@
 #include "edit_space.hpp"
 
-// Module EditSpace::module_name = Module::EDIT_SPACE;
-
 EditSpace::EditSpace()
     :ndModuleInstance<EditSpace, esLEN>(Module::EDIT_SPACE),
     x_line( 
@@ -55,11 +53,23 @@ EditSpace::EditSpace()
         SELECT_BOX_SHADER_SUB_DIR"select_box_faces.fs"
     );
 
+    // === FACEMODE ===
+    fm_point_shader.compileVF(
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/point.vs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/point.fs"
+    );
+
+    fm_line_shader.compileVF(
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line.vs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line.fs"
+    );
+
+    fm_face_shader.compileVF(
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.vs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.fs"
+    );
+
     setCallbacks();
 }
-
-// void EditSpace::setManagerPtr(EventManagerOld* ptr) {
-//     event_interface.linkManager(ptr);
-// }
 
 EditMesh& EditSpace::ref(Id mesh_id) { return meshes[mesh_id]; }

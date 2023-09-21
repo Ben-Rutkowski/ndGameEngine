@@ -3,7 +3,7 @@
 
 #include "glad_glfw.hpp"
 #include "enum_map.hpp"
-#include "math/vector.hpp"
+#include "math/matrix.hpp"
 
 #include <string>
 
@@ -67,6 +67,23 @@ public:
     static GLenum      glShader(ShaderType type);
     static std::string dataName(Data data);
     static std::string moduleName(Module moduel);
+};
+
+// === SRUCTS ===
+
+struct emMaterial {
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 select_color;
+};
+
+struct CameraPack {
+    vec4 front;
+    vec4 right;
+    vec4 pos;
+
+    mat4 view;
+    mat4 proj;
 };
 
 // === CONSTANTS ===

@@ -1,3 +1,11 @@
+/*
+    Vertex:
+    | 4f position | 4f normal | 4f center | 2f center | f select |
+
+    Point:
+    | 4f position | float select |
+*/
+
 #ifndef EDIT_SPACE_HPP
 #define EDIT_SPACE_HPP
 
@@ -9,8 +17,7 @@
 #define GRIDLINE_SHADER_SUB_DIR "modules/src/shaders/gridline/"
 #define SELECT_BOX_SHADER_SUB_DIR "modules/src/shaders/select_box/"
 
-/* CLASS: EditSpace
-*/
+/* CLASS: EditSpace */
 
 enum esState { es_null = 0,
     /* FUNCTIONS */ esCARRY, 
@@ -28,6 +35,11 @@ private:
     ShaderProgram gridline_plane_shader;
     ShaderProgram select_box_line_shader;
     ShaderProgram select_box_face_shader;
+
+    // FACEMODE
+    ShaderProgram fm_point_shader;
+    ShaderProgram fm_line_shader;
+    ShaderProgram fm_face_shader;
 
 // --- Layers ---
 private:
@@ -63,6 +75,7 @@ private:
 private:
     void load();
     void draw();
+    void drawFaceMode();
 
 // --- Event Interface ---
 public:

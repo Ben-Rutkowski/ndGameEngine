@@ -15,7 +15,7 @@
 #include "edit_mesh/edit_face.hpp"
 #include "id_hash_table.hpp"
 
-enum emEdgeType { null = 0, emSEEM, emTOP, emBOTTOM };
+typedef IdHashTableStatic IdSet;
 
 /* CLASS: EditMesh
 ======== ATTRIBUTES ========
@@ -33,8 +33,7 @@ then the edges, then the face
 
 */
 
-// typedef IdHashTableOld IdSet;
-typedef IdHashTableStatic IdSet;
+enum emEdgeType { null = 0, emSEEM, emTOP, emBOTTOM };
 
 class EditMesh {
 private:
@@ -135,9 +134,12 @@ public:
 // --- Rendering ---
 public:
     void load();
-    void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
-    void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
-    void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 camera_pos);
+    // void drawPoints(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
+    // void drawLines(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color);
+    // void drawFaces(ShaderProgram& program, mat4 view, mat4 proj, vec4 color, vec4 select_color, vec4 camera_pos);
+    void drawPoints(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
+    void drawLines(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
+    void drawFaces(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
 
 private:
     void reloadPoint(Id point_id);

@@ -58,7 +58,10 @@ void EditSpace::onStartFrame(Event* event) {
         // translateSelectedPoints(vec4::basis(1));
     }
 }
-void EditSpace::onDrawFrame(Event* event) { draw(); }
+void EditSpace::onDrawFrame(Event* event) {
+    draw();
+    // drawFaceMode();
+}
 void EditSpace::onEndFrame(Event* event) {}
 
 // === Resize Events ===

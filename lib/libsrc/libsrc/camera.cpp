@@ -24,6 +24,12 @@ float Camera::getNear()  { return near; }
 float Camera::getProjH() { return near*tan(fov); }
 float Camera::getProjW() { return getProjH()*ratio; }
 
+CameraPack Camera::getPack() {
+    return CameraPack {
+        front, right, position, view, proj
+    };
+}
+
 // === Mouse ===
 void Camera::grab(float x, float y) {
     mouse_x = x;

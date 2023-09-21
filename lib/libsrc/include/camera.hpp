@@ -1,7 +1,8 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "math/matrix.hpp"
+// #include "math/matrix.hpp"
+#include "common.hpp"
 
 class Camera {
 // --- Attributes ---
@@ -37,6 +38,8 @@ public:
     float getNear();
     float getProjW();
     float getProjH();
+
+    CameraPack getPack();
 
 // --- Mouse ---
 public:

@@ -26,13 +26,20 @@ void EditSpace::draw() {
     vec4 BLUE({0.3f, 0.3f, 0.35f, 1.0f});
     vec4 DBLUE({0.2f, 0.2f, 0.2f, 1.0f});
     vec4 ORANGE({0.8f, 0.6f, 0.3f, 1.0f});
+    vec4 FACE({0.5f, 0.5f, 0.5f, 0.5f});
+
+    emMaterial line_point_mat = {BLACK, BLACK, ORANGE};
+    emMaterial back_point_mat = {DBLUE, DBLUE, ORANGE};
+    emMaterial face_mat = {FACE, FACE};
 
     mat4 view = camera.getView();
     mat4 proj = camera.getProj();
-    vec4 camera_pos = camera.getPos();
+
+    CameraPack cp = camera.getPack();
+
+    // ==== DRAW ROUTINE ====
 
     int N = meshes.size();
-
     // Draw Lines and points.
     // Write Every point to the depth buffer.
     glEnable(GL_DEPTH_TEST);
@@ -42,8 +49,10 @@ void EditSpace::draw() {
     z_line.drawPlane(gridline_shader, gridline_plane_shader, view, proj);
 
     for (int i=0; i<N; i++) {
-        meshes[i].drawLines(line_shader, view, proj, BLACK, ORANGE);
-        meshes[i].drawPoints(point_shader, view, proj, BLACK, ORANGE);
+        // meshes[i].drawLines(line_shader, view, proj, BLACK, ORANGE);
+        // meshes[i].drawPoints(point_shader, view, proj, BLACK, ORANGE);
+        meshes[i].drawLines(line_shader, cp, line_point_mat);
+        meshes[i].drawPoints(point_shader, cp, line_point_mat);
     }
 
     // Stencil face fragments with polygon offset
@@ -58,7 +67,7 @@ void EditSpace::draw() {
     glEnable(GL_POLYGON_OFFSET_FILL);
     glPolygonOffset(0.5f, 1.0f);
     for (int i=0; i<N; i++) {
-        meshes[i].drawFaces(face_shader, view, proj, camera_pos);
+        meshes[i].drawFaces(face_shader, cp, face_mat);
     }
     glDisable(GL_POLYGON_OFFSET_FILL);
 
@@ -73,15 +82,15 @@ void EditSpace::draw() {
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     for (int i=0; i<N; i++) {
-        meshes[i].drawFaces(face_shader, view, proj, camera_pos);
+        meshes[i].drawFaces(face_shader, cp, face_mat);
     }
     glDisable(GL_BLEND);
 
     // Draw Lines and Points Occluded 
     glStencilFunc(GL_EQUAL, 1, 0xFF);
     for (int i=0; i<N; i++) {
-        meshes[i].drawPoints(point_shader, view, proj, DBLUE, ORANGE);
-        meshes[i].drawLines(line_shader, view, proj, DBLUE, ORANGE);
+        meshes[i].drawPoints(point_shader, cp, back_point_mat);
+        meshes[i].drawLines(line_shader, cp, back_point_mat);
     }
 
     glDisable(GL_STENCIL_TEST);
@@ -97,4 +106,35 @@ void EditSpace::draw() {
     }
 
     // debug_box.draw(camera.getView(), camera.getProj());
+}
+
+void EditSpace::drawFaceMode() {
+    emMaterial line_point_material = {
+        vec4({0.2f, 0.2f, 0.2f, 1.0f}), // Ambient Color
+        vec4({0.2f, 0.2f, 0.2f, 1.0f}), // Diffuse Color
+        vec4({0.8f, 0.6f, 0.3f, 1.0f})  // Select Color
+    };
+    emMaterial face_material = {
+        vec4({0.2f, 0.15f, 0.15f, 1.0f}), // Ambient Color
+        vec4({0.75f, 0.7f, 0.7f, 1.0f}),  // Diffuse Color
+        vec4({1.0f, 1.0f, 1.0f, 1.0f})    // Select Color
+    };
+    CameraPack camera_pack = camera.getPack();
+
+    int N_mesh = meshes.size();
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    for (int i=0; i<N_mesh; i++) {
+        meshes[i].drawPoints(fm_point_shader, camera_pack, line_point_material);
+        meshes[i].drawLines(fm_point_shader, camera_pack, line_point_material);
+    }
+
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(0.5f, 1.0f);
+    for (int i=0; i<N_mesh; i++) {
+        meshes[i].drawFaces(fm_face_shader, camera_pack, face_material);
+    }
+    glDisable(GL_POLYGON_OFFSET_FILL);
+    glDisable(GL_DEPTH_TEST);
 }

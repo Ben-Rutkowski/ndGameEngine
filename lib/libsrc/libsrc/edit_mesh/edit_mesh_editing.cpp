@@ -18,14 +18,13 @@ Id EditMesh::createTri(Id3 point_ids, Id3 edges_id) {
 
     vec4 curr_point_pos;
     for (int i=0; i<3; i++) {
-        curr_point_pos = point(point_ids[i]).getPos();
-
-        // Create Vertex
-        vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
-
         // Pair Point and Edge
         point_cache.pairFace(point_ids[i], face_id);
         edge_cache.pairFace(edges_id[i], face_id);
+
+        // Create Vertex
+        curr_point_pos = point(point_ids[i]).getPos();
+        vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
 
         // Add to Face
         face(face_id).addPoint(point_ids[i], vert_ids[i]);
@@ -49,14 +48,13 @@ Id EditMesh::createQuad(Id4 point_ids, Id4 edge_ids) {
 
     vec4 curr_point_pos;
     for (int i=0; i<4; i++) {
-        curr_point_pos = point(point_ids[i]).getPos();
-
-        // Create Vertex
-        vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
-
         // Pair Point and Edge
         point_cache.pairFace(point_ids[i], face_id);
         edge_cache.pairFace(edge_ids[i], face_id);
+
+        // Create Vertex
+        curr_point_pos = point(point_ids[i]).getPos();
+        vert_ids[i] = vertex_cache.addVertex(curr_point_pos);
 
         // Add to Face
         face(face_id).addPoint(point_ids[i], vert_ids[i]);
@@ -213,7 +211,7 @@ void EditMesh::extrudeFaceTest(Id face_id) {
     int j;
     for (int i=0; i<4; i++) {
         j = (i+1)%4;
-        createQuadFromEdge(wrap_order[i], wrap_order[j], point_ids, edge_pairs);
+        createQuadFromEdge(wrap_order[j], wrap_order[i], point_ids, edge_pairs);
     }
 
     load();
