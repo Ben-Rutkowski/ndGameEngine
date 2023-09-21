@@ -2,6 +2,7 @@
 
 EditSpace::EditSpace()
     :ndModuleInstance<EditSpace, esLEN>(Module::EDIT_SPACE),
+    window_frame(vec2(-1.0f), vec2(1.0f), 800, 600),
     x_line( 
         vec4({1.0f, 0.0f ,0.0f, 1.0f}),
         vec4({0.2f, 0.8f, 0.2f, 1.0f})
@@ -13,7 +14,7 @@ EditSpace::EditSpace()
     z_line( 
         vec4({0.0f, 0.0f ,1.0f, 1.0f}),
         vec4({0.8f, 0.2f, 0.2f, 1.0f})
-    )  {
+    ) {
 
     dcache.ww = 800.0f;
     dcache.wh = 600.0f;
@@ -67,6 +68,12 @@ EditSpace::EditSpace()
     fm_face_shader.compileVF(
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.vs",
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.fs"
+    );
+
+    // === TEST ===
+    test_window_frame_shader.compileVF(
+        "modules/src/shaders/debugging/framebuffertest.vs",
+        "modules/src/shaders/debugging/framebuffertest.fs"
     );
 
     setCallbacks();

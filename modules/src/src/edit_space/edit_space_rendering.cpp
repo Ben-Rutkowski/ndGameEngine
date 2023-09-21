@@ -19,6 +19,8 @@ void EditSpace::load() {
     for (int i=0; i<N; i++) {
         meshes[i].load();
     }
+
+    window_frame.load();
 }
 
 void EditSpace::draw() {

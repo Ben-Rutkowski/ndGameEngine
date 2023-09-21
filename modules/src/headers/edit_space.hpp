@@ -10,6 +10,7 @@
 #define EDIT_SPACE_HPP
 
 #include "edit_space_lib.hpp"
+#include "rendering/window_frame.hpp"
 #include "nd_module.hpp"
 #include "debug_box.hpp"
 
@@ -36,10 +37,16 @@ private:
     ShaderProgram select_box_line_shader;
     ShaderProgram select_box_face_shader;
 
+    // WINDOW FRAME
+    wFrameCDS window_frame;
+    // TEST
+    ShaderProgram test_window_frame_shader;
+
     // FACEMODE
     ShaderProgram fm_point_shader;
     ShaderProgram fm_line_shader;
     ShaderProgram fm_face_shader;
+
 
 // --- Layers ---
 private:

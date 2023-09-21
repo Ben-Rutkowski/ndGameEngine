@@ -24,6 +24,7 @@ public:
 // --- Uniforms ---
 public:
     int  uniformLocation(const char* name);
+    void uniform1i(const char* name, int c);
     void uniform1f(const char* name, float c);
     void uniform2f(const char* name, vec2 v);
     void uniform3f(const char* name, vec3 v);
