@@ -112,7 +112,7 @@ void EditSpace::draw() {
 
 void EditSpace::drawFaceMode() {
     emMaterial line_point_material = {
-        vec4({0.2f, 0.2f, 0.2f, 1.0f}), // Ambient Color
+        vec4({0.0f, 0.0f, 0.0f, 1.0f}), // Ambient Color
         vec4({0.2f, 0.2f, 0.2f, 1.0f}), // Diffuse Color
         vec4({0.8f, 0.6f, 0.3f, 1.0f})  // Select Color
     };
@@ -123,6 +123,9 @@ void EditSpace::drawFaceMode() {
     };
     CameraPack camera_pack = camera.getPack();
 
+    // float WIDTH = 0.002f;
+    float WIDTH = 0.003f;
+
     int N_mesh = meshes.size();
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
@@ -130,11 +133,12 @@ void EditSpace::drawFaceMode() {
     glDepthFunc(GL_LESS);
     for (int i=0; i<N_mesh; i++) {
         meshes[i].drawPoints(fm_point_shader, camera_pack, line_point_material);
-        meshes[i].drawLines(fm_point_shader, camera_pack, line_point_material);
+        // meshes[i].drawLines(fm_point_shader, camera_pack, line_point_material);
+        meshes[i].drawLinesTEST(line_test_shader, camera_pack, line_point_material, WIDTH);
     }
 
     glEnable(GL_POLYGON_OFFSET_FILL);
-    glPolygonOffset(0.5f, 1.0f);
+    glPolygonOffset(1.0f, 1.0f);
     for (int i=0; i<N_mesh; i++) {
         meshes[i].drawFaces(fm_face_shader, camera_pack, face_material);
     }

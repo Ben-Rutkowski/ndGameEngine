@@ -53,7 +53,6 @@ void EditSpace::onStartFrame(Event* event) {
 }
 void EditSpace::onDrawWindowFrame(Event* event) {
     window_frame.startDraw();
-    // draw();
     drawFaceMode();
     window_frame.endDraw();
 }

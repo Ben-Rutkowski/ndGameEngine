@@ -141,6 +141,8 @@ public:
     void drawLines(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
     void drawFaces(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
 
+    void drawLinesTEST(ShaderProgram& program, CameraPack camera_pack, emMaterial material, float width);
+
 private:
     void reloadPoint(Id point_id);
     void reloadVertex(Id vert_id);

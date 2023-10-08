@@ -41,6 +41,7 @@ private:
     wFrameCDS window_frame;
     // TEST
     ShaderProgram test_window_frame_shader;
+    ShaderProgram line_test_shader;
 
     // FACEMODE
     ShaderProgram fm_point_shader;

@@ -9,6 +9,9 @@ An EditCache contains a stack of objects. An EditCache also
 contains references to every edge and every face that contains
 the point.
 
+TODO: Add a memory system to track changes of pairs and adds to the cache and 
+eliminations to the cache.
+
 */
 
 typedef unsigned int Id;

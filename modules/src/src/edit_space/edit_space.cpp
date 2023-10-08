@@ -76,6 +76,12 @@ EditSpace::EditSpace()
         "modules/src/shaders/debugging/framebuffertest.fs"
     );
 
+    line_test_shader.compileVGF(
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line_test.vs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line_test.gs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line_test.fs"
+    );
+
     setCallbacks();
 }
 
