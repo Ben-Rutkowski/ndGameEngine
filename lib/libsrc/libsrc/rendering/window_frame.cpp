@@ -12,6 +12,16 @@ wFrameBase::wFrameBase(vec2 root, vec2 end, int width, int height)
 }
 wFrameBase::~wFrameBase() { glDeleteFramebuffers(1, &fbo); }
 
+void wFrameBase::resizeRelative(int global_width, int global_height) {
+    std::cout << "Global Width: " << global_width << ", Global Height: " << global_height << std::endl;
+
+    int width   = math::clipToPixel(end[0], global_width) - math::clipToPixel(root[0], global_width);
+    int height  = math::clipToPixel(end[1], global_height) - math::clipToPixel(root[1], global_height);
+
+    std::cout << "Width: " << width << ", Height: " << height << std::endl;
+    resize(width, height);
+}
+
 void wFrameBase::load() {
     vbi.bindAllBuffers();
     vbi.loadVerticesStatic(vertices, sizeof(vertices));
@@ -52,7 +62,7 @@ void wFrameBase::setIndices() {
     indices[5] = 0;
 }
 
-// ======== FrameCDS ========
+// ======== wFrameCDS ========
 wFrameCDS::~wFrameCDS() {}
 wFrameCDS::wFrameCDS(vec2 root, vec2 end, int width, int height)
     :wFrameBase(root, end, width, height),
@@ -96,12 +106,31 @@ void wFrameCDS::resize(int width, int height) {
     depth_stencil_texture.unbind();
 }
 
-void wFrameCDS::resizeRelative(int global_width, int global_height) {
-    // std::cout << "Global Width: " << global_width << ", Global Height: " << global_height << std::endl;
+// ======== wFrameD ========
+wFrameD::~wFrameD() {}
+wFrameD::wFrameD(vec2 root, vec2 end, int width, int height)
+    :wFrameBase(root, end, width, height),
+    depth_texture(width, height) {
 
-    int width   = math::clipToPixel(end[0], global_width) - math::clipToPixel(root[0], global_width);
-    int height  = math::clipToPixel(end[1], global_height) - math::clipToPixel(root[1], global_height);
+    depth_texture.bind();
+    depth_texture.config(t2DEPTH);
+    depth_texture.setFilter(t2NEAREST, t2NEAREST);
+    depth_texture.unbind();
 
-    // std::cout << "Width: " << width << ", Height: " << height << std::endl;
-    resize(width, height);
+    bind();
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_texture.getId(), 0);
+    unbind();
+}
+
+void wFrameD::resize(int width, int height) {
+    frame_width  = width;
+    frame_height = height;
+
+    depth_texture.bind();
+    depth_texture.config(t2DEPTH, frame_width, frame_height);
+    depth_texture.unbind();
+}
+
+unsigned int wFrameD::getID() {
+    return depth_texture.getId();
 }

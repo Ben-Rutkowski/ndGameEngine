@@ -27,15 +27,21 @@ void Texture2D::config(t2Type type, int width, int height) {
         );
         return;
 
+    case t2DEPTH:
+        glTexImage2D(
+            GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0,
+            GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL
+        );
+        return;
+
     default:
         std::cout << "NOT IMPLEMENTED" << std::endl;
     }
 }
 
 void Texture2D::setFilter(t2Filter min, t2Filter max) {
-    std::cout << "TODO: Implement Texture2D::setFilter" << std::endl;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    setFilterMinMag(min, GL_TEXTURE_MIN_FILTER);
+    setFilterMinMag(max, GL_TEXTURE_MAG_FILTER);
 }
 
 unsigned int Texture2D::getId() { return texture_id; } 
@@ -46,4 +52,16 @@ void Texture2D::bind() {
 
 void Texture2D::unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+// ======== Private ========
+inline void Texture2D::setFilterMinMag(t2Filter type, GLenum min_mag) {
+    switch (type) {
+    case t2NEAREST:
+        glTexParameteri(GL_TEXTURE_2D, min_mag, GL_NEAREST);
+        return;
+    
+    default:
+        std::cout << "TODO: Implement Texture2D::setFilter" << std::endl;
+    }
 }

@@ -4,7 +4,7 @@
 #include "common.hpp"
 
 enum t2Type { 
-    t2RGBA, t2DEPTH_STENCIL
+    t2RGBA, t2DEPTH, t2DEPTH_STENCIL
 };
 
 enum t2Filter {
@@ -27,6 +27,9 @@ public:
 
     void bind();
     void unbind();
+
+private:
+    inline void setFilterMinMag(t2Filter type, GLenum min_mag);
 };
 
 #endif

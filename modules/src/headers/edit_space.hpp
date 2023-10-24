@@ -39,6 +39,8 @@ private:
 
     // WINDOW FRAME
     wFrameCDS window_frame;
+    wFrameCDS cull_frame;
+
     // TEST
     ShaderProgram test_window_frame_shader;
     ShaderProgram line_test_shader;
@@ -83,6 +85,7 @@ private:
 private:
     void load();
     void draw();
+    void drawFaceModeOld();
     void drawFaceMode();
 
 // --- Event Interface ---

@@ -33,7 +33,7 @@ public:
     void load();
     virtual void draw(ShaderProgram& program) = 0;
     virtual void resize(int width, int height) = 0;
-    virtual void resizeRelative(int global_width, int global_height) = 0;
+    virtual void resizeRelative(int global_width, int global_height);
 
     void startDraw();
     void endDraw();
@@ -48,7 +48,8 @@ private:
 };
 
 /*  CLASS: wFrameCDS
-    A frame with Color, Depth, and Stencil Buffers */
+    A frame with Color, Depth, and Stencil Buffers
+*/
 
 class wFrameCDS : public wFrameBase {
 private:
@@ -61,7 +62,22 @@ public:
 
     void draw(ShaderProgram& program);
     void resize(int width, int height);
-    void resizeRelative(int global_width, int global_height);
+};
+
+/* CLASS: wFrameD
+    A frame with only depth.
+*/
+
+class wFrameD : public wFrameBase {
+private:
+    Texture2D depth_texture;
+
+public:
+    wFrameD(vec2 root, vec2 end, int width, int height);
+    ~wFrameD();
+    
+    void resize(int width, int height);
+    unsigned int getID();
 };
 
 #endif
