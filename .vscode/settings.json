@@ -71,6 +71,7 @@
         "utility": "cpp",
         "filesystem": "cpp",
         "numeric": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "charconv": "cpp"
     }
 }

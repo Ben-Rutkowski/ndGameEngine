@@ -1,7 +1,7 @@
 TODO: 
 == Imidiate tasks
 
-+ CHANGE PAIR CACHE TO BINARY SEARCH TREE
++ CHANGE PAIR CACHE TO BALANCED BINARY SEARCH TREE
 
 - Face Mode and Wire Mode
 - Logging operations to allow undo
