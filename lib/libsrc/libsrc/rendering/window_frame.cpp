@@ -122,6 +122,8 @@ wFrameD::wFrameD(vec2 root, vec2 end, int width, int height)
     unbind();
 }
 
+void wFrameD::draw(ShaderProgram& program) { std::cout << "wFrameD::draw not implemented" << std::endl; }
+
 void wFrameD::resize(int width, int height) {
     frame_width  = width;
     frame_height = height;

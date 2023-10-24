@@ -14,6 +14,7 @@
 #include "rendering/vertex_buffer_interface.hpp"
 #include "edit_mesh/edit_face.hpp"
 #include "id_hash_table.hpp"
+#include "rendering/window_frame.hpp"
 
 typedef IdHashTableStatic IdSet;
 
@@ -141,7 +142,7 @@ public:
     void drawLines(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
     void drawFaces(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
 
-    void drawLinesTEST(ShaderProgram& program, CameraPack camera_pack, emMaterial material, float width);
+    void drawLinesTEST(ShaderProgram& program, wFrameD cull_frame, CameraPack camera_pack, emMaterial material, float width);
 
 private:
     void reloadPoint(Id point_id);

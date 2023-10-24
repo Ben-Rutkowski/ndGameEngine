@@ -39,7 +39,7 @@ private:
 
     // WINDOW FRAME
     wFrameCDS window_frame;
-    wFrameCDS cull_frame;
+    wFrameD   cull_frame;
 
     // TEST
     ShaderProgram test_window_frame_shader;

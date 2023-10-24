@@ -128,13 +128,14 @@ void EditSpace::drawFaceModeOld() {
 
     int N_mesh = meshes.size();
 
+    window_frame.startDraw();
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     for (int i=0; i<N_mesh; i++) {
         meshes[i].drawPoints(fm_point_shader, camera_pack, line_point_material);
         // meshes[i].drawLines(fm_point_shader, camera_pack, line_point_material);
-        meshes[i].drawLinesTEST(line_test_shader, camera_pack, line_point_material, WIDTH);
+        // meshes[i].drawLinesTEST(line_test_shader, camera_pack, line_point_material, WIDTH);
     }
 
     glEnable(GL_POLYGON_OFFSET_FILL);
@@ -144,6 +145,7 @@ void EditSpace::drawFaceModeOld() {
     }
     glDisable(GL_POLYGON_OFFSET_FILL);
     glDisable(GL_DEPTH_TEST);
+    window_frame.endDraw();
 }
 
 void EditSpace::drawFaceMode() {
@@ -159,5 +161,26 @@ void EditSpace::drawFaceMode() {
     };
     CameraPack camera_pack = camera.getPack();
 
-    
+    float WIDTH = 0.003f;
+    int N_mesh = meshes.size();
+
+    cull_frame.startDraw();
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(0.0f, 1.0f);
+    for (int i=0; i<N_mesh; i++) {
+        meshes[i].drawFaces(fm_face_shader, camera_pack, face_material);
+    }
+    glDisable(GL_POLYGON_OFFSET_FILL);
+    glDisable(GL_DEPTH_TEST);
+    cull_frame.endDraw();
+
+    window_frame.startDraw();
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+    for (int i=0; i<N_mesh; i++) {
+        meshes[i].drawLinesTEST(line_test_shader, cull_frame, camera_pack, line_point_material, WIDTH);
+    }   
+    window_frame.endDraw();
 }

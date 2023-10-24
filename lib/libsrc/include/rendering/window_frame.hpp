@@ -75,8 +75,10 @@ private:
 public:
     wFrameD(vec2 root, vec2 end, int width, int height);
     ~wFrameD();
-    
+
+    void draw(ShaderProgram& program);
     void resize(int width, int height);
+
     unsigned int getID();
 };
 
