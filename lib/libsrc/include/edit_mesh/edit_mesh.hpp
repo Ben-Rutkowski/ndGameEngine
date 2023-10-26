@@ -142,7 +142,7 @@ public:
     void drawLines(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
     void drawFaces(ShaderProgram& program, CameraPack camera_pack, emMaterial material);
 
-    void drawLinesTEST(ShaderProgram& program, wFrameD cull_frame, CameraPack camera_pack, emMaterial material, float width);
+    void drawLinesTEST(ShaderProgram& program, wFrameCDS cull_frame, CameraPack camera_pack, emMaterial material, float width);
 
 private:
     void reloadPoint(Id point_id);

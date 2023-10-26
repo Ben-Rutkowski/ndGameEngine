@@ -62,6 +62,9 @@ public:
 
     void draw(ShaderProgram& program);
     void resize(int width, int height);
+
+    void bindSample();
+    void unbindSample();
 };
 
 /* CLASS: wFrameD

@@ -39,7 +39,7 @@ private:
 
     // WINDOW FRAME
     wFrameCDS window_frame;
-    wFrameD   cull_frame;
+    wFrameCDS cull_frame;
 
     // TEST
     ShaderProgram test_window_frame_shader;
@@ -49,6 +49,7 @@ private:
     ShaderProgram fm_point_shader;
     ShaderProgram fm_line_shader;
     ShaderProgram fm_face_shader;
+    ShaderProgram fm_face_depth_shader;
 
 
 // --- Layers ---

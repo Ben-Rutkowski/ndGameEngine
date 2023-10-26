@@ -8,17 +8,21 @@ uniform mat4 view;
 uniform mat4 proj;
 
 out VS_OUT {
-    vec2 v;
     float select;
-    float w;
+    float depth;
 } vs_out;
+
+uniform sampler2D cull_frame;
 
 void main() {
     vs_out.select = vSelect;
     gl_Position   = proj*view*model*vPos;
 
-    vs_out.w      = gl_Position.w;
-    vs_out.v      = (1.0/gl_Position.w)*gl_Position.xy;
+    float w = gl_Position.w;
+    vec2  v = (1.0/w)*gl_Position.xy;
+    vec2  vc = 0.5*(v + vec2(1,1));
 
-    // gl_Position   = (1.0/gl_Position.w)*gl_Position;
+    // float depth = 2.0*texture(cull_frame, v.xy).x - 1.0;
+    vs_out.depth = texture(cull_frame, vc.xy).x;
+    // vs_out.depth = 1.0;
 }

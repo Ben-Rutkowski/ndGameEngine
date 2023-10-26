@@ -142,7 +142,10 @@ void EditMesh::drawFaces(ShaderProgram& program, CameraPack cp, emMaterial m) {
     face_vbi.unbindCurrent();
 }
 
-void EditMesh::drawLinesTEST(ShaderProgram& program, wFrameD cull_frame, CameraPack cp, emMaterial m, float w) {
+void EditMesh::drawLinesTEST(ShaderProgram& program, wFrameCDS cull_frame, CameraPack cp, emMaterial m, float w) {
+    glActiveTexture(GL_TEXTURE0);
+    cull_frame.bindSample();
+
     program.use();
     program.uniformMat4f("model", model_pos);
     program.uniformMat4f("view", cp.view);
@@ -153,7 +156,7 @@ void EditMesh::drawLinesTEST(ShaderProgram& program, wFrameD cull_frame, CameraP
     program.uniform4f("diffuse_color", m.diffuse);
     program.uniform4f("select_color", m.select_color);
 
-    
+    program.uniform1i("cull_frame", 0);
 
     line_vbi.bindCurrent();
     line_vbi.drawElementsLines(edge_cache.indexLen());

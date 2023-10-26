@@ -3,7 +3,7 @@
 EditSpace::EditSpace()
     :ndModuleInstance<EditSpace, esLEN>(Module::EDIT_SPACE),
     window_frame(vec2({-1.0f, -1.0f}), vec2(1.0f), 800, 600),
-    cull_frame(vec2(-1.0f), vec2(1.0f), 800, 600),
+    cull_frame(vec2({-1.0f, -1.0f}), vec2(1.0f), 800, 600),
     x_line( 
         vec4({1.0f, 0.0f ,0.0f, 1.0f}),
         vec4({0.2f, 0.8f, 0.2f, 1.0f})
@@ -69,6 +69,11 @@ EditSpace::EditSpace()
     fm_face_shader.compileVF(
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.vs",
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.fs"
+    );
+
+    fm_face_depth_shader.compileVF(
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face_depth.vs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face_depth.fs"
     );
 
     // === TEST ===

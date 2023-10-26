@@ -21,6 +21,9 @@ void EditSpace::load() {
     }
 
     window_frame.load();
+
+    // TAKE OUT v
+    cull_frame.load();
 }
 
 void EditSpace::draw() {
@@ -165,13 +168,13 @@ void EditSpace::drawFaceMode() {
     int N_mesh = meshes.size();
 
     cull_frame.startDraw();
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_POLYGON_OFFSET_FILL);
     glPolygonOffset(0.0f, 1.0f);
     for (int i=0; i<N_mesh; i++) {
-        meshes[i].drawFaces(fm_face_shader, camera_pack, face_material);
+        meshes[i].drawFaces(fm_face_depth_shader, camera_pack, face_material);
     }
     glDisable(GL_POLYGON_OFFSET_FILL);
     glDisable(GL_DEPTH_TEST);
@@ -182,5 +185,6 @@ void EditSpace::drawFaceMode() {
     for (int i=0; i<N_mesh; i++) {
         meshes[i].drawLinesTEST(line_test_shader, cull_frame, camera_pack, line_point_material, WIDTH);
     }   
+    // cull_frame.draw(test_window_frame_shader);
     window_frame.endDraw();
 }

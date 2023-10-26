@@ -106,6 +106,14 @@ void wFrameCDS::resize(int width, int height) {
     depth_stencil_texture.unbind();
 }
 
+void wFrameCDS::bindSample() {
+    color_texture.bind();
+}
+
+void wFrameCDS::unbindSample() {
+    color_texture.unbind();
+}
+
 // ======== wFrameD ========
 wFrameD::~wFrameD() {}
 wFrameD::wFrameD(vec2 root, vec2 end, int width, int height)
