@@ -44,6 +44,9 @@ void EditSpace::draw() {
 
     // ==== DRAW ROUTINE ====
 
+    window_frame.startDraw();
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+
     int N = meshes.size();
     // Draw Lines and points.
     // Write Every point to the depth buffer.
@@ -110,6 +113,8 @@ void EditSpace::draw() {
         select_box.drawLines(select_box_line_shader);
     }
 
+    window_frame.endDraw();
+
     // debug_box.draw(camera.getView(), camera.getProj());
 }
 
@@ -137,14 +142,14 @@ void EditSpace::drawFaceModeOld() {
     glDepthFunc(GL_LESS);
     for (int i=0; i<N_mesh; i++) {
         meshes[i].drawPoints(fm_point_shader, camera_pack, line_point_material);
-        // meshes[i].drawLines(fm_point_shader, camera_pack, line_point_material);
+        meshes[i].drawLines(fm_point_shader, camera_pack, line_point_material);
         // meshes[i].drawLinesTEST(line_test_shader, camera_pack, line_point_material, WIDTH);
     }
 
     glEnable(GL_POLYGON_OFFSET_FILL);
     glPolygonOffset(1.0f, 1.0f);
     for (int i=0; i<N_mesh; i++) {
-        // meshes[i].drawFaces(fm_face_shader, camera_pack, face_material);
+        meshes[i].drawFaces(fm_face_shader, camera_pack, face_material);
     }
     glDisable(GL_POLYGON_OFFSET_FILL);
     glDisable(GL_DEPTH_TEST);

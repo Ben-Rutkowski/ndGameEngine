@@ -52,7 +52,9 @@ void EditSpace::onStartFrame(Event* event) {
     }
 }
 void EditSpace::onDrawWindowFrame(Event* event) {
-    drawFaceMode();
+    // drawFaceMode();
+    // drawFaceModeOld();
+    draw();
 }
 void EditSpace::onDraw(Event* event) {
     window_frame.draw(test_window_frame_shader);
