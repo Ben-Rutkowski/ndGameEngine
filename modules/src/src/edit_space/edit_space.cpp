@@ -20,30 +20,7 @@ EditSpace::EditSpace()
     dcache.ww = 800.0f;
     dcache.wh = 600.0f;
 
-    point_shader.compileVF(
-        EDIT_SPACE_SHADER_SUB_DIR"point.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"point.fs"
-    );
-
-    line_shader.compileVF(
-        EDIT_SPACE_SHADER_SUB_DIR"line.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"line.fs"
-    );
-
-    face_shader.compileVF(
-        EDIT_SPACE_SHADER_SUB_DIR"face.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"face.fs"
-    );
-
-    gridline_shader.compileVF(
-        GRIDLINE_SHADER_SUB_DIR"gridline.vs",
-        GRIDLINE_SHADER_SUB_DIR"gridline.fs"
-    );
-
-    gridline_plane_shader.compileVF(
-        GRIDLINE_SHADER_SUB_DIR"gridline_plane.vs",
-        GRIDLINE_SHADER_SUB_DIR"gridline.fs"
-    );
+    // === Select Box ===
 
     select_box_line_shader.compileVF(
         SELECT_BOX_SHADER_SUB_DIR"select_box_lines.vs",
@@ -56,6 +33,11 @@ EditSpace::EditSpace()
     );
 
     // === FACEMODE ===
+    fm_face_depth_shader.compileVF(
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face_depth.vs",
+        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face_depth.fs"
+    );
+
     fm_point_shader.compileVF(
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/point.vs",
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/point.fs"
@@ -71,21 +53,10 @@ EditSpace::EditSpace()
         EDIT_SPACE_SHADER_SUB_DIR"face_mode/face.fs"
     );
 
-    fm_face_depth_shader.compileVF(
-        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face_depth.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"face_mode/face_depth.fs"
-    );
-
-    // === TEST ===
-    test_window_frame_shader.compileVF(
+    // === TEST FRAMES ===
+    window_frame_shader.compileVF(
         "modules/src/shaders/debugging/framebuffertest.vs",
         "modules/src/shaders/debugging/framebuffertest.fs"
-    );
-
-    line_test_shader.compileVGF(
-        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line_test.vs",
-        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line_test.gs",
-        EDIT_SPACE_SHADER_SUB_DIR"face_mode/line_test.fs"
     );
 
     setCallbacks();

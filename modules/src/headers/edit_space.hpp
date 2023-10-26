@@ -29,21 +29,11 @@ enum esState { es_null = 0,
 
 class EditSpace : public ndModuleInstance<EditSpace, esLEN> {
 private:
-    ShaderProgram point_shader;
-    ShaderProgram line_shader;
-    ShaderProgram face_shader;
-    ShaderProgram gridline_shader;
-    ShaderProgram gridline_plane_shader;
+    // AUX SHADERS
     ShaderProgram select_box_line_shader;
     ShaderProgram select_box_face_shader;
 
-    // WINDOW FRAME
-    wFrameCDS window_frame;
-    wFrameCDS cull_frame;
-
-    // TEST
-    ShaderProgram test_window_frame_shader;
-    ShaderProgram line_test_shader;
+    ShaderProgram window_frame_shader;
 
     // FACEMODE
     ShaderProgram fm_point_shader;
@@ -51,6 +41,9 @@ private:
     ShaderProgram fm_face_shader;
     ShaderProgram fm_face_depth_shader;
 
+    // WINDOW FRAME
+    wFrameCDS window_frame;
+    wFrameCDS cull_frame;
 
 // --- Layers ---
 private:
@@ -85,8 +78,6 @@ private:
 // --- Rendering ---
 private:
     void load();
-    void draw();
-    void drawFaceModeOld();
     void drawFaceMode();
 
 // --- Event Interface ---
