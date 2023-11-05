@@ -56,6 +56,7 @@ void EditSpace::onDrawWindowFrame(Event* event) {
 }
 void EditSpace::onDraw(Event* event) {
     window_frame.draw(window_frame_shader);
+    // cull_frame.draw(window_frame_shader);
 }
 void EditSpace::onEndFrame(Event* event) {}
 
@@ -65,7 +66,6 @@ void EditSpace::onResizeFrame(Event* event) {
     dcache.fh = event->getInt(1);
 
     window_frame.resizeRelative(dcache.fw, dcache.fh);
-    cull_frame.resizeRelative(dcache.fw, dcache.fh);
 
     float ratio = dcache.FW()/dcache.FH();
     camera.calcProj(ratio);

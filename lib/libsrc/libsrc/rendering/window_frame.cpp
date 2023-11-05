@@ -13,12 +13,12 @@ wFrameBase::wFrameBase(vec2 root, vec2 end, int width, int height)
 wFrameBase::~wFrameBase() { glDeleteFramebuffers(1, &fbo); }
 
 void wFrameBase::resizeRelative(int global_width, int global_height) {
-    std::cout << "Global Width: " << global_width << ", Global Height: " << global_height << std::endl;
+    // std::cout << "Global Width: " << global_width << ", Global Height: " << global_height << std::endl;
 
     int width   = math::clipToPixel(end[0], global_width) - math::clipToPixel(root[0], global_width);
     int height  = math::clipToPixel(end[1], global_height) - math::clipToPixel(root[1], global_height);
 
-    std::cout << "Width: " << width << ", Height: " << height << std::endl;
+    // std::cout << "Width: " << width << ", Height: " << height << std::endl;
     resize(width, height);
 }
 
@@ -85,7 +85,7 @@ wFrameCDS::wFrameCDS(vec2 root, vec2 end, int width, int height)
 
 void wFrameCDS::draw(ShaderProgram& program) {
     glActiveTexture(GL_TEXTURE0);
-    color_texture.bind();
+    bindSample();
 
     program.use();
     program.uniform1i("frame_texture", 0);

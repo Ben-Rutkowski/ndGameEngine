@@ -111,6 +111,26 @@ void EditMesh::drawPoints(ShaderProgram& program, CameraPack cp, emMaterial m) {
     point_vbi.unbindCurrent();
 }
 
+// void EditMesh::drawPointsTEST(ShaderProgram& program, wFrameCDS cull_frame, CameraPack cp, emMaterial m) {
+//     glActiveTexture(GL_TEXTURE0);
+//     cull_frame.bindSample();
+
+//     program.use();
+//     program.uniform1i("cull_texture", 0);
+
+//     program.uniformMat4f("model", model_pos);
+//     program.uniformMat4f("view", cp.view);
+//     program.uniformMat4f("proj", cp.proj);
+
+//     program.uniform4f("diffuse_color", m.diffuse);
+//     program.uniform4f("ambient_color", m.ambient);
+//     program.uniform4f("select_color", m.select_color);
+
+//     point_vbi.bindCurrent();
+//     point_vbi.drawPoints(point_cache.dataLen());
+//     point_vbi.unbindCurrent();
+// }
+
 void EditMesh::drawLines(ShaderProgram& program, CameraPack cp, emMaterial m) {
     program.use();
     program.uniformMat4f("model", model_pos);
