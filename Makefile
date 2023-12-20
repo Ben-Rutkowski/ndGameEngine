@@ -51,10 +51,9 @@ OUTPUT.clang		  =-o $(CURDIR)/$(BUILD)/app
 
 # --- Units and Modules ---
 
-units=$(patsubst $(SRC)/%.cpp,$(COMPILED)/%.o,$(wildcard $(SRC)/*.cpp))
-modules=$(patsubst $(SRC)/%/.,$(COMPILED)/%.o,$(wildcard $(SRC)/*/.))
-
-# compile: $(units) $(modules) 
+units   =$(patsubst $(SRC)/%.cpp,$(COMPILED)/%.o,$(wildcard $(SRC)/*.cpp))
+modules =$(patsubst $(SRC)/%/.,$(COMPILED)/%.o,$(wildcard $(SRC)/*/.))
+ 
 $(BUILD)/app: $(units) $(modules) $(BUILD) lib
 	@echo "--- BUILDING APPLICATION ---"
 	@touch $(units) $(modules)
