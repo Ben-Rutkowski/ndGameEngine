@@ -46,8 +46,11 @@ Objects_inter =$(patsubst $(SRC_inter)/%.mm,$(COMP_inter)/%.o,$(Source_inter))
 build: $(Objects_app) $(Objects_inter) shaders
 
 shaders: $(Objects_shdr)
+ifeq ($(strip $(Objects_shdr)),)
+else 
 	@echo "--- Compiling Shader Library ---"
 	$(XCODE) $(MTL_FLAGS_lib) $^ -o $(MTL_LIB)
+endif
 
 # --- App Targets ---
 $(Objects_app): $(COMP_app)/%.o: $(SRC_app)/%.m $(Headers_app) $(Headers_shdr)
@@ -66,16 +69,16 @@ $(Objects_shdr): $(COMP_shdr)/%.air: $(SRC_shdr)/%.metal $(Headers_shdr)
 # --- Extra Targets ---
 clean:
 	@echo "--- Cleaning App Objects ---"
-	@rm $(COMP_app)/*
+	@rm -f $(COMP_app)/*.o
 
 	@echo "--- Cleaning Interface Objects ---"
-	@rm $(COMP_inter)/*
+	@rm -f $(COMP_inter)/*.o
 
 	@echo "--- Cleaning Shader Objects ---"
-	@rm $(COMP_shdr)/*
+	@rm -f $(COMP_shdr)/*.air
 
 	@echo "--- Cleaning Shader Library ---"
-	@rm $(LIB_shdr)/*
+	@rm -f $(LIB_shdr)/*.metallib
 
 .PHONY: clean build binary shaders
 .SECONDEXPANSION:

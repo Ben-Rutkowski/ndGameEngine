@@ -43,6 +43,6 @@ $(Objects_mod): $(COMP_mod)/%.o: $$(foreach mod,$(Modules_mod),$$(filter $(SRC_m
 # --- Clean ---
 clean:
 	@echo "--- Cleaning Library Objects ---"
-	@rm $(COMP_unit)/*.o
+	@rm -f $(COMP_unit)/*.o
 
 .PHONY: clean all
