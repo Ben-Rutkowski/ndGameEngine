@@ -3,7 +3,7 @@
 
 void ndAppModule::startApp() {
     beginLoop();
-    pollEvents();
+    // pollEvents();
 
     while (!window->requestBool(Request::SHOULD_CLOSE)) {
         startFrame();
