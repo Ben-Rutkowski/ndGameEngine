@@ -1,9 +1,13 @@
 #include <iostream>
-#include "cocoa_interface.hpp"
 #include "application.hpp"
+#include "window.hpp"
 
 int main() {
-    ndApp app;
+    ndAppModule app;
+    ndWindowModule window(800, 600, "ndGameEngine");
+    app.linkWindow(&window);
 
     app.startApp();
+
+    std::cout << "End of main()\n";
 }

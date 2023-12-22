@@ -6,7 +6,7 @@ GLFW intialization must be done before creating a window.
 
 */
 
-#include "glad_glfw.hpp"
+// #include "glad_glfw.hpp"
 // #include "nd_module_old.hpp"
 #include "nd_module.hpp"
 #include "stopwatch.hpp"

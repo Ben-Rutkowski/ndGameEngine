@@ -1,12 +1,16 @@
 #include "application.hpp"
+#include "cocoa_interface.hpp"
 
-ndApp::ndApp()
+ndAppModule::ndAppModule()
     :ndModule<ndAppStateLen>(Module::APPLICATION),
     window{ nullptr } {
 
-    event_manager.linkCallback(this, ndApp::propogateEventCallback);
+    event_manager.linkCallback(this, ndAppModule::propogateEventCallback);
+
+    initCocoa();
 }
 
-void ndApp::linkWindow(ndModule* window_ptr) {
-    throw std::runtime_error("Not Implemented ndApp::linkWindow");
+void ndAppModule::linkWindow(ndModule* window_ptr) {
+    window = window_ptr;
+    window->setManagerPtr(&event_manager);
 }

@@ -7,7 +7,7 @@ enum ndAppState { ndAppStateNull = 0,
     ndAppStateLen
 };
 
-class ndApp : public ndModule<ndAppStateLen> {
+class ndAppModule : public ndModule<ndAppStateLen> {
 // --- Attributes ---
 private:
     EventManager event_manager;
@@ -15,7 +15,7 @@ private:
 
 // --- Initialization ---
 public: 
-    ndApp();
+    ndAppModule();
     void linkWindow(ndModule* window_ptr);
 
 // --- Runtime ---

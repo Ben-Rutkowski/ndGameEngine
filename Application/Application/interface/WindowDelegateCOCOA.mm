@@ -2,6 +2,8 @@
 #import "WindowDelegate.h"
 
 ndWindow::ndWindow(int width, int height, const char* title) {
+    is_open = true;
+    
     NSLog(@"Building Window");
     @autoreleasepool {
 //        Winodw
@@ -26,6 +28,11 @@ ndWindow::ndWindow(int width, int height, const char* title) {
         WindowCOCOA = (__bridge void*)[window retain];
         WindowDelegateCOCOA = (__bridge void*)[window_delegate retain];
     }
+}
+
+bool ndWindow::shouldClose() {
+    WindowDelegate* window_delegate = (WindowDelegate*)WindowDelegateCOCOA;
+    return window_delegate.ndclose_window;
 }
 
 void ndWindow::debug() {

@@ -14,8 +14,12 @@ private:
     void* WindowCOCOA;
     void* WindowDelegateCOCOA;
     
+    bool is_open;
+    
 public:
     ndWindow(int width, int height, const char* title);
+    
+    bool shouldClose();
     
     void debug();
 };

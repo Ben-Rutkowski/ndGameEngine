@@ -1,22 +1,20 @@
 #include "application.hpp"
 
-void ndApp::propogateEvent(ndEvent* event) {
-    // window->runEvent(event);
-
-    event->print(module_name);
+void ndAppModule::propogateEvent(ndEvent* event) {
+    window->runEvent(event);
 }
 
-void ndApp::pollEvents() {
+void ndAppModule::pollEvents() {
     event_manager.pollEvents();
 }
 
-void ndApp::beginLoop() {
+void ndAppModule::beginLoop() {
     event_manager.propogateEventImmediate(
         ndEvent(module_name, Operation::BEGIN_LOOP)
     );
 }
 
-void ndApp::startFrame() {
+void ndAppModule::startFrame() {
     // float delta = window->requestFloat(Request::FRAME_DELTA);
     // vec4  mouse = window->requestVec4(Request::MOUSE_POSITION);
 
@@ -25,26 +23,26 @@ void ndApp::startFrame() {
     );
 }
 
-void ndApp::drawWindowFrame() {
+void ndAppModule::drawWindowFrame() {
     event_manager.propogateEventImmediate(
         ndEvent(module_name, Operation::DRAW_WINDOW_FRAME)
     );
 }
 
-void ndApp::draw() {
+void ndAppModule::draw() {
     event_manager.propogateEventImmediate(
         ndEvent(module_name, Operation::DRAW)
     );
 }
 
-void ndApp::endFrame() {
+void ndAppModule::endFrame() {
     event_manager.propogateEventImmediate(
         ndEvent(module_name, Operation::END_FRAME)
     );
 }
 
 // === Static ===
-void ndApp::propogateEventCallback(void* app_void_ptr, ndEvent* event) {
-    ndApp* app_ptr = (ndApp*)app_void_ptr;
+void ndAppModule::propogateEventCallback(void* app_void_ptr, ndEvent* event) {
+    ndAppModule* app_ptr = (ndAppModule*)app_void_ptr;
     app_ptr->propogateEvent(event);
 }
