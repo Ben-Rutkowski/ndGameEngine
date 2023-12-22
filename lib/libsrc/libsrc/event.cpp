@@ -12,7 +12,7 @@ EventCode::EventCode(EventType type_in, Module module_in, Operation operation_in
     module{ module_in },
     operation{ operation_in } {}
 
-// === Constructors and Initialization ===
+// === Initialization ===
 ndEvent::ndEvent() {}
 
 ndEvent::ndEvent(EventType type, Module module_name, Operation operation)

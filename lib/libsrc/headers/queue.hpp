@@ -41,10 +41,12 @@ private:
     std::vector<ElementType> queue_cache;
     int current_id, end_id;
 
-// --- Constructor ---
+// --- Initialization ---
 public:
     Queue(int size) : queue_cache(size, ElementType()), current_id{ 0 }, end_id{ 0 } {}
-    ElementType* getCurrent() { return &queue_cache[current_id]; }
+    
+    ElementType* getCurrent()  { return &queue_cache[current_id]; }
+    bool         hasElements() { return !isCurrentNull(); }
 
 // --- Interface ---
 public:
@@ -88,6 +90,7 @@ private:
 // --- Debugging ---
 public:
     void debug() {
+        std::cout << std::endl;
         for (int i=0; i<queue_cache.size(); i++) {
             if (i == current_id) {
                 std::cout << "o";
@@ -99,7 +102,6 @@ public:
             } else {
                 std::cout << " ";
             }
-
             std::cout << " | " << i << " | ";
 
             if (!queue_cache[i]) {
@@ -107,9 +109,9 @@ public:
             } else  {
                 std::cout << "-Full-";
             }
-
             std::cout << std::endl;
         }
+        std::cout << std::endl;
     }
 };
 
