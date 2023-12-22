@@ -1,8 +1,9 @@
 #include <iostream>
 #include "cocoa_interface.hpp"
-#include "event_manager.hpp"
-
+#include "application.hpp"
 
 int main() {
-    
+    ndApp app;
+
+    app.startApp();
 }
