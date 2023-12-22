@@ -11,12 +11,14 @@ BUILD =build
 DEBUG_NAME =debug
 
 # --- Dependencies ---
-FRAMEWORKS =-framework AppKit -framework Metal -framework MetalKit
+FRAMEWORKS      =-framework AppKit -framework Metal -framework MetalKit
+# COCOA_INTERFACE = Application/Application/interface
 
 # --- Compiling ---
 CXX =/usr/bin/clang++
 
 CXX_FLAGS =-Wall -fdiagnostics-color=always -fno-objc-arc -g
+# CXX_INC   =-I$(COCOA_INTERFACE)
 CXX_LINK  =$(FRAMEWORKS)
 
 # --- Variables ---

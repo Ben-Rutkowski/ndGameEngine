@@ -1,5 +1,17 @@
 #include <iostream>
+#include "cocoa_interface.hpp"
 
 int main() {
-    std::cout << "Hello World!" << std::endl;
+    initCocoa();
+
+    ndWindow mywindow(800, 600, "ndGameEngine");
+
+    while (true) {
+        pollEventsCocoa();
+    }
+
+    char quit = 'a';
+    while (quit != 'q') {
+        std::cin >> quit;
+    }
 }

@@ -4,12 +4,19 @@
         {
             "label": "Run",
             "type": "shell",
-            "command": "make -s; ./build/app",
+            "command": "make -s; ./build/debug",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make clean",
+            "problemMatcher": [],
+            "group": "build"
         },
         {
             "label": "Build",

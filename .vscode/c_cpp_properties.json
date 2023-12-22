@@ -3,10 +3,13 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/lib/libsrc/include",
+                // "${workspaceFolder}/lib/libsrc/include",
+                // "${workspaceFolder}/modules/src/headers",
+                // "/opt/homebrew/Cellar/glfw/3.3.8/include",
+                // "/usr/local/glad/include"
                 "${workspaceFolder}/modules/src/headers",
-                "/opt/homebrew/Cellar/glfw/3.3.8/include",
-                "/usr/local/glad/include"
+                "${workspaceFolder}/lib/libsrc/headers",
+                "${workspaceFolder}/Application/Application/interface",
             ],
             "defines": [],
             "macFrameworkPath": [

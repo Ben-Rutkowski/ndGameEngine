@@ -1,15 +1,14 @@
-#ifndef WINDOW_DELEGATE_H
-#define WINDOW_DELEGATE_H
+#ifndef WINDOW_DELEGATE_COCOA_H
+#define WINDOW_DELEGATE_COCOA_H
 
 #import <AppKit/AppKit.h>
 
 @interface WindowDelegate : NSObject<NSWindowDelegate>
 
-@property BOOL close_window;
+@property BOOL ndclose_window;
 
-- (instancetype) init;
-- (void) windowWillClose:(NSNotification*)notification;
-- (BOOL) windowShouldClose:(NSWindow*)sender;
+- (nonnull instancetype) init;
+
 @end
 
 #endif
