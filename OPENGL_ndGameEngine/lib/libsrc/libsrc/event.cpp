@@ -13,9 +13,9 @@ EventCode::EventCode(EventType type_in, Module module_in, Data data_in)
     data{ data_in } {}
 
 // === Constructors and Initialization ===
-Event::Event() {}
+ndEvent::Event() {}
 
-Event::Event(EventType type, Module module_name, Data data)
+ndEvent::Event(EventType type, Module module_name, Data data)
     :code{ EventCode(type, module_name, data) } {}
 
 Event::Event(Module module_name, Data data)

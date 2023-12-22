@@ -31,8 +31,7 @@ ndWindow::ndWindow(int width, int height, const char* title) {
 void ndWindow::debug() {
     NSLog(@"Debugging ndWindow");
     NSWindow* window = (__bridge NSWindow*)WindowCOCOA;
-    WindowDelegate* window_delegate = (__bridge WindowDelegate*)WindowDelegateCOCOA;
     
     NSLog(@"Window: %lu", [window retainCount]);
-    [NSApp run];
+//    [NSApp run];
 }
