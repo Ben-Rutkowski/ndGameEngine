@@ -57,6 +57,16 @@ public:
         }
     }
 
+    void queueFront(ElementType element) {
+        stepCurrentBack();
+        if (isCurrentNull()) {
+            queue_cache[current_id] = element;
+        } else {
+            stepCurrent();
+            std::cout << "CACHE IS FULL: CANNOT QUEUE EVENT!" << std::endl;
+        }
+    }
+
     void dequeueCurrent() {
         if (!isCurrentNull()) {
             queue_cache[current_id] = ElementType();
@@ -70,8 +80,10 @@ public:
 private:
     inline bool isCurrentNull() { return !(queue_cache[current_id]); }
     inline bool isEndNull()     { return !(queue_cache[end_id]); }
+
     inline void stepCurrent()   { current_id = (current_id+1)%queue_cache.size(); }
     inline void stepEnd()       { end_id     = (end_id+1)%queue_cache.size(); }
+    inline void stepCurrentBack() { current_id = (current_id+(queue_cache.size()-1))%queue_cache.size(); }
 
 // --- Debugging ---
 public:

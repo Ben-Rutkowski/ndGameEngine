@@ -4,5 +4,5 @@
 #include "event.hpp"
 
 int main() {
-    
+    Queue<ndEvent> my_queue(5);
 }
