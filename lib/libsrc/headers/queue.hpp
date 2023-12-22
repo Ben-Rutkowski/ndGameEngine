@@ -80,9 +80,9 @@ public:
 private:
     inline bool isCurrentNull() { return !(queue_cache[current_id]); }
     inline bool isEndNull()     { return !(queue_cache[end_id]); }
-
-    inline void stepCurrent()   { current_id = (current_id+1)%queue_cache.size(); }
-    inline void stepEnd()       { end_id     = (end_id+1)%queue_cache.size(); }
+    
+    inline void stepCurrent()     { current_id = (current_id+1)%queue_cache.size(); }
+    inline void stepEnd()         { end_id     = (end_id+1)%queue_cache.size(); }
     inline void stepCurrentBack() { current_id = (current_id+(queue_cache.size()-1))%queue_cache.size(); }
 
 // --- Debugging ---
