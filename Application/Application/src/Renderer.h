@@ -3,8 +3,9 @@
 
 #import <MetalKit/MetalKit.h>
 
-@interface Renderer : NSObject<MTKViewDelegate>
-- (nonnull instancetype) initWithMetalKitView:(nonnull MTKView*)mtk_view;
+@interface Renderer : NSObject
+- (nonnull instancetype) initWithMTLDevice:(nonnull id<MTLDevice>)device drawablePixelFormat:(MTLPixelFormat) pixel_format;
+- (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
 @end
 
 #endif

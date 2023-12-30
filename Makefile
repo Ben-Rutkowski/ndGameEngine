@@ -11,7 +11,7 @@ BUILD =build
 DEBUG_NAME =debug
 
 # --- Dependencies ---
-FRAMEWORKS      =-framework AppKit -framework Metal -framework MetalKit
+FRAMEWORKS =-framework AppKit -framework Metal -framework MetalKit -framework QuartzCore
 # COCOA_INTERFACE = Application/Application/interface
 
 # --- Compiling ---

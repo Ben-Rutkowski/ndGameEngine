@@ -15,8 +15,9 @@ class ndWindow {
 private:
     void* WindowCOCOA;
     void* WindowDelegateCOCOA;
-    void* MTKViewCOCOA;
-    void* MTKRendererCOCOA;
+//    void* MTKViewCOCOA;
+//    void* MTKRendererCOCOA;
+    void* ndViewCOCOA;
     
 public:
     ndWindow(int width, int height, const char* title);

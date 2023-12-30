@@ -1,6 +1,7 @@
 #import "cocoa_interface.hpp"
 #import "WindowDelegate.h"
 #import "Renderer.h"
+#import "ndView.h"
 
 ndWindow::ndWindow(int width, int height, const char* title) {    
     NSLog(@"Building Window");
@@ -20,27 +21,16 @@ ndWindow::ndWindow(int width, int height, const char* title) {
         WindowDelegate* window_delegate = [[WindowDelegate alloc] init];
         [window setDelegate:window_delegate];
         
-//        MTKView
-        MTKView* mtk_view = [[MTKView alloc] initWithFrame:frame
-                                                    device:MTLCreateSystemDefaultDevice()];
-        mtk_view.wantsLayer = YES;
-        mtk_view.enableSetNeedsDisplay = NO;
-        NSLog(@"Framerate: %li", mtk_view.preferredFramesPerSecond);
-        mtk_view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        
-//        Renderer
-        Renderer* renderer = [[Renderer alloc] initWithMetalKitView:mtk_view];
-        if (!renderer) { NSLog(@"Renderer initialization failed"); }
-        [renderer mtkView:mtk_view drawableSizeWillChange:mtk_view.drawableSize];
-        [mtk_view setDelegate:renderer];
-        [window.contentView addSubview:mtk_view];
-        
+//        ndView
+        id<MTLDevice> device = MTLCreateSystemDefaultDevice();
+        ndView* nd_view = [[ndView alloc] initWithFrame:frame
+                                                 device:device];
+        [window.contentView addSubview:nd_view];
     
 //        Class Attributes
         WindowCOCOA = (__bridge void*)[window retain];
         WindowDelegateCOCOA = (__bridge void*)[window_delegate retain];
-        MTKViewCOCOA = (__bridge void*)[mtk_view retain];
-        MTKRendererCOCOA = (__bridge void*)[renderer retain];
+        ndViewCOCOA = (__bridge void*)[nd_view retain];
     }
 }
 
@@ -51,8 +41,7 @@ bool ndWindow::shouldClose() {
 }
 
 void ndWindow::setClearColor(double r, double g, double b, double a) {
-    MTKView* mtk_view = (MTKView*)MTKViewCOCOA;
-    mtk_view.clearColor = MTLClearColorMake(r, g, b, a);
+    
 }
 
 void ndWindow::showWindow() {
@@ -61,11 +50,8 @@ void ndWindow::showWindow() {
 }
 
 void ndWindow::drawView() {
-    MTKView* mtk_view = (MTKView*)MTKViewCOCOA;
-    [mtk_view draw];
-    
-//    Renderer* renderer = (Renderer*)MTKRendererCOCOA;
-//    [renderer debug];
+    ndView* nd_view = (ndView*)ndViewCOCOA;
+    [nd_view render];
 }
 
 // ================ Debugging ================

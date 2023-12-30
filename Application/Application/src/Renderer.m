@@ -6,14 +6,15 @@
     id<MTLDevice> _device;
     id<MTLCommandQueue> _command_queue;
     
-    BasicTriangleDrawRoutine* _basic_triangle_routine;
-    ParallelTriangleRotateDrawRoutine* _parallel_triangle_rotate_routine;
+//    BasicTriangleDrawRoutine* _basic_triangle_routine;
+//    ParallelTriangleRotateDrawRoutine* _parallel_triangle_rotate_routine;
+    BasicTriangleCustomViewDrawRoutine* _basic_triangle_custome_view_routine;
 }
 
-- (nonnull instancetype) initWithMetalKitView:(MTKView*)mtk_view {
+- (nonnull instancetype) initWithMTLDevice:(id<MTLDevice>)device drawablePixelFormat:(MTLPixelFormat)pixel_format {
     self = [super init];
     if (self) {
-        _device = mtk_view.device;
+        _device = device;
         _command_queue = [_device newCommandQueue];
         
         NSError* error;
@@ -23,20 +24,16 @@
         id<MTLLibrary> library = [_device newLibraryWithURL:url error:&error];
         NSAssert(library, @"Failed to find Metal Library", error);
         
-        _basic_triangle_routine = [[BasicTriangleDrawRoutine alloc] initWithMTKView:mtk_view MTLLibrary:library];
-        _parallel_triangle_rotate_routine = [[ParallelTriangleRotateDrawRoutine alloc] initWithMTKView:mtk_view MTLLibrary:library];
+        _basic_triangle_custome_view_routine = [[BasicTriangleCustomViewDrawRoutine alloc] initWithDevice:device
+                                                                                               MTLLibrary:library 
+                                                                                      drawablePixelFormat:pixel_format];
     }
     
     return self;
 }
 
-- (void)mtkView:(MTKView*)mtk_view drawableSizeWillChange:(CGSize)size {
-    [_parallel_triangle_rotate_routine updateViewPortWithSize:size];
-}
-
-- (void)drawInMTKView:(MTKView*)mtk_view {
-//    [_basic_triangle_routine commitWithMTKView:mtk_view CommandQueue:_command_queue];
-    [_parallel_triangle_rotate_routine commitWithMTKView:mtk_view CommandQueue:_command_queue];
+- (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
+    [_basic_triangle_custome_view_routine commitIntoMetalLayer:metal_layer commandQueue:_command_queue];
 }
 
 @end
