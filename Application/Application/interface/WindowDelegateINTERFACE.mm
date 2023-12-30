@@ -24,7 +24,8 @@ ndWindow::ndWindow(int width, int height, const char* title) {
         MTKView* mtk_view = [[MTKView alloc] initWithFrame:frame
                                                     device:MTLCreateSystemDefaultDevice()];
         mtk_view.wantsLayer = YES;
-        mtk_view.enableSetNeedsDisplay = YES;
+        mtk_view.enableSetNeedsDisplay = NO;
+        NSLog(@"Framerate: %li", mtk_view.preferredFramesPerSecond);
         mtk_view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         
 //        Renderer
@@ -57,6 +58,14 @@ void ndWindow::setClearColor(double r, double g, double b, double a) {
 void ndWindow::showWindow() {
     NSWindow* window = (NSWindow*)WindowCOCOA;
     [window makeKeyAndOrderFront:nil];
+}
+
+void ndWindow::drawView() {
+    MTKView* mtk_view = (MTKView*)MTKViewCOCOA;
+    [mtk_view draw];
+    
+//    Renderer* renderer = (Renderer*)MTKRendererCOCOA;
+//    [renderer debug];
 }
 
 // ================ Debugging ================

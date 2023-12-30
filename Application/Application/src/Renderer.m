@@ -7,6 +7,7 @@
     id<MTLCommandQueue> _command_queue;
     
     BasicTriangleDrawRoutine* _basic_triangle_routine;
+    ParallelTriangleRotateDrawRoutine* _parallel_triangle_rotate_routine;
 }
 
 - (nonnull instancetype) initWithMetalKitView:(MTKView*)mtk_view {
@@ -23,17 +24,19 @@
         NSAssert(library, @"Failed to find Metal Library", error);
         
         _basic_triangle_routine = [[BasicTriangleDrawRoutine alloc] initWithMTKView:mtk_view MTLLibrary:library];
+        _parallel_triangle_rotate_routine = [[ParallelTriangleRotateDrawRoutine alloc] initWithMTKView:mtk_view MTLLibrary:library];
     }
     
     return self;
 }
 
 - (void)mtkView:(MTKView*)mtk_view drawableSizeWillChange:(CGSize)size {
-    NSLog(@"Resizing MTKVeiw");
+    [_parallel_triangle_rotate_routine updateViewPortWithSize:size];
 }
 
 - (void)drawInMTKView:(MTKView*)mtk_view {
-    [_basic_triangle_routine commitWithMTKView:mtk_view CommandQueue:_command_queue];
+//    [_basic_triangle_routine commitWithMTKView:mtk_view CommandQueue:_command_queue];
+    [_parallel_triangle_rotate_routine commitWithMTKView:mtk_view CommandQueue:_command_queue];
 }
 
 @end

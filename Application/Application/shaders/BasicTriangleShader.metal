@@ -1,6 +1,6 @@
 #define __IN_SHADER__
 #include <metal_stdlib>
-#include "BasicTraigleTypes.h"
+#include "shader_types.h"
 using namespace metal;
 
 // ================ RasterType ================

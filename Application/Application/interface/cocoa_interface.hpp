@@ -26,6 +26,8 @@ public:
     
     void setClearColor(double r, double g, double b, double a);
     void showWindow();
+    
+    void drawView();
 
 // --- Debugging ---
 public:

@@ -1,5 +1,5 @@
 #import "DrawRoutines.h"
-#import "BasicTraigleTypes.h"
+#import "shader_types.h"
 
 @implementation BasicTriangleDrawRoutine
 {
@@ -16,7 +16,7 @@
             MTLRenderPipelineDescriptor* pipeline_descriptor = [[MTLRenderPipelineDescriptor alloc] init];
             pipeline_descriptor.rasterSampleCount = mtk_view.sampleCount;
             pipeline_descriptor.colorAttachments[0].pixelFormat = mtk_view.colorPixelFormat;
-            pipeline_descriptor.vertexFunction = [library newFunctionWithName:@"BasicTriangle_vertexShader"];
+            pipeline_descriptor.vertexFunction   = [library newFunctionWithName:@"BasicTriangle_vertexShader"];
             pipeline_descriptor.fragmentFunction = [library newFunctionWithName:@"BasicTriangle_fragmentShader"];
             pipeline_descriptor.vertexBuffers[BasicTriangle_VertexIndexVertices].mutability = MTLMutabilityImmutable;
             _render_pipeline_state = [mtk_view.device newRenderPipelineStateWithDescriptor:pipeline_descriptor error:&error];
@@ -28,10 +28,12 @@
 }
 
 - (void) commitWithMTKView:(nonnull MTKView*)mtk_view CommandQueue:(nonnull id<MTLCommandQueue>)command_queue {
+    NSLog(@"Drawing Basic Triangle");
+    
     static const BasicTriangle_VertexType vertices[] = {
-        { {  0.5,  -0.5 },  { 1.0, 0.0, 0.0, 1.0 } },
-        { { -0.5,  -0.5 },  { 0.0, 1.0, 0.0, 1.0 } },
-        { {  0.0,   0.5 },  { 0.0, 0.0, 1.0, 0.0 } }
+        { {  0.5,  -0.5 },  { 0.3, 0.6, 0.7, 1.0 } },
+        { { -0.5,  -0.5 },  { 0.5, 0.6, 0.7, 1.0 } },
+        { {  0.0,   0.5 },  { 0.7, 0.6, 0.7, 1.0 } }
     };
     
     @autoreleasepool {
@@ -56,6 +58,7 @@
             //        Commit in Drawable
             [command_buffer presentDrawable:mtk_view.currentDrawable];
             [command_buffer commit];
+            [command_buffer waitUntilCompleted];
         }
     }
 }

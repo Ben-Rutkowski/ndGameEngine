@@ -12,4 +12,8 @@
 @interface BasicTriangleDrawRoutine : NSObject<DrawRoutineProtocol>
 @end
 
+@interface ParallelTriangleRotateDrawRoutine : NSObject<DrawRoutineProtocol>
+- (void) updateViewPortWithSize:(CGSize)size;
+@end
+
 #endif

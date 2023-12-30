@@ -7,14 +7,14 @@ SRC_app   =Application/src
 HEAD_app  =Application/src
 COMP_app  =compiled
 
-SRC_draw  =Application/draw_routines
-HEAD_draw =Application/draw_routines
+SRC_draw  =Application/src/draw_routines
 COMP_draw =compiled
+# HEAD_draw =Application/draw_routines
 
 SRC_shdr  =Application/shaders
 COMP_shdr =compiled/shader_objects
 LIB_shdr  =compiled/shader_lib
-HEAD_shdr =Application/shaders
+# HEAD_shdr =Application/shaders
 
 MTL_LIB  =compiled/shader_lib/MetalLibrary.metallib
 
@@ -24,14 +24,14 @@ CC    =/usr/bin/clang
 XCODE =/usr/bin/xcrun
 
 OBJC_FLAGS_app =-Wall -c -fdiagnostics-color=always -fno-objc-arc -g
-OBJC_INC_app   =-I$(HEAD_app) -I$(HEAD_shdr) -I$(HEAD_draw)
+OBJC_INC_app   =-I$(HEAD_app) -I$(HEAD_inter)
 
 OBJC_FLAGS_draw =-Wall -c -fdiagnostics-color=always -fno-objc-arc -g
-OBJC_INC_draw   =-I$(HEAD_draw) -I$(HEAD_app) -I$(HEAD_shdr)
+OBJC_INC_draw   =-I$(HEAD_app) -I$(HEAD_inter)
 
 MTL_FLAGS_shdr =-sdk macosx metal -c
 MTL_FLAGS_lib  =-sdk macosx metallib
-MTL_INC_shdr   =-I$(HEAD_shdr)
+MTL_INC_shdr   =-I$(HEAD_inter)
 
 CXX_FLAGS_inter =-Wall -c -fdiagnostics-color=always -fno-objc-arc -g
 CXX_INC_inter   =-I$(HEAD_app) -I$(HEAD_inter)
@@ -42,12 +42,12 @@ Headers_app =$(wildcard $(HEAD_app)/*.h)
 Objects_app =$(patsubst $(SRC_app)/%.m,$(COMP_app)/%.o,$(Source_app))
 
 Source_draw  =$(wildcard $(SRC_draw)/*.m)
-Headers_draw =$(wildcard $(HEAD_draw)/*.h)
 Objects_draw =$(patsubst $(SRC_draw)/%.m,$(COMP_draw)/%.o,$(Source_draw))
+# Headers_draw =$(wildcard $(HEAD_draw)/*.h)
 
 Source_shdr  =$(wildcard $(SRC_shdr)/*.metal)
-Headers_shdr =$(wildcard $(SRC_shdr)/*.h)
 Objects_shdr =$(patsubst $(SRC_shdr)/%.metal,$(COMP_shdr)/%.air,$(Source_shdr))
+# Headers_shdr =$(wildcard $(SRC_shdr)/*.h)
 
 Source_inter  =$(wildcard $(SRC_inter)/*.mm)
 Headers_inter =$(wildcard $(HEAD_inter)/*.h) $(wildcard $(HEAD_inter)/*.hpp)
@@ -64,22 +64,22 @@ else
 endif
 
 # --- App Targets ---
-$(Objects_app): $(COMP_app)/%.o: $(SRC_app)/%.m $(Headers_app)
+$(Objects_app): $(COMP_app)/%.o: $(SRC_app)/%.m $(Headers_app) $(Headers_inter)
 	@echo "--- Compiling <$(patsubst $(COMP_app)/%.o,%,$@)> App Unit ---"
 	$(CC) $(patsubst $(COMP_app)/%.o,$(SRC_app)/%.m,$@) $(OBJC_FLAGS_app) $(OBJC_INC_app) -o $@
 
-$(Objects_inter): $(COMP_inter)/%.o: $(SRC_inter)/%.mm $(Headers_app)
+$(Objects_inter): $(COMP_inter)/%.o: $(SRC_inter)/%.mm $(Headers_app) $(Headers_inter)
 	@echo "--- Compiling <$(patsubst $(COMP_inter)/%.o,%,$@)> Interface Unit ---"
 	$(CXX) $(patsubst $(COMP_inter)/%.o,$(SRC_inter)/%.mm,$@) $(CXX_FLAGS_inter) $(CXX_INC_inter) -o $@
 
-$(Objects_draw): $(COMP_draw)/%.o: $(SRC_draw)/%.m $(Headers_draw) $(Headers_shdr) $(Headers_app)
+$(Objects_draw): $(COMP_draw)/%.o: $(SRC_draw)/%.m $(Headers_app) $(Headers_inter)
 	@echo "--- Compiling <$(patsubst $(COMP_draw)/%.o,%,$@)> Draw Routine Unit ---"
 	$(CXX) $(patsubst $(COMP_draw)/%.o,$(SRC_draw)/%.m,$@) $(OBJC_FLAGS_draw) $(OBJC_INC_draw) -o $@
 
 # --- Shader Targets ---
-$(Objects_shdr): $(COMP_shdr)/%.air: $(SRC_shdr)/%.metal $(Headers_shdr)
+$(Objects_shdr): $(COMP_shdr)/%.air: $(SRC_shdr)/%.metal $(Headers_inter)
 	@echo "--- Compiling <$(patsubst $(COMP_shdr)/%.air,%,$@)> Shader Unit ---"
-	$(XCODE) $(MTL_FLAGS_shdr) $(patsubst $(COMP_shdr)/%.air,$(SRC_shdr)/%.metal,$@) -o $@ 
+	$(XCODE) $(MTL_FLAGS_shdr) $(patsubst $(COMP_shdr)/%.air,$(SRC_shdr)/%.metal,$@) $(MTL_INC_shdr) -o $@ 
 
 # --- Extra Targets ---
 clean:
