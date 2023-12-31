@@ -36,5 +36,9 @@ void ndAppModule::startApp() {
             count = 0;
             elapsed = 0.0;
         }
+
+        // if (count >= 2) {
+        //     break;
+        // }
     }
 }

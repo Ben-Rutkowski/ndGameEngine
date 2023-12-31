@@ -1,6 +1,6 @@
 #import "cocoa_interface.hpp"
 #import "WindowDelegate.h"
-#import "Renderer.h"
+#import "RenderSwitcher.h"
 #import "ndView.h"
 
 ndWindow::ndWindow(int width, int height, const char* title) {    
@@ -40,10 +40,6 @@ bool ndWindow::shouldClose() {
     return window_delegate.ndclose_window;
 }
 
-void ndWindow::setClearColor(double r, double g, double b, double a) {
-    
-}
-
 void ndWindow::showWindow() {
     NSWindow* window = (NSWindow*)WindowCOCOA;
     [window makeKeyAndOrderFront:nil];
@@ -52,6 +48,11 @@ void ndWindow::showWindow() {
 void ndWindow::drawView() {
     ndView* nd_view = (ndView*)ndViewCOCOA;
     [nd_view render];
+}
+
+unsigned int ndWindow::initDrawRoutine(ndDrawRoutineKind draw_routine_kind) {
+    ndView* nd_view = (ndView*)ndViewCOCOA;
+    return [nd_view initDrawRoutine:(unsigned int)draw_routine_kind];
 }
 
 // ================ Debugging ================

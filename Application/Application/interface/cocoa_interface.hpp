@@ -5,8 +5,14 @@
 static void* CURRENT_APPLICATION_DELEGATE_COCOA;
 
 
+// ======== Enums ========
+typedef enum ndDrawRoutineKind {
+    ndDrawRoutineKindDebug = 0
+} ndDrawRoutineKind;
+
+
 // ======== Application ========
-int initCocoa();
+int  initCocoa();
 void pollEventsCocoa();
 
 
@@ -15,8 +21,6 @@ class ndWindow {
 private:
     void* WindowCOCOA;
     void* WindowDelegateCOCOA;
-//    void* MTKViewCOCOA;
-//    void* MTKRendererCOCOA;
     void* ndViewCOCOA;
     
 public:
@@ -24,11 +28,10 @@ public:
     
 // --- Interface ---
     bool shouldClose();
-    
-    void setClearColor(double r, double g, double b, double a);
     void showWindow();
-    
     void drawView();
+    
+    unsigned int initDrawRoutine(ndDrawRoutineKind draw_routine_kind);
 
 // --- Debugging ---
 public:

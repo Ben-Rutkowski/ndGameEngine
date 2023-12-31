@@ -13,8 +13,10 @@ void ndWindowModule::runEvent(ndEvent* event) {
 }
 
 void ndWindowModule::onBeginLoop(ndEvent* event) {
-    nd_window.setClearColor(0.0, 0.5, 0.5, 1.0);
     pollEventsCocoa();
+
+    
+
     nd_window.showWindow();
     event->print(module_name);
 }

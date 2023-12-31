@@ -7,8 +7,7 @@
 
 @interface ndView : NSView<CALayerDelegate>
 - (nonnull instancetype) initWithFrame:(CGRect)frame device:(nonnull id<MTLDevice>)device;
-//- (void) resizeDrawable:(CGFloat)scale_factor;
-//- (void) renderToMetalLayer:(nonnull CAMetalLayer*)metal_layer;
+- (unsigned int) initDrawRoutine:(unsigned int)draw_routine_kind;
 - (void) render;
 @end
 

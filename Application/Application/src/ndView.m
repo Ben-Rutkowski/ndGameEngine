@@ -1,12 +1,12 @@
 #import "ndView.h"
-#import "Renderer.h"
+#import "RenderSwitcher.h"
 
 @implementation ndView
 {
-    id<MTLDevice> _device;
+//    id<MTLDevice> _device;
     CAMetalLayer* _metal_layer;
     
-    Renderer* _renderer;
+    RenderSwitcher* _render_switcher;
 }
 
 - (nonnull instancetype) initWithFrame:(CGRect)frame device:(nonnull id<MTLDevice>)device {
@@ -20,15 +20,19 @@
         _metal_layer = (CAMetalLayer*)self.layer;
         self.layer.delegate = self;
         
-        _device = device;
+//        _device = [device retain];
         _metal_layer.device = device;
         _metal_layer.pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
         _metal_layer.displaySyncEnabled = NO;
         
-        _renderer = [[Renderer alloc] initWithMTLDevice:device drawablePixelFormat:_metal_layer.pixelFormat];
+        _render_switcher = [[RenderSwitcher alloc] initWithMTLDevice:device metalLayer:_metal_layer];
     }
     
     return self;
+}
+
+- (unsigned int) initDrawRoutine:(unsigned int)draw_routine_kind {
+    return [_render_switcher initDrawRoutine:draw_routine_kind];
 }
 
 - (CALayer*) makeBackingLayer {
@@ -59,8 +63,7 @@
 }
 
 - (void) render {
-    [_renderer drawInMetalLayer:_metal_layer];
-    
+    [_render_switcher drawInMetalLayer:_metal_layer];
 }
 
 // ================ CAMetalLayer Callbacks ================

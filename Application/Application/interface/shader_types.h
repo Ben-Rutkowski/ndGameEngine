@@ -13,26 +13,15 @@
 #define VECTOR_4F vector_float4
 #endif
 
-// ================ Basic Triangle ================
-typedef enum BasicTriangle_VertexIndex{
-    BasicTriangle_VertexIndexVertices = 0
-//    BasicTriangle_VertexIndexAspectRatio = 1
-} BasicTriangle_VertexIndex;
-
+// ======== Static Shape ========
 typedef struct {
     VECTOR_2F position;
     VECTOR_4F color;
-} BasicTriangle_VertexType;
+} StaticShape_VertexType;
 
-// ================ Parallel Triangle Rotate ================
-typedef enum ParallelTriangleRotate_vertexIndex {
-    ParallelTriangleRotate_vertexIndexVertices    = 0,
-    ParallelTriangleRotate_vertexIndexAspectRatio = 1
-} ParallelTriangleRotate_vertexIndex;
-
-typedef struct {
-    VECTOR_2F position;
-    VECTOR_4F color;
-} ParallelTriangleRotate_vertexType;
+typedef enum StaticShape_VertexIndex {
+    StaticShape_VertexIndex_vertices     = 0,
+    StaticShape_VertexIndex_aspect_ratio = 1
+} StaticShape_VertexIndex;
 
 #endif
