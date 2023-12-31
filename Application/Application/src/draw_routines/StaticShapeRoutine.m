@@ -2,10 +2,6 @@
 
 @implementation StaticShapeRoutine
 {
-//    --- Metal Constants ---
-    id<MTLDevice>  _device;
-    id<MTLLibrary> _library;
-    
 //    --- Subroutines ---
     StaticShapeSubroutine* _static_shape_subroutine;
     
@@ -17,14 +13,10 @@
 - (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device
                                library:(nonnull id<MTLLibrary>)library
 {
-    NSLog(@"Creating Static Shape Routine");
-    self = [super init];
+    self = [super initWithDevice:device];
     if (self) {
-        _device  = device;
-        _library = library;
-        
         _static_shape_subroutine = [[StaticShapeSubroutine alloc] initWithDevice:device
-                                                                        library:library];
+                                                                         library:library];
     }
     
     return self;
@@ -35,14 +27,13 @@
 }
 
 - (nonnull StaticShape_VertexType*) createVertexBufferWithVertexNumber:(NSUInteger)number {
-    _vertex_data_buffer = [_device newBufferWithLength:number*sizeof(StaticShape_VertexType)
-                                               options:MTLResourceStorageModeShared];
+    _vertex_data_buffer = [self newSharedBufferWithLength:number*sizeof(StaticShape_VertexType)];
+    
     [_static_shape_subroutine linkVertexDataBuffer:_vertex_data_buffer];
     return _vertex_data_buffer.contents;
 }
 
 - (void)drawInDrawable:(nonnull id<CAMetalDrawable>)drawable inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
-//    NSLog(@"draw");
     [_static_shape_subroutine encodeSubroutineInBuffer:command_buffer inTexture:drawable.texture];
     [command_buffer presentDrawable:drawable];
     [command_buffer commit];

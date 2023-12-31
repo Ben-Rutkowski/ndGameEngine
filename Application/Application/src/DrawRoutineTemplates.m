@@ -1,5 +1,6 @@
-#import "DrawRoutines.h"
+#import "DrawRoutineTemplates.h"
 
+// ================ Draw Subroutine Template ================
 @implementation DrawSubroutineTemplate
 {
     id<MTLDevice>  _device;
@@ -12,14 +13,13 @@
 - (instancetype) initWithDevice:(id<MTLDevice>)device
                         library:(id<MTLLibrary>)library
 {
-    NSLog(@"Init DrawSubroutine Template");
     self = [super init];
     if (self) {
         _device  = device;
         _library = library;
         
         _pipeline_state_descriptor  = [MTLRenderPipelineDescriptor new];
-        _render_pass_descriptor = [MTLRenderPassDescriptor new];
+        _render_pass_descriptor     = [MTLRenderPassDescriptor new];
     }
     
     return self;
@@ -29,8 +29,18 @@
 - (void) setVertexFunction:(NSString*)vertex_name
           fragmentFunction:(NSString*)fragment_name
 {
-    _pipeline_state_descriptor.vertexFunction   = [_library newFunctionWithName:vertex_name];
-    _pipeline_state_descriptor.fragmentFunction = [_library newFunctionWithName:fragment_name];
+    id<MTLFunction> vertex_function = [_library newFunctionWithName:vertex_name];
+    if (vertex_function == nil) {
+        NSLog(@"Failed to create %@", vertex_name);
+    }
+    
+    id<MTLFunction> fragment_function = [_library newFunctionWithName:fragment_name];
+    if (fragment_function == nil) {
+        NSLog(@"Failed to create %@", fragment_name);
+    }
+    
+    _pipeline_state_descriptor.vertexFunction   = vertex_function;
+    _pipeline_state_descriptor.fragmentFunction = fragment_function;
 }
 
 - (void) setPixelFormat:(MTLPixelFormat)pixel_format {
@@ -91,10 +101,39 @@
 }
 
 // ==== Finalizing ====
-- (void) finializeInit {
-    [_device release];
-    [_library release];
+- (void) finializeConfig {
     [_pipeline_state_descriptor release];
 }
+
+@end
+
+
+// ================ Draw Routine Template ================
+@implementation DrawRoutineTemplate
+{
+    id<MTLDevice> _hidden_device;
+}
+
+- (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device {
+    self = [super init];
+    if (self) {
+        _hidden_device = device;
+    }
+    return self;
+}
+
+- (nonnull id<MTLBuffer>)newSharedBufferWithLength:(NSUInteger)length {    
+    id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length
+                                                       options:MTLResourceStorageModeShared];
+    return buffer;
+}
+
+- (nonnull id<MTLBuffer>)newPrivateBufferWithLength:(NSUInteger)length {
+    id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length 
+                                                       options:MTLResourceStorageModePrivate];
+    return buffer;
+}
+
+
 
 @end

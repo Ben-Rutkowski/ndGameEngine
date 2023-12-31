@@ -24,4 +24,16 @@ typedef enum StaticShape_VertexIndex {
     StaticShape_VertexIndex_aspect_ratio = 1
 } StaticShape_VertexIndex;
 
+// ======== Nice Line ========
+typedef struct {
+    VECTOR_2F position;
+    VECTOR_2F uv;
+    VECTOR_4F color;
+} NiceLine_VertexType;
+
+typedef enum NiceLine_VertexIndex {
+    NiceLine_VertexIndex_vertices     = 0,
+    NiceLine_VertexIndex_aspect_ratio = 1
+}NiceLine_VertexIndex;
+
 #endif

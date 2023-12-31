@@ -9,12 +9,10 @@ COMP_app  =compiled
 
 SRC_draw  =Application/src/draw_routines
 COMP_draw =compiled
-# HEAD_draw =Application/draw_routines
 
 SRC_shdr  =Application/shaders
 COMP_shdr =compiled/shader_objects
 LIB_shdr  =compiled/shader_lib
-# HEAD_shdr =Application/shaders
 
 MTL_LIB  =compiled/shader_lib/MetalLibrary.metallib
 
@@ -43,11 +41,9 @@ Objects_app =$(patsubst $(SRC_app)/%.m,$(COMP_app)/%.o,$(Source_app))
 
 Source_draw  =$(wildcard $(SRC_draw)/*.m)
 Objects_draw =$(patsubst $(SRC_draw)/%.m,$(COMP_draw)/%.o,$(Source_draw))
-# Headers_draw =$(wildcard $(HEAD_draw)/*.h)
 
 Source_shdr  =$(wildcard $(SRC_shdr)/*.metal)
 Objects_shdr =$(patsubst $(SRC_shdr)/%.metal,$(COMP_shdr)/%.air,$(Source_shdr))
-# Headers_shdr =$(wildcard $(SRC_shdr)/*.h)
 
 Source_inter  =$(wildcard $(SRC_inter)/*.mm)
 Headers_inter =$(wildcard $(HEAD_inter)/*.h) $(wildcard $(HEAD_inter)/*.hpp)
