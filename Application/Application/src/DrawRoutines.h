@@ -16,21 +16,14 @@ Subroutine:
     - Has a semaphore wait function for compute shared data
     - Very short endcoding phase
     - Commit to GPU
- 
-    TODO: Add an mutable array of pipeline states
 */
 
 @protocol DrawSubroutineProtocol
 - (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
                         inTexture:(nonnull id<MTLTexture>)texture;
-//- (void) configure;
 @end
 
 @interface DrawSubroutineTemplate : NSObject
-@property (nonnull, nonatomic, strong) id<MTLRenderPipelineState>   pipeline_state;
-@property (nonnull, nonatomic, strong) id<MTLIndirectCommandBuffer> indirect_command_buffer;
-@property (nonnull, nonatomic, strong) MTLRenderPassDescriptor*     render_pass_descriptor;
-
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library;
 // --- Pipeline ---
@@ -38,22 +31,22 @@ Subroutine:
 - (void) setPixelFormat:(MTLPixelFormat)pixel_format;
 - (void) setVertexBufferImmutable:(NSUInteger)index;
 - (void) enableIndirectCommandBuffer;
-- (void) finializePipeline;
+- (nullable id<MTLRenderPipelineState>) compilePipeline;
 
 // --- Render Pass ---
 - (void) setClearColor:(MTLClearColor)color;
 - (void) finalizeRenderPass;
 
 // --- Indirect Command Buffer ---
-- (void) setUpICBVertexBufferCount:(NSUInteger)vertex_count
-               fragmentBufferCount:(NSUInteger)fragment_count
-                        maxCommand:(NSUInteger)max_command_count;
+- (nullable id<MTLIndirectCommandBuffer>) setUpICBVertexBufferCount:(NSUInteger)vertex_count
+                                                fragmentBufferCount:(NSUInteger)fragment_count
+                                                         maxCommand:(NSUInteger)max_command_count;
 
 // --- Finalizing ---
 - (void) finializeInit;
 
 // --- Drawing ---
-- (void) setDrawTexture:(nonnull id<MTLTexture>)texture;
+- (nonnull MTLRenderPassDescriptor*) currentRenderPassDescriptor:(nonnull id<MTLTexture>)texture;
 
 @end
 

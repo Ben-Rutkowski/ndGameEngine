@@ -42,6 +42,7 @@
 }
 
 - (void)drawInDrawable:(nonnull id<CAMetalDrawable>)drawable inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
+//    NSLog(@"draw");
     [_static_shape_subroutine encodeSubroutineInBuffer:command_buffer inTexture:drawable.texture];
     [command_buffer presentDrawable:drawable];
     [command_buffer commit];

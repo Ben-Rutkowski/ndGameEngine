@@ -3,12 +3,13 @@
 
 @implementation StaticShapeSubroutine
 {
+    id<MTLRenderPipelineState> _new_pipeline_state;
+    
     id<MTLBuffer> _vertex_data_buffer;
 }
 
-- (void)linkVertexDataBuffer:(nonnull id<MTLBuffer>)vertex_data {
+- (void) linkVertexDataBuffer:(nonnull id<MTLBuffer>)vertex_data {
     _vertex_data_buffer = [vertex_data retain];
-    NSLog(@"%@", _vertex_data_buffer);
 }
 
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
@@ -17,8 +18,8 @@
            fragmentFunction:@"StaticShape_fragmentShader"];
     [self setPixelFormat:pixel_format];
     [self setVertexBufferImmutable:StaticShape_VertexIndex_vertices];
-    [self finializePipeline];
-//    
+    _new_pipeline_state = [self compilePipeline];
+    
 //    --- Render Pass ---
     [self setClearColor:MTLClearColorMake(0.0, 0.5, 0.5, 1.0)];
     [self finalizeRenderPass];
@@ -29,11 +30,11 @@
 - (void)encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
                        inTexture:(nonnull id<MTLTexture>)texture
 {
-    [self setDrawTexture:texture];
-    
     @autoreleasepool {
-        id<MTLRenderCommandEncoder> command_encoder = [command_buffer renderCommandEncoderWithDescriptor:self.render_pass_descriptor];
-        [command_encoder setRenderPipelineState:self.pipeline_state];
+        MTLRenderPassDescriptor* current_pass = [self currentRenderPassDescriptor:texture];
+        id<MTLRenderCommandEncoder> command_encoder = [command_buffer renderCommandEncoderWithDescriptor:current_pass];
+        
+        [command_encoder setRenderPipelineState:_new_pipeline_state];
         
         [command_encoder setVertexBuffer:_vertex_data_buffer
                                   offset:0

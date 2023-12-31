@@ -2,11 +2,11 @@
 
 @implementation DrawSubroutineTemplate
 {
-//    --- Temporary Render Configure Objects ---
-    id<MTLDevice>                _device;
-    id<MTLLibrary>               _library;
+    id<MTLDevice>  _device;
+    id<MTLLibrary> _library;
     
     MTLRenderPipelineDescriptor* _pipeline_state_descriptor;
+    MTLRenderPassDescriptor*     _render_pass_descriptor;
 }
 
 - (instancetype) initWithDevice:(id<MTLDevice>)device
@@ -18,8 +18,8 @@
         _device  = device;
         _library = library;
         
-        _pipeline_state_descriptor = [MTLRenderPipelineDescriptor new];
-        _render_pass_descriptor    = [MTLRenderPassDescriptor new];
+        _pipeline_state_descriptor  = [MTLRenderPipelineDescriptor new];
+        _render_pass_descriptor = [MTLRenderPassDescriptor new];
     }
     
     return self;
@@ -45,11 +45,13 @@
     _pipeline_state_descriptor.supportIndirectCommandBuffers = YES;
 }
 
-- (void) finializePipeline {
+- (id<MTLRenderPipelineState>) compilePipeline {
     @autoreleasepool {
         NSError* error = nil;
-        _pipeline_state = [_device newRenderPipelineStateWithDescriptor:_pipeline_state_descriptor error:&error];
-        NSAssert(_pipeline_state, @"Failed to create Render Pipeline State: ", error);
+        id<MTLRenderPipelineState> new_pipeline_state = [_device newRenderPipelineStateWithDescriptor:_pipeline_state_descriptor error:&error];
+        NSAssert(new_pipeline_state, @"Failed to create Render Pipeline State: ", error);
+        
+        return new_pipeline_state;
     }
 }
 
@@ -64,9 +66,9 @@
 }
 
 // ==== Indirect Command Buffer ====
-- (void) setUpICBVertexBufferCount:(NSUInteger)vertex_count
-               fragmentBufferCount:(NSUInteger)fragment_count
-                        maxCommand:(NSUInteger)max_command_count
+- (id<MTLIndirectCommandBuffer>) setUpICBVertexBufferCount:(NSUInteger)vertex_count
+                                       fragmentBufferCount:(NSUInteger)fragment_count
+                                                maxCommand:(NSUInteger)max_command_count
 {
     @autoreleasepool {
         MTLIndirectCommandBufferDescriptor* inderect_command_buffer_descriptor = [MTLIndirectCommandBufferDescriptor new];
@@ -76,14 +78,16 @@
         inderect_command_buffer_descriptor.maxVertexBufferBindCount   = vertex_count;
         inderect_command_buffer_descriptor.maxFragmentBufferBindCount = fragment_count;
         
-        _indirect_command_buffer = [_device newIndirectCommandBufferWithDescriptor:inderect_command_buffer_descriptor
+        id<MTLIndirectCommandBuffer> new_indirect_command_buffer = [_device newIndirectCommandBufferWithDescriptor:inderect_command_buffer_descriptor
                                                                    maxCommandCount:max_command_count options:0];
+        return new_indirect_command_buffer;
     }
 }
 
 // ==== Drawing ====
-- (void) setDrawTexture:(nonnull id<MTLTexture>)texture {
+- (MTLRenderPassDescriptor*) currentRenderPassDescriptor:(id<MTLTexture>)texture {
     _render_pass_descriptor.colorAttachments[0].texture = texture;
+    return _render_pass_descriptor;
 }
 
 // ==== Finalizing ====
