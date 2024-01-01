@@ -28,7 +28,8 @@ public:
     void runEvent(ndEvent* event) {}
 
 private:
-    void beginLoop();
+    void beginStartUp();
+    void endStartUp();
     void startFrame();
     void drawWindowFrame();
     void draw();

@@ -30,7 +30,8 @@ public:
     void runEvent(ndEvent* event);
 
 private:
-    void onBeginLoop(ndEvent* event);
+    void onBeginStartUp(ndEvent* event);
+    void onEndStartUp(ndEvent* event);
     void onStartFrame(ndEvent* event);
     void onDrawWindowFrame(ndEvent* event);
     void onDraw(ndEvent* evnet);

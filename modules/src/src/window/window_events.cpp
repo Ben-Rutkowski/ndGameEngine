@@ -28,7 +28,8 @@ void loadVertices(void* buffer) {
 
 void ndWindowModule::runEvent(ndEvent* event) {
     switch (event->getOp()) {
-    case Operation::BEGIN_LOOP:        onBeginLoop(event); break;
+    case Operation::BEGIN_START_UP:    onBeginStartUp(event); break;
+    case Operation::END_START_UP:      onEndStartUp(event); break;
     case Operation::START_FRAME:       onStartFrame(event); break;
     case Operation::DRAW_WINDOW_FRAME: onDrawWindowFrame(event); break;
     case Operation::DRAW:              onDraw(event); break;
@@ -38,7 +39,7 @@ void ndWindowModule::runEvent(ndEvent* event) {
     }
 }
 
-void ndWindowModule::onBeginLoop(ndEvent* event) {
+void ndWindowModule::onBeginStartUp(ndEvent* event) {
     pollEventsCocoa();
 
     unsigned int debug_routine = nd_window.createDrawRoutine(ndDrawRoutineKindDebug);
@@ -55,6 +56,10 @@ void ndWindowModule::onBeginLoop(ndEvent* event) {
 
     nd_window.showWindow();
     event->print(module_name);
+}
+
+void ndWindowModule::onEndStartUp(ndEvent* event) {
+
 }
 
 void ndWindowModule::onStartFrame(ndEvent* event) {

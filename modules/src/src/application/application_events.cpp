@@ -8,9 +8,15 @@ void ndAppModule::pollEvents() {
     event_manager.pollEvents();
 }
 
-void ndAppModule::beginLoop() {
+void ndAppModule::beginStartUp() {
     event_manager.propogateEventImmediate(
-        ndEvent(module_name, Operation::BEGIN_LOOP)
+        ndEvent(module_name, Operation::BEGIN_START_UP)
+    );
+}
+
+void ndAppModule::endStartUp() {
+    event_manager.propogateEventImmediate(
+        ndEvent(module_name, Operation::END_START_UP)
     );
 }
 

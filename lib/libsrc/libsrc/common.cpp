@@ -1,14 +1,5 @@
 #include "common.hpp"
 
-// ShaderEnumMap getShaderEnumMap() {
-//     ShaderEnumMap map;
-//     map.addEntry(ShaderType::VERTEX,   GL_VERTEX_SHADER);
-//     map.addEntry(ShaderType::FRAGMENT, GL_FRAGMENT_SHADER);
-//     map.addEntry(ShaderType::GEOMETRY, GL_GEOMETRY_SHADER);
-
-//     return map;
-// }
-
 std::string moduleEnumToString(Module module) {
     std::string out;
 
@@ -36,7 +27,8 @@ std::string operationEnumToString(Operation operation) {
     case Operation::END_FRAME: return "END_FRAME";
     case Operation::COLLECT_MENU_KEYS: return "COLLECT_MENU_KEYS";
     case Operation::ESCAPE_KEY: return "ESCAPE_KEY";
-    case Operation::BEGIN_LOOP: return "BEGIN_LOOP";
+    case Operation::BEGIN_START_UP: return "BEGIN_START_UP";
+    case Operation::END_START_UP: return "END_START_UP";
     case Operation::RIGHT_MOUSE_CLICK: return "RIGHT_MOUSE_CLICK";
     case Operation::RIGHT_MOUSE_HOLD: return "RIGHT_MOUSE_HOLD";
     case Operation::LEFT_MOUSE_CLICK: return "LEFT_MOUSE_CLICK";

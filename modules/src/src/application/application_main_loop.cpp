@@ -3,13 +3,14 @@
 #include <chrono>
 
 void ndAppModule::startApp() {
-    beginLoop();
+    beginStartUp();
     
     // pollEvents();
     // int count = 0;
     // double delta;
     // double elapsed = 0.0;
 
+    endStartUp();
     while (!window->requestBool(Request::SHOULD_CLOSE)) {
         // count += 1;
         // auto start_type = std::chrono::high_resolution_clock::now();
