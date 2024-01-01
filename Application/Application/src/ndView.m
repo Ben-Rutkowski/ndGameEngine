@@ -3,9 +3,7 @@
 
 @implementation ndView
 {
-//    id<MTLDevice> _device;
-    CAMetalLayer* _metal_layer;
-    
+    CAMetalLayer*   _metal_layer;
     RenderSwitcher* _render_switcher;
 }
 
@@ -31,7 +29,7 @@
     return self;
 }
 
-- (unsigned int) initDrawRoutine:(unsigned int)draw_routine_kind {
+- (NSUInteger) initDrawRoutine:(NSUInteger)draw_routine_kind {
     return [_render_switcher initDrawRoutine:draw_routine_kind];
 }
 
@@ -65,6 +63,7 @@
 - (void) render {
     [_render_switcher drawInMetalLayer:_metal_layer];
 }
+
 
 // ================ CAMetalLayer Callbacks ================
 - (void) displayLayer:(CALayer*)layer {

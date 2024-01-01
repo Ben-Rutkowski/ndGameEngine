@@ -7,7 +7,7 @@
 
 @interface ndView : NSView<CALayerDelegate>
 - (nonnull instancetype) initWithFrame:(CGRect)frame device:(nonnull id<MTLDevice>)device;
-- (unsigned int) initDrawRoutine:(unsigned int)draw_routine_kind;
+- (NSUInteger) initDrawRoutine:(NSUInteger)draw_routine_kind;
 - (void) render;
 @end
 

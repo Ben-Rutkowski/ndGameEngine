@@ -3,13 +3,16 @@
 // ================ Draw Subroutine Template ================
 @implementation DrawSubroutineTemplate
 {
+//    --- Hidden Metal Components ---
     id<MTLDevice>  _device;
     id<MTLLibrary> _library;
     
+//    --- Hidden Render Components ---
     MTLRenderPipelineDescriptor* _pipeline_state_descriptor;
     MTLRenderPassDescriptor*     _render_pass_descriptor;
 }
 
+// ==== Configure ===
 - (instancetype) initWithDevice:(id<MTLDevice>)device
                         library:(id<MTLLibrary>)library
 {
@@ -21,7 +24,6 @@
         _pipeline_state_descriptor  = [MTLRenderPipelineDescriptor new];
         _render_pass_descriptor     = [MTLRenderPassDescriptor new];
     }
-    
     return self;
 }
 
@@ -94,7 +96,7 @@
     }
 }
 
-// ==== Drawing ====
+// ==== Draw ====
 - (MTLRenderPassDescriptor*) currentRenderPassDescriptor:(id<MTLTexture>)texture {
     _render_pass_descriptor.colorAttachments[0].texture = texture;
     return _render_pass_descriptor;
@@ -114,6 +116,7 @@
     id<MTLDevice> _hidden_device;
 }
 
+// ==== Configure ====
 - (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device {
     self = [super init];
     if (self) {
@@ -122,7 +125,8 @@
     return self;
 }
 
-- (nonnull id<MTLBuffer>)newSharedBufferWithLength:(NSUInteger)length {    
+// ==== Resources ====
+- (nonnull id<MTLBuffer>)newSharedBufferWithLength:(NSUInteger)length {
     id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length
                                                        options:MTLResourceStorageModeShared];
     return buffer;
@@ -133,7 +137,5 @@
                                                        options:MTLResourceStorageModePrivate];
     return buffer;
 }
-
-
 
 @end

@@ -8,7 +8,7 @@
                                 metalLayer:(nonnull CAMetalLayer*)layer;
 
 // --- Initializing ---
-- (unsigned int) initDrawRoutine:(unsigned int)draw_routine_kind;
+- (NSUInteger) initDrawRoutine:(NSUInteger)draw_routine_kind;
 
 // --- Drawing ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;

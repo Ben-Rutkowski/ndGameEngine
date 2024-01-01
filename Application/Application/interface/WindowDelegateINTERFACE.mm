@@ -52,7 +52,7 @@ void ndWindow::drawView() {
 
 unsigned int ndWindow::initDrawRoutine(ndDrawRoutineKind draw_routine_kind) {
     ndView* nd_view = (ndView*)ndViewCOCOA;
-    return [nd_view initDrawRoutine:(unsigned int)draw_routine_kind];
+    return (unsigned int)[nd_view initDrawRoutine:draw_routine_kind];
 }
 
 // ================ Debugging ================

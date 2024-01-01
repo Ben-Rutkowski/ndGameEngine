@@ -15,8 +15,6 @@ void ndWindowModule::runEvent(ndEvent* event) {
 void ndWindowModule::onBeginLoop(ndEvent* event) {
     pollEventsCocoa();
 
-    
-
     nd_window.showWindow();
     event->print(module_name);
 }

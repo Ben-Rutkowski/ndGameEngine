@@ -1,14 +1,16 @@
 #ifndef COCOA_INTERFACE_HPP
 #define COCOA_INTERFACE_HPP
 
-// ======== Static Variables ========
-static void* CURRENT_APPLICATION_DELEGATE_COCOA;
-
 
 // ======== Enums ========
 typedef enum ndDrawRoutineKind {
     ndDrawRoutineKindDebug = 0
 } ndDrawRoutineKind;
+
+#ifndef __IN_COCOA__
+
+// ======== Static Variables ========
+static void* CURRENT_APPLICATION_DELEGATE_COCOA;
 
 
 // ======== Application ========
@@ -37,5 +39,7 @@ public:
 public:
     void debug();
 };
+
+#endif /* ifndef __IN_COCOA__ */
 
 #endif

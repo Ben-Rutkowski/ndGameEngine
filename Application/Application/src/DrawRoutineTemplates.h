@@ -1,8 +1,3 @@
-/*
-    Templates hold the device and library
-    Derived class must have no knowledge of the device
-*/
-
 #ifndef DRAW_ROUTINE_TEMPLATES_H
 #define DRAW_ROUTINE_TEMPLATES_H
 
@@ -10,16 +5,22 @@
 #import "shader_types.h"
 
 
-// ==== Protocol ====
+// ================ Subroutine Protocol ================
 @protocol DrawSubroutineProtocol
+// --- Configure ---
 - (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
                         inTexture:(nonnull id<MTLTexture>)texture;
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format;
+
+// --- Resources ---
+- (void) bindBuffer:(NSUInteger)index;
+- (void) linkBuffer:(nonnull id<MTLBuffer>)buffer vertexCount:(NSUInteger)count;
 @end
 
 
-// ==== Template ====
+// ================ Subroutine Template ================
 @interface DrawSubroutineTemplate : NSObject
+// --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library;
 // --- Pipeline ---
@@ -41,26 +42,36 @@
 // --- Finalizing ---
 - (void) finializeConfig;
 
-// --- Drawing ---
+// --- Draw ---
 - (nonnull MTLRenderPassDescriptor*) currentRenderPassDescriptor:(nonnull id<MTLTexture>)texture;
-
 @end
 
 
-// ==== Protocol ====
+// ================ Routine Protocol ================
 @protocol DrawRoutineProtocol
+// --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library;
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format;
-- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 
+// --- Resources ---
+- (void) bindBuffer:(NSUInteger)buffer_index;
+- (void) createBufferWithVertexCount:(NSUInteger)count;
+- (nonnull id<MTLBuffer>) getBuffer;
 //- (void) reloadSharedData;
+
+// --- Draw ---
+- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
+        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 @end
 
 
-// ==== Template ====
+// ================ Routine Template ================
 @interface DrawRoutineTemplate : NSObject
+// --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
+
+// --- Resources ---
 - (nonnull id<MTLBuffer>) newSharedBufferWithLength:(NSUInteger)length;
 - (nonnull id<MTLBuffer>) newPrivateBufferWithLength:(NSUInteger)length;
 @end

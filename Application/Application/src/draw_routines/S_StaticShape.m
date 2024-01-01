@@ -3,30 +3,36 @@
 
 @implementation StaticShapeSubroutine
 {
+//    --- Pipelines ---
     id<MTLRenderPipelineState> _new_pipeline_state;
     
+//    --- Resources ---
     id<MTLBuffer> _vertex_data_buffer;
+    NSUInteger    _vertex_count;
 }
 
-- (void) linkVertexDataBuffer:(nonnull id<MTLBuffer>)vertex_data {
-    _vertex_data_buffer = vertex_data;
-}
-
+// ==== Configuring ====
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
-//    --- Pipeline ---
     [self setVertexFunction:@"StaticShape_vertexShader"
            fragmentFunction:@"StaticShape_fragmentShader"];
     [self setPixelFormat:pixel_format];
     [self setVertexBufferImmutable:StaticShape_VertexIndex_vertices];
     _new_pipeline_state = [self compilePipeline];
     
-//    --- Render Pass ---
     [self setClearColor:MTLClearColorMake(0.0, 0.5, 0.5, 1.0)];
     [self finalizeRenderPass];
     
     [self finializeConfig];
 }
 
+// ==== Resources ====
+- (void)bindBuffer:(NSUInteger)index {}
+- (void)linkBuffer:(nonnull id<MTLBuffer>)buffer vertexCount:(NSUInteger)count {
+    _vertex_data_buffer = buffer;
+    _vertex_count       = count;
+}
+
+// ==== Drawing ====
 - (void)encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
                        inTexture:(nonnull id<MTLTexture>)texture
 {
@@ -48,7 +54,7 @@
         
         [command_encoder drawPrimitives:MTLPrimitiveTypeTriangle
                             vertexStart:0
-                            vertexCount:3];
+                            vertexCount:_vertex_count];
         
         [command_encoder endEncoding];
     }

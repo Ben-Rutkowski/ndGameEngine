@@ -28,11 +28,6 @@
 
 // ================ SUBROUTINES ================
 @interface StaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
-- (void) linkVertexDataBuffer:(nonnull id<MTLBuffer>)vertex_data;
-@end
-
-@interface StaticNiceLineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
-- (void) linkVertexDataBuffer:(nonnull id<MTLBuffer>)vertex_data vertexCount:(NSUInteger)count;
 @end
 
 
@@ -52,16 +47,12 @@
          Private varables :
              - subroutines
              - buffers
-             - aux  
+             - aux
      }
 */
+
 // ================ ROUTINES ================
 @interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
-- (nonnull StaticShape_VertexType*) createVertexBufferWithVertexNumber:(NSUInteger)number;
-@end
-
-@interface StaticNiceLineRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
-- (nonnull NiceLine_VertexType*) createVertexBufferWithVertexNumber:(NSUInteger)number;
 @end
 
 #endif

@@ -13,7 +13,6 @@
 - (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device 
                                library:(nonnull id<MTLLibrary>)library
 {
-    NSLog(@"Creating Nice Line Routine");
     self = [super initWithDevice:device];
     if (self) {
         _draw_line_subroutine = [[StaticNiceLineSubroutine alloc] initWithDevice:device
