@@ -2,10 +2,12 @@
 #define COCOA_INTERFACE_HPP
 
 
-// ======== Enums ========
+// ======== Draw Routine Enums ========
 typedef enum ndDrawRoutineKind {
-    ndDrawRoutineKindDebug = 0
+    ndDrawRoutineKindNull  = 0,
+    ndDrawRoutineKindDebug = 1
 } ndDrawRoutineKind;
+
 
 #ifndef __IN_COCOA__
 
@@ -21,19 +23,30 @@ void pollEventsCocoa();
 // ======== Window ========
 class ndWindow {
 private:
-    void* WindowCOCOA;
-    void* WindowDelegateCOCOA;
-    void* ndViewCOCOA;
+    void* window_COCOA;
+    void* window_delegate_COCOA;
+    void* nd_view_COCOA;
+    void* render_switcher_COCOA;
     
 public:
     ndWindow(int width, int height, const char* title);
     
-// --- Interface ---
+// ==== Window Operations ====
     bool shouldClose();
     void showWindow();
+    
+// ==== Draw ====
     void drawView();
     
-    unsigned int initDrawRoutine(ndDrawRoutineKind draw_routine_kind);
+// ==== Routine Interface ====
+    unsigned int createDrawRoutine(ndDrawRoutineKind draw_routine_kind);
+    void bindRoutine(unsigned int draw_routine_index);
+    void configureRoutine();
+    void armRoutine();
+    
+    void  bindBuffer(unsigned int buffer_index);
+    void  createBuffer(unsigned int vertex_count);
+    void* getBuffer();
 
 // --- Debugging ---
 public:

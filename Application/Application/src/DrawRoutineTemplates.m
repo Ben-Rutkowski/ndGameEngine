@@ -126,16 +126,39 @@
 }
 
 // ==== Resources ====
-- (nonnull id<MTLBuffer>)newSharedBufferWithLength:(NSUInteger)length {
+- (id<MTLBuffer>)newSharedBufferWithLength:(NSUInteger)length {
     id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length
                                                        options:MTLResourceStorageModeShared];
     return buffer;
 }
 
-- (nonnull id<MTLBuffer>)newPrivateBufferWithLength:(NSUInteger)length {
+- (id<MTLBuffer>)newPrivateBufferWithLength:(NSUInteger)length {
     id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length 
                                                        options:MTLResourceStorageModePrivate];
     return buffer;
 }
+
+@end
+
+
+// ================ Null Draw Routine ================
+@implementation NullDrawRoutine
+- (instancetype)initWithDevice:(nonnull id<MTLDevice>)device 
+                       library:(nonnull id<MTLLibrary>)library 
+{
+    self = [super init];
+    return self;
+}
+
+- (void)configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {}
+- (void)bindBuffer:(NSUInteger)buffer_index {}
+- (void)createBufferWithVertexCount:(NSUInteger)count {}
+- (id<MTLBuffer>)getBuffer {return nil;}
+- (void)drawInDrawable:(nonnull id<CAMetalDrawable>)drawable 
+       inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer 
+{
+//    NSLog(@"Null Draw");
+}
+
 
 @end

@@ -4,7 +4,7 @@
         {
             "label": "Run",
             "type": "shell",
-            "command": "make -s; ./build/debug",
+            "command": "make -s; ./build/ndGameEngine_DEBUG",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

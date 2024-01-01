@@ -4,14 +4,25 @@
 #import <MetalKit/MetalKit.h>
 
 @interface RenderSwitcher : NSObject
+// --- Initializing ---
 - (nonnull instancetype) initWithMTLDevice:(nonnull id<MTLDevice>)device
                                 metalLayer:(nonnull CAMetalLayer*)layer;
 
-// --- Initializing ---
-- (NSUInteger) initDrawRoutine:(NSUInteger)draw_routine_kind;
+// --- Routine Interface ---
+- (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind;
+- (void) bindRoutine:(NSUInteger)index;
+- (void) configureRoutine;
+- (void) armRoutine;
 
-// --- Drawing ---
+- (void) bindBuffer:(NSUInteger)index;
+- (void) createBufferWithVertexCount:(NSUInteger)count;
+- (nullable id<MTLBuffer>) getBuffer;
+
+// --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
+
+// --- Debugging ---
+- (void) debug;
 @end
 
 #endif

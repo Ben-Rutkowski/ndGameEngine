@@ -11,7 +11,7 @@
 }
 
 // ==== Configure ====
-- (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device
+- (instancetype)initWithDevice:(nonnull id<MTLDevice>)device
                                library:(nonnull id<MTLLibrary>)library
 {
     self = [super initWithDevice:device];
@@ -23,18 +23,21 @@
 }
 
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
+    NSLog(@"Configuring Routine");
     [_static_shape_subroutine configureWithDrawablePixelFormat:pixel_format];
 }
 
 
 // ==== Resources ====
 - (void)bindBuffer:(NSUInteger)buffer_index {}
+
 - (void)createBufferWithVertexCount:(NSUInteger)count {
+    NSLog(@"Create Buffer");
     _vertex_data_buffer = [self newSharedBufferWithLength:count*sizeof(StaticShape_VertexType)];
     [_static_shape_subroutine linkBuffer:_vertex_data_buffer vertexCount:count];
 }
 
-- (nonnull id<MTLBuffer>)getBuffer {
+- (id<MTLBuffer>)getBuffer {
     return _vertex_data_buffer;
 }
 

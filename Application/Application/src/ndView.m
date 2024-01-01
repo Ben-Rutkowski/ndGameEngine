@@ -9,28 +9,28 @@
 
 - (nonnull instancetype) initWithFrame:(CGRect)frame device:(nonnull id<MTLDevice>)device {
     self = [super initWithFrame:frame];
-    
     if (self) {
-        self.wantsLayer = YES;
+        self.wantsLayer                = YES;
         self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawDuringViewResize;
-        self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+        self.autoresizingMask          = NSViewWidthSizable | NSViewHeightSizable;
         
-        _metal_layer = (CAMetalLayer*)self.layer;
+        _metal_layer        = (CAMetalLayer*)self.layer;
         self.layer.delegate = self;
         
-//        _device = [device retain];
-        _metal_layer.device = device;
-        _metal_layer.pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+        _metal_layer.device             = device;
+        _metal_layer.pixelFormat        = MTLPixelFormatBGRA8Unorm_sRGB;
         _metal_layer.displaySyncEnabled = NO;
-        
-        _render_switcher = [[RenderSwitcher alloc] initWithMTLDevice:device metalLayer:_metal_layer];
     }
     
     return self;
 }
 
-- (NSUInteger) initDrawRoutine:(NSUInteger)draw_routine_kind {
-    return [_render_switcher initDrawRoutine:draw_routine_kind];
+- (void) setRenderSwitcher:(RenderSwitcher*)render_switcher {
+    _render_switcher = render_switcher;
+}
+
+- (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind {
+    return [_render_switcher createDrawRoutine:draw_routine_kind];
 }
 
 - (CALayer*) makeBackingLayer {
@@ -43,7 +43,7 @@
 }
 
 - (void) resizeDrawableScale:(CGFloat)scale_factor {
-    CGSize new_size = self.bounds.size;
+    CGSize new_size  = self.bounds.size;
     new_size.width  *= scale_factor;
     new_size.height *= scale_factor;
     
@@ -60,22 +60,22 @@
     _metal_layer.drawableSize = new_size;
 }
 
-- (void) render {
+- (void) draw {
     [_render_switcher drawInMetalLayer:_metal_layer];
 }
 
 
 // ================ CAMetalLayer Callbacks ================
 - (void) displayLayer:(CALayer*)layer {
-    [self render];
+    [self draw];
 }
 
 - (void) drawLayer:(CALayer*)layer inContext:(CGContextRef)ctx {
-    [self render];
+    [self draw];
 }
 
 - (void) drawRect:(CGRect)rect {
-    [self render];
+    [self draw];
 }
 
 // ================ NSView Functions ================

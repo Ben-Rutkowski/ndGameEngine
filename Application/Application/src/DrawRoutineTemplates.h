@@ -57,7 +57,7 @@
 // --- Resources ---
 - (void) bindBuffer:(NSUInteger)buffer_index;
 - (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nonnull id<MTLBuffer>) getBuffer;
+- (nullable id<MTLBuffer>) getBuffer;
 //- (void) reloadSharedData;
 
 // --- Draw ---
@@ -72,8 +72,13 @@
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
 
 // --- Resources ---
-- (nonnull id<MTLBuffer>) newSharedBufferWithLength:(NSUInteger)length;
-- (nonnull id<MTLBuffer>) newPrivateBufferWithLength:(NSUInteger)length;
+- (nullable id<MTLBuffer>) newSharedBufferWithLength:(NSUInteger)length;
+- (nullable id<MTLBuffer>) newPrivateBufferWithLength:(NSUInteger)length;
+@end
+
+
+// ================ Null Draw Routine ================
+@interface NullDrawRoutine : NSObject<DrawRoutineProtocol>
 @end
 
 #endif

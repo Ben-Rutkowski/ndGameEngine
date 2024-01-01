@@ -6,6 +6,8 @@
 #ifndef DRAW_ROUTINES_H
 #define DRAW_ROUTINES_H
 
+#define __IN_COCOA__
+#import "cocoa_interface.hpp"
 #import "DrawRoutineTemplates.h"
 
 /*  Subroutine protocol

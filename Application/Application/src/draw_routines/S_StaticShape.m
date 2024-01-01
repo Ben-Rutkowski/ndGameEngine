@@ -36,6 +36,8 @@
 - (void)encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
                        inTexture:(nonnull id<MTLTexture>)texture
 {
+//    NSLog(@"draw %lu", _vertex_count);
+    
     @autoreleasepool {
         MTLRenderPassDescriptor*    current_pass    = [self currentRenderPassDescriptor:texture];
         id<MTLRenderCommandEncoder> command_encoder = [command_buffer renderCommandEncoderWithDescriptor:current_pass];

@@ -7,8 +7,8 @@ COMP_mod =modules/compiled
 COMP_lib =lib/compiled
 COMP_app =Application/compiled
 
-BUILD =build
-DEBUG_NAME =debug
+BUILD      =build
+DEBUG_NAME =ndGameEngine_DEBUG
 
 # --- Dependencies ---
 FRAMEWORKS =-framework AppKit -framework Metal -framework MetalKit -framework QuartzCore
