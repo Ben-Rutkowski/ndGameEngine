@@ -1,65 +1,68 @@
 #import "DrawRoutines.h"
-#import "shader_types.h"
 
 @implementation StaticShapeSubroutine
 {
-//    --- Pipelines ---
-    id<MTLRenderPipelineState> _new_pipeline_state;
+    id<MTLRenderPipelineState> _draw_pipeline;
     
-//    --- Resources ---
-    id<MTLBuffer> _vertex_data_buffer;
-    NSUInteger    _vertex_count;
+    DynamicBuffer* _vertex_buffer;
 }
 
-// ==== Configuring ====
+// ==== Configuring ===
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
+//    ---- Pipeline ---
     [self setVertexFunction:@"StaticShape_vertexShader"
            fragmentFunction:@"StaticShape_fragmentShader"];
     [self setPixelFormat:pixel_format];
-    [self setVertexBufferImmutable:StaticShape_VertexIndex_vertices];
-    _new_pipeline_state = [self compilePipeline];
+    _draw_pipeline = [self compilePipeline];
     
+//    --- Render Pass ---
     [self setClearColor:MTLClearColorMake(0.0, 0.5, 0.5, 1.0)];
     [self finalizeRenderPass];
     
+//    --- Finalize ---
     [self finializeConfig];
 }
 
-// ==== Resources ====
-- (void)bindBuffer:(NSUInteger)index {}
-- (void)linkBuffer:(nonnull id<MTLBuffer>)buffer vertexCount:(NSUInteger)count {
-    _vertex_data_buffer = buffer;
-    _vertex_count       = count;
+- (void) linkBuffer:(nonnull DynamicBuffer*)buffer {
+    _vertex_buffer = buffer;
 }
 
-// ==== Drawing ====
-- (void)encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
-                       inTexture:(nonnull id<MTLTexture>)texture
+// ==== Resources ====
+- (void) bindBuffer:(NSUInteger)index {
+}
+
+// ==== Draw ====
+- (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
+                        inTexture:(nonnull id<MTLTexture>)texture 
 {
-//    NSLog(@"draw %lu", _vertex_count);
+    const float aspect_ratio = (float)600/(float)800;
+    
+    MTLRenderPassDescriptor* current_pass = [self currentRenderPassDescriptor:texture];
     
     @autoreleasepool {
-        MTLRenderPassDescriptor*    current_pass    = [self currentRenderPassDescriptor:texture];
-        id<MTLRenderCommandEncoder> command_encoder = [command_buffer renderCommandEncoderWithDescriptor:current_pass];
+        id<MTLRenderCommandEncoder> render_encoder = [command_buffer renderCommandEncoderWithDescriptor:current_pass];
         
-        [command_encoder setRenderPipelineState:_new_pipeline_state];
+        [render_encoder setRenderPipelineState:_draw_pipeline];
         
-        [command_encoder setVertexBuffer:_vertex_data_buffer
-                                  offset:0
-                                 atIndex:StaticShape_VertexIndex_vertices];
+        [render_encoder setVertexBuffer:[_vertex_buffer drawTap]
+                                 offset:0
+                                atIndex:StaticShape_VertexIndex_vertices];
         
-        float aspect_ratio = (float)600/(float)800;
-        
-        [command_encoder setVertexBytes:&aspect_ratio
-                                 length:sizeof(aspect_ratio)
-                                atIndex:StaticShape_VertexIndex_aspect_ratio];
-        
-        [command_encoder drawPrimitives:MTLPrimitiveTypeTriangle
-                            vertexStart:0
-                            vertexCount:_vertex_count];
-        
-        [command_encoder endEncoding];
+        [render_encoder setVertexBytes:&aspect_ratio
+                                length:sizeof(aspect_ratio)
+                               atIndex:StaticShape_VertexIndex_aspect_ratio];
+
+        [render_encoder drawPrimitives:MTLPrimitiveTypeTriangle
+                           vertexStart:0
+                           vertexCount:[_vertex_buffer getVertexCount]];
+
+        [render_encoder endEncoding];
     }
 }
+
+
+// ==== DEPRICATED ====
+- (void) linkBufferOLD:(nonnull id<MTLBuffer>)buffer 
+           vertexCount:(NSUInteger)count {}
 
 @end

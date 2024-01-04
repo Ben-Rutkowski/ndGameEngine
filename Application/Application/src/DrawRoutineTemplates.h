@@ -2,6 +2,7 @@
 #define DRAW_ROUTINE_TEMPLATES_H
 
 #import <MetalKit/MetalKit.h>
+#import "Buffers.h"
 #import "shader_types.h"
 
 
@@ -14,7 +15,10 @@
 
 // --- Resources ---
 - (void) bindBuffer:(NSUInteger)index;
-- (void) linkBuffer:(nonnull id<MTLBuffer>)buffer vertexCount:(NSUInteger)count;
+- (void) linkBuffer:(nonnull DynamicBuffer*)buffer;
+
+// ---------------- ----------------
+- (void) linkBufferOLD:(nonnull id<MTLBuffer>)buffer vertexCount:(NSUInteger)count;
 @end
 
 
@@ -57,12 +61,19 @@
 // --- Resources ---
 - (void) bindBuffer:(NSUInteger)buffer_index;
 - (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nullable id<MTLBuffer>) getBuffer;
-//- (void) reloadSharedData;
+- (nullable DynamicBuffer*) getBuffer;
 
 // --- Draw ---
 - (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
         inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
+- (void) beforeDraw;
+- (void) drawUntapScheduled;
+- (void) drawUntapCompleted;
+
+// ---------------- ----------------
+- (nullable id<MTLBuffer>) getBufferOLD;
+- (void) OLDdrawInDrawable:(nonnull id<CAMetalDrawable>)drawable
+           inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 @end
 
 
@@ -72,8 +83,14 @@
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
 
 // --- Resources ---
-- (nullable id<MTLBuffer>) newSharedBufferWithLength:(NSUInteger)length;
-- (nullable id<MTLBuffer>) newPrivateBufferWithLength:(NSUInteger)length;
+- (nonnull DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
+                                            vertexCount:(NSUInteger)vertex_count
+                                            storageMode:(MTLResourceOptions)storage_mode;
+
+// ---------------- ----------------
+- (nullable id<MTLBuffer>) OLDnewSharedBufferWithLength:(NSUInteger)length;
+- (nullable id<MTLBuffer>) OLDnewPrivateBufferWithLength:(NSUInteger)length;
+
 @end
 
 

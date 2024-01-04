@@ -82,7 +82,7 @@ void ndWindow::armRoutine() {
     [render_switcher armRoutine];
 }
 
-// ====  ====
+// ==== Resources ====
 void ndWindow::bindBuffer(unsigned int buffer_index) {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
     [render_switcher bindBuffer:buffer_index];
@@ -93,15 +93,21 @@ void ndWindow::createBuffer(unsigned int vertex_count) {
     [render_switcher createBufferWithVertexCount:vertex_count];
 }
 
-void* ndWindow::getBuffer() {
+ndBuffer ndWindow::getBuffer() {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    id<MTLBuffer> buffer = [render_switcher getBuffer];
-    return buffer.contents;
+    DynamicBuffer*  dynamic_buffer  = [render_switcher getBuffer];
+    return ndBuffer(dynamic_buffer);
 }
 
-// ================ Debugging ================
-void ndWindow::debug() {
-    NSLog(@"Debugging ndWindow");
-    RenderSwitcher* redner_switcher = (__bridge RenderSwitcher*)render_switcher_COCOA;
-    [redner_switcher debug];
+
+// ==== OLD ====
+void ndWindow::createBufferOLD(unsigned int vertex_count) {
+    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
+    [render_switcher OLDcreateBufferWithVertexCount:vertex_count];
+}
+
+void* ndWindow::getBufferOLD() {
+    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
+    id<MTLBuffer> buffer = [render_switcher getBufferOLD];
+    return buffer.contents;
 }

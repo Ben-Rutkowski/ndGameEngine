@@ -1,6 +1,7 @@
 #ifndef RENDER_SWITCHER_COCOA_H
 #define RENDER_SWITCHER_COCOA_H
 
+#import "Buffers.h"
 #import <MetalKit/MetalKit.h>
 
 @interface RenderSwitcher : NSObject
@@ -16,13 +17,14 @@
 
 - (void) bindBuffer:(NSUInteger)index;
 - (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nullable id<MTLBuffer>) getBuffer;
+- (nonnull DynamicBuffer*) getBuffer;
+
+- (void) OLDcreateBufferWithVertexCount:(NSUInteger)count;
+- (nullable id<MTLBuffer>) getBufferOLD;
 
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
 
-// --- Debugging ---
-- (void) debug;
 @end
 
 #endif

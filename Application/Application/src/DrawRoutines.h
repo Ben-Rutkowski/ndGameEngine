@@ -29,6 +29,9 @@
 */
 
 // ================ SUBROUTINES ================
+@interface OLDStaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
+@end
+
 @interface StaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
 
@@ -54,6 +57,9 @@
 */
 
 // ================ ROUTINES ================
+@interface OLDStaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
+@end
+
 @interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 

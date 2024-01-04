@@ -3,53 +3,71 @@
 @implementation StaticShapeRoutine
 {
 //    --- Subroutines ---
-    StaticShapeSubroutine* _static_shape_subroutine;
-    
-//    --- Resources ---
-    id<MTLBuffer> _vertex_data_buffer;
-    NSUInteger    _vertex_count;
+    StaticShapeSubroutine* _draw_subroutine;
+    DynamicBuffer*         _shape_vertices;
 }
 
-// ==== Configure ====
-- (instancetype)initWithDevice:(nonnull id<MTLDevice>)device
-                               library:(nonnull id<MTLLibrary>)library
+// ==== Configuring ====
+- (instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                                library:(nonnull id<MTLLibrary>)library
 {
     self = [super initWithDevice:device];
     if (self) {
-        _static_shape_subroutine = [[StaticShapeSubroutine alloc] initWithDevice:device
-                                                                         library:library];
+        _draw_subroutine = [[StaticShapeSubroutine alloc] initWithDevice:device
+                                                                 library:library];
     }
     return self;
 }
 
+- (void) createBufferWithVertexCount:(NSUInteger)count {
+    _shape_vertices = [self newDynamicBufferWithDataSize:count*sizeof(StaticShape_VertexType)
+                                             vertexCount:count
+                                             storageMode:MTLResourceStorageModeShared];
+    
+    [_draw_subroutine linkBuffer:_shape_vertices];
+}
+
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
-    NSLog(@"Configuring Routine");
-    [_static_shape_subroutine configureWithDrawablePixelFormat:pixel_format];
+    [_draw_subroutine configureWithDrawablePixelFormat:pixel_format];
 }
 
 
 // ==== Resources ====
-- (void)bindBuffer:(NSUInteger)buffer_index {}
-
-- (void)createBufferWithVertexCount:(NSUInteger)count {
-    NSLog(@"Create Buffer");
-    _vertex_data_buffer = [self newSharedBufferWithLength:count*sizeof(StaticShape_VertexType)];
-    [_static_shape_subroutine linkBuffer:_vertex_data_buffer vertexCount:count];
+- (void) bindBuffer:(NSUInteger)buffer_index {
 }
 
-- (id<MTLBuffer>)getBuffer {
-    return _vertex_data_buffer;
+- (DynamicBuffer*) getBuffer {
+    return _shape_vertices;
 }
 
 
 // ==== Drawing ====
-- (void)drawInDrawable:(nonnull id<CAMetalDrawable>)drawable inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
-    [_static_shape_subroutine encodeSubroutineInBuffer:command_buffer inTexture:drawable.texture];
-    [command_buffer presentDrawable:drawable];
-    [command_buffer commit];
+- (void) drawInDrawable:(id<CAMetalDrawable>)drawable
+        inCommandBuffer:(id<MTLCommandBuffer>)command_buffer
+{
+    [_draw_subroutine encodeSubroutineInBuffer:command_buffer
+                                     inTexture:drawable.texture];
 }
 
-- (void)reloadSharedData {
+- (void) beforeDraw {
+    [_shape_vertices beforeDraw];
+}
+
+- (void) drawUntapScheduled {
+    [_shape_vertices drawUntapScheduled];
+}
+
+- (void) drawUntapCompleted {
+    [_shape_vertices drawUntapCompleted];
+}
+
+
+// ==== Depricated ====
+- (id<MTLBuffer>) getBufferOLD { return nil; }
+- (void) OLDdrawInDrawable:(nonnull id<CAMetalDrawable>)drawable
+           inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer 
+{
+    
 }
 
 @end

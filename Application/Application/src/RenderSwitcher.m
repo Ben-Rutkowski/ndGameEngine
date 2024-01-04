@@ -15,7 +15,7 @@
     id<DrawRoutineProtocol> _armed_draw_routine;
     
 //    --- Debugging ---
-    StaticShapeRoutine* _static_shape_routine;
+    OLDStaticShapeRoutine* _static_shape_routine;
 }
 
 // ==== Initialization ====
@@ -40,8 +40,6 @@
         NSUInteger null_index = [self createDrawRoutine:ndDrawRoutineKindNull];
         [self bindRoutine:null_index];
         [self armRoutine];
-        
-//        [self debug:layer];
     }
     
     return self;
@@ -67,6 +65,15 @@
                        library:_library];
             break;
         }
+            
+//        case ndDrawRoutineKindDebug: {
+//            NSLog(@"Creating Debug Routine");
+//            routine = [[OLDStaticShapeRoutine alloc]
+//                       initWithDevice:_device
+//                       library:_library];
+//            break;
+//        }
+            
         default: break;
     }
     
@@ -80,6 +87,7 @@
 }
 
 - (void) bindRoutine:(NSUInteger)index {
+    NSLog(@"Binding routine : %lu", index);
     _bound_draw_routine = _loaded_draw_routines[index];
 }
 
@@ -88,7 +96,7 @@
 }
 
 - (void) armRoutine {
-    NSLog(@"arming");
+    NSLog(@"Arming bound routine");
     _armed_draw_routine = _bound_draw_routine;
 }
 
@@ -102,46 +110,46 @@
     [_bound_draw_routine createBufferWithVertexCount:count];
 }
 
-- (id<MTLBuffer>) getBuffer {
+- (DynamicBuffer*) getBuffer {
     return [_bound_draw_routine getBuffer];
+}
+
+- (void) OLDcreateBufferWithVertexCount:(NSUInteger)count {
+    [_bound_draw_routine createBufferWithVertexCount:count];
+}
+
+- (id<MTLBuffer>) getBufferOLD {
+    return [_bound_draw_routine getBufferOLD];
 }
 
 
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
+    NSLog(@"DRAW IN RENDER");
+    
     @autoreleasepool {
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
-        if (current_drawable ==  nil) {
+        if (current_drawable == nil) {
             return;
         }
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         
+        [_armed_draw_routine beforeDraw];
         [_armed_draw_routine drawInDrawable:current_drawable
-                              inCommandBuffer:command_buffer];
+                            inCommandBuffer:command_buffer];
+        
+        __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
+        [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
+            [block_routine drawUntapScheduled];
+        }];
+        [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
+            [block_routine drawUntapCompleted];
+        }];
+        
+        [command_buffer presentDrawable:current_drawable];
+        [command_buffer commit];
     }
 }
-
-// ================ Debugging ================
-- (void) debug {
-//    id<MTLBuffer> buffer = [self getBuffer];
-//    StaticShape_VertexType* vert = buffer.contents;
-//    
-//    NSLog(@"%f, %f", vert[0].position[0], vert[0].position[1]);
-//    NSLog(@"%f, %f", vert[1].position[0], vert[1].position[1]);
-//    NSLog(@"%f, %f", vert[2].position[0], vert[2].position[1]);
-}
-
-//- (void) debug {
-//    StaticShape_VertexType* vertices = [_static_shape_routine getBuffer].contents;
-//    
-//    vertices[0].position = (simd_float2){ -0.5, -0.5 };
-//    vertices[1].position = (simd_float2){  0.5, -0.5 };
-//    vertices[2].position = (simd_float2){  0.0,  0.5 };
-//    
-//    vertices[0].color = (simd_float4){ 0.0, 0.5, 0.7, 1.0 };
-//    vertices[1].color = (simd_float4){ 0.3, 0.5, 0.7, 1.0 };
-//    vertices[2].color = (simd_float4){ 0.5, 0.5, 0.7, 1.0 };
-//}
 
 @end
