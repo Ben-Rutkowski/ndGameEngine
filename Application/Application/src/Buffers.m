@@ -12,6 +12,8 @@
     dispatch_semaphore_t _in_use_semaphore;
 }
 
+
+// ==== Configure ====
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                dataSize:(NSUInteger)data_size
                             vertexCount:(NSUInteger)vertex_count
@@ -28,6 +30,12 @@
     }
     
     return self;
+}
+
+
+// ==== Size ====
+- (NSUInteger) getVertexCount {
+    return _vertex_count;
 }
 
 - (void) expandToDataSize:(NSUInteger)data_size
@@ -71,10 +79,8 @@
 //    NSLog(@"Finish : resize semaphore");
 }
 
-- (NSUInteger) getVertexCount {
-    return _vertex_count;
-}
 
+// ==== Access ====
 - (id<MTLBuffer>) drawTap {
     return _buffer;
 }

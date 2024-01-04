@@ -7,6 +7,8 @@
     RenderSwitcher* _render_switcher;
 }
 
+
+// ==== Initialization ====
 - (nonnull instancetype) initWithFrame:(CGRect)frame device:(nonnull id<MTLDevice>)device {
     self = [super initWithFrame:frame];
     if (self) {
@@ -29,19 +31,14 @@
     _render_switcher = render_switcher;
 }
 
+
+// ==== Configure ====
 - (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind {
     return [_render_switcher createDrawRoutine:draw_routine_kind];
 }
 
-- (CALayer*) makeBackingLayer {
-    return [CAMetalLayer layer];
-}
 
-- (void) viewDidMoveToWindow {
-    [super viewDidMoveToWindow];
-    [self resizeDrawableScale:self.window.screen.backingScaleFactor];
-}
-
+// ==== Size ====
 - (void) resizeDrawableScale:(CGFloat)scale_factor {
     CGSize new_size  = self.bounds.size;
     new_size.width  *= scale_factor;
@@ -60,6 +57,8 @@
     _metal_layer.drawableSize = new_size;
 }
 
+
+// ==== Draw ====
 - (void) draw {
     [_render_switcher drawInMetalLayer:_metal_layer];
 }
@@ -79,6 +78,15 @@
 }
 
 // ================ NSView Functions ================
+- (CALayer*) makeBackingLayer {
+    return [CAMetalLayer layer];
+}
+
+- (void) viewDidMoveToWindow {
+    [super viewDidMoveToWindow];
+    [self resizeDrawableScale:self.window.screen.backingScaleFactor];
+}
+
 - (void) viewDidChangeBackingProperties {
     [super viewDidChangeBackingProperties];
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];

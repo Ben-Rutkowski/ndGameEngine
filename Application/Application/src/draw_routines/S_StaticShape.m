@@ -7,7 +7,7 @@
     DynamicBuffer* _vertex_buffer;
 }
 
-// ==== Configuring ===
+// ==== Configuring ====
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
 //    ---- Pipeline ---
     [self setVertexFunction:@"StaticShape_vertexShader"

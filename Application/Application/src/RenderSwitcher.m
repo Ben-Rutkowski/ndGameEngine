@@ -66,14 +66,6 @@
             break;
         }
             
-//        case ndDrawRoutineKindDebug: {
-//            NSLog(@"Creating Debug Routine");
-//            routine = [[OLDStaticShapeRoutine alloc]
-//                       initWithDevice:_device
-//                       library:_library];
-//            break;
-//        }
-            
         default: break;
     }
     
