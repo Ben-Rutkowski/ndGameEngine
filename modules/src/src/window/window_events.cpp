@@ -14,18 +14,6 @@ typedef struct {
 #define __ND_VECTOR__
 #include "shader_types.h"
 
-void loadVertices(void* buffer) {
-    StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer;
- 
-    vertices[0].position = { -0.5f, -0.5f };
-    vertices[1].position = {  0.5f, -0.5f };
-    vertices[2].position = {  0.0f,  0.5f };
-
-    vertices[0].color = { 0.0f, 0.5f, 0.7f, 1.0f };
-    vertices[1].color = { 0.3f, 0.5f, 0.7f, 1.0f };
-    vertices[2].color = { 0.5f, 0.5f, 0.7f, 1.0f };
-}
-
 void loadVertices(ndBuffer buffer) {
     StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer.editTap();
  
@@ -42,6 +30,7 @@ void loadVertices(ndBuffer buffer) {
 
 void ndWindowModule::runEvent(ndEvent* event) {
     switch (event->getOp()) {
+    case Operation::DEBUG:             onDebug(event); break;
     case Operation::BEGIN_START_UP:    onBeginStartUp(event); break;
     case Operation::END_START_UP:      onEndStartUp(event); break;
     case Operation::START_FRAME:       onStartFrame(event); break;
@@ -75,6 +64,18 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
     pollEventsCocoa();
 }
 
+void ndWindowModule::onDebug(ndEvent* event) {
+    event->print(module_name);
+    ndBuffer buffer = nd_window.getBuffer();
+    StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer.editTap();
+
+    vertices[0].position = { -0.4f, -0.4f };
+
+    buffer.editUntap();
+}
+
+
+// ================ Frame ================
 void ndWindowModule::onStartFrame(ndEvent* event) {
 }
 

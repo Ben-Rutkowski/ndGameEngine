@@ -30,6 +30,7 @@ public:
     void runEvent(ndEvent* event);
 
 private:
+    void onDebug(ndEvent* event);
     void onBeginStartUp(ndEvent* event);
     void onEndStartUp(ndEvent* event);
     void onStartFrame(ndEvent* event);
@@ -37,6 +38,7 @@ private:
     void onDraw(ndEvent* evnet);
     void onEndFrame(ndEvent* event);
     void onCloseApp(ndEvent* event);
+
     // void onCollectMenuKeys(ndEvent* event);
     // void onEscapeKey(ndEvent* event);
     // void onResizeFrame(ndEvent* event);

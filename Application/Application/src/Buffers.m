@@ -1,3 +1,26 @@
+/*
+    Thread Racing:
+                       |Cannot|             |     Cannot     |
+                       | Edit |             |      Swap      |
+        GPU|           ( Draw )        GPU|           ( Draw )
+  Draw  ---|-------------------        ---|-------------------
+        CPU| ( Predraw )               CPU| ( Predraw )
+ 
+                              |Cannot |
+                              | Draw, |                      |   Cannot    |
+                              |Predraw|                      |    Edit     |
+        GPU|           ( Copy )               GPU|           ( Copy )
+ Resize ---|--------------------------        ---|--------------------------
+        CPU| ( Presize )      ( Swap  )       CPU| ( Presize )      ( Swap )
+ 
+                                  |Cannot|
+             |Cannot|             | Copy,|
+             | Draw |             | Swap |
+        GPU|                 GPU|
+  Edit  ---|---------        ---|---------
+        CPU| ( Edit )        CPU| ( Edit )
+*/
+
 #import "Buffers.h"
 
 @implementation DynamicBuffer
@@ -8,8 +31,15 @@
     id<MTLBuffer> _new_buffer;
     NSUInteger    _new_vertex_count;
     
-    dispatch_semaphore_t _resize_semaphore;
-    dispatch_semaphore_t _in_use_semaphore;
+    dispatch_semaphore_t _predraw_semaphore;
+    dispatch_semaphore_t _draw_semaphore;
+    dispatch_semaphore_t _copy_semaphore;
+    dispatch_semaphore_t _swap_semaphore;
+    dispatch_semaphore_t _edit_semaphore;
+    
+//    --- Depricated ---
+//    dispatch_semaphore_t _OLDresize_semaphore;
+//    dispatch_semaphore_t _OLDin_use_semaphore;
 }
 
 
@@ -25,8 +55,16 @@
                                       options:storage_mode];
         
         _vertex_count     = vertex_count;
-        _resize_semaphore = dispatch_semaphore_create(1);
-        _in_use_semaphore = dispatch_semaphore_create(1);
+        
+        _predraw_semaphore = dispatch_semaphore_create(1);
+        _draw_semaphore    = dispatch_semaphore_create(1);
+        _copy_semaphore    = dispatch_semaphore_create(1);
+        _swap_semaphore    = dispatch_semaphore_create(1);
+        _edit_semaphore    = dispatch_semaphore_create(1);
+        
+//        --- Depricated ---
+//        _OLDresize_semaphore = dispatch_semaphore_create(1);
+//        _OLDin_use_semaphore = dispatch_semaphore_create(1);
     }
     
     return self;
@@ -60,7 +98,11 @@
         [blit_command endEncoding];
         
         __block DynamicBuffer* block_buffer_self = self;
-        [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> buffer) {
+        [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
+            
+        }];
+            
+        [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
             [block_buffer_self rotateNewBuffer];
         }];
         
@@ -68,15 +110,34 @@
     }
 }
 
+- (void) beforeCopy {
+    dispatch_semaphore_wait(_edit_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : EDIT");
+}
+
 - (void) rotateNewBuffer {
-    dispatch_semaphore_wait(_resize_semaphore, DISPATCH_TIME_FOREVER);
-//    NSLog(@"Wait : resize semaphore");
+    dispatch_semaphore_wait(_predraw_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : PREDRAW");
+    dispatch_semaphore_wait(_predraw_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : DRAW");
+    
+//    dispatch_semaphore_wait(_OLDresize_semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"   Wait : resize semaphore");
+    
     [_buffer setPurgeableState:MTLPurgeableStateEmpty];
     [_buffer release];
     _buffer       = _new_buffer;
     _vertex_count = _new_vertex_count;
-    dispatch_semaphore_signal(_resize_semaphore);
-//    NSLog(@"Finish : resize semaphore");
+    
+    dispatch_semaphore_signal(_predraw_semaphore);
+    NSLog(@"  Finish : PREDRAW");
+    dispatch_semaphore_signal(_draw_semaphore);
+    NSLog(@"  Finish : DRAW");
+    dispatch_semaphore_signal(_edit_semaphore);
+    NSLog(@"  Finish : EDIT");
+    
+//    dispatch_semaphore_signal(_OLDresize_semaphore);
+//    NSLog(@"   Finish : resize semaphore");
 }
 
 
@@ -86,36 +147,56 @@
 }
 
 - (void) beforeDraw {
-//    NSLog(@"(before wait)");
-    dispatch_semaphore_wait(_resize_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_swap_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : SWAP");
+    
+//    dispatch_semaphore_wait(_OLDresize_semaphore, DISPATCH_TIME_FOREVER);
 //    NSLog(@"   Wait : resize semaphore");
 }
 
 - (void) drawUntapScheduled {
-//    NSLog(@"(before wait)");
-    dispatch_semaphore_wait(_in_use_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_edit_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : EDIT");
+    
+//    dispatch_semaphore_wait(_OLDin_use_semaphore, DISPATCH_TIME_FOREVER);
 //    NSLog(@"   Wait : use semaphore");
 }
 
 - (void) drawUntapCompleted  {
-//    NSLog(@"(before finish)");
-    dispatch_semaphore_signal(_resize_semaphore);
+    dispatch_semaphore_signal(_swap_semaphore);
+    NSLog(@"  Finish : SWAP");
+    dispatch_semaphore_signal(_edit_semaphore);
+    NSLog(@"  Finish : EDIT");
+    
+//    dispatch_semaphore_signal(_OLDresize_semaphore);
 //    NSLog(@"   Finish : resize semaphore");
-    dispatch_semaphore_signal(_in_use_semaphore);
+//    dispatch_semaphore_signal(_OLDin_use_semaphore);
 //    NSLog(@"   Finish : use semaphore");
 }
 
 - (id<MTLBuffer>) editTap {
-//    NSLog(@"(before wait)");
-    dispatch_semaphore_wait(_in_use_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_draw_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : DRAW");
+    dispatch_semaphore_wait(_copy_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : COPY");
+    dispatch_semaphore_wait(_swap_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"  Wait   : SWAP");
+    
+//    dispatch_semaphore_wait(_OLDin_use_semaphore, DISPATCH_TIME_FOREVER);
 //    NSLog(@"   Wait : use semaphore");
     return _buffer;
 }
 
 - (void) editUntap {
-//    NSLog(@"(before finish)");
-    dispatch_semaphore_signal(_in_use_semaphore);
-//    NSLog(@"Finish : use semaphore");
+    dispatch_semaphore_signal(_draw_semaphore);
+    NSLog(@"  Finish : DRAW");
+    dispatch_semaphore_signal(_copy_semaphore);
+    NSLog(@"  Finish : COPY");
+    dispatch_semaphore_signal(_swap_semaphore);
+    NSLog(@"  Finish : SWAP");
+    
+//    dispatch_semaphore_signal(_OLDin_use_semaphore);
+//    NSLog(@"   Finish : use semaphore");
 }
 
 

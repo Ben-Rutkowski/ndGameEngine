@@ -2,6 +2,9 @@
 #include "cocoa_interface.hpp"
 #include <chrono>
 
+#define DEBUG_POINT 2
+#define BREAK_POINT 4
+
 static int count;
 static double detla;
 
@@ -11,7 +14,7 @@ void debugSetup() {
 
 void debugFirst() {
     count += 1;
-    // std::cout << " ==== OPEN ====\n";
+    std::cout << " ==== OPEN ====\n";
     // auto start_type = std::chrono::high_resolution_clock::now();
 }
 
@@ -21,11 +24,7 @@ void debugLast() {
     // delta = delta_type.count();
     // std::cout << "delta: " << delta << std::endl;
 
-    // std::cout << " ==== CLOSE ====\n";
-
-    // if (count >= 100) {
-    //     break;
-    // }
+    std::cout << " ==== CLOSE ====\n";
 }
 
 void ndAppModule::startApp() {
@@ -52,5 +51,15 @@ void ndAppModule::startApp() {
         // --- Debug ---
         debugLast();
         // --- Debug ---
+
+        if (count == DEBUG_POINT) {
+            event_manager.propogateEventImmediate(
+                ndEvent(module_name, Operation::DEBUG)
+            );
+        }
+
+        if (count >= BREAK_POINT) {
+            break;
+        }
     }
 }
