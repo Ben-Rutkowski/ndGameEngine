@@ -6,13 +6,14 @@ void ndAppModule::startApp() {
     beginStartUp();
     
     // pollEvents();
-    int count = 0;
+    // int count = 0;
     // double delta;
     // double elapsed = 0.0;
 
     endStartUp();
     while (!window->requestBool(Request::SHOULD_CLOSE)) {
-        count += 1;
+        // std::cout << " ==== OPEN ====\n";
+        // count += 1;
         // auto start_type = std::chrono::high_resolution_clock::now();
 
         startFrame();
@@ -34,8 +35,10 @@ void ndAppModule::startApp() {
         //     elapsed = 0.0;
         // }
 
-        if (count >= 3) {
-            break;
-        }
+        // std::cout << " ==== CLOSE ====\n";
+
+        // if (count >= 100) {
+        //     break;
+        // }
     }
 }

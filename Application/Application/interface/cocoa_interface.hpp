@@ -64,9 +64,6 @@ public:
     void     bindBuffer(unsigned int buffer_index);
     void     createBuffer(unsigned int vertex_count);
     ndBuffer getBuffer();
-    
-    void  createBufferOLD(unsigned int vertex_count);
-    void* getBufferOLD();
 };
 
 #endif /* ifndef __IN_COCOA__ */

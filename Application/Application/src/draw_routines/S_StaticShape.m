@@ -60,9 +60,4 @@
     }
 }
 
-
-// ==== DEPRICATED ====
-- (void) linkBufferOLD:(nonnull id<MTLBuffer>)buffer 
-           vertexCount:(NSUInteger)count {}
-
 @end

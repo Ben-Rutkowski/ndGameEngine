@@ -8,7 +8,7 @@
     id<MTLBuffer> _new_buffer;
     NSUInteger    _new_vertex_count;
     
-    dispatch_semaphore_t _draw_semaphore;
+    dispatch_semaphore_t _resize_semaphore;
     dispatch_semaphore_t _in_use_semaphore;
 }
 
@@ -23,7 +23,7 @@
                                       options:storage_mode];
         
         _vertex_count     = vertex_count;
-        _draw_semaphore   = dispatch_semaphore_create(1);
+        _resize_semaphore = dispatch_semaphore_create(1);
         _in_use_semaphore = dispatch_semaphore_create(1);
     }
     
@@ -61,14 +61,14 @@
 }
 
 - (void) rotateNewBuffer {
-    dispatch_semaphore_wait(_draw_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"Wait : draw semaphore");
+    dispatch_semaphore_wait(_resize_semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"Wait : resize semaphore");
     [_buffer setPurgeableState:MTLPurgeableStateEmpty];
     [_buffer release];
     _buffer       = _new_buffer;
     _vertex_count = _new_vertex_count;
-    dispatch_semaphore_signal(_draw_semaphore);
-    NSLog(@"Finish : draw semaphore");
+    dispatch_semaphore_signal(_resize_semaphore);
+//    NSLog(@"Finish : resize semaphore");
 }
 
 - (NSUInteger) getVertexCount {
@@ -80,31 +80,36 @@
 }
 
 - (void) beforeDraw {
-    dispatch_semaphore_wait(_draw_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"Wait : draw semaphore");
+//    NSLog(@"(before wait)");
+    dispatch_semaphore_wait(_resize_semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"   Wait : resize semaphore");
 }
 
 - (void) drawUntapScheduled {
+//    NSLog(@"(before wait)");
     dispatch_semaphore_wait(_in_use_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"Wait : use semaphore");
+//    NSLog(@"   Wait : use semaphore");
 }
 
 - (void) drawUntapCompleted  {
-    dispatch_semaphore_signal(_draw_semaphore);
-    NSLog(@"Finish : draw semaphore");
+//    NSLog(@"(before finish)");
+    dispatch_semaphore_signal(_resize_semaphore);
+//    NSLog(@"   Finish : resize semaphore");
     dispatch_semaphore_signal(_in_use_semaphore);
-    NSLog(@"Finish : use semaphore");
+//    NSLog(@"   Finish : use semaphore");
 }
 
 - (id<MTLBuffer>) editTap {
+//    NSLog(@"(before wait)");
     dispatch_semaphore_wait(_in_use_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"Wait : use semaphore");
+//    NSLog(@"   Wait : use semaphore");
     return _buffer;
 }
 
 - (void) editUntap {
+//    NSLog(@"(before finish)");
     dispatch_semaphore_signal(_in_use_semaphore);
-    NSLog(@"Finish : use semaphore");
+//    NSLog(@"Finish : use semaphore");
 }
 
 

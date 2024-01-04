@@ -33,8 +33,7 @@
 
 
 // ==== Resources ====
-- (void) bindBuffer:(NSUInteger)buffer_index {
-}
+- (void) bindBuffer:(NSUInteger)buffer_index {}
 
 - (DynamicBuffer*) getBuffer {
     return _shape_vertices;
@@ -59,15 +58,6 @@
 
 - (void) drawUntapCompleted {
     [_shape_vertices drawUntapCompleted];
-}
-
-
-// ==== Depricated ====
-- (id<MTLBuffer>) getBufferOLD { return nil; }
-- (void) OLDdrawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-           inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer 
-{
-    
 }
 
 @end

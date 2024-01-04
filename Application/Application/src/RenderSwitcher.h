@@ -19,9 +19,6 @@
 - (void) createBufferWithVertexCount:(NSUInteger)count;
 - (nonnull DynamicBuffer*) getBuffer;
 
-- (void) OLDcreateBufferWithVertexCount:(NSUInteger)count;
-- (nullable id<MTLBuffer>) getBufferOLD;
-
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
 

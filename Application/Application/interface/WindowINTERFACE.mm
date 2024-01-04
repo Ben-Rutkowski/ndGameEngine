@@ -98,16 +98,3 @@ ndBuffer ndWindow::getBuffer() {
     DynamicBuffer*  dynamic_buffer  = [render_switcher getBuffer];
     return ndBuffer(dynamic_buffer);
 }
-
-
-// ==== OLD ====
-void ndWindow::createBufferOLD(unsigned int vertex_count) {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    [render_switcher OLDcreateBufferWithVertexCount:vertex_count];
-}
-
-void* ndWindow::getBufferOLD() {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    id<MTLBuffer> buffer = [render_switcher getBufferOLD];
-    return buffer.contents;
-}

@@ -126,18 +126,6 @@
 }
 
 // ==== Resources ====
-- (id<MTLBuffer>) OLDnewSharedBufferWithLength:(NSUInteger)length {
-    id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length
-                                                       options:MTLResourceStorageModeShared];
-    return buffer;
-}
-
-- (id<MTLBuffer>) OLDnewPrivateBufferWithLength:(NSUInteger)length {
-    id<MTLBuffer> buffer = [_hidden_device newBufferWithLength:length
-                                                       options:MTLResourceStorageModePrivate];
-    return buffer;
-}
-
 - (DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
                                     vertexCount:(NSUInteger)vertex_count
                                     storageMode:(MTLResourceOptions)storage_mode

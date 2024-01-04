@@ -63,7 +63,7 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
 
     ndBuffer buffer = nd_window.getBuffer();
     loadVertices(buffer);
-    buffer.debug();
+    // buffer.debug();
 
     nd_window.configureRoutine();
 }

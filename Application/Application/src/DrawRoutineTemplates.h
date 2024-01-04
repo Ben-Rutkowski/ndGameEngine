@@ -17,8 +17,6 @@
 - (void) bindBuffer:(NSUInteger)index;
 - (void) linkBuffer:(nonnull DynamicBuffer*)buffer;
 
-// ---------------- ----------------
-- (void) linkBufferOLD:(nonnull id<MTLBuffer>)buffer vertexCount:(NSUInteger)count;
 @end
 
 
@@ -70,10 +68,6 @@
 - (void) drawUntapScheduled;
 - (void) drawUntapCompleted;
 
-// ---------------- ----------------
-- (nullable id<MTLBuffer>) getBufferOLD;
-- (void) OLDdrawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-           inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 @end
 
 
@@ -86,10 +80,6 @@
 - (nonnull DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
                                             vertexCount:(NSUInteger)vertex_count
                                             storageMode:(MTLResourceOptions)storage_mode;
-
-// ---------------- ----------------
-- (nullable id<MTLBuffer>) OLDnewSharedBufferWithLength:(NSUInteger)length;
-- (nullable id<MTLBuffer>) OLDnewPrivateBufferWithLength:(NSUInteger)length;
 
 @end
 

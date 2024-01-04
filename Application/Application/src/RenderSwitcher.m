@@ -114,18 +114,10 @@
     return [_bound_draw_routine getBuffer];
 }
 
-- (void) OLDcreateBufferWithVertexCount:(NSUInteger)count {
-    [_bound_draw_routine createBufferWithVertexCount:count];
-}
-
-- (id<MTLBuffer>) getBufferOLD {
-    return [_bound_draw_routine getBufferOLD];
-}
-
 
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
-    NSLog(@"DRAW IN RENDER");
+//    NSLog(@"DRAW IN RENDER");
     
     @autoreleasepool {
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
@@ -136,14 +128,18 @@
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         
         [_armed_draw_routine beforeDraw];
+//        NSLog(@"-- Prepare Draw on CPU ---");
+
         [_armed_draw_routine drawInDrawable:current_drawable
                             inCommandBuffer:command_buffer];
         
         __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
         [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
             [block_routine drawUntapScheduled];
+//            NSLog(@"-- Draw Scheduled on GPU --");
         }];
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
+//            NSLog(@"-- Draw Completed on GPU --");
             [block_routine drawUntapCompleted];
         }];
         
