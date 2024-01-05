@@ -1,13 +1,10 @@
 /*
-    Draw   : (CPU) predraw stage -> (GPU) draw stage
-    Resize : (CPU) presize stage -> (GPU) copy stage -> (CPU) swap stage
- 
     We can read and write and resize the buffer.
  
     When reading:
-        - Get current buffer index
-        - Get current buffer vertex count
-        - Increment active buffer reference count
+        - Get working buffer index
+        - Get working buffer vertex count
+        - Increment working buffer reference count
     
     After drawing:
         - Decrement active buffer count
@@ -145,8 +142,6 @@
     _current_index = (_current_index+1)%2;
     dispatch_semaphore_signal(_index_swap_semaphore);
 }
-
-
 
 
 // ==== Resize ====
