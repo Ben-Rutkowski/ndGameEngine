@@ -23,15 +23,15 @@ void loadVertices(StaticShape_VertexType* vertices) {
     vertices[4].position = {  0.5f, -0.5f };
     vertices[5].position = {  0.5f,  0.5f };
 
-    // vertices[0].color = { 0.0f, 0.5f, 0.7f, 1.0f };
-    vertices[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    vertices[0].color = { 0.0f, 0.5f, 0.7f, 1.0f };
+    // vertices[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
     vertices[1].color = { 0.3f, 0.5f, 0.7f, 1.0f };
     vertices[2].color = { 0.5f, 0.5f, 0.7f, 1.0f };
 
     vertices[3].color = { 0.5f, 0.5f, 0.7f, 1.0f };
     vertices[4].color = { 0.3f, 0.5f, 0.7f, 1.0f };
-    // vertices[5].color = { 0.5f, 0.9f, 0.7f, 1.0f };
-    vertices[5].color = { 0.0f, 0.0f, 0.0f, 0.0f };
+    vertices[5].color = { 0.5f, 0.9f, 0.7f, 1.0f };
+    // vertices[5].color = { 0.0f, 0.0f, 0.0f, 0.0f };
 }
 
 void ndWindowModule::runEvent(ndEvent* event) {

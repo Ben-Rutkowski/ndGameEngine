@@ -10,10 +10,10 @@ COMP_mod =compiled
 # --- Compiling ---
 CXX =/usr/bin/clang++ 
 
-CXX_FLAGS_unit =-std=c++17 -Wall -fdiagnostics-color=always -g -c
+CXX_FLAGS_unit =-std=c++17 -Wall -fdiagnostics-color=always -c
 CXX_INC_unit   =-I$(HEAD_unit) 
 
-CXX_FLAGS_mod =-std=c++17 -Wall -fdiagnostics-color=always -g -c
+CXX_FLAGS_mod =-std=c++17 -Wall -fdiagnostics-color=always -c
 CXX_INC_mod   =-I$(HEAD_mod) 
 
 # --- Variables ---

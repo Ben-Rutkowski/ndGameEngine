@@ -24,6 +24,7 @@ int initCocoa() {
 }
 
 void pollEventsCocoa() {
+//    NSLog(@"Poll Events");
     @autoreleasepool {
         while (true) {
             NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny

@@ -31,6 +31,7 @@
     
     NSUInteger _current_index; // The index of the newsest buffer
     NSUInteger _active_index;  // The index of the buffer with the next draw command
+    NSUInteger _working_index; // The index of the buffer being used to encode current draw
     
     NSUInteger _vertex_size;
     
@@ -40,8 +41,9 @@
                                // When true decrement active buffer first
                                // and once empty, delete old buffer, and swap active
     
-    dispatch_semaphore_t _use_semaphore;
-    dispatch_semaphore_t _swap_semaphore;
+    dispatch_semaphore_t _index_swap_semaphore;
+    dispatch_semaphore_t _draw_encode_semaphore;
+    dispatch_semaphore_t _complete_swap_semaphore;
 }
 
 
@@ -67,8 +69,9 @@
                                          options:storage_mode];
             
         isCurrentlySwapping = NO;
-        _use_semaphore  = dispatch_semaphore_create(1);
-        _swap_semaphore = dispatch_semaphore_create(1);
+        _index_swap_semaphore    = dispatch_semaphore_create(1);
+        _draw_encode_semaphore   = dispatch_semaphore_create(1);
+        _complete_swap_semaphore = dispatch_semaphore_create(1);
     }
     
     return self;
@@ -81,23 +84,24 @@
 
 // ==== Draw ====
 - (void) predrawOpen {
-    dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
-    _refernce_count[_current_index] += 1;
+    dispatch_semaphore_wait(_draw_encode_semaphore, DISPATCH_TIME_FOREVER);
+    _working_index = _current_index;
+    _refernce_count[_working_index] += 1;
 }
 
 - (void) predrawClose {
-    dispatch_semaphore_signal(_use_semaphore);
+    dispatch_semaphore_signal(_draw_encode_semaphore);
 }
 
 - (void) drawCompleted {
-    dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     _refernce_count[_active_index] -= 1;
     [self completeSwap];
-    dispatch_semaphore_signal(_use_semaphore);
+    dispatch_semaphore_signal(_index_swap_semaphore);
 }
 
 - (id<MTLBuffer>) drawTap {
-    return _buffer[_current_index];
+    return _buffer[_working_index];
 }
 
 
@@ -107,12 +111,12 @@
         isCurrentlySwapping = NO;
         _active_index       = _current_index;
         
-        dispatch_semaphore_signal(_swap_semaphore);
+        dispatch_semaphore_signal(_complete_swap_semaphore);
     }
 }
 
 - (id<MTLBuffer>) writeOpen {
-    dispatch_semaphore_wait(_swap_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
     isCurrentlySwapping = YES;
     return _buffer[(_current_index+1)%2];
 }
@@ -137,9 +141,9 @@
         }];
     }
     
-    dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     _current_index = (_current_index+1)%2;
-    dispatch_semaphore_signal(_use_semaphore);
+    dispatch_semaphore_signal(_index_swap_semaphore);
 }
 
 

@@ -21,10 +21,10 @@ CXX   =/usr/bin/clang++
 CC    =/usr/bin/clang
 XCODE =/usr/bin/xcrun
 
-OBJC_FLAGS_app =-Wall -c -fdiagnostics-color=always -fno-objc-arc -g
+OBJC_FLAGS_app =-Wall -c -fdiagnostics-color=always -fno-objc-arc
 OBJC_INC_app   =-I$(HEAD_app) -I$(HEAD_inter)
 
-OBJC_FLAGS_draw =-Wall -c -fdiagnostics-color=always -fno-objc-arc -g
+OBJC_FLAGS_draw =-Wall -c -fdiagnostics-color=always -fno-objc-arc
 OBJC_INC_draw   =-I$(HEAD_app) -I$(HEAD_inter)
 
 MTL_FLAGS_shdr =-sdk macosx metal -c

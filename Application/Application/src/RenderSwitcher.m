@@ -94,8 +94,6 @@
 
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
-    [_armed_draw_routine predrawOpenInBuffers];
-    
     @autoreleasepool {
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
         if (current_drawable == nil) {
@@ -104,8 +102,10 @@
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         
+        [_armed_draw_routine predrawOpenInBuffers];
         [_armed_draw_routine drawInDrawable:current_drawable
                             inCommandBuffer:command_buffer];
+        [_armed_draw_routine predrawCloseInBuffers];
         
         __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
@@ -113,7 +113,6 @@
         }];
         
         [command_buffer presentDrawable:current_drawable];
-        [_armed_draw_routine predrawCloseInBuffers];
         [command_buffer commit];
     }
 }
