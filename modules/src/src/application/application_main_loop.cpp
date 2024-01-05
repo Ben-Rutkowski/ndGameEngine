@@ -8,8 +8,8 @@
 
 #define DEBUG_POINT 2
 #define BREAK_POINT 10
-#define DOES_BREAK true
-// #define DOES_BREAK false
+// #define DOES_BREAK true
+#define DOES_BREAK false
 
 static int count;
 // static double detla;

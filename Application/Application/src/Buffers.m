@@ -103,29 +103,26 @@
 // === Write ===
 - (id<MTLBuffer>) writeOpen {
     NSLog(@"-- Write Buffer Open --");
-    dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@" wait  : use");
     dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
     NSLog(@" wait  : complete swap");
     
     isCurrentlySwapping = YES;
-    _current_index      = (_current_index+1)%2;
-    
-    return _buffer[_current_index];
+    return _buffer[(_current_index+1)%2];
 }
 
 - (void) writeCloseInCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
     NSLog(@"-- Write Buffer Close --");
-    NSLog(@" Buffer %lu to %lu of size %lu", _current_index, (_current_index+1)%2, _vertex_count[_current_index]);
+    NSUInteger next_index = (_current_index+1)%2;
     
+    NSLog(@" Buffer %lu to %lu of size %lu", next_index, _current_index, _vertex_count[next_index]);
     @autoreleasepool {
         id<MTLBlitCommandEncoder> blit_encoder = [command_buffer blitCommandEncoder];
         
-        [blit_encoder copyFromBuffer:_buffer[_current_index]
+        [blit_encoder copyFromBuffer:_buffer[next_index]
                         sourceOffset:0
-                            toBuffer:_buffer[(_current_index+1)%2]
+                            toBuffer:_buffer[_current_index]
                    destinationOffset:0
-                                size:_vertex_size*_vertex_count[_current_index]];
+                                size:_vertex_size*_vertex_count[next_index]];
         
         [blit_encoder endEncoding];
         
@@ -135,6 +132,9 @@
         }];
     }
     
+    dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@" wait  : use");
+    _current_index = (_current_index+1)%2;
     dispatch_semaphore_signal(_use_semaphore);
     NSLog(@"signal : use");
 }
