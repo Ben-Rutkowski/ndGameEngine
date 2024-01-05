@@ -4,7 +4,7 @@
 {
 //    --- Subroutines ---
     StaticShapeSubroutine* _draw_subroutine;
-    ResizableBuffer*         _shape_vertices;
+    DynamicBuffer*         _shape_vertices;
 }
 
 // ==== Configuring ====
@@ -35,8 +35,14 @@
 // ==== Resources ====
 - (void) bindBuffer:(NSUInteger)buffer_index {}
 
-- (ResizableBuffer*) getBuffer {
-    return _shape_vertices;
+- (id<MTLBuffer>) writeBufferOpen {
+    return [_shape_vertices writeOpen];
+}
+
+- (void) writeBufferClose {
+    id<MTLCommandBuffer> command_buffer = [self getBlitCommandBuffer];
+    [_shape_vertices writeCloseInCommandBuffer:command_buffer];
+    [command_buffer commit];
 }
 
 
@@ -48,19 +54,19 @@
                                      inTexture:drawable.texture];
 }
 
-- (void) beginPredrawStage {
+- (void) beginPredrawStageInBuffers {
     [_shape_vertices beginPredrawStage];
 }
 
-- (void) endPredrawStage {
+- (void) endPredrawStageInBuffers {
     [_shape_vertices endPredrawStage];
 }
 
-- (void) beginDrawStage {
+- (void) beginDrawStageInBuffers {
     [_shape_vertices beginDrawStage];
 }
 
-- (void) endDrawStage {
+- (void) endDrawStageInBuffers {
     [_shape_vertices endDrawStage];
 }
 

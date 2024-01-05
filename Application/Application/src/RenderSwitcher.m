@@ -78,6 +78,10 @@
     }
 }
 
+- (id) getDrawRoutineAtIndex:(NSUInteger)index {
+    return _loaded_draw_routines[index];
+}
+
 - (void) bindRoutine:(NSUInteger)index {
     NSLog(@"Binding routine : %lu", index);
     _bound_draw_routine = _loaded_draw_routines[index];
@@ -88,29 +92,15 @@
 }
 
 - (void) armRoutine {
-    NSLog(@"Arming bound routine");
+    NSLog(@"Arming bound routine : %@", _bound_draw_routine);
     _armed_draw_routine = _bound_draw_routine;
-}
-
-
-// ==== Inside Routine ====
-- (void) bindBuffer:(NSUInteger)index {
-    [_bound_draw_routine bindBuffer:index];
-}
-
-- (void) createBufferWithVertexCount:(NSUInteger)count {
-    [_bound_draw_routine createBufferWithVertexCount:count];
-}
-
-- (ResizableBuffer*) getBuffer {
-    return [_bound_draw_routine getBuffer];
 }
 
 
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
     NSLog(@"-- Prepare Draw on CPU ---");
-    [_armed_draw_routine beginPredrawStage];
+    [_armed_draw_routine beginPredrawStageInBuffers];
     
     @autoreleasepool {
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
@@ -126,17 +116,31 @@
         __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
         [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
             NSLog(@"-- Draw Scheduled on GPU --");
-            [block_routine beginDrawStage];
+            [block_routine beginDrawStageInBuffers];
         }];
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
             NSLog(@"-- Draw Completed on GPU --");
-            [block_routine endDrawStage];
+            [block_routine endDrawStageInBuffers];
         }];
         
         [command_buffer presentDrawable:current_drawable];
-        [_armed_draw_routine endPredrawStage];
+        [_armed_draw_routine endPredrawStageInBuffers];
         [command_buffer commit];
     }
 }
+
+
+// ==== Depricated ====
+//- (DynamicBuffer*) getBuffer {
+//    return [_bound_draw_routine getBuffer];
+//}
+//
+//- (void) bindBuffer:(NSUInteger)index {
+//    [_bound_draw_routine bindBuffer:index];
+//}
+//
+//- (void) createBufferWithVertexCount:(NSUInteger)count {
+//    [_bound_draw_routine createBufferWithVertexCount:count];
+//}
 
 @end

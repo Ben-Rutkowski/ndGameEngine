@@ -14,9 +14,7 @@ typedef struct {
 #define __ND_VECTOR__
 #include "shader_types.h"
 
-void loadVertices(ndBuffer buffer) {
-    StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer.editTap();
- 
+void loadVertices(StaticShape_VertexType* vertices) {
     vertices[0].position = { -0.5f, -0.5f };
     vertices[1].position = {  0.5f, -0.5f };
     vertices[2].position = { -0.5f,  0.5f };
@@ -34,8 +32,6 @@ void loadVertices(ndBuffer buffer) {
     vertices[4].color = { 0.3f, 0.5f, 0.7f, 1.0f };
     // vertices[5].color = { 0.5f, 0.9f, 0.7f, 1.0f };
     vertices[5].color = { 0.0f, 0.0f, 0.0f, 0.0f };
-
-    buffer.editUntap();
 }
 
 void ndWindowModule::runEvent(ndEvent* event) {
@@ -52,17 +48,18 @@ void ndWindowModule::runEvent(ndEvent* event) {
     }
 }
 
+static ndRoutine routine = ndRoutine(nullptr, 0);
+
 void ndWindowModule::onBeginStartUp(ndEvent* event) {
     event->print(module_name);
 
-    unsigned int debug_routine = nd_window.createDrawRoutine(ndDrawRoutineKindDebug);
-    nd_window.bindRoutine(debug_routine);
-    nd_window.bindBuffer(0);
-    nd_window.createBuffer(6);
-
-    ndBuffer buffer = nd_window.getBuffer();
-    loadVertices(buffer);
-    // buffer.debug();
+    routine = nd_window.createDrawRoutine(ndDrawRoutineKindDebug);
+    nd_window.bindRoutine(routine);
+    routine.bindBuffer(0);
+    routine.createBuffer(6);
+    StaticShape_VertexType* vertices = (StaticShape_VertexType*)routine.writeBufferOpen();
+    loadVertices(vertices);
+    routine.writeBufferClose();
 
     nd_window.configureRoutine();
 }
@@ -76,12 +73,8 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
-    // ndBuffer buffer = nd_window.getBuffer();
-    // StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer.editTap();
-
-    // vertices[0].position = { -0.4f, -0.4f };
-
-    // buffer.editUntap();
+    // routine.writeBufferOpen();
+    // routine.writeBufferClose();
 }
 
 

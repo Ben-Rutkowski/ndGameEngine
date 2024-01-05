@@ -1,5 +1,42 @@
 #import "DrawRoutineTemplates.h"
 
+
+// ================ Draw Routine Template ================
+@implementation DrawRoutineTemplate
+{
+    id<MTLDevice>       _device;
+    id<MTLCommandQueue> _internal_blit_command_queue;
+}
+
+// ==== Configure ====
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device {
+    self = [super init];
+    if (self) {
+        _device                      = device;
+        _internal_blit_command_queue = [_device newCommandQueue];
+    }
+    return self;
+}
+
+// ==== Resources ====
+- (DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
+                                    vertexCount:(NSUInteger)vertex_count
+                                    storageMode:(MTLResourceOptions)storage_mode
+{
+    DynamicBuffer* buffer = [[DynamicBuffer alloc] initWithDevice:_device
+                                                         dataSize:data_size
+                                                      vertexCount:vertex_count
+                                                   andStorageMode:storage_mode];
+    return buffer;
+}
+
+- (id<MTLCommandBuffer>) getBlitCommandBuffer {
+    return [_internal_blit_command_queue commandBuffer];
+}
+
+@end
+
+
 // ================ Draw Subroutine Template ================
 @implementation DrawSubroutineTemplate
 {
@@ -110,36 +147,6 @@
 @end
 
 
-// ================ Draw Routine Template ================
-@implementation DrawRoutineTemplate
-{
-    id<MTLDevice> _hidden_device;
-}
-
-// ==== Configure ====
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device {
-    self = [super init];
-    if (self) {
-        _hidden_device = device;
-    }
-    return self;
-}
-
-// ==== Resources ====
-- (ResizableBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
-                                    vertexCount:(NSUInteger)vertex_count
-                                    storageMode:(MTLResourceOptions)storage_mode
-{
-    ResizableBuffer* buffer = [[ResizableBuffer alloc] initWithDevice:_hidden_device
-                                                         dataSize:data_size
-                                                      vertexCount:vertex_count
-                                                   andStorageMode:storage_mode];
-    return buffer;
-}
-
-@end
-
-
 // ================ Null Draw Routine ================
 @implementation NullDrawRoutine
 - (instancetype) initWithDevice:(nonnull id<MTLDevice>)device
@@ -153,14 +160,18 @@
 - (void) bindBuffer:(NSUInteger)buffer_index {}
 - (void) createBufferWithVertexCount:(NSUInteger)count {}
 - (void) expandBufferToSize:(NSUInteger)new_size {}
-- (ResizableBuffer*)getBuffer { return nil; }
+- (DynamicBuffer*)getBuffer { return nil; }
 - (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
         inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
 {
 //    NSLog(@"Null Draw");
 }
-- (void) beginPredrawStage {}
-- (void) endDrawStage {}
-- (void) beginDrawStage {}
-- (void) endPredrawStage {}
+- (void) beginPredrawStageInBuffers {}
+- (void) endDrawStageInBuffers {}
+- (void) beginDrawStageInBuffers {}
+- (void) endPredrawStageInBuffers {}
+
+- (void)writeBufferClose {}
+- (id<MTLBuffer>)writeBufferOpen {return nil;}
+
 @end

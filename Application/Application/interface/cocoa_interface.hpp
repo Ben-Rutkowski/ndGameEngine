@@ -20,20 +20,22 @@ int  initCocoa();
 void pollEventsCocoa();
 
 
-// ================ ndBuffer ================
-class ndBuffer {
+// ======== Routine ========
+class ndRoutine {
 private:
-    void* buffer_ptr_COCOA;
+    void* routine_ptr_COCOA;
+    unsigned long routine_index;
     
 public:
-    ndBuffer(void* buffer_ptr);
+    ndRoutine(void* renderer_ptr, unsigned long index);
+
+    void bindBuffer(unsigned int buffer_index);
+    void createBuffer(unsigned int vertex_count);
     
-    void* editTap();
-    void  editUntap();
+    void* writeBufferOpen();
+    void  writeBufferClose();
     
-    unsigned long size();
-    
-    void debug();
+    unsigned long index();
 };
 
 
@@ -55,15 +57,11 @@ public:
 // ==== Draw ====
     void drawView();
     
-// ==== Routine Interface ====
-    unsigned int createDrawRoutine(ndDrawRoutineKind draw_routine_kind);
-    void bindRoutine(unsigned int draw_routine_index);
+// ==== Renderer ====
+    ndRoutine createDrawRoutine(ndDrawRoutineKind draw_routine_kind);
     void configureRoutine();
+    void bindRoutine(ndRoutine routine);
     void armRoutine();
-    
-    void     bindBuffer(unsigned int buffer_index);
-    void     createBuffer(unsigned int vertex_count);
-    ndBuffer getBuffer();
 };
 
 #endif /* ifndef __IN_COCOA__ */

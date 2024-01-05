@@ -6,6 +6,49 @@
 #import "shader_types.h"
 
 
+// ================ Routine Protocol ================
+@protocol DrawRoutineProtocol
+// --- Configure ---
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                                library:(nonnull id<MTLLibrary>)library;
+- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format;
+- (void) createBufferWithVertexCount:(NSUInteger)count;
+
+// --- Resources ---
+- (void) bindBuffer:(NSUInteger)buffer_index;
+- (nullable id<MTLBuffer>) writeBufferOpen;
+- (void) writeBufferClose;
+
+// --- Draw ---
+- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
+        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
+
+- (void) beginPredrawStageInBuffers;
+- (void) endPredrawStageInBuffers;
+- (void) beginDrawStageInBuffers;
+- (void) endDrawStageInBuffers;
+
+@end
+
+
+// ================ Routine Template ================
+@interface DrawRoutineTemplate : NSObject
+// --- Configure ---
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
+
+// --- Resources ---
+- (nonnull DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
+                                            vertexCount:(NSUInteger)vertex_count
+                                            storageMode:(MTLResourceOptions)storage_mode;
+- (nonnull id<MTLCommandBuffer>) getBlitCommandBuffer;
+@end
+
+
+// ================ Null Draw Routine ================
+@interface NullDrawRoutine : NSObject<DrawRoutineProtocol>
+@end
+
+
 // ================ Subroutine Protocol ================
 @protocol DrawSubroutineProtocol
 // --- Configure ---
@@ -15,7 +58,7 @@
 
 // --- Resources ---
 - (void) bindBuffer:(NSUInteger)index;
-- (void) linkBuffer:(nonnull ResizableBuffer*)buffer;
+- (void) linkBuffer:(nonnull DynamicBuffer*)buffer;
 
 @end
 
@@ -46,47 +89,6 @@
 
 // --- Draw ---
 - (nonnull MTLRenderPassDescriptor*) currentRenderPassDescriptor:(nonnull id<MTLTexture>)texture;
-@end
-
-
-// ================ Routine Protocol ================
-@protocol DrawRoutineProtocol
-// --- Configure ---
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                                library:(nonnull id<MTLLibrary>)library;
-- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format;
-
-// --- Resources ---
-- (void) bindBuffer:(NSUInteger)buffer_index;
-- (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nullable ResizableBuffer*) getBuffer;
-
-// --- Draw ---
-- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
-- (void) beginPredrawStage;
-- (void) endPredrawStage;
-- (void) beginDrawStage;
-- (void) endDrawStage;
-
-@end
-
-
-// ================ Routine Template ================
-@interface DrawRoutineTemplate : NSObject
-// --- Configure ---
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
-
-// --- Resources ---
-- (nonnull ResizableBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
-                                            vertexCount:(NSUInteger)vertex_count
-                                            storageMode:(MTLResourceOptions)storage_mode;
-
-@end
-
-
-// ================ Null Draw Routine ================
-@interface NullDrawRoutine : NSObject<DrawRoutineProtocol>
 @end
 
 #endif

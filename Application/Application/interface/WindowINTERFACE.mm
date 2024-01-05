@@ -61,15 +61,18 @@ void ndWindow::drawView() {
 }
 
 
-// ================ Routine Interface ================
-unsigned int ndWindow::createDrawRoutine(ndDrawRoutineKind draw_routine_kind) {
+// ================ Renderer ================
+ndRoutine ndWindow::createDrawRoutine(ndDrawRoutineKind draw_routine_kind) {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    return (unsigned int)[render_switcher createDrawRoutine:draw_routine_kind];
+    NSUInteger index = [render_switcher createDrawRoutine:draw_routine_kind];
+    id draw_routine = [render_switcher getDrawRoutineAtIndex:index];
+    return ndRoutine(draw_routine, index);
 }
 
-void ndWindow::bindRoutine(unsigned int draw_routine_index) {
+void ndWindow::bindRoutine(ndRoutine routine) {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    [render_switcher bindRoutine:draw_routine_index];
+    NSUInteger index = (NSUInteger)routine.index();
+    [render_switcher bindRoutine:index];
 }
 
 void ndWindow::configureRoutine() {
@@ -80,21 +83,4 @@ void ndWindow::configureRoutine() {
 void ndWindow::armRoutine() {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
     [render_switcher armRoutine];
-}
-
-// ==== Resources ====
-void ndWindow::bindBuffer(unsigned int buffer_index) {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    [render_switcher bindBuffer:buffer_index];
-}
-
-void ndWindow::createBuffer(unsigned int vertex_count) {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    [render_switcher createBufferWithVertexCount:vertex_count];
-}
-
-ndBuffer ndWindow::getBuffer() {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    ResizableBuffer*  dynamic_buffer  = [render_switcher getBuffer];
-    return ndBuffer(dynamic_buffer);
 }

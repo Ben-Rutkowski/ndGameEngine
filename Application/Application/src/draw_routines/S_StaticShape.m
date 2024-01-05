@@ -4,7 +4,7 @@
 {
     id<MTLRenderPipelineState> _draw_pipeline;
     
-    ResizableBuffer* _vertex_buffer;
+    DynamicBuffer* _vertex_buffer;
 }
 
 // ==== Configuring ====
@@ -23,7 +23,7 @@
     [self finializeConfig];
 }
 
-- (void) linkBuffer:(nonnull ResizableBuffer*)buffer {
+- (void) linkBuffer:(nonnull DynamicBuffer*)buffer {
     _vertex_buffer = buffer;
 }
 

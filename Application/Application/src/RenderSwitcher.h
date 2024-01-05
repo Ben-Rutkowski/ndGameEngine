@@ -11,17 +11,17 @@
 
 // --- Routine Interface ---
 - (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind;
+- (nonnull id) getDrawRoutineAtIndex:(NSUInteger)index;
 - (void) bindRoutine:(NSUInteger)index;
 - (void) configureRoutine;
 - (void) armRoutine;
 
-- (void) bindBuffer:(NSUInteger)index;
-- (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nonnull ResizableBuffer*) getBuffer;
-
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
 
+// ==== Depricated ====
+//- (void) createBufferWithVertexCount:(NSUInteger)count;
+//- (void) bindBuffer:(NSUInteger)index;
 @end
 
 #endif
