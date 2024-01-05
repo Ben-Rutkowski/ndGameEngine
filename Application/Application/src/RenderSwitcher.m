@@ -114,10 +114,6 @@
                             inCommandBuffer:command_buffer];
         
         __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
-        [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
-            NSLog(@"-- Draw Scheduled on GPU --");
-            [block_routine beginDrawStageInBuffers];
-        }];
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
             NSLog(@"-- Draw Completed on GPU --");
             [block_routine endDrawStageInBuffers];

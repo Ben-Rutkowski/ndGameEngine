@@ -30,7 +30,6 @@
 - (nonnull id<MTLBuffer>) drawTap;
 - (void) beginPredrawStage;
 - (void) endPredrawStage;
-- (void) beginDrawStage;
 - (void) endDrawStage;
 
 // --- Debug ---

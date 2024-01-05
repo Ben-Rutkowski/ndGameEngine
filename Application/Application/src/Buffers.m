@@ -85,17 +85,11 @@
 
 - (void) completeSwap {
     if (isCurrentlySwapping && _refernce_count[_active_index] == 0) {
-        NSLog(@"   === Swapping ===");
+        NSLog(@"   === Swapping === : %lu", _current_index);
         isCurrentlySwapping = NO;
         _active_index       = _current_index;
         
-        NSLog(@"    Flying - Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
-        
-        [self debug:0];
-        [self debug:1];
-        
         dispatch_semaphore_signal(_complete_swap_semaphore);
-        NSLog(@"signal : complete swap");
     }
 }
 
@@ -104,17 +98,14 @@
 - (id<MTLBuffer>) writeOpen {
     NSLog(@"-- Write Buffer Open --");
     dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@" wait  : complete swap");
-    
     isCurrentlySwapping = YES;
     return _buffer[(_current_index+1)%2];
 }
 
 - (void) writeCloseInCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
-    NSLog(@"-- Write Buffer Close --");
     NSUInteger next_index = (_current_index+1)%2;
+    NSLog(@"-- Write Buffer Close -- : Current Buffer %lu to %lu of size %lu", next_index, _current_index, _vertex_count[next_index]);
     
-    NSLog(@" Buffer %lu to %lu of size %lu", next_index, _current_index, _vertex_count[next_index]);
     @autoreleasepool {
         id<MTLBlitCommandEncoder> blit_encoder = [command_buffer blitCommandEncoder];
         
@@ -133,40 +124,29 @@
     }
     
     dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@" wait  : use");
     _current_index = (_current_index+1)%2;
     dispatch_semaphore_signal(_use_semaphore);
-    NSLog(@"signal : use");
 }
 
 
 // ==== Draw ====
 - (void) beginPredrawStage {
     dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@" wait  : use");
-    
     _refernce_count[_current_index] += 1;
     NSLog(@"    Flying - Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
 }
 
 - (void) endPredrawStage {
     dispatch_semaphore_signal(_use_semaphore);
-    NSLog(@"signal : use");
 }
-
-- (void) beginDrawStage {}
 
 - (void) endDrawStage {
     dispatch_semaphore_wait(_use_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@" wait  : use");
-    
     _refernce_count[_active_index] -= 1;
     NSLog(@"    Flying - Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
     
     [self completeSwap];
-    
     dispatch_semaphore_signal(_use_semaphore);
-    NSLog(@"signal : use");
 }
 
 - (id<MTLBuffer>) drawTap {

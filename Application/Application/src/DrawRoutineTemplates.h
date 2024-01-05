@@ -25,7 +25,6 @@
 
 - (void) beginPredrawStageInBuffers;
 - (void) endPredrawStageInBuffers;
-- (void) beginDrawStageInBuffers;
 - (void) endDrawStageInBuffers;
 
 @end

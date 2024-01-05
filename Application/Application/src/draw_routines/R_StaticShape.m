@@ -62,10 +62,6 @@
     [_shape_vertices endPredrawStage];
 }
 
-- (void) beginDrawStageInBuffers {
-    [_shape_vertices beginDrawStage];
-}
-
 - (void) endDrawStageInBuffers {
     [_shape_vertices endDrawStage];
 }

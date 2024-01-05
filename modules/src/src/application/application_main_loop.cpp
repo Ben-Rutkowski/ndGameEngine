@@ -7,9 +7,9 @@
 #include <chrono>
 
 #define DEBUG_POINT 2
-#define BREAK_POINT 10
-// #define DOES_BREAK true
-#define DOES_BREAK false
+#define BREAK_POINT 5
+#define DOES_BREAK true
+// #define DOES_BREAK false
 
 static int count;
 // static double detla;
