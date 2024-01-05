@@ -13,7 +13,7 @@
     [self setVertexFunction:@"StaticShape_vertexShader"
            fragmentFunction:@"StaticShape_fragmentShader"];
     [self setPixelFormat:pixel_format];
-    _draw_pipeline = [self compilePipeline];
+    _draw_pipeline = [self compileRenderPipeline];
     
 //    --- Render Pass ---
     [self setClearColor:MTLClearColorMake(0.0, 0.5, 0.5, 1.0)];

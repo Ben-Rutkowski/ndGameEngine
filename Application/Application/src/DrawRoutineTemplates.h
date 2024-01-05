@@ -67,12 +67,15 @@
 // --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library;
-// --- Pipeline ---
+// --- Render Pipeline ---
 - (void) setVertexFunction:(nonnull NSString*)vertex_name fragmentFunction:(nonnull NSString*)fragment_name;
 - (void) setPixelFormat:(MTLPixelFormat)pixel_format;
 - (void) setVertexBufferImmutable:(NSUInteger)index;
 - (void) enableIndirectCommandBuffer;
-- (nullable id<MTLRenderPipelineState>) compilePipeline;
+- (nullable id<MTLRenderPipelineState>) compileRenderPipeline;
+
+// --- Compute Pipeline ---
+- (nullable id<MTLComputePipelineState>) computePipelineWithFunctionName:(nonnull NSString*)name;
 
 // --- Render Pass ---
 - (void) setClearColor:(MTLClearColor)color;

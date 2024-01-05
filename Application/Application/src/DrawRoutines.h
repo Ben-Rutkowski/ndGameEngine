@@ -32,6 +32,8 @@
 @interface StaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
 
+@interface LineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
+@end
 
 /*  Routine Protocol
     - init with device and library :
@@ -55,6 +57,9 @@
 
 // ================ ROUTINES ================
 @interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
+@end
+
+@interface DrawingLines : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 
 #endif
