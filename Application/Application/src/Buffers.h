@@ -11,7 +11,7 @@
 @interface DynamicBuffer : NSObject
 // --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                               dataSize:(NSUInteger)data_size
+                               vertexSize:(NSUInteger)vertex_size
                             vertexCount:(NSUInteger)vertex_count
                          andStorageMode:(MTLResourceOptions)storage_mode;
 

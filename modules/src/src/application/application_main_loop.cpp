@@ -1,3 +1,7 @@
+/*
+    TODO: Handled thread stalling when spamming edit open/close
+*/
+
 #include "application.hpp"
 #include "cocoa_interface.hpp"
 #include <chrono>

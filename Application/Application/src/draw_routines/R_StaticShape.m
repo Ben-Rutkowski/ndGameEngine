@@ -20,7 +20,7 @@
 }
 
 - (void) createBufferWithVertexCount:(NSUInteger)count {
-    _shape_vertices = [self newDynamicBufferWithDataSize:count*sizeof(StaticShape_VertexType)
+    _shape_vertices = [self newDynamicBufferWithVertexSize:sizeof(StaticShape_VertexType)
                                              vertexCount:count
                                              storageMode:MTLResourceStorageModeShared];
     

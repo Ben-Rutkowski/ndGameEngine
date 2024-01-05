@@ -73,8 +73,8 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
-    // routine.writeBufferOpen();
-    // routine.writeBufferClose();
+    routine.writeBufferOpen();
+    routine.writeBufferClose();
 }
 
 

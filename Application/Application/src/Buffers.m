@@ -28,6 +28,8 @@
     NSUInteger    _vertex_count[2];
     NSUInteger    _refernce_count[2];
     
+    NSUInteger    _vertex_size; // IMPLEMENT!!!!!
+    
     NSUInteger _current_index; // The index of the newsest buffer
     NSUInteger _active_index;  // The index of the buffer with the next draw command
     
@@ -45,7 +47,7 @@
 
 // ==== Configure ====
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                               dataSize:(NSUInteger)data_size
+                               vertexSize:(NSUInteger)vertex_size
                             vertexCount:(NSUInteger)vertex_count
                          andStorageMode:(MTLResourceOptions)storage_mode
 {
@@ -60,9 +62,11 @@
         _vertex_count[0] = vertex_count;
         _vertex_count[1] = vertex_count;
         
-        _buffer[0] = [device newBufferWithLength:data_size
+        _vertex_size = vertex_size;
+        
+        _buffer[0] = [device newBufferWithLength:vertex_size*vertex_count
                                          options:storage_mode];
-        _buffer[1] = [device newBufferWithLength:data_size
+        _buffer[1] = [device newBufferWithLength:vertex_size*vertex_count
                                          options:storage_mode];
             
         isCurrentlySwapping = NO;
@@ -85,7 +89,6 @@
         isCurrentlySwapping = NO;
         _active_index       = _current_index;
         
-//        NSLog(@"    Current : %lu, Active : %lu", _current_index, _active_index);
         NSLog(@"    Flying - Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
         
         [self debug:0];
@@ -113,6 +116,7 @@
 
 - (void) writeCloseInCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
     NSLog(@"-- Write Buffer Close --");
+    NSLog(@" Buffer %lu to %lu of size %lu", _current_index, (_current_index+1)%2, _vertex_count[_current_index]);
     
     @autoreleasepool {
         id<MTLBlitCommandEncoder> blit_encoder = [command_buffer blitCommandEncoder];
@@ -121,7 +125,7 @@
                         sourceOffset:0
                             toBuffer:_buffer[(_current_index+1)%2]
                    destinationOffset:0
-                                size:_vertex_count[_current_index]];
+                                size:_vertex_size*_vertex_count[_current_index]];
         
         [blit_encoder endEncoding];
         
@@ -142,7 +146,6 @@
     NSLog(@" wait  : use");
     
     _refernce_count[_current_index] += 1;
-//    NSLog(@"    Current : %lu, Active : %lu", _current_index, _active_index);
     NSLog(@"    Flying - Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
 }
 
@@ -158,7 +161,6 @@
     NSLog(@" wait  : use");
     
     _refernce_count[_active_index] -= 1;
-//    NSLog(@"    Current : %lu, Active : %lu", _current_index, _active_index);
     NSLog(@"    Flying - Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
     
     [self completeSwap];
@@ -222,14 +224,18 @@
 
 // ==== Debug ====
 - (void) debug:(NSUInteger)index {
+//    NSLog(@"Buffer %lu : %@", index, _buffer[index]);
     NSLog(@"Buffer size : %lu", _buffer[index].length);
     NSLog(@"Buffer vertex count : %lu", _vertex_count[index]);
     
     float* vert = _buffer[index].contents;
     
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<12; i++) {
         NSLog(@"%f", vert[i]);
     }
+}
+
+- (void)debug {
 }
 
 @end

@@ -37,9 +37,9 @@
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
 
 // --- Resources ---
-- (nonnull DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
-                                            vertexCount:(NSUInteger)vertex_count
-                                            storageMode:(MTLResourceOptions)storage_mode;
+- (nonnull DynamicBuffer*) newDynamicBufferWithVertexSize:(NSUInteger)vertex_size
+                                              vertexCount:(NSUInteger)vertex_count
+                                              storageMode:(MTLResourceOptions)storage_mode;
 - (nonnull id<MTLCommandBuffer>) getBlitCommandBuffer;
 @end
 
