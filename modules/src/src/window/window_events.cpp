@@ -19,11 +19,21 @@ void loadVertices(ndBuffer buffer) {
  
     vertices[0].position = { -0.5f, -0.5f };
     vertices[1].position = {  0.5f, -0.5f };
-    vertices[2].position = {  0.0f,  0.5f };
+    vertices[2].position = { -0.5f,  0.5f };
 
-    vertices[0].color = { 0.0f, 0.5f, 0.7f, 1.0f };
+    vertices[3].position = { -0.5f,  0.5f };
+    vertices[4].position = {  0.5f, -0.5f };
+    vertices[5].position = {  0.5f,  0.5f };
+
+    // vertices[0].color = { 0.0f, 0.5f, 0.7f, 1.0f };
+    vertices[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
     vertices[1].color = { 0.3f, 0.5f, 0.7f, 1.0f };
     vertices[2].color = { 0.5f, 0.5f, 0.7f, 1.0f };
+
+    vertices[3].color = { 0.5f, 0.5f, 0.7f, 1.0f };
+    vertices[4].color = { 0.3f, 0.5f, 0.7f, 1.0f };
+    // vertices[5].color = { 0.5f, 0.9f, 0.7f, 1.0f };
+    vertices[5].color = { 0.0f, 0.0f, 0.0f, 0.0f };
 
     buffer.editUntap();
 }
@@ -48,7 +58,7 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     unsigned int debug_routine = nd_window.createDrawRoutine(ndDrawRoutineKindDebug);
     nd_window.bindRoutine(debug_routine);
     nd_window.bindBuffer(0);
-    nd_window.createBuffer(3);
+    nd_window.createBuffer(6);
 
     ndBuffer buffer = nd_window.getBuffer();
     loadVertices(buffer);
@@ -66,12 +76,12 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
-    ndBuffer buffer = nd_window.getBuffer();
-    StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer.editTap();
+    // ndBuffer buffer = nd_window.getBuffer();
+    // StaticShape_VertexType* vertices = (StaticShape_VertexType*)buffer.editTap();
 
-    vertices[0].position = { -0.4f, -0.4f };
+    // vertices[0].position = { -0.4f, -0.4f };
 
-    buffer.editUntap();
+    // buffer.editUntap();
 }
 
 

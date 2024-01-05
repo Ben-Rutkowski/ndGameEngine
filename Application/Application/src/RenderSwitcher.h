@@ -17,7 +17,7 @@
 
 - (void) bindBuffer:(NSUInteger)index;
 - (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nonnull DynamicBuffer*) getBuffer;
+- (nonnull ResizableBuffer*) getBuffer;
 
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;

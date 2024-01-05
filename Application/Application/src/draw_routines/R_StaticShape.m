@@ -4,7 +4,7 @@
 {
 //    --- Subroutines ---
     StaticShapeSubroutine* _draw_subroutine;
-    DynamicBuffer*         _shape_vertices;
+    ResizableBuffer*         _shape_vertices;
 }
 
 // ==== Configuring ====
@@ -35,7 +35,7 @@
 // ==== Resources ====
 - (void) bindBuffer:(NSUInteger)buffer_index {}
 
-- (DynamicBuffer*) getBuffer {
+- (ResizableBuffer*) getBuffer {
     return _shape_vertices;
 }
 
@@ -48,16 +48,20 @@
                                      inTexture:drawable.texture];
 }
 
-- (void) beforeDraw {
-    [_shape_vertices beforeDraw];
+- (void) beginPredrawStage {
+    [_shape_vertices beginPredrawStage];
 }
 
-- (void) drawUntapScheduled {
-    [_shape_vertices drawUntapScheduled];
+- (void) endPredrawStage {
+    [_shape_vertices endPredrawStage];
 }
 
-- (void) drawUntapCompleted {
-    [_shape_vertices drawUntapCompleted];
+- (void) beginDrawStage {
+    [_shape_vertices beginDrawStage];
+}
+
+- (void) endDrawStage {
+    [_shape_vertices endDrawStage];
 }
 
 @end

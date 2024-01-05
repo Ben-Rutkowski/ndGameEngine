@@ -95,6 +95,6 @@ void ndWindow::createBuffer(unsigned int vertex_count) {
 
 ndBuffer ndWindow::getBuffer() {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    DynamicBuffer*  dynamic_buffer  = [render_switcher getBuffer];
+    ResizableBuffer*  dynamic_buffer  = [render_switcher getBuffer];
     return ndBuffer(dynamic_buffer);
 }

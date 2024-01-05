@@ -15,7 +15,7 @@
 
 // --- Resources ---
 - (void) bindBuffer:(NSUInteger)index;
-- (void) linkBuffer:(nonnull DynamicBuffer*)buffer;
+- (void) linkBuffer:(nonnull ResizableBuffer*)buffer;
 
 @end
 
@@ -59,14 +59,15 @@
 // --- Resources ---
 - (void) bindBuffer:(NSUInteger)buffer_index;
 - (void) createBufferWithVertexCount:(NSUInteger)count;
-- (nullable DynamicBuffer*) getBuffer;
+- (nullable ResizableBuffer*) getBuffer;
 
 // --- Draw ---
 - (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
         inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
-- (void) beforeDraw;
-- (void) drawUntapScheduled;
-- (void) drawUntapCompleted;
+- (void) beginPredrawStage;
+- (void) endPredrawStage;
+- (void) beginDrawStage;
+- (void) endDrawStage;
 
 @end
 
@@ -77,7 +78,7 @@
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device;
 
 // --- Resources ---
-- (nonnull DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
+- (nonnull ResizableBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
                                             vertexCount:(NSUInteger)vertex_count
                                             storageMode:(MTLResourceOptions)storage_mode;
 

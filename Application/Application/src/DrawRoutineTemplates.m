@@ -126,11 +126,11 @@
 }
 
 // ==== Resources ====
-- (DynamicBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
+- (ResizableBuffer*) newDynamicBufferWithDataSize:(NSUInteger)data_size
                                     vertexCount:(NSUInteger)vertex_count
                                     storageMode:(MTLResourceOptions)storage_mode
 {
-    DynamicBuffer* buffer = [[DynamicBuffer alloc] initWithDevice:_hidden_device
+    ResizableBuffer* buffer = [[ResizableBuffer alloc] initWithDevice:_hidden_device
                                                          dataSize:data_size
                                                       vertexCount:vertex_count
                                                    andStorageMode:storage_mode];
@@ -153,18 +153,14 @@
 - (void) bindBuffer:(NSUInteger)buffer_index {}
 - (void) createBufferWithVertexCount:(NSUInteger)count {}
 - (void) expandBufferToSize:(NSUInteger)new_size {}
-- (DynamicBuffer*)getBuffer { return nil; }
+- (ResizableBuffer*)getBuffer { return nil; }
 - (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
         inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
 {
 //    NSLog(@"Null Draw");
 }
-- (void) beforeDraw {}
-- (void) drawUntapCompleted {}
-- (void) drawUntapScheduled {}
-
-- (id<MTLBuffer>) getBufferOLD {return nil;}
-- (void) OLDdrawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-           inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {}
-
+- (void) beginPredrawStage {}
+- (void) endDrawStage {}
+- (void) beginDrawStage {}
+- (void) endPredrawStage {}
 @end

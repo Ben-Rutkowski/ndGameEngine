@@ -1,45 +1,27 @@
 /*
-    Thread Racing:
-                       |Cannot|             |     Cannot     |
-                       | Edit |             |      Swap      |
-        GPU|           ( Draw )        GPU|           ( Draw )
-  Draw  ---|-------------------        ---|-------------------
-        CPU| ( Predraw )               CPU| ( Predraw )
- 
-                              |Cannot |
-                              | Draw, |                      |   Cannot    |
-                              |Predraw|                      |    Edit     |
-        GPU|           ( Copy )               GPU|           ( Copy )
- Resize ---|--------------------------        ---|--------------------------
-        CPU| ( Presize )      ( Swap  )       CPU| ( Presize )      ( Swap )
- 
-                                  |Cannot|
-             |Cannot|             | Copy,|
-             | Draw |             | Swap |
-        GPU|                 GPU|
-  Edit  ---|---------        ---|---------
-        CPU| ( Edit )        CPU| ( Edit )
+    Draw   : (CPU) predraw stage -> (GPU) draw stage
+    Resize : (CPU) presize stage -> (GPU) copy stage -> (CPU) swap stage
 */
 
 #import "Buffers.h"
 
-@implementation DynamicBuffer
+@implementation ResizableBuffer
 {
-    id<MTLBuffer> _buffer;
-    NSUInteger    _vertex_count;
+    id<MTLBuffer> _buffer[2];
+    NSUInteger    _vertex_count[2];
+    NSUInteger    _refernce_count[2];
     
-    id<MTLBuffer> _new_buffer;
-    NSUInteger    _new_vertex_count;
+    NSUInteger _current_index; // The index of the newsest buffer
+    NSUInteger _active_index;  // The index of the buffer with the next draw command
     
-    dispatch_semaphore_t _predraw_semaphore;
-    dispatch_semaphore_t _draw_semaphore;
-    dispatch_semaphore_t _copy_semaphore;
-    dispatch_semaphore_t _swap_semaphore;
-    dispatch_semaphore_t _edit_semaphore;
+    BOOL isEmptyingOldBuffer;  // This is true when there are still draw
+                               // commands active for the old buffer
+                               // When true decrement active buffer first
+                               // and once empty, delete old buffer, and swap active
     
-//    --- Depricated ---
-//    dispatch_semaphore_t _OLDresize_semaphore;
-//    dispatch_semaphore_t _OLDin_use_semaphore;
+    dispatch_semaphore_t _resize_create_semaphore;
+    dispatch_semaphore_t _resize_full_semaphore;
+    dispatch_semaphore_t _reference_semaphore;
 }
 
 
@@ -51,20 +33,18 @@
 {
     self = [super init];
     if (self) {
-        _buffer = [device newBufferWithLength:data_size
-                                      options:storage_mode];
+        _current_index = 0;
+        _active_index  = 0;
+        _buffer[_current_index] = [device newBufferWithLength:data_size
+                                                             options:storage_mode];
+        _vertex_count[_current_index] = vertex_count;
+        _refernce_count[0] = 0;
+        _refernce_count[1] = 0;
+        isEmptyingOldBuffer = NO;
         
-        _vertex_count     = vertex_count;
-        
-        _predraw_semaphore = dispatch_semaphore_create(1);
-        _draw_semaphore    = dispatch_semaphore_create(1);
-        _copy_semaphore    = dispatch_semaphore_create(1);
-        _swap_semaphore    = dispatch_semaphore_create(1);
-        _edit_semaphore    = dispatch_semaphore_create(1);
-        
-//        --- Depricated ---
-//        _OLDresize_semaphore = dispatch_semaphore_create(1);
-//        _OLDin_use_semaphore = dispatch_semaphore_create(1);
+        _resize_create_semaphore = dispatch_semaphore_create(1);
+        _resize_full_semaphore   = dispatch_semaphore_create(1);
+        _reference_semaphore     = dispatch_semaphore_create(1);
     }
     
     return self;
@@ -73,7 +53,7 @@
 
 // ==== Size ====
 - (NSUInteger) getVertexCount {
-    return _vertex_count;
+    return _vertex_count[_current_index];
 }
 
 - (void) expandToDataSize:(NSUInteger)data_size
@@ -81,131 +61,101 @@
                withDevice:(nonnull id<MTLDevice>)device
            inCommandQueue:(nonnull id<MTLCommandQueue>)command_queue
 {
-    _new_buffer = [device newBufferWithLength:data_size
-                                      options:_buffer.resourceOptions];
-    _new_vertex_count = vertex_count;
+    dispatch_semaphore_wait(_resize_full_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"wait : resize full -- expandToDataSize");
+    dispatch_semaphore_wait(_resize_create_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"wait : resize create -- expandToDataSize");
+    NSUInteger next_index = (_current_index+1)%2;
+    
+    _vertex_count[next_index] = vertex_count;
+    _buffer[next_index]       = [device newBufferWithLength:data_size
+                                                    options:_buffer[next_index].resourceOptions];
     
     @autoreleasepool {
         id<MTLCommandBuffer>      command_buffer = [command_queue commandBuffer];
         id<MTLBlitCommandEncoder> blit_command   = [command_buffer blitCommandEncoder];
-        
-        [blit_command copyFromBuffer:_buffer
+        [blit_command copyFromBuffer:_buffer[_current_index]
                         sourceOffset:0
-                            toBuffer:_new_buffer
+                            toBuffer:_buffer[next_index]
                    destinationOffset:0
-                                size:_buffer.length];
-        
+                                size:_buffer[_current_index].length];
         [blit_command endEncoding];
         
-        __block DynamicBuffer* block_buffer_self = self;
-        [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
-            
-        }];
-            
+        __block ResizableBuffer* block_buffer_self = self;
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
-            [block_buffer_self rotateNewBuffer];
+            [block_buffer_self initialSwapStage];
         }];
         
         [command_buffer commit];
     }
 }
 
-- (void) beforeCopy {
-    dispatch_semaphore_wait(_edit_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : EDIT");
-}
-
-- (void) rotateNewBuffer {
-    dispatch_semaphore_wait(_predraw_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : PREDRAW");
-    dispatch_semaphore_wait(_predraw_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : DRAW");
-    
-//    dispatch_semaphore_wait(_OLDresize_semaphore, DISPATCH_TIME_FOREVER);
-//    NSLog(@"   Wait : resize semaphore");
-    
-    [_buffer setPurgeableState:MTLPurgeableStateEmpty];
-    [_buffer release];
-    _buffer       = _new_buffer;
-    _vertex_count = _new_vertex_count;
-    
-    dispatch_semaphore_signal(_predraw_semaphore);
-    NSLog(@"  Finish : PREDRAW");
-    dispatch_semaphore_signal(_draw_semaphore);
-    NSLog(@"  Finish : DRAW");
-    dispatch_semaphore_signal(_edit_semaphore);
-    NSLog(@"  Finish : EDIT");
-    
-//    dispatch_semaphore_signal(_OLDresize_semaphore);
-//    NSLog(@"   Finish : resize semaphore");
+- (void) initialSwapStage {
+    dispatch_semaphore_wait(_reference_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"wait : reference -- initialSwap");
+    isEmptyingOldBuffer = YES;
+    _current_index      = (_current_index+1)%2;
+    dispatch_semaphore_signal(_reference_semaphore);
+    NSLog(@"signal : reference -- initialSwap");
+    dispatch_semaphore_signal(_resize_create_semaphore);
+    NSLog(@"signal : resize create -- initialSwap");
 }
 
 
-// ==== Access ====
+// ==== Draw ====
+- (void) beginPredrawStage {
+    dispatch_semaphore_wait(_reference_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"wait : reference -- beginPredrawStage");
+    _refernce_count[_active_index] += 1;
+}
+
+- (void) endPredrawStage {
+    NSLog(@"     Flying; %lu frames on buffer : %lu", _refernce_count[_active_index], _active_index);
+    dispatch_semaphore_signal(_reference_semaphore);
+    NSLog(@"signal : reference -- endPredrawStage");
+}
+
+- (void) beginDrawStage {}
+
+- (void) endDrawStage {
+    dispatch_semaphore_wait(_reference_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"wait : reference -- endDrawStage");
+    _refernce_count[_active_index] -= 1;
+    NSLog(@"     Finished; %lu frames remain on buffer : %lu", _refernce_count[_active_index], _active_index);
+    if (isEmptyingOldBuffer && _refernce_count[_active_index] == 0) {
+        isEmptyingOldBuffer = NO;
+        NSLog(@"     Errasing Old Buffer -- endDrawStage");
+        [_buffer[_active_index] setPurgeableState:MTLPurgeableStateEmpty];
+        [_buffer[_active_index] release];
+        _active_index = _current_index;
+        dispatch_semaphore_signal(_resize_full_semaphore);
+        NSLog(@"signal : resize full -- endDrawStage");
+    }
+    dispatch_semaphore_signal(_reference_semaphore);
+    NSLog(@"signal : reference -- endDrawStage");
+}
+
 - (id<MTLBuffer>) drawTap {
-    return _buffer;
+    return _buffer[_current_index];
 }
 
-- (void) beforeDraw {
-    dispatch_semaphore_wait(_swap_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : SWAP");
-    
-//    dispatch_semaphore_wait(_OLDresize_semaphore, DISPATCH_TIME_FOREVER);
-//    NSLog(@"   Wait : resize semaphore");
-}
 
-- (void) drawUntapScheduled {
-    dispatch_semaphore_wait(_edit_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : EDIT");
-    
-//    dispatch_semaphore_wait(_OLDin_use_semaphore, DISPATCH_TIME_FOREVER);
-//    NSLog(@"   Wait : use semaphore");
-}
-
-- (void) drawUntapCompleted  {
-    dispatch_semaphore_signal(_swap_semaphore);
-    NSLog(@"  Finish : SWAP");
-    dispatch_semaphore_signal(_edit_semaphore);
-    NSLog(@"  Finish : EDIT");
-    
-//    dispatch_semaphore_signal(_OLDresize_semaphore);
-//    NSLog(@"   Finish : resize semaphore");
-//    dispatch_semaphore_signal(_OLDin_use_semaphore);
-//    NSLog(@"   Finish : use semaphore");
-}
-
+// === Write ===
 - (id<MTLBuffer>) editTap {
-    dispatch_semaphore_wait(_draw_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : DRAW");
-    dispatch_semaphore_wait(_copy_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : COPY");
-    dispatch_semaphore_wait(_swap_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"  Wait   : SWAP");
-    
-//    dispatch_semaphore_wait(_OLDin_use_semaphore, DISPATCH_TIME_FOREVER);
-//    NSLog(@"   Wait : use semaphore");
-    return _buffer;
+    return _buffer[_current_index];
 }
 
 - (void) editUntap {
-    dispatch_semaphore_signal(_draw_semaphore);
-    NSLog(@"  Finish : DRAW");
-    dispatch_semaphore_signal(_copy_semaphore);
-    NSLog(@"  Finish : COPY");
-    dispatch_semaphore_signal(_swap_semaphore);
-    NSLog(@"  Finish : SWAP");
     
-//    dispatch_semaphore_signal(_OLDin_use_semaphore);
-//    NSLog(@"   Finish : use semaphore");
 }
 
 
 // ==== Debug ====
 - (void) debug {
-    NSLog(@"Buffer size : %lu", _buffer.length);
-    NSLog(@"Buffer vertex count : %lu", _vertex_count);
+    NSLog(@"Buffer size : %lu", _buffer[_current_index].length);
+    NSLog(@"Buffer vertex count : %lu", _vertex_count[_current_index]);
     
-    float* vert = _buffer.contents;
+    float* vert = _buffer[_current_index].contents;
     
     for (int i=0; i<4; i++) {
         NSLog(@"%f", vert[i]);

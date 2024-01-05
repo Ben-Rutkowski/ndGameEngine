@@ -3,10 +3,12 @@
 #include <chrono>
 
 #define DEBUG_POINT 2
-#define BREAK_POINT 4
+#define BREAK_POINT 5
+// #define DOES_BREAK true
+#define DOES_BREAK false
 
 static int count;
-static double detla;
+// static double detla;
 
 void debugSetup() {
     count = 0;
@@ -58,7 +60,7 @@ void ndAppModule::startApp() {
             );
         }
 
-        if (count >= BREAK_POINT) {
+        if (DOES_BREAK && count >= BREAK_POINT) {
             break;
         }
     }

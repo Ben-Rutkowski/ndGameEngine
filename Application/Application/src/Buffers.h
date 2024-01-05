@@ -3,7 +3,7 @@
 
 #import <Metal/Metal.h>
 
-@interface DynamicBuffer : NSObject
+@interface ResizableBuffer : NSObject
 // --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                dataSize:(NSUInteger)data_size
@@ -19,9 +19,12 @@
 
 // --- Access ---
 - (nonnull id<MTLBuffer>) drawTap;
-- (void) beforeDraw;
-- (void) drawUntapScheduled;
-- (void) drawUntapCompleted;
+- (void) beginPredrawStage;
+- (void) endPredrawStage;
+- (void) beginDrawStage;
+- (void) endDrawStage;
+//- (void) endDrawStageWithBufferIndex:(NSUInteger)index;
+
 - (nonnull id<MTLBuffer>) editTap;
 - (void) editUntap;
 
