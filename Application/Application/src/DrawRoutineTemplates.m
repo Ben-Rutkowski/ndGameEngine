@@ -149,29 +149,22 @@
 
 // ================ Null Draw Routine ================
 @implementation NullDrawRoutine
-- (instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                        library:(nonnull id<MTLLibrary>)library
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                                library:(nonnull id<MTLLibrary>)library
 {
     self = [super init];
     return self;
 }
-
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {}
-- (void) bindBuffer:(NSUInteger)buffer_index {}
 - (void) createBufferWithVertexCount:(NSUInteger)count {}
-- (void) expandBufferToSize:(NSUInteger)new_size {}
-- (DynamicBuffer*)getBuffer { return nil; }
-- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
-{
-//    NSLog(@"Null Draw");
-}
-- (void) beginPredrawStageInBuffers {}
-- (void) endDrawStageInBuffers {}
-- (void) beginDrawStageInBuffers {}
-- (void) endPredrawStageInBuffers {}
 
-- (void)writeBufferClose {}
-- (id<MTLBuffer>)writeBufferOpen {return nil;}
+- (void) bindBuffer:(NSUInteger)buffer_index {}
+- (nullable id<MTLBuffer>) writeBufferOpen { return nil; }
+- (void) writeBufferClose {}
+- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
+        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {}
+- (void) predrawOpenInBuffers {}
+- (void) predrawCloseInBuffers {}
+- (void) drawCompletedInBuffers {}
 
 @end

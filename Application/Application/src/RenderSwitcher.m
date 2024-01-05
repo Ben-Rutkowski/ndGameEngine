@@ -13,9 +13,6 @@
     NSMutableArray<id<DrawRoutineProtocol>>* _loaded_draw_routines;
     id<DrawRoutineProtocol> _bound_draw_routine;
     id<DrawRoutineProtocol> _armed_draw_routine;
-    
-//    --- Debugging ---
-    OLDStaticShapeRoutine* _static_shape_routine;
 }
 
 // ==== Initialization ====
@@ -83,7 +80,6 @@
 }
 
 - (void) bindRoutine:(NSUInteger)index {
-    NSLog(@"Binding routine : %lu", index);
     _bound_draw_routine = _loaded_draw_routines[index];
 }
 
@@ -92,15 +88,13 @@
 }
 
 - (void) armRoutine {
-    NSLog(@"Arming bound routine : %@", _bound_draw_routine);
     _armed_draw_routine = _bound_draw_routine;
 }
 
 
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
-    NSLog(@"-- Prepare Draw on CPU ---");
-    [_armed_draw_routine beginPredrawStageInBuffers];
+    [_armed_draw_routine predrawOpenInBuffers];
     
     @autoreleasepool {
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
@@ -115,28 +109,13 @@
         
         __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
-            NSLog(@"-- Draw Completed on GPU --");
-            [block_routine endDrawStageInBuffers];
+            [block_routine drawCompletedInBuffers];
         }];
         
         [command_buffer presentDrawable:current_drawable];
-        [_armed_draw_routine endPredrawStageInBuffers];
+        [_armed_draw_routine predrawCloseInBuffers];
         [command_buffer commit];
     }
 }
-
-
-// ==== Depricated ====
-//- (DynamicBuffer*) getBuffer {
-//    return [_bound_draw_routine getBuffer];
-//}
-//
-//- (void) bindBuffer:(NSUInteger)index {
-//    [_bound_draw_routine bindBuffer:index];
-//}
-//
-//- (void) createBufferWithVertexCount:(NSUInteger)count {
-//    [_bound_draw_routine createBufferWithVertexCount:count];
-//}
 
 @end

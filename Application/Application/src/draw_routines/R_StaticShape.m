@@ -54,16 +54,16 @@
                                      inTexture:drawable.texture];
 }
 
-- (void) beginPredrawStageInBuffers {
-    [_shape_vertices beginPredrawStage];
+- (void) predrawOpenInBuffers {
+    [_shape_vertices predrawOpen];
 }
 
-- (void) endPredrawStageInBuffers {
-    [_shape_vertices endPredrawStage];
+- (void) predrawCloseInBuffers {
+    [_shape_vertices predrawClose];
 }
 
-- (void) endDrawStageInBuffers {
-    [_shape_vertices endDrawStage];
+- (void) drawCompletedInBuffers {
+    [_shape_vertices drawCompleted];
 }
 
 @end

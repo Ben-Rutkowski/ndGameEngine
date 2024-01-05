@@ -18,10 +18,6 @@
 
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
-
-// ==== Depricated ====
-//- (void) createBufferWithVertexCount:(NSUInteger)count;
-//- (void) bindBuffer:(NSUInteger)index;
 @end
 
 #endif

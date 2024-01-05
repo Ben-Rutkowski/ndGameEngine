@@ -23,9 +23,9 @@
 - (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
         inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 
-- (void) beginPredrawStageInBuffers;
-- (void) endPredrawStageInBuffers;
-- (void) endDrawStageInBuffers;
+- (void) predrawOpenInBuffers;
+- (void) predrawCloseInBuffers;
+- (void) drawCompletedInBuffers;
 
 @end
 

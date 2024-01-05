@@ -15,25 +15,23 @@
                             vertexCount:(NSUInteger)vertex_count
                          andStorageMode:(MTLResourceOptions)storage_mode;
 
-// --- Size ---
 - (NSUInteger) getVertexCount;
-- (void) expandToDataSize:(NSUInteger)size
-           andVertexCount:(NSUInteger)vertex_count
-               withDevice:(nonnull id<MTLDevice>)device
-           inCommandQueue:(nonnull id<MTLCommandQueue>)command_queue;
+
+// --- Draw ---
+- (nonnull id<MTLBuffer>) drawTap;
+- (void) predrawOpen;
+- (void) predrawClose;
+- (void) drawCompleted;
 
 // --- Write ---
 - (nonnull id<MTLBuffer>) writeOpen;
 - (void) writeCloseInCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 
-// --- Draw ---
-- (nonnull id<MTLBuffer>) drawTap;
-- (void) beginPredrawStage;
-- (void) endPredrawStage;
-- (void) endDrawStage;
-
-// --- Debug ---
-- (void) debug;
+// --- Size ---
+//- (void) expandToDataSize:(NSUInteger)size
+//           andVertexCount:(NSUInteger)vertex_count
+//               withDevice:(nonnull id<MTLDevice>)device
+//           inCommandQueue:(nonnull id<MTLCommandQueue>)command_queue;
 
 @end
 
