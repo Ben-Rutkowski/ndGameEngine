@@ -25,13 +25,16 @@
 
 // --- Write ---
 - (nonnull id<MTLBuffer>) writeOpen;
-- (void) writeCloseInCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
+- (void) writeCloseInBlitCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
 
 // --- Size ---
 //- (void) expandToDataSize:(NSUInteger)size
 //           andVertexCount:(NSUInteger)vertex_count
 //               withDevice:(nonnull id<MTLDevice>)device
 //           inCommandQueue:(nonnull id<MTLCommandQueue>)command_queue;
+
+// --- Debug ---
+- (void) debug:(NSUInteger)num_vertices;
 
 @end
 

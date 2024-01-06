@@ -7,6 +7,7 @@
     DynamicBuffer* _vertex_buffer;
 }
 
+
 // ==== Configuring ====
 - (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
 //    ---- Pipeline ---
@@ -27,9 +28,10 @@
     _vertex_buffer = buffer;
 }
 
+
 // ==== Resources ====
-- (void) bindBuffer:(NSUInteger)index {
-}
+- (void) bindBuffer:(NSUInteger)index {}
+
 
 // ==== Draw ====
 - (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer

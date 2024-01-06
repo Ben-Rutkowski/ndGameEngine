@@ -22,8 +22,8 @@
 
 // ==== Resources ====
 - (DynamicBuffer*) newDynamicBufferWithVertexSize:(NSUInteger)vertex_size
-                                    vertexCount:(NSUInteger)vertex_count
-                                    storageMode:(MTLResourceOptions)storage_mode
+                                      vertexCount:(NSUInteger)vertex_count
+                                      storageMode:(MTLResourceOptions)storage_mode
 {
     DynamicBuffer* buffer = [[DynamicBuffer alloc] initWithDevice:_device
                                                        vertexSize:vertex_size

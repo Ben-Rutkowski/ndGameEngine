@@ -19,16 +19,15 @@
     return self;
 }
 
+- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
+    [_draw_subroutine configureWithDrawablePixelFormat:pixel_format];
+}
+
 - (void) createBufferWithVertexCount:(NSUInteger)count {
     _shape_vertices = [self newDynamicBufferWithVertexSize:sizeof(StaticShape_VertexType)
                                              vertexCount:count
                                              storageMode:MTLResourceStorageModeShared];
-    
     [_draw_subroutine linkBuffer:_shape_vertices];
-}
-
-- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
-    [_draw_subroutine configureWithDrawablePixelFormat:pixel_format];
 }
 
 
@@ -40,9 +39,11 @@
 }
 
 - (void) writeBufferClose {
-    id<MTLCommandBuffer> command_buffer = [self getBlitCommandBuffer];
-    [_shape_vertices writeCloseInCommandBuffer:command_buffer];
-    [command_buffer commit];
+    @autoreleasepool {
+        id<MTLCommandBuffer> blit_command_buffer = [self getBlitCommandBuffer];
+        [_shape_vertices writeCloseInBlitCommandBuffer:blit_command_buffer];
+        [blit_command_buffer commit];
+    }
 }
 
 

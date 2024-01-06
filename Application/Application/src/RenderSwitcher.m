@@ -63,6 +63,14 @@
             break;
         }
             
+        case ndDrawRoutineKindLine: {
+            NSLog(@"Creating Line Routine");
+            routine = [[DrawingLines alloc]
+                       initWithDevice:_device
+                       library:_library];
+            break;
+        }
+            
         default: break;
     }
     
@@ -88,6 +96,7 @@
 }
 
 - (void) armRoutine {
+    NSLog(@"Arming : %@", _bound_draw_routine);
     _armed_draw_routine = _bound_draw_routine;
 }
 

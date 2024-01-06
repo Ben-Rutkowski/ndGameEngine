@@ -32,6 +32,72 @@ void loadVertices(StaticShape_VertexType* vertices) {
     vertices[5].color = { 0.5f, 0.9f, 0.7f, 1.0f };
 }
 
+void loadVertices(Line_Triangalized_VertexType* vertices) {
+    const float x = 0.5f;
+    const float y = 0.05f;
+    const float z = 0.0f;
+    const float o = 1.0f;
+    int tri = 0;
+
+    tri = 0;
+    vertices[3*tri+0].position = { -x, -y };
+    vertices[3*tri+1].position = {  x, -y };
+    vertices[3*tri+2].position = { -x,  y };
+
+    vertices[3*tri+0].uv = { z, z };
+    vertices[3*tri+1].uv = { z, z };
+    vertices[3*tri+2].uv = { z, z };
+
+    tri = 1;
+    vertices[3*tri+0].position = {  x,  y };
+    vertices[3*tri+1].position = { -x,  y };
+    vertices[3*tri+2].position = {  x, -y };
+
+    vertices[3*tri+0].uv = { z, z };
+    vertices[3*tri+1].uv = { z, z };
+    vertices[3*tri+2].uv = { z, z };
+
+    tri = 2;
+    vertices[3*tri+0].position = { x,    y };
+    vertices[3*tri+1].position = { x+y,  y };
+    vertices[3*tri+2].position = { x,   -y };
+
+    vertices[3*tri+0].uv = { -o, z };
+    vertices[3*tri+1].uv = { -o, o };
+    vertices[3*tri+2].uv = {  o, z };
+
+    tri = 3;
+    vertices[3*tri+0].position = { x+y, -y };
+    vertices[3*tri+1].position = { x,   -y };
+    vertices[3*tri+2].position = { x+y,  y };
+
+    vertices[3*tri+0].uv = {  o, o };
+    vertices[3*tri+1].uv = {  o, z };
+    vertices[3*tri+2].uv = { -o, o };
+
+    tri = 4;
+    vertices[3*tri+0].position = { -x,   -y };
+    vertices[3*tri+1].position = { -x-y, -y };
+    vertices[3*tri+2].position = { -x,    y };
+
+    vertices[3*tri+0].uv = { -o, z };
+    vertices[3*tri+1].uv = { -o, o };
+    vertices[3*tri+2].uv = {  o, z };
+
+    tri = 5;
+    vertices[3*tri+0].position = { -x-y,  y };
+    vertices[3*tri+1].position = { -x,    y };
+    vertices[3*tri+2].position = { -x-y, -y };
+
+    vertices[3*tri+0].uv = {  o, o };
+    vertices[3*tri+1].uv = {  o, z };
+    vertices[3*tri+2].uv = { -o, o };
+
+    for (int i=0; i<18; i++) {
+        vertices[i].color = {1.0f, 1.0f, 1.0f, 1.0f};
+    }
+}
+
 void ndWindowModule::runEvent(ndEvent* event) {
     switch (event->getOp()) {
     case Operation::DEBUG:             onDebug(event); break;
@@ -46,24 +112,39 @@ void ndWindowModule::runEvent(ndEvent* event) {
     }
 }
 
-static ndRoutine routine = ndRoutine(nullptr, 0);
+static ndRoutine static_routine = ndRoutine(nullptr, 0);
+static ndRoutine line_routine   = ndRoutine(nullptr, 0);
 
 void ndWindowModule::onBeginStartUp(ndEvent* event) {
     event->print(module_name);
 
-    routine = nd_window.createDrawRoutine(ndDrawRoutineKindDebug);
-    nd_window.bindRoutine(routine);
-    routine.bindBuffer(0);
-    routine.createBuffer(6);
-    StaticShape_VertexType* vertices = (StaticShape_VertexType*)routine.writeBufferOpen();
+// --- Static Routine ---
+    static_routine = nd_window.createDrawRoutine(ndDrawRoutineKindDebug);
+    nd_window.bindRoutine(static_routine);
+    static_routine.bindBuffer(0);
+    static_routine.createBuffer(6);
+    StaticShape_VertexType* vertices = (StaticShape_VertexType*)static_routine.writeBufferOpen();
     loadVertices(vertices);
-    routine.writeBufferClose();
-
+    static_routine.writeBufferClose();
     nd_window.configureRoutine();
+// --- Static Routine ---
+
+// --- Line Routine ---
+    line_routine = nd_window.createDrawRoutine(ndDrawRoutineKindLine);
+    nd_window.bindRoutine(line_routine);
+    line_routine.bindBuffer(0);
+    line_routine.createBuffer(18);
+    Line_Triangalized_VertexType* verts = (Line_Triangalized_VertexType*)line_routine.writeBufferOpen();
+    loadVertices(verts);
+    line_routine.writeBufferClose();
+    nd_window.configureRoutine();
+// --- Line Routine ---
 }
 
 void ndWindowModule::onEndStartUp(ndEvent* event) {
     event->print(module_name);
+    // nd_window.bindRoutine(static_routine);
+    nd_window.bindRoutine(line_routine);
     nd_window.armRoutine();
     nd_window.showWindow();
     pollEventsCocoa();
@@ -71,9 +152,9 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
-    StaticShape_VertexType* vertices = (StaticShape_VertexType*)routine.writeBufferOpen();
-    vertices[0].position = {-0.4f, -0.4f };
-    routine.writeBufferClose();
+    // StaticShape_VertexType* vertices = (StaticShape_VertexType*)static_routine.writeBufferOpen();
+    // vertices[0].position = {-0.4f, -0.4f };
+    // static_routine.writeBufferClose();
 }
 
 

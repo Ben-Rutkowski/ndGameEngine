@@ -7,7 +7,7 @@
 #include <chrono>
 
 #define DEBUG_POINT 2
-#define BREAK_POINT 5
+#define BREAK_POINT 1
 // #define DOES_BREAK true
 #define DOES_BREAK false
 

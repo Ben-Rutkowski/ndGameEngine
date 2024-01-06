@@ -118,7 +118,7 @@
     return _buffer[(_current_index+1)%2];
 }
 
-- (void) writeCloseInCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
+- (void) writeCloseInBlitCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
     NSUInteger next_index = (_current_index+1)%2;
     
     @autoreleasepool {
@@ -159,14 +159,28 @@
 
 
 // ==== Debug ====
-- (void) debug:(NSUInteger)index {
+- (void) debug:(NSUInteger)num_vertices {
+    NSLog(@"Current Index : %lu, Active Index : %lu, Working Index : %lu", _current_index, _active_index, _working_index);
+    NSLog(@" ==== Buffer ZERO: ====");
+    [self debugBuffer:0 numVertex:num_vertices];
+    NSLog(@" ==== Buffer ONE: ====");
+    [self debugBuffer:1 numVertex:num_vertices];
+}
+
+- (void) debugBuffer:(NSUInteger)index numVertex:(NSUInteger)num_vertices {
     NSLog(@"Buffer size : %lu", _buffer[index].length);
     NSLog(@"Buffer vertex count : %lu", _vertex_count[index]);
     
     float* vert = _buffer[index].contents;
     
-    for (int i=0; i<12; i++) {
-        NSLog(@"%f", vert[i]);
+    NSLog(@"Size of vertex : %lu", _vertex_size);
+    
+    int width = (int)_vertex_size/(int)4;
+    for (int base=0; base<num_vertices; base++) {
+        NSLog(@"--- Vertex %i ---", base);
+        for (int i=0; i<width; i++) {
+            NSLog(@"%f", vert[base*width + i]);
+        }
     }
 }
 

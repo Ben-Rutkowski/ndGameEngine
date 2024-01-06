@@ -5,7 +5,8 @@
 // ======== Draw Routine Enums ========
 typedef enum ndDrawRoutineKind {
     ndDrawRoutineKindNull  = 0,
-    ndDrawRoutineKindDebug = 1
+    ndDrawRoutineKindDebug = 1,
+    ndDrawRoutineKindLine  = 2
 } ndDrawRoutineKind;
 
 
