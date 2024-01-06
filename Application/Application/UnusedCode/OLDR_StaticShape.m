@@ -8,7 +8,7 @@
 }
 
 // ==== Configuring ====
-- (instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+- (instancetype) initWithDeviceOLD:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library
 {
     self = [super initWithDevice:device];
@@ -19,12 +19,12 @@
     return self;
 }
 
-- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
-    [_draw_subroutine configureWithDrawablePixelFormat:pixel_format];
+- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {
+    [_draw_subroutine configureWithDrawablePixelFormatOLD:pixel_format];
 }
 
-- (void) createBufferWithVertexCount:(NSUInteger)count {
-    _shape_vertices = [self newDynamicBufferWithVertexSize:sizeof(StaticShapeVtype)
+- (void) createBufferWithVertexCountOLD:(NSUInteger)count {
+    _shape_vertices = [self newDynamicBufferWithVertexSizeOLD:sizeof(StaticShapeVtype)
                                              vertexCount:count
                                              storageMode:MTLResourceStorageModeShared];
     [_draw_subroutine linkBuffer:_shape_vertices];
@@ -32,13 +32,13 @@
 
 
 // ==== Resources ====
-- (void) bindBuffer:(NSUInteger)buffer_index {}
+- (void) bindBufferOLD:(NSUInteger)buffer_index {}
 
-- (id<MTLBuffer>) writeBufferOpen {
+- (id<MTLBuffer>) writeBufferOpenOLD {
     return [_shape_vertices writeOpen];
 }
 
-- (void) writeBufferClose {
+- (void) writeBufferCloseOLD {
     @autoreleasepool {
         id<MTLCommandBuffer> blit_command_buffer = [self getBlitCommandBuffer];
         [_shape_vertices writeCloseInBlitCommandBuffer:blit_command_buffer];
@@ -55,15 +55,15 @@
                                      inTexture:drawable.texture];
 }
 
-- (void) predrawOpenInBuffers {
+- (void) predrawOpenInBuffersOLD {
     [_shape_vertices predrawOpen];
 }
 
-- (void) predrawCloseInBuffers {
+- (void) predrawCloseInBuffersOLD {
     [_shape_vertices predrawClose];
 }
 
-- (void) drawCompletedInBuffers {
+- (void) drawCompletedInBuffersOLD {
     [_shape_vertices drawCompleted];
 }
 

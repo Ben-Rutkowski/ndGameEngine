@@ -1,44 +1,49 @@
 #import "DrawRoutines.h"
 
+#define LINEBUFFERCOUNT 1
+
 @implementation DrawingLines
 {
     LineSubroutine* _draw_line_subroutine;
+    
+//    --- Depricated ---
     DynamicBuffer*  _buffer;
 }
 
 
 // ==== Configure ====
-- (instancetype) initWithDevice:(id<MTLDevice>)device
-                        library:(id<MTLLibrary>)library
+- (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device
+                               library:(nonnull id<MTLLibrary>)library
+                           pixelFormat:(MTLPixelFormat)pixel_format
 {
-    self = [super initWithDevice:device];
+    self = [super initWithDevice:device 
+                 numberOfBuffers:LINEBUFFERCOUNT];
     if (self) {
-        _draw_line_subroutine = [[LineSubroutine alloc] initWithDevice:device
-                                                               library:library];
+        _draw_line_subroutine = [[LineSubroutine alloc]
+                                 initWithDevice:device
+                                        library:library
+                                    pixelFormat:pixel_format];
     }
     return self;
 }
 
-- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
-    [_draw_line_subroutine configureWithDrawablePixelFormat:pixel_format];
-}
-
-- (void) createBufferWithVertexCount:(NSUInteger)count {
-    _buffer = [self newDynamicBufferWithVertexSize:sizeof(Line_TriagVtype)
+- (void) createBufferWithVertexCountOLD:(NSUInteger)count {
+    _buffer = [self newDynamicBufferWithVertexSizeOLD:sizeof(Line_TriagVtype)
                                        vertexCount:count
                                        storageMode:MTLResourceStorageModeShared];
+    [_draw_line_subroutine bindBuffer:S_Main];
     [_draw_line_subroutine linkBuffer:_buffer];
 }
 
 
 // ==== Resources ====
-- (void) bindBuffer:(NSUInteger)buffer_index {}
+- (void) bindBufferOLD:(NSUInteger)buffer_index {}
 
-- (id<MTLBuffer>) writeBufferOpen {
+- (id<MTLBuffer>) writeBufferOpenOLD {
     return [_buffer writeOpen];
 }
 
-- (void) writeBufferClose {
+- (void) writeBufferCloseOLD {
     @autoreleasepool {
         id<MTLCommandBuffer> blit_command_buffer = [self getBlitCommandBuffer];
         [_buffer writeCloseInBlitCommandBuffer:blit_command_buffer];
@@ -55,16 +60,35 @@
                                           inTexture:drawable.texture];
 }
 
-- (void)predrawOpenInBuffers {
+
+// ==== Depricated ====
+- (instancetype) initWithDeviceOLD:(id<MTLDevice>)device
+                        library:(id<MTLLibrary>)library
+{
+    self = [super initWithDevice:device
+                 numberOfBuffers:LINEBUFFERCOUNT];
+    if (self) {
+        _draw_line_subroutine = [[LineSubroutine alloc] initWithDevice:device
+                                                               library:library];
+    }
+    return self;
+}
+
+- (void)predrawOpenInBuffersOLD {
     [_buffer predrawOpen];
 }
 
-- (void)predrawCloseInBuffers {
+- (void)predrawCloseInBuffersOLD {
     [_buffer predrawClose];
 }
 
-- (void)drawCompletedInBuffers {
+- (void)drawCompletedInBuffersOLD {
     [_buffer drawCompleted];
 }
+
+- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {
+    [_draw_line_subroutine configureWithDrawablePixelFormatOLD:pixel_format];
+}
+
 
 @end

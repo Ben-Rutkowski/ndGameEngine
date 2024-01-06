@@ -6,23 +6,23 @@ ndRoutine::ndRoutine(void* routine_ptr, unsigned long index)
 
 void ndRoutine::bindBuffer(unsigned int buffer_index) {
     id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
-    [draw_routine bindBuffer:buffer_index];
+    [draw_routine bindBufferOLD:buffer_index];
 }
 
 void ndRoutine::createBuffer(unsigned int vertex_count) {
     id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
-    [draw_routine createBufferWithVertexCount:vertex_count];
+    [draw_routine createBufferWithVertexCountOLD:vertex_count];
 }
 
 void* ndRoutine::writeBufferOpen() {
     id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
-    id<MTLBuffer> buffer = [draw_routine writeBufferOpen];
+    id<MTLBuffer> buffer = [draw_routine writeBufferOpenOLD];
     return buffer.contents;
 }
 
 void ndRoutine::writeBufferClose() {
     id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
-    [draw_routine writeBufferClose];
+    [draw_routine writeBufferCloseOLD];
 }
 
 unsigned long ndRoutine::index() {

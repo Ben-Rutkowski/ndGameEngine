@@ -50,16 +50,16 @@
         case ndDrawRoutineKindNull: {
             NSLog(@"Creating Null Routine");
             routine = [[NullDrawRoutine alloc]
-                       initWithDevice:_device
+                       initWithDeviceOLD:_device
                        library:_library];
             break;
         }
             
         case ndDrawRoutineKindDebug: {
-            NSLog(@"Creating Debug Routine");
-            routine = [[StaticShapeRoutine alloc]
-                       initWithDevice:_device
-                       library:_library];
+            NSLog(@"NO Debug Routine");
+//            routine = [[StaticShapeRoutine alloc]
+//                       initWithDeviceOLD:_device
+//                       library:_library];
             break;
         }
             
@@ -67,7 +67,8 @@
             NSLog(@"Creating Line Routine");
             routine = [[DrawingLines alloc]
                        initWithDevice:_device
-                       library:_library];
+                       library:_library
+                       pixelFormat:_view_pixel_format];
             break;
         }
             
@@ -92,7 +93,7 @@
 }
 
 - (void) configureRoutine {
-    [_bound_draw_routine configureWithDrawablePixelFormat:_view_pixel_format];
+    [_bound_draw_routine configureWithDrawablePixelFormatOLD:_view_pixel_format];
 }
 
 - (void) armRoutine {
@@ -111,14 +112,14 @@
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         
-        [_armed_draw_routine predrawOpenInBuffers];
+        [_armed_draw_routine predrawOpenInBuffersOLD];
         [_armed_draw_routine drawInDrawable:current_drawable
                             inCommandBuffer:command_buffer];
-        [_armed_draw_routine predrawCloseInBuffers];
+        [_armed_draw_routine predrawCloseInBuffersOLD];
         
         __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
-            [block_routine drawCompletedInBuffers];
+            [block_routine drawCompletedInBuffersOLD];
         }];
         
         [command_buffer presentDrawable:current_drawable];

@@ -14,7 +14,6 @@
                                vertexSize:(NSUInteger)vertex_size
                             vertexCount:(NSUInteger)vertex_count
                          andStorageMode:(MTLResourceOptions)storage_mode;
-
 - (NSUInteger) getVertexCount;
 
 // --- Draw ---

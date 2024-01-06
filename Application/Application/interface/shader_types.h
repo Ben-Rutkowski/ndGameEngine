@@ -33,13 +33,32 @@ typedef enum StaticShape_VertexIndex {
 
 // ======== Line ========
 #pragma pack(push,1)
+// --- Line_Point_VertexType --- : vertices of the lines
+typedef struct Line_Point_VertexType {
+    VECTOR_2F position; // - Position of end
+    VECTOR_4F color;    // - Color of end
+} Line_PtVtype;
+
 // --- Line_Triangalized_VertexType --- : vertices of the triangalization of a line
 typedef struct Line_Triangalized_VertexType {
     VECTOR_2F position; // - Position of the vertex
     VECTOR_2F uv;       // - UV coordinate for curved edged in fragment shader
     VECTOR_4F color;    // - Color of the vertex
 } Line_TriagVtype;
+
+#ifdef __LINE_INTERNAL_TYPE__
+typedef struct LineINTERNAL_TrianglizedCluster_VertexType {
+    Line_TriagVtype center[6];
+    Line_TriagVtype tail_end[6];
+    Line_TriagVtype tip_end[6];
+} LineINT_TraigClstrVtype;
+#endif
 #pragma pack(pop)
+
+typedef enum Line_Point_VertexIndex {
+    Line_PtVidx_vertices      = 0,
+    Line_PtVidx_triag_cluster = 1
+} Line_Point_VertexIndex;
 
 typedef enum Line_Triangalization_VertexIndex {
     Line_TriagVidx_vertices     = 0,

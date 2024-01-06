@@ -9,6 +9,10 @@ typedef enum ndDrawRoutineKind {
     ndDrawRoutineKindLine  = 2
 } ndDrawRoutineKind;
 
+typedef enum DrawingLineBuffer {
+    Line_B_Vertices = 0
+} DrawingLineBuffer;
+
 
 #ifndef __IN_COCOA__
 

@@ -9,11 +9,11 @@
 
 
 // ==== Configuring ====
-- (void) configureWithDrawablePixelFormat:(MTLPixelFormat)pixel_format {
+- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {
 //    ---- Pipeline ---
-    [self setVertexFunction:@"StaticShape_vertexShader"
+    [self setVertexFunctionOLD:@"StaticShape_vertexShader"
            fragmentFunction:@"StaticShape_fragmentShader"];
-    [self setPixelFormat:pixel_format];
+    [self renderSetPixelFormat:pixel_format];
     _draw_pipeline = [self compileRenderPipeline];
     
 //    --- Render Pass ---

@@ -15,7 +15,7 @@
 {
     self = [super initWithDevice:device];
     if (self) {
-        _draw_line_subroutine = [[StaticNiceLineSubroutine alloc] initWithDevice:device
+        _draw_line_subroutine = [[StaticNiceLineSubroutine alloc] initWithDeviceOLD:device
                                                                          library:library];
     }
     

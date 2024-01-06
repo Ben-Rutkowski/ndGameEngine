@@ -73,5 +73,6 @@
         "numeric": "cpp",
         "queue": "cpp",
         "charconv": "cpp"
-    }
+    },
+    "julia.environmentPath": "/Users/benjaminrutkowski/Projects/ndGameEngine"
 }
