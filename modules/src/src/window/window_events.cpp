@@ -53,8 +53,8 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
 
 void ndWindowModule::onEndStartUp(ndEvent* event) {
     event->print(module_name);
-    // nd_window.bindRoutine(line_routine);
-    // nd_window.armRoutine();
+    nd_window.bindRoutine(line_routine);
+    nd_window.armRoutine();
     nd_window.showWindow();
     pollEventsCocoa();
 }
