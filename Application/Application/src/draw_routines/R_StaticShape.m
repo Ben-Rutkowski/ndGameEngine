@@ -24,7 +24,7 @@
 }
 
 - (void) createBufferWithVertexCount:(NSUInteger)count {
-    _shape_vertices = [self newDynamicBufferWithVertexSize:sizeof(StaticShape_VertexType)
+    _shape_vertices = [self newDynamicBufferWithVertexSize:sizeof(StaticShapeVtype)
                                              vertexCount:count
                                              storageMode:MTLResourceStorageModeShared];
     [_draw_subroutine linkBuffer:_shape_vertices];

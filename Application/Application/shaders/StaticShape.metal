@@ -1,17 +1,17 @@
 #define __IN_SHADER__
 #include <metal_stdlib>
 #include "shader_types.h"
-using namespace metal;
 
 struct RasterData {
     float4 position [[position]];
     float4 color;
 };
 
-vertex 
+
+vertex
 RasterData StaticShape_vertexShader(const uint vidx [[vertex_id]],
-                                    const device StaticShape_VertexType* vertices [[buffer(StaticShape_VertexIndex_vertices)]],
-                                    constant float* aspect_ratio_ptr [[buffer(StaticShape_VertexIndex_aspect_ratio)]])
+                                    const device StaticShapeVtype* vertices [[buffer(StaticShapeVidx_vertices)]],
+                                    constant float* aspect_ratio_ptr [[buffer(StaticShapeVidx_aspect_ratio)]])
 {
     RasterData out;
     float aspect_ratio = *aspect_ratio_ptr;
@@ -22,6 +22,7 @@ RasterData StaticShape_vertexShader(const uint vidx [[vertex_id]],
     
     return out;
 }
+
 
 fragment float4 StaticShape_fragmentShader(RasterData in [[stage_in]]) {
     return in.color;

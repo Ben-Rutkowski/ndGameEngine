@@ -48,11 +48,11 @@
         
         [render_encoder setVertexBuffer:[_vertex_buffer drawTap]
                                  offset:0
-                                atIndex:StaticShape_VertexIndex_vertices];
+                                atIndex:StaticShapeVidx_vertices];
         
         [render_encoder setVertexBytes:&aspect_ratio
                                 length:sizeof(aspect_ratio)
-                               atIndex:StaticShape_VertexIndex_aspect_ratio];
+                               atIndex:StaticShapeVidx_aspect_ratio];
 
         [render_encoder drawPrimitives:MTLPrimitiveTypeTriangle
                            vertexStart:0

@@ -1,5 +1,6 @@
 /*
-    TODO: Handled thread stalling when spamming edit open/close
+    TODO: namespaces for shader_types
+          buffer indices in routine and subroutines
 */
 
 #include "application.hpp"

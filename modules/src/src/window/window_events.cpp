@@ -152,9 +152,6 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
-    // StaticShape_VertexType* vertices = (StaticShape_VertexType*)static_routine.writeBufferOpen();
-    // vertices[0].position = {-0.4f, -0.4f };
-    // static_routine.writeBufferClose();
 }
 
 

@@ -18,15 +18,15 @@
 
 // ======== Static Shape ========
 #pragma pack(push,1)
-typedef struct {
+typedef struct StaticShape_VertexType {
     VECTOR_2F position;
     VECTOR_4F color;
-} StaticShape_VertexType;
+} StaticShapeVtype;
 #pragma pack(pop)
 
 typedef enum StaticShape_VertexIndex {
-    StaticShape_VertexIndex_vertices     = 0,
-    StaticShape_VertexIndex_aspect_ratio = 1
+    StaticShapeVidx_vertices     = 0,
+    StaticShapeVidx_aspect_ratio = 1
 } StaticShape_VertexIndex;
 // ======== Static Shape ========
 
@@ -34,17 +34,17 @@ typedef enum StaticShape_VertexIndex {
 // ======== Line ========
 #pragma pack(push,1)
 // --- Line_Triangalized_VertexType --- : vertices of the triangalization of a line
-typedef struct {
+typedef struct Line_Triangalized_VertexType {
     VECTOR_2F position; // - Position of the vertex
     VECTOR_2F uv;       // - UV coordinate for curved edged in fragment shader
     VECTOR_4F color;    // - Color of the vertex
-} Line_Triangalized_VertexType;
+} Line_TriagVtype;
 #pragma pack(pop)
 
-typedef enum Line_Triangalization_VertexBufferIndex {
-    Line_Triangalization_VertexBufferIndex_vertices     = 0,
-    Line_Triangalization_VertexBufferIndex_aspect_ratio = 1
-} Line_Triangalization_VertexBufferIndex;
+typedef enum Line_Triangalization_VertexIndex {
+    Line_TriagVidx_vertices     = 0,
+    Line_TriagVidx_aspect_ratio = 1
+} Line_Triangalization_VertexIndex;
 // ======== Line ========
 
 #endif
