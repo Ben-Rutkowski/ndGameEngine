@@ -10,9 +10,10 @@
 #import "Buffers.h"
 
 typedef enum SwapPhase {
-    HasNotWriten                = 0,
-    HasWritten_DrawingFromFront = 1,
-    HasWritten_DrawingFromBack  = 2
+    WriteComplete_EncodeFront_DrawFront = 0,
+    EncodingBack_DrawingFront           = 1,
+    EncodingFront_DrawingBack           = 2,
+    EncodingBack_DrawingBack            = 3
 } SwapPhase;
 
 typedef enum BufferPosition {
@@ -32,15 +33,11 @@ typedef enum BufferPosition {
     
     NSUInteger _current_index; // The index of the newsest buffer
     NSUInteger _active_index;  // The index of the buffer with the next draw command
-    NSUInteger _working_index; // The index of the buffer being used to encode current draw
+    NSUInteger _working_index; // The index of the buffer being encoded from
     
     NSUInteger _vertex_size;
     
 //    --- Thread Controllers ---
-    BOOL isCurrentlySwapping;  // This is true when there are still draw
-                               // commands active for the old buffer
-                               // When true decrement active buffer first
-                               // and once empty, delete old buffer, and swap active
     SwapPhase _swap_phase;
     
     dispatch_semaphore_t _index_swap_semaphore;
@@ -61,25 +58,23 @@ typedef enum BufferPosition {
         _device        = device;
         _command_queue = command_queue;
         
-        _current_index = 0;
-        _active_index  = 0;
-        _refernce_count[0] = 0;
-        _refernce_count[1] = 0;
-        _vertex_count[0] = vertex_count;
-        _vertex_count[1] = vertex_count;
+        _current_index = FrontBuffer;
+        _active_index  = FrontBuffer;
+        _refernce_count[FrontBuffer] = 0;
+        _refernce_count[BackBuffer]  = 0;
+        _vertex_count[FrontBuffer] = vertex_count;
+        _vertex_count[BackBuffer]  = vertex_count;
         _vertex_size = vertex_size;
         
-        _buffer[0] = [_device newBufferWithLength:vertex_size*vertex_count
-                                          options:storage_mode];
-        _buffer[1] = [_device newBufferWithLength:vertex_size*vertex_count
-                                          options:storage_mode];
+        _buffer[FrontBuffer] = [_device newBufferWithLength:vertex_size*vertex_count
+                                          options:MTLResourceStorageModePrivate];
+        _buffer[BackBuffer]  = [_device newBufferWithLength:vertex_size*vertex_count
+                                           options:MTLResourceStorageModeShared];
             
-        _swap_phase = HasNotWriten;
+        _swap_phase = WriteComplete_EncodeFront_DrawFront;
         _index_swap_semaphore      = dispatch_semaphore_create(1);
         _encode_on_queue_semaphore = dispatch_semaphore_create(1);
         _complete_swap_semaphore   = dispatch_semaphore_create(1);
-        
-        isCurrentlySwapping = NO;
     }
     
     return self;
@@ -93,24 +88,23 @@ typedef enum BufferPosition {
 // ==== Swap ====
 - (void) checkSwapConditions {
     switch (_swap_phase) {
-        case HasWritten_DrawingFromFront: {
+        case EncodingBack_DrawingFront: {
             NSLog(@"(Checking Front)");
             if (_refernce_count[FrontBuffer] == 0) {
                 _active_index = BackBuffer;
-                _swap_phase   = HasWritten_DrawingFromBack;
+                _swap_phase   = EncodingBack_DrawingBack;
                 [self copyBackToFront];
             }
             break;
         }
             
-        case HasWritten_DrawingFromBack: {
+        case EncodingFront_DrawingBack: {
+            NSLog(@"(Checking Back)");
             if (_refernce_count[BackBuffer] == 0) {
-                NSLog(@"(Checking Back)");
                 _active_index = FrontBuffer;
-                _swap_phase   = HasNotWriten;
+                _swap_phase   = WriteComplete_EncodeFront_DrawFront;
                 
                 NSLog(@"=== Swap Completed ===");
-                NSLog(@"current: %lu, active: %lu", _current_index, _active_index);
                 dispatch_semaphore_signal(_complete_swap_semaphore);
             }
             break;
@@ -120,17 +114,19 @@ typedef enum BufferPosition {
 }
 
 - (void) swapBackToFront {
-    dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     dispatch_semaphore_wait(_encode_on_queue_semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"-- Swapping Index Back to Front -- ");
+    dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"== Swapping Index Back to Front ==");
     _current_index = FrontBuffer;
+    _swap_phase    = EncodingFront_DrawingBack;
+    NSLog(@"  CURRENT FRONT");
     [self checkSwapConditions];
-    dispatch_semaphore_signal(_encode_on_queue_semaphore);
     dispatch_semaphore_signal(_index_swap_semaphore);
+    dispatch_semaphore_signal(_encode_on_queue_semaphore);
 }
 
 - (void) copyBackToFront {
-    NSLog(@"-- Encode Copy Back to Front --");
+    NSLog(@"== Encode Copy Back to Front ==");
     @autoreleasepool {
         id<MTLCommandBuffer>      command_buffer = [_command_queue commandBuffer];
         id<MTLBlitCommandEncoder> blit_encoder   = [command_buffer blitCommandEncoder];
@@ -150,6 +146,7 @@ typedef enum BufferPosition {
         
         [command_buffer commit];
     }
+    NSLog(@"== Finished Encoding Copy Back to Front ==");
 }
 
 
@@ -189,20 +186,21 @@ typedef enum BufferPosition {
 }
 
 - (void) writeClose {
-    dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     dispatch_semaphore_wait(_encode_on_queue_semaphore, DISPATCH_TIME_FOREVER);
-    _swap_phase    = HasWritten_DrawingFromFront;
+    dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     _current_index = BackBuffer;
+    _swap_phase    = EncodingBack_DrawingFront;
+    NSLog(@"  CURRENT BACK");
     [self checkSwapConditions];
-    NSLog(@"-- Write Close -- (Drawing From Back)");
-    dispatch_semaphore_signal(_encode_on_queue_semaphore);
     dispatch_semaphore_signal(_index_swap_semaphore);
+    dispatch_semaphore_signal(_encode_on_queue_semaphore);
+    NSLog(@"-- Write Close -- (Drawing From Back)");
 }
 
 
 // ==== Debug ====
 - (void) debug:(NSUInteger)num_vertices {
-    NSLog(@"Current Index : %lu, Active Index : %lu, Working Index : %lu", _current_index, _active_index, _working_index);
+    NSLog(@"Current Index : %lu, Active Index : %lu", _current_index, _active_index);
     NSLog(@" ==== Buffer ZERO: ====");
     [self debugBuffer:0 numVertex:num_vertices];
     NSLog(@" ==== Buffer ONE: ====");
