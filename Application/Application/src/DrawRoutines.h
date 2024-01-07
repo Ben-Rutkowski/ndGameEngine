@@ -9,6 +9,7 @@
 #define __IN_COCOA__
 #import "cocoa_interface.hpp"
 #import "DrawRoutineTemplates.h"
+#import "DrawSubroutineTemplate.h"
 
 /*  Subroutine protocol
     - configure with a pixel format :

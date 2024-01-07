@@ -36,10 +36,9 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
 
     line_routine = nd_window.createDrawRoutine(ndDrawRoutineKindLine);
     line_routine.bindBuffer(Line_B_Vertices);
-    line_routine.createBuffer(3);
-    nd_window.bindRoutine(line_routine);
+    line_routine.createPublicBuffer(sizeof(Line_TriagVtype), 3);
 
-    line_routine.bindBuffer(0);
+    line_routine.bindBuffer(Line_B_Vertices);
     Line_TriagVtype* vertices = (Line_TriagVtype*)line_routine.writeBufferOpen();
     vertices[0].position = { -0.5f, -0.5f }; 
     vertices[1].position = {  0.5f, -0.5f };

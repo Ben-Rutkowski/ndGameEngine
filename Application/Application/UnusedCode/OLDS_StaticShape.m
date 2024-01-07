@@ -30,7 +30,7 @@
 
 
 // ==== Resources ====
-- (void) bindBuffer:(NSUInteger)index {}
+- (void) bindBufferMIGHTBEPOINTLESS:(NSUInteger)index {}
 
 
 // ==== Draw ====

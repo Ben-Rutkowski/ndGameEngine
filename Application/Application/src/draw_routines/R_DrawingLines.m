@@ -7,7 +7,7 @@
     LineSubroutine* _draw_line_subroutine;
     
 //    --- Depricated ---
-    DynamicBuffer*  _buffer;
+//    DynamicBuffer*  _buffer;
 }
 
 
@@ -27,41 +27,43 @@
     return self;
 }
 
-- (void) createBufferWithVertexCountOLD:(NSUInteger)count {
-    _buffer = [self newDynamicBufferWithVertexSizeOLD:sizeof(Line_TriagVtype)
-                                       vertexCount:count
-                                       storageMode:MTLResourceStorageModeShared];
-    [_draw_line_subroutine bindBuffer:S_Main];
-    [_draw_line_subroutine linkBuffer:_buffer];
-}
-
-
-// ==== Resources ====
-- (void) bindBufferOLD:(NSUInteger)buffer_index {}
-
-- (id<MTLBuffer>) writeBufferOpenOLD {
-    return [_buffer writeOpen];
-}
-
-- (void) writeBufferCloseOLD {
-    @autoreleasepool {
-        id<MTLCommandBuffer> blit_command_buffer = [self getBlitCommandBuffer];
-        [_buffer writeCloseInBlitCommandBuffer:blit_command_buffer];
-        [blit_command_buffer commit];
-    }
-}
-
 
 // ==== Draw ====
 - (void) drawInDrawable:(id<CAMetalDrawable>)drawable
         inCommandBuffer:(id<MTLCommandBuffer>)command_buffer
 {
+    [_draw_line_subroutine linkBuffer:[self bufferAt:Line_B_Vertices]
+                              atIndex:S_Main];
+    
     [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer
                                           inTexture:drawable.texture];
 }
 
 
 // ==== Depricated ====
+- (void) bindBufferOLD:(NSUInteger)buffer_index {}
+
+- (id<MTLBuffer>) writeBufferOpenOLD {
+//    return [_buffer writeOpen];
+    return nil;
+}
+
+- (void) writeBufferCloseOLD {
+    @autoreleasepool {
+//        id<MTLCommandBuffer> blit_command_buffer = [self getBlitCommandBuffer];
+//        [_buffer writeCloseInBlitCommandBuffer:blit_command_buffer];
+//        [blit_command_buffer commit];
+    }
+}
+
+- (void) createBufferWithVertexCountOLD:(NSUInteger)count {
+//    _buffer = [self newDynamicBufferWithVertexSizeOLD:sizeof(Line_TriagVtype)
+//                                       vertexCount:count
+//                                       storageMode:MTLResourceStorageModeShared];
+//    [_draw_line_subroutine bindBuffer:S_Main];
+//    [_draw_line_subroutine linkBuffer:_buffer];
+}
+
 - (instancetype) initWithDeviceOLD:(id<MTLDevice>)device
                         library:(id<MTLLibrary>)library
 {
@@ -75,15 +77,15 @@
 }
 
 - (void)predrawOpenInBuffersOLD {
-    [_buffer predrawOpen];
+//    [_buffer predrawOpen];
 }
 
 - (void)predrawCloseInBuffersOLD {
-    [_buffer predrawClose];
+//    [_buffer predrawClose];
 }
 
 - (void)drawCompletedInBuffersOLD {
-    [_buffer drawCompleted];
+//    [_buffer drawCompleted];
 }
 
 - (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {

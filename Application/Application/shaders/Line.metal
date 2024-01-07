@@ -16,22 +16,22 @@ Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
                             const device Line_PtVtype* line_vertices [[buffer(Line_PtVidx_vertices)]],
                             device LineINT_TraigClstrVtype* cluster [[buffer(Line_PtVidx_triag_cluster)]])
 {
-    const float width = 0.05;
-    
-    Line_PtVtype tail;
-    Line_PtVtype tip;
-    float2       perp;
-    float2       par;
-    
-    Line_TriagVtype edge_bottom;
-    Line_TriagVtype edge_top;
-    Line_TriagVtype aux;
-    
-    tail = line_vertices[2*tidx];
-    tip  = line_vertices[2*tidx+1];
-    
-    par  = width * metal::normalize(tip.position - tail.position);
-    perp = width * float2(par.y, -par.x);
+//    const float width = 0.05;
+//    
+//    Line_PtVtype tail;
+//    Line_PtVtype tip;
+//    float2       perp;
+//    float2       par;
+//    
+//    Line_TriagVtype edge_bottom;
+//    Line_TriagVtype edge_top;
+//    Line_TriagVtype aux;
+//    
+//    tail = line_vertices[2*tidx];
+//    tip  = line_vertices[2*tidx+1];
+//    
+//    par  = width * metal::normalize(tip.position - tail.position);
+//    perp = width * float2(par.y, -par.x);
     
 //    --- Tail End ---
     

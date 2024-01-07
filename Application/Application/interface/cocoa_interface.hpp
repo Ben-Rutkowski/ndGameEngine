@@ -35,12 +35,16 @@ public:
     ndRoutine(void* renderer_ptr, unsigned long index);
 
     void bindBuffer(unsigned int buffer_index);
-    void createBuffer(unsigned int vertex_count);
+    void createPublicBuffer(unsigned int vertex_size, unsigned int vertex_count);
+    void createAuxBuffer(unsigned int vertex_size, unsigned int vertex_count);
     
     void* writeBufferOpen();
     void  writeBufferClose();
     
     unsigned long index();
+    
+//    --- Depricated ---
+    void createBuffer(unsigned int vertex_count);
 };
 
 
