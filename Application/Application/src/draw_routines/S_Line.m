@@ -58,22 +58,4 @@
     }
 }
 
-
-// ==== Depricated ====
-//- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {
-////    --- Pipeline ---
-//    [self setVertexFunctionOLD:@"Line_Triangalized_vertexShader"
-//           fragmentFunction:@"Line_Triangalized_fragmentShader"];
-//    [self renderSetPixelFormat:pixel_format];
-//    [self renderSetVertexBufferImmutable:Line_TriagVidx_vertices];
-//    _draw_line = [self compileRenderPipeline];
-//
-////    --- Render Pass ---
-//    [self setClearColor:MTLClearColorMake(0.0, 0.5, 0.5, 1.0)];
-//    [self finalizeRenderPass];
-//
-////    --- Finalize ---
-//    [self finializeConfig];
-//}
-
 @end

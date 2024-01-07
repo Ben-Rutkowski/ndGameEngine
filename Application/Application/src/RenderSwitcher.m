@@ -34,9 +34,8 @@
         _library = [_device newLibraryWithURL:url error:&error];
         NSAssert(_library, @"Failed to find Metal Library", error);
         
-        NSUInteger null_index = [self createDrawRoutine:ndDrawRoutineKindNull];
-        [self bindRoutine:null_index];
-        [self armRoutine];
+        NSUInteger null_index = [self createDrawRoutine:DrawRoutineKindNull];
+        [self armRoutine:null_index];
     }
     
     return self;
@@ -47,7 +46,7 @@
     DrawRoutineTemplate<DrawRoutineProtocol>* routine = nil;
     
     switch (draw_routine_kind) {
-        case ndDrawRoutineKindNull: {
+        case DrawRoutineKindNull: {
             NSLog(@"Creating Null Routine");
             routine = [[NullDrawRoutine alloc]
                        initWithDevice:_device
@@ -56,15 +55,7 @@
             break;
         }
             
-        case ndDrawRoutineKindDebug: {
-            NSLog(@"NO Debug Routine");
-//            routine = [[StaticShapeRoutine alloc]
-//                       initWithDeviceOLD:_device
-//                       library:_library];
-            break;
-        }
-            
-        case ndDrawRoutineKindLine: {
+        case DrawRoutineKindDebug: {
             NSLog(@"Creating Line Routine");
             routine = [[DrawingLines alloc]
                        initWithDevice:_device
@@ -89,17 +80,8 @@
     return _loaded_draw_routines[index];
 }
 
-- (void) bindRoutine:(NSUInteger)index {
-    _bound_draw_routine = _loaded_draw_routines[index];
-}
-
-//- (void) configureRoutine {
-//    [_bound_draw_routine configureWithDrawablePixelFormatOLD:_view_pixel_format];
-//}
-
-- (void) armRoutine {
-    NSLog(@"Arming : %@", _bound_draw_routine);
-    _armed_draw_routine = _bound_draw_routine;
+- (void) armRoutine:(NSUInteger)index {
+    _armed_draw_routine = _loaded_draw_routines[index];
 }
 
 

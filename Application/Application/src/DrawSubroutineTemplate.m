@@ -7,14 +7,10 @@
     id<MTLDevice>  _hidden_device;
     
     DynamicBuffer* _buffer[5];
-//    SubroutineEnum _current_index;
     
 //    --- Hidden Render Components ---
     MTLRenderPipelineDescriptor* _render_pipeline_descriptor;
     MTLRenderPassDescriptor*     _render_pass_descriptor;
-    
-//    --- Depricated ---
-    id<MTLLibrary> _library;
 }
 
 
@@ -24,13 +20,10 @@
 {
     self = [super init];
     if (self) {
-        _hidden_device  = device;
+        _hidden_device = device;
         
-        _render_pipeline_descriptor  = [MTLRenderPipelineDescriptor new];
-        _render_pass_descriptor      = [MTLRenderPassDescriptor new];
-        
-//        --- Depricated ---
-        _library = library;
+        _render_pipeline_descriptor = [MTLRenderPipelineDescriptor new];
+        _render_pass_descriptor     = [MTLRenderPassDescriptor new];
     }
     return self;
 }
@@ -42,10 +35,6 @@
 
 
 // ==== Resources ====
-- (void) bindBufferMIGHTBEPOINTLESS:(SubroutineEnum)index {
-//    _current_index = index;
-}
-
 - (void) linkBuffer:(DynamicBuffer*)buffer 
             atIndex:(SubroutineEnum)index
 {
@@ -163,43 +152,5 @@
 - (void) finializeConfig {
     [_render_pipeline_descriptor release];
 }
-
-
-// ==== Depricated ====
-//- (void) setVertexFunctionOLD:(NSString*)vertex_name
-//          fragmentFunction:(NSString*)fragment_name
-//{
-//    id<MTLFunction> vertex_function = [_library newFunctionWithName:vertex_name];
-//    if (vertex_function == nil) {
-//        NSLog(@"Failed to create %@", vertex_name);
-//        return;
-//    }
-//    
-//    id<MTLFunction> fragment_function = [_library newFunctionWithName:fragment_name];
-//    if (fragment_function == nil) {
-//        NSLog(@"Failed to create %@", fragment_name);
-//        return;
-//    }
-//    
-//    _render_pipeline_descriptor.vertexFunction   = vertex_function;
-//    _render_pipeline_descriptor.fragmentFunction = fragment_function;
-//}
-//
-//- (id<MTLComputePipelineState>) computePipelineWithFunctionNameOLD:(NSString*)name
-//{
-//    @autoreleasepool {
-//        id<MTLFunction> function = [_library newFunctionWithName:name];
-//        if (function == nil) {
-//            NSLog(@"Failed to create %@", name);
-//            return nil;
-//        }
-//        
-//        NSError* error = nil;
-//        id<MTLComputePipelineState> pipeline = [_hidden_device newComputePipelineStateWithFunction:function error:&error];
-//        NSAssert(pipeline, @"Failed to create Compute Pipeline State: ", error);
-//        
-//        return pipeline;
-//    }
-//}
 
 @end

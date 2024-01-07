@@ -21,9 +21,6 @@ typedef enum SubroutineEnum {
 - (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
                         inTexture:(nonnull id<MTLTexture>)texture;
 
-// --- Depricated ---
-//- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format;
-
 @end
 
 
@@ -35,7 +32,6 @@ typedef enum SubroutineEnum {
 - (nonnull id<MTLBuffer>) newAuxBufferOfSize:(NSUInteger)data_size;
 
 // --- Resources ---
-- (void) bindBufferMIGHTBEPOINTLESS:(SubroutineEnum)index;
 - (void) linkBuffer:(nonnull DynamicBuffer*)buffer
             atIndex:(SubroutineEnum)index;
 - (nonnull DynamicBuffer*) buffer:(SubroutineEnum)index;
@@ -68,12 +64,6 @@ typedef enum SubroutineEnum {
 // --- Draw ---
 - (nonnull MTLRenderPassDescriptor*) currentRenderPassDescriptor:(nonnull id<MTLTexture>)texture;
 
-
-// --- Depricated ---
-//- (nullable id<MTLComputePipelineState>) computePipelineWithFunctionNameOLD:(nonnull NSString*)name;
-//
-//- (void) setVertexFunctionOLD:(nonnull NSString*)vertex_name
-//          fragmentFunction:(nonnull NSString*)fragment_name;
 @end
 
 #endif

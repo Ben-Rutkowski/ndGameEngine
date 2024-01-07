@@ -44,10 +44,3 @@ void ndRoutine::writeBufferClose() {
 unsigned long ndRoutine::index() {
     return routine_index;
 }
-
-
-// ================ Depricated ================
-//void ndRoutine::createBuffer(unsigned int vertex_count) {
-//    id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
-//    [draw_routine createBufferWithVertexCountOLD:vertex_count];
-//}

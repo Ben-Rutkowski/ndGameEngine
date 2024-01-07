@@ -38,7 +38,6 @@
 }
 
 - (void) bindBuffer:(NSUInteger)index {
-    NSLog(@"Bind Buffer : %lu", index);
     _current_buffer = index;
 }
 
@@ -78,55 +77,23 @@
     }
 }
 
-
-// ==== Depricated ====
-//- (DynamicBuffer*) newDynamicBufferWithVertexSizeOLD:(NSUInteger)vertex_size
-//                                      vertexCount:(NSUInteger)vertex_count
-//                                      storageMode:(MTLResourceOptions)storage_mode
-//{
-//    DynamicBuffer* buffer = [[DynamicBuffer alloc] initWithDevice:_device
-//                                                       vertexSize:vertex_size
-//                                                      vertexCount:vertex_count
-//                                                   andStorageMode:storage_mode];
-//    return buffer;
-//}
-
-
 @end
 
 
 // ================ Null Draw Routine ================
 @implementation NullDrawRoutine
-- (nonnull instancetype) initWithDeviceOLD:(nonnull id<MTLDevice>)device
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library
+                            pixelFormat:(MTLPixelFormat)pixel_format
 {
     self = [super init];
     return self;
 }
-- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {}
-- (void) createBufferWithVertexCountOLD:(NSUInteger)count {}
 
-- (void) bindBufferOLD:(NSUInteger)buffer_index {}
-- (nullable id<MTLBuffer>) writeBufferOpenOLD { return nil; }
-- (void) writeBufferCloseOLD {}
 - (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {}
-- (void) predrawOpenInBuffersOLD {}
-- (void) predrawCloseInBuffersOLD {}
-- (void) drawCompletedInBuffersOLD {}
-
-- (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device library:(nonnull id<MTLLibrary>)library pixelFormat:(MTLPixelFormat)pixel_format { 
-    self = [super init];
-    return self;
+        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
+{
+//    NSLog(@"-- Draw in Null Draw Routine --");
 }
-
-- (void)bindBuffer:(NSUInteger)index {
-}
-
-
-- (void)createBufferWithVertexSize:(NSUInteger)vertex_size vertexCount:(NSUInteger)vertex_count storageMode:(MTLResourceOptions)storage_mode { 
-}
-
-
 
 @end

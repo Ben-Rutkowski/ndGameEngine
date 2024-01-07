@@ -3,14 +3,13 @@
 
 
 // ======== Draw Routine Enums ========
-typedef enum ndDrawRoutineKind {
-    ndDrawRoutineKindNull  = 0,
-    ndDrawRoutineKindDebug = 1,
-    ndDrawRoutineKindLine  = 2
-} ndDrawRoutineKind;
+typedef enum DrawRoutineKind {
+    DrawRoutineKindNull  = 0,
+    DrawRoutineKindDebug = 1
+} DrawRoutineKind;
 
 typedef enum DrawingLineBuffer {
-    Line_B_Vertices = 0
+    R_Line_Vertices = 0
 } DrawingLineBuffer;
 
 
@@ -67,10 +66,8 @@ public:
     void drawView();
     
 // ==== Renderer ====
-    ndRoutine createDrawRoutine(ndDrawRoutineKind draw_routine_kind);
-//    void configureRoutine();
-    void bindRoutine(ndRoutine routine);
-    void armRoutine();
+    ndRoutine createDrawRoutine(DrawRoutineKind draw_routine_kind);
+    void armRoutine(ndRoutine routine);
 };
 
 #endif /* ifndef __IN_COCOA__ */

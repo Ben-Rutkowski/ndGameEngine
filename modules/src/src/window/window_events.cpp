@@ -34,11 +34,11 @@ static ndRoutine line_routine   = ndRoutine(nullptr, 0);
 void ndWindowModule::onBeginStartUp(ndEvent* event) {
     event->print(module_name);
 
-    line_routine = nd_window.createDrawRoutine(ndDrawRoutineKindLine);
-    line_routine.bindBuffer(Line_B_Vertices);
+    line_routine = nd_window.createDrawRoutine(DrawRoutineKindDebug);
+    line_routine.bindBuffer(R_Line_Vertices);
     line_routine.createPublicBuffer(sizeof(Line_TriagVtype), 3);
 
-    line_routine.bindBuffer(Line_B_Vertices);
+    line_routine.bindBuffer(R_Line_Vertices);
     Line_TriagVtype* vertices = (Line_TriagVtype*)line_routine.writeBufferOpen();
     vertices[0].position = { -0.5f, -0.5f }; 
     vertices[1].position = {  0.5f, -0.5f };
@@ -52,8 +52,7 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
 
 void ndWindowModule::onEndStartUp(ndEvent* event) {
     event->print(module_name);
-    nd_window.bindRoutine(line_routine);
-    nd_window.armRoutine();
+    nd_window.armRoutine(line_routine);
     nd_window.showWindow();
     pollEventsCocoa();
 }

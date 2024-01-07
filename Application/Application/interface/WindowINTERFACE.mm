@@ -62,25 +62,15 @@ void ndWindow::drawView() {
 
 
 // ================ Renderer ================
-ndRoutine ndWindow::createDrawRoutine(ndDrawRoutineKind draw_routine_kind) {
+ndRoutine ndWindow::createDrawRoutine(DrawRoutineKind draw_routine_kind) {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
     NSUInteger index = [render_switcher createDrawRoutine:draw_routine_kind];
     id draw_routine = [render_switcher getDrawRoutineAtIndex:index];
     return ndRoutine(draw_routine, index);
 }
 
-void ndWindow::bindRoutine(ndRoutine routine) {
+void ndWindow::armRoutine(ndRoutine routine) {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
     NSUInteger index = (NSUInteger)routine.index();
-    [render_switcher bindRoutine:index];
+    [render_switcher armRoutine:index];
 }
-
-void ndWindow::armRoutine() {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    [render_switcher armRoutine];
-}
-
-//void ndWindow::configureRoutine() {
-//    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-//    [render_switcher configureRoutine];
-//}

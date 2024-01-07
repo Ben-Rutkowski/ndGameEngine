@@ -12,13 +12,11 @@
 // --- Routine Interface ---
 - (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind;
 - (nonnull id) getDrawRoutineAtIndex:(NSUInteger)index;
-- (void) bindRoutine:(NSUInteger)index;
-- (void) armRoutine;
+- (void) armRoutine:(NSUInteger)index;
 
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
 
-//- (void) configureRoutine;
 @end
 
 #endif
