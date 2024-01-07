@@ -100,7 +100,6 @@ typedef enum BufferPosition {
                 _swap_phase   = HasWritten_DrawingFromBack;
                 [self copyBackToFront];
             }
-            
             break;
         }
             
@@ -131,7 +130,6 @@ typedef enum BufferPosition {
 }
 
 - (void) copyBackToFront {
-    dispatch_semaphore_wait(_encode_on_queue_semaphore, DISPATCH_TIME_FOREVER);
     NSLog(@"-- Encode Copy Back to Front --");
     @autoreleasepool {
         id<MTLCommandBuffer>      command_buffer = [_command_queue commandBuffer];
@@ -152,7 +150,6 @@ typedef enum BufferPosition {
         
         [command_buffer commit];
     }
-    dispatch_semaphore_signal(_encode_on_queue_semaphore);
 }
 
 
@@ -188,8 +185,7 @@ typedef enum BufferPosition {
 - (id<MTLBuffer>) writeOpen {
     dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
     NSLog(@"-- Write Open --");
-    isCurrentlySwapping = YES;
-    return _buffer[(_current_index+1)%2];
+    return _buffer[BackBuffer];
 }
 
 - (void) writeClose {
@@ -197,9 +193,7 @@ typedef enum BufferPosition {
     dispatch_semaphore_wait(_encode_on_queue_semaphore, DISPATCH_TIME_FOREVER);
     _swap_phase    = HasWritten_DrawingFromFront;
     _current_index = BackBuffer;
-    if (_refernce_count[FrontBuffer] == 0) {
-        _active_index = BackBuffer;
-    }
+    [self checkSwapConditions];
     NSLog(@"-- Write Close -- (Drawing From Back)");
     dispatch_semaphore_signal(_encode_on_queue_semaphore);
     dispatch_semaphore_signal(_index_swap_semaphore);

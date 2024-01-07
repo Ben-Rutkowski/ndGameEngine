@@ -7,8 +7,8 @@
 #include "cocoa_interface.hpp"
 #include <chrono>
 
-#define DEBUG_POINT 7
-#define BREAK_POINT 100
+#define DEBUG_POINT 3
+#define BREAK_POINT 5
 #define DOES_BREAK true
 // #define DOES_BREAK false
 
