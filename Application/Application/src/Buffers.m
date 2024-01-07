@@ -122,10 +122,11 @@ typedef enum BufferPosition {
 
 - (void) swapBackToFront {
     dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(_encode_on_queue_semaphore, DISPATCH_TIME_FOREVER);
     NSLog(@"-- Swapping Index Back to Front -- ");
     _current_index = FrontBuffer;
-    _swap_phase    = HasWritten_DrawingFromBack;
-//    [self checkSwapConditions];
+    [self checkSwapConditions];
+    dispatch_semaphore_signal(_encode_on_queue_semaphore);
     dispatch_semaphore_signal(_index_swap_semaphore);
 }
 

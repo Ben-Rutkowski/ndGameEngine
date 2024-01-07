@@ -7,8 +7,8 @@
 #include "cocoa_interface.hpp"
 #include <chrono>
 
-#define DEBUG_POINT 10
-#define BREAK_POINT 15
+#define DEBUG_POINT 7
+#define BREAK_POINT 100
 #define DOES_BREAK true
 // #define DOES_BREAK false
 
@@ -59,7 +59,7 @@ void ndAppModule::startApp() {
         debugLast();
         // --- Debug ---
 
-        if (count == DEBUG_POINT) {
+        if (count%DEBUG_POINT == 0) {
             event_manager.propogateEventImmediate(
                 ndEvent(module_name, Operation::DEBUG)
             );
