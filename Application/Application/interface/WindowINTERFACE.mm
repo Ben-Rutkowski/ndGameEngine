@@ -75,12 +75,12 @@ void ndWindow::bindRoutine(ndRoutine routine) {
     [render_switcher bindRoutine:index];
 }
 
-void ndWindow::configureRoutine() {
-    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
-    [render_switcher configureRoutine];
-}
-
 void ndWindow::armRoutine() {
     RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
     [render_switcher armRoutine];
 }
+
+//void ndWindow::configureRoutine() {
+//    RenderSwitcher* render_switcher = (RenderSwitcher*)render_switcher_COCOA;
+//    [render_switcher configureRoutine];
+//}

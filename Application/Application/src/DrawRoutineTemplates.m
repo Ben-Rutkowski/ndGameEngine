@@ -80,16 +80,16 @@
 
 
 // ==== Depricated ====
-- (DynamicBuffer*) newDynamicBufferWithVertexSizeOLD:(NSUInteger)vertex_size
-                                      vertexCount:(NSUInteger)vertex_count
-                                      storageMode:(MTLResourceOptions)storage_mode
-{
-    DynamicBuffer* buffer = [[DynamicBuffer alloc] initWithDevice:_device
-                                                       vertexSize:vertex_size
-                                                      vertexCount:vertex_count
-                                                   andStorageMode:storage_mode];
-    return buffer;
-}
+//- (DynamicBuffer*) newDynamicBufferWithVertexSizeOLD:(NSUInteger)vertex_size
+//                                      vertexCount:(NSUInteger)vertex_count
+//                                      storageMode:(MTLResourceOptions)storage_mode
+//{
+//    DynamicBuffer* buffer = [[DynamicBuffer alloc] initWithDevice:_device
+//                                                       vertexSize:vertex_size
+//                                                      vertexCount:vertex_count
+//                                                   andStorageMode:storage_mode];
+//    return buffer;
+//}
 
 
 @end

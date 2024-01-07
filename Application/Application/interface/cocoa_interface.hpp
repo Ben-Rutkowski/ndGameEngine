@@ -68,7 +68,7 @@ public:
     
 // ==== Renderer ====
     ndRoutine createDrawRoutine(ndDrawRoutineKind draw_routine_kind);
-    void configureRoutine();
+//    void configureRoutine();
     void bindRoutine(ndRoutine routine);
     void armRoutine();
 };

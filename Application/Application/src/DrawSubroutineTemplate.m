@@ -166,40 +166,40 @@
 
 
 // ==== Depricated ====
-- (void) setVertexFunctionOLD:(NSString*)vertex_name
-          fragmentFunction:(NSString*)fragment_name
-{
-    id<MTLFunction> vertex_function = [_library newFunctionWithName:vertex_name];
-    if (vertex_function == nil) {
-        NSLog(@"Failed to create %@", vertex_name);
-        return;
-    }
-    
-    id<MTLFunction> fragment_function = [_library newFunctionWithName:fragment_name];
-    if (fragment_function == nil) {
-        NSLog(@"Failed to create %@", fragment_name);
-        return;
-    }
-    
-    _render_pipeline_descriptor.vertexFunction   = vertex_function;
-    _render_pipeline_descriptor.fragmentFunction = fragment_function;
-}
-
-- (id<MTLComputePipelineState>) computePipelineWithFunctionNameOLD:(NSString*)name
-{
-    @autoreleasepool {
-        id<MTLFunction> function = [_library newFunctionWithName:name];
-        if (function == nil) {
-            NSLog(@"Failed to create %@", name);
-            return nil;
-        }
-        
-        NSError* error = nil;
-        id<MTLComputePipelineState> pipeline = [_hidden_device newComputePipelineStateWithFunction:function error:&error];
-        NSAssert(pipeline, @"Failed to create Compute Pipeline State: ", error);
-        
-        return pipeline;
-    }
-}
+//- (void) setVertexFunctionOLD:(NSString*)vertex_name
+//          fragmentFunction:(NSString*)fragment_name
+//{
+//    id<MTLFunction> vertex_function = [_library newFunctionWithName:vertex_name];
+//    if (vertex_function == nil) {
+//        NSLog(@"Failed to create %@", vertex_name);
+//        return;
+//    }
+//    
+//    id<MTLFunction> fragment_function = [_library newFunctionWithName:fragment_name];
+//    if (fragment_function == nil) {
+//        NSLog(@"Failed to create %@", fragment_name);
+//        return;
+//    }
+//    
+//    _render_pipeline_descriptor.vertexFunction   = vertex_function;
+//    _render_pipeline_descriptor.fragmentFunction = fragment_function;
+//}
+//
+//- (id<MTLComputePipelineState>) computePipelineWithFunctionNameOLD:(NSString*)name
+//{
+//    @autoreleasepool {
+//        id<MTLFunction> function = [_library newFunctionWithName:name];
+//        if (function == nil) {
+//            NSLog(@"Failed to create %@", name);
+//            return nil;
+//        }
+//        
+//        NSError* error = nil;
+//        id<MTLComputePipelineState> pipeline = [_hidden_device newComputePipelineStateWithFunction:function error:&error];
+//        NSAssert(pipeline, @"Failed to create Compute Pipeline State: ", error);
+//        
+//        return pipeline;
+//    }
+//}
 
 @end

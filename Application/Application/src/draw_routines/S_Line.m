@@ -60,7 +60,7 @@
 
 
 // ==== Depricated ====
-- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {
+//- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format {
 ////    --- Pipeline ---
 //    [self setVertexFunctionOLD:@"Line_Triangalized_vertexShader"
 //           fragmentFunction:@"Line_Triangalized_fragmentShader"];
@@ -74,6 +74,6 @@
 //
 ////    --- Finalize ---
 //    [self finializeConfig];
-}
+//}
 
 @end

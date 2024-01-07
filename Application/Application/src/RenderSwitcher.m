@@ -10,9 +10,9 @@
     MTLPixelFormat      _view_pixel_format;
     
 //    --- Routines ---
-    NSMutableArray<id<DrawRoutineProtocol>>* _loaded_draw_routines;
-    id<DrawRoutineProtocol> _bound_draw_routine;
-    id<DrawRoutineProtocol> _armed_draw_routine;
+    NSMutableArray<DrawRoutineTemplate<DrawRoutineProtocol>*>* _loaded_draw_routines;
+    DrawRoutineTemplate<DrawRoutineProtocol>* _bound_draw_routine;
+    DrawRoutineTemplate<DrawRoutineProtocol>* _armed_draw_routine;
 }
 
 // ==== Initialization ====
@@ -44,14 +44,15 @@
 
 // ==== Routine Interface ====
 - (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind {
-    id<DrawRoutineProtocol> routine = nil;
+    DrawRoutineTemplate<DrawRoutineProtocol>* routine = nil;
     
     switch (draw_routine_kind) {
         case ndDrawRoutineKindNull: {
             NSLog(@"Creating Null Routine");
             routine = [[NullDrawRoutine alloc]
-                       initWithDeviceOLD:_device
-                       library:_library];
+                       initWithDevice:_device
+                       library:_library
+                       pixelFormat:_view_pixel_format];
             break;
         }
             
@@ -92,9 +93,9 @@
     _bound_draw_routine = _loaded_draw_routines[index];
 }
 
-- (void) configureRoutine {
-    [_bound_draw_routine configureWithDrawablePixelFormatOLD:_view_pixel_format];
-}
+//- (void) configureRoutine {
+//    [_bound_draw_routine configureWithDrawablePixelFormatOLD:_view_pixel_format];
+//}
 
 - (void) armRoutine {
     NSLog(@"Arming : %@", _bound_draw_routine);
@@ -112,14 +113,17 @@
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         
-        [_armed_draw_routine predrawOpenInBuffersOLD];
+        [_armed_draw_routine predrawOpenInBuffers];
         [_armed_draw_routine drawInDrawable:current_drawable
                             inCommandBuffer:command_buffer];
-        [_armed_draw_routine predrawCloseInBuffersOLD];
+        [_armed_draw_routine predrawCloseInBuffers];
         
-        __block id<DrawRoutineProtocol> block_routine = _armed_draw_routine;
+        __block DrawRoutineTemplate<DrawRoutineProtocol>* block_routine = _armed_draw_routine;
+//        [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
+//            NSLog(@"-- Draw Scheduled ---");
+//        }];
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
-            [block_routine drawCompletedInBuffersOLD];
+            [block_routine drawCompletedInBuffers];
         }];
         
         [command_buffer presentDrawable:current_drawable];

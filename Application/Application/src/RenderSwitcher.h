@@ -13,11 +13,12 @@
 - (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind;
 - (nonnull id) getDrawRoutineAtIndex:(NSUInteger)index;
 - (void) bindRoutine:(NSUInteger)index;
-- (void) configureRoutine;
 - (void) armRoutine;
 
 // --- Draw ---
 - (void) drawInMetalLayer:(nonnull CAMetalLayer*)metal_layer;
+
+//- (void) configureRoutine;
 @end
 
 #endif

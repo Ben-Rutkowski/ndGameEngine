@@ -18,18 +18,18 @@
 
 
 // --- Depricated ---
-- (nonnull instancetype) initWithDeviceOLD:(nonnull id<MTLDevice>)device
-                                   library:(nonnull id<MTLLibrary>)library;
-- (void) createBufferWithVertexCountOLD:(NSUInteger)count;
-- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format;
-
-- (void) predrawOpenInBuffersOLD;
-- (void) predrawCloseInBuffersOLD;
-- (void) drawCompletedInBuffersOLD;
-
-- (void) bindBufferOLD:(NSUInteger)buffer_index;
-- (nullable id<MTLBuffer>) writeBufferOpenOLD;
-- (void) writeBufferCloseOLD;
+//- (nonnull instancetype) initWithDeviceOLD:(nonnull id<MTLDevice>)device
+//                                   library:(nonnull id<MTLLibrary>)library;
+//- (void) createBufferWithVertexCountOLD:(NSUInteger)count;
+//- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format;
+//
+//- (void) predrawOpenInBuffersOLD;
+//- (void) predrawCloseInBuffersOLD;
+//- (void) drawCompletedInBuffersOLD;
+//
+//- (void) bindBufferOLD:(NSUInteger)buffer_index;
+//- (nullable id<MTLBuffer>) writeBufferOpenOLD;
+//- (void) writeBufferCloseOLD;
 
 @end
 
@@ -56,16 +56,16 @@
 - (void) drawCompletedInBuffers;
 
 // --- Depricated ---
-- (nonnull DynamicBuffer*) newDynamicBufferWithVertexSizeOLD:(NSUInteger)vertex_size
-                                              vertexCount:(NSUInteger)vertex_count
-                                              storageMode:(MTLResourceOptions)storage_mode;
+//- (nonnull DynamicBuffer*) newDynamicBufferWithVertexSizeOLD:(NSUInteger)vertex_size
+//                                              vertexCount:(NSUInteger)vertex_count
+//                                              storageMode:(MTLResourceOptions)storage_mode;
 //- (nonnull id<MTLCommandBuffer>) getBlitCommandBuffer;
 
 @end
 
 
 // ================ Null Draw Routine ================
-@interface NullDrawRoutine : NSObject<DrawRoutineProtocol>
+@interface NullDrawRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 
 #endif

@@ -81,6 +81,7 @@
 
 // ==== Draw ====
 - (void) predrawOpen {
+//    NSLog(@"-- Predraw Open --");
     dispatch_semaphore_wait(_draw_encode_semaphore, DISPATCH_TIME_FOREVER);
     _working_index = _current_index;
     _refernce_count[_working_index] += 1;
@@ -88,6 +89,8 @@
 
 - (void) predrawClose {
     dispatch_semaphore_signal(_draw_encode_semaphore);
+//    NSLog(@"Frames in flight, Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
+//    NSLog(@"-- Predraw Close --");
 }
 
 - (void) drawCompleted {
@@ -95,9 +98,12 @@
     _refernce_count[_active_index] -= 1;
     [self completeSwap];
     dispatch_semaphore_signal(_index_swap_semaphore);
+//    NSLog(@"-- Draw Complete --");
+//    NSLog(@"Frames in flight, Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
 }
 
 - (id<MTLBuffer>) drawTap {
+//    NSLog(@"Writing with working: %lu, current: %lu, active: %lu", _working_index, _current_index, _active_index);
     return _buffer[_working_index];
 }
 
@@ -109,10 +115,12 @@
         _active_index       = _current_index;
         
         dispatch_semaphore_signal(_complete_swap_semaphore);
+//        NSLog(@"=== Swap Completed ===");
     }
 }
 
 - (id<MTLBuffer>) writeOpen {
+//    NSLog(@"-- Write Open --");
     dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
     isCurrentlySwapping = YES;
     return _buffer[(_current_index+1)%2];
@@ -141,6 +149,7 @@
     dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     _current_index = (_current_index+1)%2;
     dispatch_semaphore_signal(_index_swap_semaphore);
+//    NSLog(@"-- Write Close --");
 }
 
 

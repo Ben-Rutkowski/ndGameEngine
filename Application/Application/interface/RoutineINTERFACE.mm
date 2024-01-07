@@ -47,7 +47,7 @@ unsigned long ndRoutine::index() {
 
 
 // ================ Depricated ================
-void ndRoutine::createBuffer(unsigned int vertex_count) {
-    id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
-    [draw_routine createBufferWithVertexCountOLD:vertex_count];
-}
+//void ndRoutine::createBuffer(unsigned int vertex_count) {
+//    id<DrawRoutineProtocol> draw_routine = (id<DrawRoutineProtocol>)routine_ptr_COCOA;
+//    [draw_routine createBufferWithVertexCountOLD:vertex_count];
+//}

@@ -22,7 +22,7 @@ typedef enum SubroutineEnum {
                         inTexture:(nonnull id<MTLTexture>)texture;
 
 // --- Depricated ---
-- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format;
+//- (void) configureWithDrawablePixelFormatOLD:(MTLPixelFormat)pixel_format;
 
 @end
 
@@ -70,10 +70,10 @@ typedef enum SubroutineEnum {
 
 
 // --- Depricated ---
-- (nullable id<MTLComputePipelineState>) computePipelineWithFunctionNameOLD:(nonnull NSString*)name;
-
-- (void) setVertexFunctionOLD:(nonnull NSString*)vertex_name
-          fragmentFunction:(nonnull NSString*)fragment_name;
+//- (nullable id<MTLComputePipelineState>) computePipelineWithFunctionNameOLD:(nonnull NSString*)name;
+//
+//- (void) setVertexFunctionOLD:(nonnull NSString*)vertex_name
+//          fragmentFunction:(nonnull NSString*)fragment_name;
 @end
 
 #endif
