@@ -7,10 +7,10 @@
 #include "cocoa_interface.hpp"
 #include <chrono>
 
-#define DEBUG_POINT 6
+#define DEBUG_POINT 5
 #define BREAK_POINT 10
-// #define DOES_BREAK true
-#define DOES_BREAK false
+#define DOES_BREAK true
+// #define DOES_BREAK false
 
 static int count;
 // static double detla;
@@ -21,7 +21,7 @@ void debugSetup() {
 
 void debugFirst() {
     count += 1;
-    // std::cout << " ==== OPEN ====\n";
+    std::cout << " \n";
     // auto start_type = std::chrono::high_resolution_clock::now();
 }
 
@@ -31,7 +31,7 @@ void debugLast() {
     // delta = delta_type.count();
     // std::cout << "delta: " << delta << std::endl;
 
-    // std::cout << " ==== CLOSE ====\n";
+    std::cout << "\n";
 }
 
 void ndAppModule::startApp() {

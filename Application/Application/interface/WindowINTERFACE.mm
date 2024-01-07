@@ -57,7 +57,9 @@ void ndWindow::showWindow() {
 // ================ Draw ================
 void ndWindow::drawView() {
     ndView* nd_view = (ndView*)nd_view_COCOA;
+//    NSLog(@"    ======== Begin Draw ========");
     [nd_view draw];
+//    NSLog(@"    ========  End  Draw ========");
 }
 
 

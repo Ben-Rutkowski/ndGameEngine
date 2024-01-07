@@ -11,9 +11,10 @@
 @interface DynamicBuffer : NSObject
 // --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                               vertexSize:(NSUInteger)vertex_size
+                             vertexSize:(NSUInteger)vertex_size
                             vertexCount:(NSUInteger)vertex_count
                          andStorageMode:(MTLResourceOptions)storage_mode;
+
 - (NSUInteger) getVertexCount;
 
 // --- Draw ---
@@ -25,12 +26,6 @@
 // --- Write ---
 - (nonnull id<MTLBuffer>) writeOpen;
 - (void) writeCloseInBlitCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
-
-// --- Size ---
-//- (void) expandToDataSize:(NSUInteger)size
-//           andVertexCount:(NSUInteger)vertex_count
-//               withDevice:(nonnull id<MTLDevice>)device
-//           inCommandQueue:(nonnull id<MTLCommandQueue>)command_queue;
 
 // --- Debug ---
 - (void) debug:(NSUInteger)num_vertices;

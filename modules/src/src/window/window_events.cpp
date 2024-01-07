@@ -37,17 +37,6 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     line_routine = nd_window.createDrawRoutine(DrawRoutineKindDebug);
     line_routine.bindBuffer(R_Line_Vertices);
     line_routine.createPublicBuffer(sizeof(Line_TriagVtype), 3);
-
-    line_routine.bindBuffer(R_Line_Vertices);
-    Line_TriagVtype* vertices = (Line_TriagVtype*)line_routine.writeBufferOpen();
-    vertices[0].position = { -0.5f, -0.5f }; 
-    vertices[1].position = {  0.5f, -0.5f };
-    vertices[2].position = {  0.0f,  0.5f };
-
-    vertices[0].color = { 1.0f, 0.0f, 0.0f, 1.0f };
-    vertices[1].color = { 0.0f, 1.0f, 0.0f, 1.0f };
-    vertices[2].color = { 0.0f, 0.0f, 1.0f, 1.0f };
-    line_routine.writeBufferClose();
 }
 
 void ndWindowModule::onEndStartUp(ndEvent* event) {
@@ -59,7 +48,15 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
-    line_routine.writeBufferOpen();
+    line_routine.bindBuffer(R_Line_Vertices);
+    Line_TriagVtype* vertices = (Line_TriagVtype*)line_routine.writeBufferOpen();
+    vertices[0].position = { -0.5f, -0.5f }; 
+    vertices[1].position = {  0.5f, -0.5f };
+    vertices[2].position = {  0.0f,  0.5f };
+
+    vertices[0].color = { 1.0f, 0.0f, 0.0f, 1.0f };
+    vertices[1].color = { 0.0f, 1.0f, 0.0f, 1.0f };
+    vertices[2].color = { 0.0f, 0.0f, 1.0f, 1.0f };
     line_routine.writeBufferClose();
 }
 

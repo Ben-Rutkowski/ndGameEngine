@@ -11,7 +11,6 @@
     
 //    --- Routines ---
     NSMutableArray<DrawRoutineTemplate<DrawRoutineProtocol>*>* _loaded_draw_routines;
-    DrawRoutineTemplate<DrawRoutineProtocol>* _bound_draw_routine;
     DrawRoutineTemplate<DrawRoutineProtocol>* _armed_draw_routine;
 }
 
@@ -88,10 +87,12 @@
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
     @autoreleasepool {
+        NSLog(@"==Waiting for next drawable==");
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
         if (current_drawable == nil) {
             return;
         }
+        NSLog(@"==Recieved next drawable== %@", current_drawable);
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         
@@ -101,9 +102,6 @@
         [_armed_draw_routine predrawCloseInBuffers];
         
         __block DrawRoutineTemplate<DrawRoutineProtocol>* block_routine = _armed_draw_routine;
-//        [command_buffer addScheduledHandler:^(id<MTLCommandBuffer> nonnull) {
-//            NSLog(@"-- Draw Scheduled ---");
-//        }];
         [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
             [block_routine drawCompletedInBuffers];
         }];

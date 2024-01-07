@@ -81,29 +81,28 @@
 
 // ==== Draw ====
 - (void) predrawOpen {
-//    NSLog(@"-- Predraw Open --");
     dispatch_semaphore_wait(_draw_encode_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"-- Predraw Open --");
     _working_index = _current_index;
     _refernce_count[_working_index] += 1;
 }
 
 - (void) predrawClose {
+    NSLog(@"  New Frames in flight, -->[ %lu, %lu ]", _refernce_count[0], _refernce_count[1]);
+    NSLog(@"-- Predraw Close --");
     dispatch_semaphore_signal(_draw_encode_semaphore);
-//    NSLog(@"Frames in flight, Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
-//    NSLog(@"-- Predraw Close --");
 }
 
 - (void) drawCompleted {
     dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
     _refernce_count[_active_index] -= 1;
+    NSLog(@"-- Draw Complete --");
+    NSLog(@"  Remaining Frames in flight, [ %lu, %lu ]<--", _refernce_count[0], _refernce_count[1]);
     [self completeSwap];
     dispatch_semaphore_signal(_index_swap_semaphore);
-//    NSLog(@"-- Draw Complete --");
-//    NSLog(@"Frames in flight, Buffer 0: %lu, Buffer 1: %lu", _refernce_count[0], _refernce_count[1]);
 }
 
 - (id<MTLBuffer>) drawTap {
-//    NSLog(@"Writing with working: %lu, current: %lu, active: %lu", _working_index, _current_index, _active_index);
     return _buffer[_working_index];
 }
 
@@ -114,14 +113,14 @@
         isCurrentlySwapping = NO;
         _active_index       = _current_index;
         
+        NSLog(@"=== Swap Completed ===");
         dispatch_semaphore_signal(_complete_swap_semaphore);
-//        NSLog(@"=== Swap Completed ===");
     }
 }
 
 - (id<MTLBuffer>) writeOpen {
-//    NSLog(@"-- Write Open --");
     dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"-- Write Open --");
     isCurrentlySwapping = YES;
     return _buffer[(_current_index+1)%2];
 }
@@ -129,42 +128,11 @@
 - (void) writeCloseInBlitCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer {
     NSUInteger next_index = (_current_index+1)%2;
     
-    @autoreleasepool {
-        id<MTLBlitCommandEncoder> blit_encoder = [command_buffer blitCommandEncoder];
-        
-        [blit_encoder copyFromBuffer:_buffer[next_index]
-                        sourceOffset:0
-                            toBuffer:_buffer[_current_index]
-                   destinationOffset:0
-                                size:_vertex_size*_vertex_count[next_index]];
-        
-        [blit_encoder endEncoding];
-        
-        __block DynamicBuffer* block_self = self;
-        [command_buffer addCompletedHandler:^(id<MTLCommandBuffer> nonnull) {
-            [block_self completeSwap];
-        }];
-    }
-    
     dispatch_semaphore_wait(_index_swap_semaphore, DISPATCH_TIME_FOREVER);
-    _current_index = (_current_index+1)%2;
+    _current_index = next_index;
+    NSLog(@"-- Write Close --");
     dispatch_semaphore_signal(_index_swap_semaphore);
-//    NSLog(@"-- Write Close --");
 }
-
-
-// ==== Resize ====
-//- (void) expandToDataSize:(NSUInteger)data_size
-//           andVertexCount:(NSUInteger)vertex_count
-//               withDevice:(nonnull id<MTLDevice>)device
-//           inCommandQueue:(nonnull id<MTLCommandQueue>)command_queue
-//{
-//
-//}
-//
-//- (void) initialSwapStage {
-//    
-//}
 
 
 // ==== Debug ====
