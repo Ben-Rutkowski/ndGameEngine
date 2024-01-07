@@ -7,8 +7,8 @@
 #include "cocoa_interface.hpp"
 #include <chrono>
 
-#define DEBUG_POINT 5
-#define BREAK_POINT 10
+#define DEBUG_POINT 10
+#define BREAK_POINT 15
 #define DOES_BREAK true
 // #define DOES_BREAK false
 
@@ -31,7 +31,7 @@ void debugLast() {
     // delta = delta_type.count();
     // std::cout << "delta: " << delta << std::endl;
 
-    std::cout << "\n";
+    // std::cout << "\n";
 }
 
 void ndAppModule::startApp() {

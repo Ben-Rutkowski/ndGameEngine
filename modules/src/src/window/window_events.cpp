@@ -58,6 +58,9 @@ void ndWindowModule::onDebug(ndEvent* event) {
     vertices[1].color = { 0.0f, 1.0f, 0.0f, 1.0f };
     vertices[2].color = { 0.0f, 0.0f, 1.0f, 1.0f };
     line_routine.writeBufferClose();
+
+    // line_routine.writeBufferOpen();
+    // line_routine.writeBufferClose();
 }
 
 

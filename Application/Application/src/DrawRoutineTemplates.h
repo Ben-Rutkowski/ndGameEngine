@@ -9,6 +9,7 @@
 // ================ Routine Protocol ================
 @protocol DrawRoutineProtocol
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                           commandQueue:(nonnull id<MTLCommandQueue>)command_queue
                                 library:(nonnull id<MTLLibrary>)library
                             pixelFormat:(MTLPixelFormat)pixel_format;
 
@@ -22,6 +23,7 @@
 // ================ Routine Template ================
 @interface DrawRoutineTemplate : NSObject
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                           commandQueue:(nonnull id<MTLCommandQueue>)command_queue
                         numberOfBuffers:(NSUInteger)buffer_count;
 
 // --- Resources ---

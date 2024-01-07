@@ -10,10 +10,12 @@
 
 // ==== Configure ====
 - (nonnull instancetype)initWithDevice:(nonnull id<MTLDevice>)device
+                          commandQueue:(nonnull id<MTLCommandQueue>)command_queue
                                library:(nonnull id<MTLLibrary>)library
                            pixelFormat:(MTLPixelFormat)pixel_format
 {
     self = [super initWithDevice:device 
+                    commandQueue:command_queue
                  numberOfBuffers:LINEBUFFERCOUNT];
     if (self) {
         _draw_line_subroutine = [[LineSubroutine alloc]

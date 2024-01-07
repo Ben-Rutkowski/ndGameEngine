@@ -11,6 +11,7 @@
 @interface DynamicBuffer : NSObject
 // --- Configure ---
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                       blitCommandQueue:(nonnull id<MTLCommandQueue>)command_queue
                              vertexSize:(NSUInteger)vertex_size
                             vertexCount:(NSUInteger)vertex_count
                          andStorageMode:(MTLResourceOptions)storage_mode;
@@ -25,7 +26,7 @@
 
 // --- Write ---
 - (nonnull id<MTLBuffer>) writeOpen;
-- (void) writeCloseInBlitCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
+- (void) writeClose;
 
 // --- Debug ---
 - (void) debug:(NSUInteger)num_vertices;

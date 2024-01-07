@@ -49,6 +49,7 @@
             NSLog(@"Creating Null Routine");
             routine = [[NullDrawRoutine alloc]
                        initWithDevice:_device
+                       commandQueue:_command_queue
                        library:_library
                        pixelFormat:_view_pixel_format];
             break;
@@ -58,6 +59,7 @@
             NSLog(@"Creating Line Routine");
             routine = [[DrawingLines alloc]
                        initWithDevice:_device
+                       commandQueue:_command_queue
                        library:_library
                        pixelFormat:_view_pixel_format];
             break;
@@ -87,12 +89,12 @@
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
     @autoreleasepool {
-        NSLog(@"==Waiting for next drawable==");
+//        NSLog(@"==Waiting for next drawable==");
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
         if (current_drawable == nil) {
             return;
         }
-        NSLog(@"==Recieved next drawable== %@", current_drawable);
+//        NSLog(@"==Recieved next drawable== %@", current_drawable);
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         

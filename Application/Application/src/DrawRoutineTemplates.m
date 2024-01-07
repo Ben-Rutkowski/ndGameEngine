@@ -4,7 +4,7 @@
 @implementation DrawRoutineTemplate
 {
     id<MTLDevice>       _device;
-    id<MTLCommandQueue> _internal_blit_command_queue;
+    id<MTLCommandQueue> _command_queue;
     
     NSMutableArray<DynamicBuffer*>* _buffers;
     NSUInteger _current_buffer;
@@ -12,12 +12,13 @@
 
 
 - (instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                   commandQueue:(id<MTLCommandQueue>)command_queue
                 numberOfBuffers:(NSUInteger)buffer_count
 {
     self = [super init];
     if (self) {
-        _device                      = device;
-        _internal_blit_command_queue = [_device newCommandQueue];
+        _device        = device;
+        _command_queue = command_queue;
         _buffers = [NSMutableArray arrayWithCapacity:buffer_count];
     }
     return self;
@@ -31,6 +32,7 @@
 {
     _buffers[_current_buffer] = [[DynamicBuffer alloc] 
                                  initWithDevice:_device
+                                 blitCommandQueue:_command_queue
                                  vertexSize:vertex_size
                                  vertexCount:vertex_count
                                  andStorageMode:storage_mode];
@@ -50,11 +52,7 @@
 }
 
 - (void) writeBufferClose {
-    @autoreleasepool {
-        id<MTLCommandBuffer> command_buffer = [_internal_blit_command_queue commandBuffer];
-        [_buffers[_current_buffer] writeCloseInBlitCommandBuffer:command_buffer];
-        [command_buffer commit];
-    }
+    [_buffers[_current_buffer] writeClose];
 }
 
 
@@ -83,6 +81,7 @@
 // ================ Null Draw Routine ================
 @implementation NullDrawRoutine
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                           commandQueue:(nonnull id<MTLCommandQueue>)command_queue
                                 library:(nonnull id<MTLLibrary>)library
                             pixelFormat:(MTLPixelFormat)pixel_format
 {
