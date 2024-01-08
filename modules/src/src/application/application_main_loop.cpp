@@ -7,10 +7,12 @@
 #include "cocoa_interface.hpp"
 #include <chrono>
 
-#define DEBUG_POINT 3
+// #define DOES_DEBUG true
+#define DOES_DEBUG false
+#define DEBUG_POINT 5
 #define BREAK_POINT 10
-#define DOES_BREAK true
-// #define DOES_BREAK false
+// #define DOES_BREAK true
+#define DOES_BREAK false
 
 static int count;
 // static double detla;
@@ -21,7 +23,7 @@ void debugSetup() {
 
 void debugFirst() {
     count += 1;
-    std::cout << " \n";
+    // std::cout << " \n";
     // auto start_type = std::chrono::high_resolution_clock::now();
 }
 
@@ -59,7 +61,7 @@ void ndAppModule::startApp() {
         debugLast();
         // --- Debug ---
 
-        if (count%DEBUG_POINT == 0) {
+        if (DOES_DEBUG && count%DEBUG_POINT == 0) {
             event_manager.propogateEventImmediate(
                 ndEvent(module_name, Operation::DEBUG)
             );
