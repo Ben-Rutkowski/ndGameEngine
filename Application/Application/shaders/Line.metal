@@ -16,7 +16,7 @@ Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
                             const device Line_PtVtype* line_vertices [[buffer(Line_PtVidx_vertices)]],
                             device LineINT_TraigClstrVtype* cluster [[buffer(Line_PtVidx_triag_cluster)]])
 {
-    const float width = 0.1;
+    const float width = 0.05;
     
     Line_PtVtype tail;
     Line_PtVtype tip;
@@ -31,7 +31,7 @@ Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
     tip  = line_vertices[2*tidx+1];
     
     par  = width * metal::normalize(tip.position - tail.position);
-    perp = width * float2(par.y, -par.x);
+    perp = float2(par.y, -par.x);
     
 //    --- Tail End ---
     edge_bottom = { tail.position + perp, float2(-1.0, 0.0), tail.color };
