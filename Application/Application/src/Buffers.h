@@ -20,6 +20,7 @@
 
 // --- Draw ---
 - (nonnull id<MTLBuffer>) drawTap;
+- (nonnull id<MTLBuffer>) drawRelay;
 - (void) predrawOpen;
 - (void) predrawClose;
 - (void) drawCompleted;

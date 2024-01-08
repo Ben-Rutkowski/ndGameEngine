@@ -75,6 +75,12 @@
     }
 }
 
+
+// ==== Debug ====
+- (void) debugBuffer:(NSUInteger)vertex_count {
+    [_buffers[_current_buffer] debug:vertex_count];
+}
+
 @end
 
 

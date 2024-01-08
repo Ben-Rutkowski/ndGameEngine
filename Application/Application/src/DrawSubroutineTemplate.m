@@ -28,11 +28,6 @@
     return self;
 }
 
-- (id<MTLBuffer>) newAuxBufferOfSize:(NSUInteger)data_size {
-    return [_hidden_device newBufferWithLength:data_size
-                                options:MTLResourceStorageModePrivate];
-}
-
 
 // ==== Resources ====
 - (void) linkBuffer:(DynamicBuffer*)buffer 
@@ -153,4 +148,8 @@
     [_render_pipeline_descriptor release];
 }
 
+//- (id<MTLBuffer>) newAuxBufferOfSize:(NSUInteger)data_size {
+//    return [_hidden_device newBufferWithLength:data_size
+//                                       options:MTLResourceStorageModePrivate];
+//}
 @end

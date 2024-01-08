@@ -29,8 +29,6 @@ typedef enum SubroutineEnum {
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                                 library:(nonnull id<MTLLibrary>)library;
 
-- (nonnull id<MTLBuffer>) newAuxBufferOfSize:(NSUInteger)data_size;
-
 // --- Resources ---
 - (void) linkBuffer:(nonnull DynamicBuffer*)buffer
             atIndex:(SubroutineEnum)index;
@@ -64,6 +62,7 @@ typedef enum SubroutineEnum {
 // --- Draw ---
 - (nonnull MTLRenderPassDescriptor*) currentRenderPassDescriptor:(nonnull id<MTLTexture>)texture;
 
+//- (nonnull id<MTLBuffer>) newAuxBufferOfSize:(NSUInteger)data_size;
 @end
 
 #endif

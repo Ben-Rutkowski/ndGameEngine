@@ -9,7 +9,9 @@ typedef enum DrawRoutineKind {
 } DrawRoutineKind;
 
 typedef enum DrawingLineBuffer {
-    R_Line_Vertices = 0
+    R_Line_Vertices    = 0,
+    R_Line_LinePoints  = 1,
+    R_Line_TriangRelay = 2
 } DrawingLineBuffer;
 
 
@@ -22,6 +24,7 @@ static void* CURRENT_APPLICATION_DELEGATE_COCOA;
 // ======== Application ========
 int  initCocoa();
 void pollEventsCocoa();
+void killCocoa();
 
 
 // ======== Routine ========
@@ -41,6 +44,8 @@ public:
     void  writeBufferClose();
     
     unsigned long index();
+    
+    void debug(unsigned int vertex_count);
     
 //    --- Depricated ---
     void createBuffer(unsigned int vertex_count);

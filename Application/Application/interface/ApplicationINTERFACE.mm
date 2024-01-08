@@ -39,3 +39,8 @@ void pollEventsCocoa() {
         }
     }
 }
+
+void killCocoa() {
+    NSLog(@"Kill");
+    [NSApp terminate:nil];
+}

@@ -1,6 +1,6 @@
 #import "DrawRoutines.h"
 
-#define LINEBUFFERCOUNT 1
+#define LINEBUFFERCOUNT 3
 
 @implementation DrawingLines
 {
@@ -31,9 +31,10 @@
 - (void) drawInDrawable:(id<CAMetalDrawable>)drawable
         inCommandBuffer:(id<MTLCommandBuffer>)command_buffer
 {
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Line_Vertices]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Line_LinePoints]
                               atIndex:S_Main];
-    
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Line_TriangRelay]
+                              atIndex:S_Aux0];
     [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer
                                           inTexture:drawable.texture];
 }

@@ -42,6 +42,9 @@
 - (void) predrawCloseInBuffers;
 - (void) drawCompletedInBuffers;
 
+// --- Debug ---
+- (void) debugBuffer:(NSUInteger)vertex_count;
+
 @end
 
 

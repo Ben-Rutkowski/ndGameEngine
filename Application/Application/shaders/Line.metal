@@ -16,26 +16,61 @@ Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
                             const device Line_PtVtype* line_vertices [[buffer(Line_PtVidx_vertices)]],
                             device LineINT_TraigClstrVtype* cluster [[buffer(Line_PtVidx_triag_cluster)]])
 {
-//    const float width = 0.05;
-//    
-//    Line_PtVtype tail;
-//    Line_PtVtype tip;
-//    float2       perp;
-//    float2       par;
-//    
-//    Line_TriagVtype edge_bottom;
-//    Line_TriagVtype edge_top;
-//    Line_TriagVtype aux;
-//    
-//    tail = line_vertices[2*tidx];
-//    tip  = line_vertices[2*tidx+1];
-//    
-//    par  = width * metal::normalize(tip.position - tail.position);
-//    perp = width * float2(par.y, -par.x);
+    const float width = 0.1;
+    
+    Line_PtVtype tail;
+    Line_PtVtype tip;
+    float2       perp;
+    float2       par;
+    
+    Line_TriagVtype edge_bottom;
+    Line_TriagVtype edge_top;
+    Line_TriagVtype aux;
+    
+    tail = line_vertices[2*tidx];
+    tip  = line_vertices[2*tidx+1];
+    
+    par  = width * metal::normalize(tip.position - tail.position);
+    perp = width * float2(par.y, -par.x);
     
 //    --- Tail End ---
+    edge_bottom = { tail.position + perp, float2(-1.0, 0.0), tail.color };
+    edge_top    = { tail.position - perp, float2( 1.0, 0.0), tail.color };
     
+    cluster[tidx].tail_end[0] = edge_bottom;
+    cluster[tidx].tail_end[1] = { edge_bottom.position - par, float2(-1.0, 1.0), tail.color };
+    cluster[tidx].tail_end[2] = edge_top;
     
+    cluster[tidx].tail_end[3] = { edge_top.position - par, float2(1.0, 1.0), tail.color };
+    cluster[tidx].tail_end[4] = edge_top;
+    cluster[tidx].tail_end[5] = { edge_bottom.position - par, float2(-1.0, 1.0), tail.color };
+    
+//    --- Center ---
+    edge_bottom.uv = float2(0.0, 0.0);
+    edge_top.uv    = float2(0.0, 0.0);
+    
+    cluster[tidx].center[0] = edge_bottom;
+    cluster[tidx].center[1] = edge_top;
+    cluster[tidx].center[5] = edge_top;
+    
+    edge_bottom = { tip.position + perp, float2(0.0, 0.0), tip.color };
+    edge_top    = { tip.position - perp, float2(0.0, 0.0), tip.color };
+    
+    cluster[tidx].center[2] = edge_bottom;
+    cluster[tidx].center[3] = edge_top;
+    cluster[tidx].center[4] = edge_bottom;
+    
+//    --- Tip End ---
+    edge_bottom.uv = float2( 1.0, 0.0);
+    edge_top.uv    = float2(-1.0, 0.0);
+    
+    cluster[tidx].tip_end[0] = edge_top;
+    cluster[tidx].tip_end[1] = { edge_top.position + par, float2(-1.0, 1.0), tip.color };
+    cluster[tidx].tip_end[2] = edge_bottom;
+    
+    cluster[tidx].tip_end[3] = { edge_bottom.position + par, float2(1.0, 1.0), tip.color };
+    cluster[tidx].tip_end[4] = edge_bottom;
+    cluster[tidx].tip_end[5] = { edge_top.position + par, float2(-1.0, 1.0), tip.color };
 }
 
 

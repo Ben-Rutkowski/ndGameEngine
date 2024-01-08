@@ -44,3 +44,8 @@ void ndRoutine::writeBufferClose() {
 unsigned long ndRoutine::index() {
     return routine_index;
 }
+
+void ndRoutine::debug(unsigned int vertex_count) {
+    DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
+    [draw_routine debugBuffer:vertex_count];
+}
