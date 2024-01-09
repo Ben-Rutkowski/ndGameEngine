@@ -25,7 +25,6 @@ Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
     
     Line_TriagVtype edge_bottom;
     Line_TriagVtype edge_top;
-    Line_TriagVtype aux;
     
     tail = line_vertices[2*tidx];
     tip  = line_vertices[2*tidx+1];

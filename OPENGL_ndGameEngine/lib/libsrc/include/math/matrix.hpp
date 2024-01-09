@@ -19,7 +19,6 @@ Matrices have m rows and n columns. The data is stored as row major.
 // === TEMPLATE ===
 template<typename T, int M, int N>
 class Matrix {
-// --- Attributes ---
 private:
     std::array<T,M*N> data;
     
