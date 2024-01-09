@@ -16,21 +16,6 @@
 #endif
 
 
-// ======== Static Shape ========
-#pragma pack(push,1)
-typedef struct StaticShape_VertexType {
-    VECTOR_2F position;
-    VECTOR_4F color;
-} StaticShapeVtype;
-#pragma pack(pop)
-
-typedef enum StaticShape_VertexIndex {
-    StaticShapeVidx_vertices     = 0,
-    StaticShapeVidx_aspect_ratio = 1
-} StaticShape_VertexIndex;
-// ======== Static Shape ========
-
-
 // ======== Line ========
 #pragma pack(push,1)
 // --- Line_Point_VertexType --- : vertices of the lines
@@ -38,6 +23,10 @@ typedef struct Line_Point_VertexType {
     VECTOR_2F position; // - Position of end
     VECTOR_4F color;    // - Color of end
 } Line_PtVtype;
+
+typedef struct Line_Point_VertexUniform {
+    float line_width;
+} Line_Vtype_Uniform;
 
 // --- Line_Triangalized_VertexType --- : vertices of the triangalization of a line
 typedef struct Line_Triangalized_VertexType {

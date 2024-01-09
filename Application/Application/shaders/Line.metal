@@ -14,9 +14,10 @@ struct Line_Triangalized_Raster {
 kernel void
 Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
                             const device Line_PtVtype* line_vertices [[buffer(Line_PtVidx_vertices)]],
-                            device LineINT_TraigClstrVtype* cluster [[buffer(Line_PtVidx_triag_cluster)]])
+                            device   LineINT_TraigClstrVtype* cluster [[buffer(Line_PtVidx_triag_cluster)]],
+                            constant Line_Vtype_Uniform &line_uniform [[buffer(3)]])
 {
-    const float width = 0.05;
+    const float width = 0.003;
     
     Line_PtVtype tail;
     Line_PtVtype tip;
@@ -29,6 +30,7 @@ Line_Internal_computeShader(uint tidx [[thread_position_in_grid]],
     tail = line_vertices[2*tidx];
     tip  = line_vertices[2*tidx+1];
     
+//    par  = line_uniform.line_width * metal::normalize(tip.position - tail.position);
     par  = width * metal::normalize(tip.position - tail.position);
     perp = float2(par.y, -par.x);
     

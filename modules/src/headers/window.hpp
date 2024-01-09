@@ -4,9 +4,9 @@
 #include "cocoa_interface.hpp"
 #include "nd_module.hpp"
 
-enum ndWindowState { ndWindowStateNull = 0,
+typedef enum ndWindowState { ndWindowStateNull = 0,
     ndWindowStateLen
-};
+} ndWindowState;
 
 class ndWindowModule : public ndModule<ndWindowStateLen> {
 // --- Attributes ---

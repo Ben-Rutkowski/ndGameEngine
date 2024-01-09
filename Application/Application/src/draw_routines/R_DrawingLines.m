@@ -31,9 +31,9 @@
 - (void) drawInDrawable:(id<CAMetalDrawable>)drawable
         inCommandBuffer:(id<MTLCommandBuffer>)command_buffer
 {
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer1]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer0]
                               atIndex:S_Main];
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer2]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer1]
                               atIndex:S_Aux0];
     [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer
                                           inTexture:drawable.texture];

@@ -3,9 +3,9 @@
 
 #include "nd_module.hpp"
 
-enum ndAppState { ndAppStateNull = 0,
+typedef enum ndAppState { ndAppStateNull = 0,
     ndAppStateLen
-};
+} ndAppState;
 
 class ndAppModule : public ndModule<ndAppStateLen> {
 // --- Attributes ---

@@ -6,7 +6,7 @@ ndWindowModule::ndWindowModule(int width, int height, const char* title)
     nd_window(width, height, title) {}
 
 void ndWindowModule::linkEditSpace(ndModule* edit_space_ptr) {
-    throw std::runtime_error("Not Implemented ndWindowModule::linkEditSpace");
+    edit_space = edit_space_ptr;
 }
 
 bool ndWindowModule::requestBool(Request request) {

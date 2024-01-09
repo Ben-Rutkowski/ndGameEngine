@@ -12,6 +12,13 @@ void ndWindowModule::runEvent(ndEvent* event) {
     case Operation::CLOSE_APP:         onCloseApp(event); break;
     default: break;
     }
+
+    if (edit_space) {
+        edit_space->runEvent(event);
+    } else {
+        std::cout << "No edit space " << std::endl;
+    }
+    
 }
 
 // ================ StartUp ================
