@@ -30,9 +30,9 @@ typedef enum SubroutineEnum {
                                 library:(nonnull id<MTLLibrary>)library;
 
 // --- Resources ---
-- (void) linkBuffer:(nonnull DynamicBuffer*)buffer
+- (void) linkBuffer:(nonnull id<BufferProtocol>)buffer
             atIndex:(SubroutineEnum)index;
-- (nonnull DynamicBuffer*) buffer:(SubroutineEnum)index;
+- (nonnull id<BufferProtocol>) buffer:(SubroutineEnum)index;
 
 // --- Render Pipeline ---
 - (void) renderSetVertexFunction:(nonnull NSString*)vertex_name

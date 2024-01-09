@@ -6,7 +6,7 @@
     id<MTLDevice>       _device;
     id<MTLCommandQueue> _command_queue;
     
-    NSMutableArray<DynamicBuffer*>* _buffers;
+    NSMutableArray<id<BufferProtocol>>* _buffers;
     NSUInteger _current_buffer;
 }
 
@@ -20,6 +20,10 @@
         _device        = device;
         _command_queue = command_queue;
         _buffers = [NSMutableArray arrayWithCapacity:buffer_count];
+        NullBuffer* null_buffer = [NullBuffer new];
+        for (int i=0; i<buffer_count; i++) {
+            [_buffers addObject:null_buffer];
+        }
     }
     return self;
 }
@@ -43,7 +47,7 @@
     _current_buffer = index;
 }
 
-- (DynamicBuffer*) bufferAt:(NSUInteger)index {
+- (id<BufferProtocol>) bufferAt:(NSUInteger)index {
     return _buffers[index];
 }
 

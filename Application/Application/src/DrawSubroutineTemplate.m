@@ -6,7 +6,7 @@
 //    --- Hidden Metal Components ---
     id<MTLDevice>  _hidden_device;
     
-    DynamicBuffer* _buffer[5];
+    id<BufferProtocol> _buffer[5];
     
 //    --- Hidden Render Components ---
     MTLRenderPipelineDescriptor* _render_pipeline_descriptor;
@@ -30,13 +30,13 @@
 
 
 // ==== Resources ====
-- (void) linkBuffer:(DynamicBuffer*)buffer 
+- (void) linkBuffer:(id<BufferProtocol>)buffer
             atIndex:(SubroutineEnum)index
 {
     _buffer[index] = buffer;
 }
 
-- (DynamicBuffer*) buffer:(SubroutineEnum)index {
+- (id<BufferProtocol>) buffer:(SubroutineEnum)index {
     return _buffer[index];
 }
 

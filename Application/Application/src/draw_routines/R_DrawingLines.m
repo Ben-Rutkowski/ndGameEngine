@@ -16,7 +16,7 @@
 {
     self = [super initWithDevice:device 
                     commandQueue:command_queue
-                 numberOfBuffers:LINEBUFFERCOUNT];
+                 numberOfBuffers:R_Debug_BufferCount];
     if (self) {
         _draw_line_subroutine = [[LineSubroutine alloc]
                                  initWithDevice:device
@@ -31,9 +31,9 @@
 - (void) drawInDrawable:(id<CAMetalDrawable>)drawable
         inCommandBuffer:(id<MTLCommandBuffer>)command_buffer
 {
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Line_LinePoints]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer1]
                               atIndex:S_Main];
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Line_TriangRelay]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer2]
                               atIndex:S_Aux0];
     [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer
                                           inTexture:drawable.texture];

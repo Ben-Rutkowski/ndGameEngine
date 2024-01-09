@@ -9,9 +9,11 @@ typedef enum DrawRoutineKind {
 } DrawRoutineKind;
 
 typedef enum DrawingLineBuffer {
-    R_Line_Vertices    = 0,
-    R_Line_LinePoints  = 1,
-    R_Line_TriangRelay = 2
+    R_Debug_Buffer0 = 0,
+    R_Debug_Buffer1 = 1,
+    R_Debug_Buffer2 = 2,
+    
+    R_Debug_BufferCount
 } DrawingLineBuffer;
 
 

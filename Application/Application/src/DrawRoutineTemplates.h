@@ -33,7 +33,7 @@
 
 
 - (void) bindBuffer:(NSUInteger)index;
-- (nullable DynamicBuffer*) bufferAt:(NSUInteger)index;
+- (nullable id<BufferProtocol>) bufferAt:(NSUInteger)index;
 - (nullable id<MTLBuffer>) writeBufferOpen;
 - (void) writeBufferClose;
 

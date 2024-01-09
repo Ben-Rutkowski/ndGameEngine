@@ -214,3 +214,18 @@ typedef enum BufferPosition {
 }
 
 @end
+
+
+// ================ Null Dynamic Buffer ================
+@implementation NullBuffer
+- (NSUInteger) getVertexCount { return 0; }
+- (void) predrawOpen {}
+- (id<MTLBuffer>) drawRelay { return nil; }
+- (id<MTLBuffer>) drawTap { return nil; }
+- (void) predrawClose {}
+- (void) drawCompleted {}
+- (void) writeClose {}
+- (id<MTLBuffer>) writeOpen { return nil; }
+- (void) debug:(NSUInteger)num_vertices {}
+
+@end
