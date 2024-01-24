@@ -20,17 +20,17 @@ void ndEditSapceModule::onDebug(ndEvent* event) {
 
 // ================ App Loop ================
 void ndEditSapceModule::onBeginStartUp(ndEvent* event) {
-    event->print(module_name);
+    // event->print(module_name);
 }
 
 void ndEditSapceModule::onEndStartUp(ndEvent* event) {
-    event->print(module_name);
+    // event->print(module_name);
 }
 
 void ndEditSapceModule::onStartFrame(ndEvent* event) {
-    event->print(module_name);
+    // event->print(module_name);
 }
 
 void ndEditSapceModule::onEndFrame(ndEvent* event) {
-    event->print(module_name);
+    // event->print(module_name);
 }

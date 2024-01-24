@@ -21,8 +21,8 @@ void ndAppModule::endStartUp() {
 }
 
 void ndAppModule::startFrame() {
-    // float delta = window->requestFloat(Request::FRAME_DELTA);
-    // vec4  mouse = window->requestVec4(Request::MOUSE_POSITION);
+//     float delta = window->requestFloat(Request::FRAME_DELTA);
+//     vec4  mouse = window->requestVec4(Request::MOUSE_POSITION);
 
     event_manager.propogateEventImmediate(
         ndEvent(module_name, Operation::START_FRAME)

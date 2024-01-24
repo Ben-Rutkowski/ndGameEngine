@@ -6,16 +6,16 @@
 #include <iostream>
 
 // ==== Constants ====
-template<typename T>
-struct vConst {
-    static const T zero;
-    static const T one;
+template<typename T> struct vConst {};
+template<> struct vConst<int> { 
+    static constexpr int zero = 0; 
+    static constexpr int one  = 1; 
 };
 
-template<> const float vConst<float>::zero = 0.0f;
-template<> const float vConst<float>::one  = 1.0f;
-template<> const int vConst<int>::zero = 0;
-template<> const int vConst<int>::one  = 1;
+template<> struct vConst<float> { 
+    static constexpr int zero = 0.0f; 
+    static constexpr int one  = 1.0f; 
+};
 // ==== Constants ====
 
 #pragma pack(push,1)

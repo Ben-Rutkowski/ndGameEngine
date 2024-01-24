@@ -7,14 +7,17 @@ SRC_mod  =libsrc/libsrc
 HEAD_mod =libsrc/headers
 COMP_mod =compiled
 
+# --- Dependecies ---
+COCOA_INTERFACE =/Users/benjaminrutkowski/Projects/ndGameEngine/Application/Application/interface
+
 # --- Compiling ---
 CXX =/usr/bin/clang++ 
 
 CXX_FLAGS_unit =-std=c++17 -Wall -fdiagnostics-color=always -c
-CXX_INC_unit   =-I$(HEAD_unit) 
+CXX_INC_unit   =-I$(HEAD_unit) -I$(COCOA_INTERFACE)
 
 CXX_FLAGS_mod =-std=c++17 -Wall -fdiagnostics-color=always -c
-CXX_INC_mod   =-I$(HEAD_mod) 
+CXX_INC_mod   =-I$(HEAD_mod) -I$(COCOA_INTERFACE)
 
 # --- Variables ---
 Source_unit  =$(wildcard $(SRC_unit)/*.cpp)

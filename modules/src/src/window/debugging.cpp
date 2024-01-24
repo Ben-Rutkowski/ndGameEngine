@@ -50,7 +50,7 @@ void ndWindowModule::onDebug(ndEvent* event) {
         
     } 
     
-    if (DEBUG_count == DEBUG_KILL) {
-        killCocoa();
-    }
+    // if (DEBUG_count == DEBUG_KILL) {
+    //     killCocoa();
+    // }
 }
