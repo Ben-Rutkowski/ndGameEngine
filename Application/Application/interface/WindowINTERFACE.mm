@@ -6,7 +6,7 @@
 ndWindow::ndWindow(int width, int height, const char* title) {    
     NSLog(@"Building Window");
     @autoreleasepool {
-//        --- Winodw ---
+//        --- Window ---
         NSRect frame = NSMakeRect(0, 0, width, height);
         NSWindowStyleMask style = NSWindowStyleMaskClosable | NSWindowStyleMaskTitled | NSWindowStyleMaskResizable;
         NSWindow* window = [[NSWindow alloc] initWithContentRect:frame
@@ -34,7 +34,7 @@ ndWindow::ndWindow(int width, int height, const char* title) {
         [nd_view setRenderSwitcher:render_switcher];
     
 //        --- Class Attributes ---
-        window_COCOA         = (__bridge void*)[window retain];
+        window_COCOA          = (__bridge void*)[window retain];
         window_delegate_COCOA = (__bridge void*)[window_delegate retain];
         nd_view_COCOA         = (__bridge void*)[nd_view retain];
         render_switcher_COCOA = (__bridge void*)[render_switcher retain];

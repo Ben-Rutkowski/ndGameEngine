@@ -38,11 +38,6 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
     pollEventsCocoa();
 }
 
-typedef struct {
-    alignas(16) vec2 position;
-    alignas(16) vec4 color;
-} TestStruct;
-
 void ndWindowModule::onDebug(ndEvent* event) {
     DEBUG_count += 1;
     if (DEBUG_count == DEBUG_BREAK) 

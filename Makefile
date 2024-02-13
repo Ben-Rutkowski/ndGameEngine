@@ -15,7 +15,8 @@ FRAMEWORKS =-framework AppKit -framework Metal -framework MetalKit -framework Qu
 # COCOA_INTERFACE = Application/Application/interface
 
 # --- Compiling ---
-CXX =/usr/bin/clang++
+# CXX =/usr/bin/clang++
+CXX =clang++
 
 CXX_FLAGS =-Wall -fdiagnostics-color=always -fno-objc-arc -g
 # CXX_INC   =-I$(COCOA_INTERFACE)

@@ -12,7 +12,8 @@ COCOA_INTERFACE =/Users/benjaminrutkowski/Projects/ndGameEngine/Application/Appl
 LIB_INCLUDE     =/Users/benjaminrutkowski/Projects/ndGameEngine/lib/libsrc/headers
 
 # --- Compiling ---
-CXX =/usr/bin/clang++ 
+# CXX =/usr/bin/clang++ 
+CXX =clang++ 
 
 CXX_FLAGS_unit =-std=c++17 -Wall -fdiagnostics-color=always -c
 CXX_INC_unit   =-I$(HEAD_unit) -I$(COCOA_INTERFACE) -I$(LIB_INCLUDE)

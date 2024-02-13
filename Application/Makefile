@@ -17,9 +17,13 @@ LIB_shdr  =compiled/shader_lib
 MTL_LIB  =compiled/shader_lib/MetalLibrary.metallib
 
 # --- Compiling ---
-CXX   =/usr/bin/clang++
-CC    =/usr/bin/clang
-XCODE =/usr/bin/xcrun
+# CXX   =/usr/bin/clang++
+# CC    =/usr/bin/clang
+# XCODE =/usr/bin/xcrun
+
+CXX   =clang++
+CC    =clang
+XCODE =xcrun
 
 OBJC_FLAGS_app =-Wall -c -fdiagnostics-color=always -fno-objc-arc
 OBJC_INC_app   =-I$(HEAD_app) -I$(HEAD_inter)

@@ -23,11 +23,6 @@ typedef struct V_EditMesh_pt {
     VECTOR_4F position;
     VECTOR_4F color;
 } V_EditMesh_pt;
-
-typedef struct V_EditMesh_tri {
-    VECTOR_4F position;
-    VECTOR_4F color;
-} V_EditMesh_tri;
 // ======== EditMesh ========
 
 
