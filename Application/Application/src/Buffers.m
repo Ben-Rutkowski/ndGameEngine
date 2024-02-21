@@ -23,7 +23,7 @@ typedef enum BufferPosition {
     NSUInteger    _vertex_count[2];
     NSUInteger    _refernce_count[2];
     
-    NSUInteger _current_index; // The index of the newsest buffer
+    NSUInteger _current_index; // The index of the newest buffer
     NSUInteger _active_index;  // The index of the buffer with the next draw command
     
     NSUInteger _vertex_size;
