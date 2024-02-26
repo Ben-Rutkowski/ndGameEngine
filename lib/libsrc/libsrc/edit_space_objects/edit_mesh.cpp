@@ -1,5 +1,5 @@
 #include "edit_space_objects/edit_mesh.hpp"
-#include "shader_types.h"
+#include "shader_types/shader_types.h"
 #include <vector>
 
 // ================ Initialization ================

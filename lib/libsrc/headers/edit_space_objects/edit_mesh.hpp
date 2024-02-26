@@ -2,7 +2,7 @@
 #define EDIT_MESH_HPP
 
 #include "math/matrix.hpp"
-#include "shader_types.h"
+#include "shader_types/shader_types.h"
 #include <vector>
 
 struct DCEL_HalfEdge {

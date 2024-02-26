@@ -61,19 +61,19 @@
 
 
 // ==== Draw ====
-- (void)predrawOpenInBuffers {
+- (void) predrawOpenInBuffers {
     for (int i=0; i<_buffers.count; i++) {
         [_buffers[i] predrawOpen];
     }
 }
 
-- (void)predrawCloseInBuffers {
+- (void) predrawCloseInBuffers {
     for (int i=0; i<_buffers.count; i++) {
         [_buffers[i] predrawClose];
     }
 }
 
-- (void)drawCompletedInBuffers {
+- (void) drawCompletedInBuffers {
     for (int i=0; i<_buffers.count; i++) {
         [_buffers[i] drawCompleted];
     }
@@ -83,26 +83,6 @@
 // ==== Debug ====
 - (void) debugBuffer:(NSUInteger)vertex_count {
     [_buffers[_current_buffer] debug:vertex_count];
-}
-
-@end
-
-
-// ================ Null Draw Routine ================
-@implementation NullDrawRoutine
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                           commandQueue:(nonnull id<MTLCommandQueue>)command_queue
-                                library:(nonnull id<MTLLibrary>)library
-                            pixelFormat:(MTLPixelFormat)pixel_format
-{
-    self = [super init];
-    return self;
-}
-
-- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
-{
-//    NSLog(@"-- Draw in Null Draw Routine --");
 }
 
 @end

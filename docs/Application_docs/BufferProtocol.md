@@ -1,4 +1,4 @@
-# **Protocol** | BufferProtocol
+# **Protocol** | Buffer Protocol
 A virtual buffer that keeps a rotation of buffers. Allows to parallelize draw encoding and writing.
 ```
 @protocol BufferProtocol

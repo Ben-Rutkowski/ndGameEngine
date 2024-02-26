@@ -1,4 +1,5 @@
 #import "DrawRoutines.h"
+#import "shader_types/shader_types.h"
 
 @implementation LineSubroutine
 {

@@ -12,18 +12,6 @@ typedef enum SubroutineEnum {
 } SubroutineEnum;
 
 
-// ================ Subroutine Protocol ================
-@protocol DrawSubroutineProtocol
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                                library:(nonnull id<MTLLibrary>)library
-                            pixelFormat:(MTLPixelFormat)pixel_format;
-
-- (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
-                        inTexture:(nonnull id<MTLTexture>)texture;
-
-@end
-
-
 // ================ Subroutine Template ================
 @interface DrawSubroutineTemplate : NSObject
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device

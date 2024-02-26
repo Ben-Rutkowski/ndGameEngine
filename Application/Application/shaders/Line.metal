@@ -1,7 +1,7 @@
 #define __IN_SHADER__
 #define __LINE_INTERNAL_TYPE__
 #include <metal_stdlib>
-#include "shader_types.h"
+#include "shader_types/shader_types.h"
 
 struct Line_Triangalized_Raster {
     float4 position [[position]];

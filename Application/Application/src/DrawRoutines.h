@@ -11,52 +11,41 @@
 #import "DrawRoutineTemplates.h"
 #import "DrawSubroutineTemplate.h"
 
-/*  Subroutine protocol
-    - configure with a pixel format :
-        - compile all pipelinestates
-        - finalize render pass descrptor
-        - run finalize config
- 
-    - encode subroutine :
-        - set render pass to current drawable
-        - encode all commands in given command buffer
- 
-    {
-        Private varables :
-            - pipelines
-            - buffers (they live in the routine class)
-            - aux
-    }
-*/
-
 // ================ SUBROUTINES ================
+@protocol DrawSubroutineProtocol
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                                library:(nonnull id<MTLLibrary>)library
+                            pixelFormat:(MTLPixelFormat)pixel_format;
+
+- (void) encodeSubroutineInBuffer:(nonnull id<MTLCommandBuffer>)command_buffer
+                        inTexture:(nonnull id<MTLTexture>)texture;
+
+@end
+
+
 @interface StaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
 
 @interface LineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
 
-/*  Routine Protocol
-    - init with device and library :
-        - init super with device
-        - init all subroutines with device and library
-    
-    - configure with pixel formate :
-        - configure all subroutines
- 
-    - draw in drawable :
-        - encode all subroutine commands
-        - commit in current drawable
- 
-     {
-         Private varables :
-             - subroutines
-             - buffers
-             - aux
-     }
-*/
 
 // ================ ROUTINES ================
+@protocol DrawRoutineProtocol
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                           commandQueue:(nonnull id<MTLCommandQueue>)command_queue
+                                library:(nonnull id<MTLLibrary>)library
+                            pixelFormat:(MTLPixelFormat)pixel_format;
+
+// --- Draw ---
+- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
+        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
+
+@end
+
+@interface NullDrawRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
+@end
+
 @interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 

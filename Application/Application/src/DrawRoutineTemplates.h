@@ -3,21 +3,7 @@
 
 #import <MetalKit/MetalKit.h>
 #import "Buffers.h"
-#import "shader_types.h"
-
-
-// ================ Routine Protocol ================
-@protocol DrawRoutineProtocol
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                           commandQueue:(nonnull id<MTLCommandQueue>)command_queue
-                                library:(nonnull id<MTLLibrary>)library
-                            pixelFormat:(MTLPixelFormat)pixel_format;
-
-// --- Draw ---
-- (void) drawInDrawable:(nonnull id<CAMetalDrawable>)drawable
-        inCommandBuffer:(nonnull id<MTLCommandBuffer>)command_buffer;
-
-@end
+// #import "shader_types.h"
 
 
 // ================ Routine Template ================
@@ -45,11 +31,6 @@
 // --- Debug ---
 - (void) debugBuffer:(NSUInteger)vertex_count;
 
-@end
-
-
-// ================ Null Draw Routine ================
-@interface NullDrawRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 
 #endif

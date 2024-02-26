@@ -1,6 +1,6 @@
 #include "window.hpp"
 #include "math/matrix.hpp"
-#include "shader_types.h"
+#include "shader_types/shader_types.h"
 #define DEBUG_BREAK 5
 #define DEBUG_KILL  5
 static int DEBUG_count;

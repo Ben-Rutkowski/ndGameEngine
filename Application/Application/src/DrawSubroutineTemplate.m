@@ -4,7 +4,7 @@
 @implementation DrawSubroutineTemplate
 {
 //    --- Hidden Metal Components ---
-    id<MTLDevice>  _hidden_device;
+    id<MTLDevice> _hidden_device;
     
     id<BufferProtocol> _buffer[5];
     
