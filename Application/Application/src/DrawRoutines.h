@@ -29,6 +29,9 @@
 @interface LineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
 
+@interface ThickLineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
+@end
+
 
 // ================ ROUTINES ================
 @protocol DrawRoutineProtocol

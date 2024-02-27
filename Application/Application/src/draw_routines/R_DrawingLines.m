@@ -4,7 +4,7 @@
 
 @implementation DrawingLines
 {
-    LineSubroutine* _draw_line_subroutine;
+    ThickLineSubroutine* _draw_line_subroutine;
 }
 
 
@@ -18,9 +18,9 @@
                     commandQueue:command_queue
                  numberOfBuffers:R_Debug_BufferCount];
     if (self) {
-        _draw_line_subroutine = [[LineSubroutine alloc]
+        _draw_line_subroutine = [[ThickLineSubroutine alloc]
                                  initWithDevice:device
-                                        library:library
+                                        library:library 
                                     pixelFormat:pixel_format];
     }
     return self;
@@ -31,11 +31,11 @@
 - (void) drawInDrawable:(id<CAMetalDrawable>)drawable
         inCommandBuffer:(id<MTLCommandBuffer>)command_buffer
 {
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer0]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer0] 
                               atIndex:S_Main];
-    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer1]
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_Buffer1] 
                               atIndex:S_Aux0];
-    [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer
+    [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer 
                                           inTexture:drawable.texture];
 }
 

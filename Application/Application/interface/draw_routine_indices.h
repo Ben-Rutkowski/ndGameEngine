@@ -6,12 +6,12 @@ typedef enum DrawRoutineKind {
     DrawRoutineKindDebug = 1
 } DrawRoutineKind;
 
-typedef enum DrawingLineBuffer {
+typedef enum DebugBuffer {
     R_Debug_Buffer0 = 0,
     R_Debug_Buffer1 = 1,
     R_Debug_Buffer2 = 2,
     
     R_Debug_BufferCount
-} DrawingLineBuffer;
+} DebugBuffer;
 
 #endif

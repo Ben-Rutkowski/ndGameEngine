@@ -11,7 +11,7 @@ typedef enum ndEditSpaceState { ndEditSpaceStateNull = 0,
 
 class ndEditSapceModule : public ndModule<ndEditSpaceStateLen> {
 private:
-    EditMesh test_mesh;
+    // EditMesh test_mesh;
 
 // --- Initialization ---
 public:
