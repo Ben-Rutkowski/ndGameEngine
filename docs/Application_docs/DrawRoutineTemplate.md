@@ -7,7 +7,7 @@ Executes the entire sequence of steps in a frame draw. Owns every buffer used to
 ### Description
 A `DrawRoutineTemplate` is a parent class for any draw routine. A draw routine contains the entire routine of every frame draw. That is, the `drawInDrawable:inCommandBuffer:` function is called once on every frame.
 
-The `DrawRoutineTemplate` keeps some arrays of `id<BufferProtocol>` which are controlled by binding them using an ID. When the `RenderSwitcher` calls the armed routine to draw, it calls `predrawOpenInBuffers` and `predrawCloseInBuffers`. The `DrawRoutineTemplate` will then call the corresponding functions (`predrawOpen` and `predrawClose`) on each of the buffers in the array.
+The `DrawRoutineTemplate` keeps some arrays of `id<BufferProtocol>` (dynamic, static, and rapid) which are controlled by binding them using an ID. When the `RenderSwitcher` calls the armed routine to draw, it calls `predrawOpenInBuffers` and `predrawCloseInBuffers`. The `DrawRoutineTemplate` will then call the corresponding functions (`predrawOpen` and `predrawClose`) on each of the buffers in the array.
 
 # Methods
 ## Resources

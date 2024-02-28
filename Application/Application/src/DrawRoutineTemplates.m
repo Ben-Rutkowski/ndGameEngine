@@ -15,21 +15,21 @@
 
 - (instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                    commandQueue:(id<MTLCommandQueue>)command_queue
-                numberOfBuffers:(NSUInteger)buffer_count
-//          numberOfStaticBuffers:(NSUInteger)static_buffer_count
+         numberOfDynamicBuffers:(NSUInteger)dynamic_buffer_count
+          numberOfStaticBuffers:(NSUInteger)static_buffer_count
 {
     self = [super init];
     if (self) {
         _device        = device;
         _command_queue = command_queue;
-        _dynamic_buffers = [NSMutableArray arrayWithCapacity:buffer_count];
+        _dynamic_buffers = [NSMutableArray arrayWithCapacity:dynamic_buffer_count];
         NullBuffer* null_buffer = [NullBuffer new];
-        for (int i=0; i<buffer_count; i++) {
+        for (int i=0; i<dynamic_buffer_count; i++) {
             [_dynamic_buffers addObject:null_buffer];
         }
 
-        _static_buffers = [NSMutableArray arrayWithCapacity:buffer_count];
-        for (int i=0; i<buffer_count; i++) {
+        _static_buffers = [NSMutableArray arrayWithCapacity:static_buffer_count];
+        for (int i=0; i<static_buffer_count; i++) {
             [_static_buffers addObject:null_buffer];
         }
     }

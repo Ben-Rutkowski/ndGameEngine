@@ -11,8 +11,8 @@
 @interface DrawRoutineTemplate : NSObject
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                            commandQueue:(nonnull id<MTLCommandQueue>)command_queue
-                        numberOfBuffers:(NSUInteger)buffer_count;
-//                  numberOfStaticBuffers:(NSUInteger)static_buffer_count;
+                 numberOfDynamicBuffers:(NSUInteger)dynamic_buffer_count
+                  numberOfStaticBuffers:(NSUInteger)static_buffer_count;
 
 // --- Resources ---
 - (void) createBufferWithVertexSize:(NSUInteger)vertex_size

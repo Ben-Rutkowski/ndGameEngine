@@ -1,4 +1,5 @@
 #import "DrawRoutines.h"
+#include "draw_routine_indices.h"
 
 #define LINEBUFFERCOUNT 3
 
@@ -15,8 +16,10 @@
                             pixelFormat:(MTLPixelFormat)pixel_format
 {
     self = [super initWithDevice:device 
-                    commandQueue:command_queue
-                 numberOfBuffers:R_Debug_BufferCount];
+                    commandQueue:command_queue 
+          numberOfDynamicBuffers:R_Debug_BufferCount 
+           numberOfStaticBuffers:0];
+
     if (self) {
         _draw_line_subroutine = [[ThickLineSubroutine alloc]
                                  initWithDevice:device
