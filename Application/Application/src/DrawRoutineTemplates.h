@@ -2,6 +2,7 @@
 #define DRAW_ROUTINE_TEMPLATES_H
 
 #import <MetalKit/MetalKit.h>
+#include <objc/NSObjCRuntime.h>
 #import "Buffers.h"
 // #import "shader_types.h"
 
@@ -11,12 +12,11 @@
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                            commandQueue:(nonnull id<MTLCommandQueue>)command_queue
                         numberOfBuffers:(NSUInteger)buffer_count;
+//                  numberOfStaticBuffers:(NSUInteger)static_buffer_count;
 
 // --- Resources ---
 - (void) createBufferWithVertexSize:(NSUInteger)vertex_size
-                        vertexCount:(NSUInteger)vertex_count
-                        storageMode:(MTLResourceOptions)storage_mode;
-
+                        vertexCount:(NSUInteger)vertex_count;
 
 - (void) bindBuffer:(NSUInteger)index;
 - (nullable id<BufferProtocol>) bufferAt:(NSUInteger)index;

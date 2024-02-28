@@ -7,7 +7,7 @@ Executes the entire sequence of steps in a frame draw. Owns every buffer used to
 ### Description
 A `DrawRoutineTemplate` is a parent class for any draw routine. A draw routine contains the entire routine of every frame draw. That is, the `drawInDrawable:inCommandBuffer:` function is called once on every frame.
 
-The `DrawRoutineTemplate` keeps an array of `id<BufferProtocol>` which are controlled by binding them using an ID. When the `RenderSwitcher` calls the armed routine to draw, it calls `predrawOpenInBuffers` and `predrawCloseInBuffers`. The `DrawRoutineTemplate` will then call the corresponding functions (`predrawOpen` and `predrawClose`) on each of the buffers in the array.
+The `DrawRoutineTemplate` keeps some arrays of `id<BufferProtocol>` which are controlled by binding them using an ID. When the `RenderSwitcher` calls the armed routine to draw, it calls `predrawOpenInBuffers` and `predrawCloseInBuffers`. The `DrawRoutineTemplate` will then call the corresponding functions (`predrawOpen` and `predrawClose`) on each of the buffers in the array.
 
 # Methods
 ## Resources
@@ -15,8 +15,7 @@ The `DrawRoutineTemplate` keeps an array of `id<BufferProtocol>` which are contr
 Creates a `id<BufferProtocol>` and adds it to the array of buffers `buffers`.
 ```
 - (void) createBufferWithVertexSize:(NSUInteger)vertex_size
-                        vertexCount:(NSUInteger)vertex_count
-                        storageMode:(MTLResourceOptions)storage_mode;
+                        vertexCount:(NSUInteger)vertex_count;
 ```
 
 ### Bind Buffer
@@ -75,10 +74,10 @@ The Metal command queue owned by the `RenderSwitcher`
 id<MTLCommandQueue> _command_queue;
 ```
 
-### buffers
+### dynamic buffers
 The array of dynamic buffers used in the draw routine.
 ```
-NSMutableArray<id<BufferProtocol>>* _buffers;
+NSMutableArray<id<BufferProtocol>>* _dynamic_buffers;
 ```
 
 ### current buffer
