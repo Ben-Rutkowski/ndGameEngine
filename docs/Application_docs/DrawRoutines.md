@@ -1,11 +1,13 @@
 # **Protocol** | Draw Subroutine Protocol
-Draw Subroutines take buffers as registers and preform a single draw step, *e.g.* drawing triangles to the screen.
+Draw Subroutines take buffers as registers and uniforms and preform a single draw step, *e.g.* drawing triangles to the screen.
 ```
 @protocol DrawSubroutineProtocol
 ```
 
 ### Description
-A protocol for interfacing with a draw sub routine. Draw subroutines are owned by draw routines. In the initialization of a `DrawSubroutineProtocol`, all of the necessary pipeline states must be created. And in the encoding stage, the specific subroutine is encoded onto a texture. Any draw routine that owns a subroutine will first attach buffers to the subroutine and then encode into it.
+A protocol for interfacing with a draw sub routine. Draw subroutines are owned by draw routines. In the initialization of a `DrawSubroutineProtocol`, all of the necessary pipeline states must be created. 
+
+In the encoding stage, the specific subroutine is encoded onto a texture. Any draw routine that owns a subroutine will first link buffers and uniforms to the subroutine and then encode into it.
 
 # Methods
 ### Initialize

@@ -1,7 +1,6 @@
 #include "draw_routine_indices.h"
 #include "window.hpp"
 #include "math/matrix.hpp"
-#include "shader_types/shader_types.h"
 #define __INTERNAL__
 #include "shader_types/S_thick_line_types.h"
 #define DEBUG_BREAK 5
@@ -35,6 +34,10 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
     nd_window.showWindow();
     nd_window.armRoutine(debug_routine);
     pollEventsCocoa();
+}
+
+void ndWindowModule::onDraw(ndEvent* event) {
+    nd_window.drawView();
 }
 
 void ndWindowModule::onDebug(ndEvent* event) {

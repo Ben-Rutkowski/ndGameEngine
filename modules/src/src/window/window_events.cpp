@@ -39,9 +39,9 @@ void ndWindowModule::onStartFrame(ndEvent* event) {
 void ndWindowModule::onDrawWindowFrame(ndEvent* event) {
 }
 
-void ndWindowModule::onDraw(ndEvent* event) {
-    nd_window.drawView();
-}
+// void ndWindowModule::onDraw(ndEvent* event) {
+//     nd_window.drawView();
+// }
 
 void ndWindowModule::onEndFrame(ndEvent* event) {
 }

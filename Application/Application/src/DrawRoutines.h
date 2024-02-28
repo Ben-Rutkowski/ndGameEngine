@@ -1,6 +1,7 @@
 /*
-    Routines and subroutines have no knowledge of the device
-    Distict buffer methods for each (sub)routine
+    // (IDK  even know about this anymore) ((I think it's wrong))!
+    // Routines and subroutines have no knowledge of the device
+    // Distict buffer methods for each (sub)routine
 */
 
 #ifndef DRAW_ROUTINES_H
@@ -10,6 +11,7 @@
 #import "cocoa_interface.hpp"
 #import "DrawRoutineTemplates.h"
 #import "DrawSubroutineTemplate.h"
+#import "shader_types/uniform_types.h"
 
 // ================ SUBROUTINES ================
 @protocol DrawSubroutineProtocol
@@ -23,11 +25,11 @@
 @end
 
 
-@interface StaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
-@end
-
-@interface LineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
-@end
+// @interface StaticShapeSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
+// @end
+// 
+// @interface LineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
+// @end
 
 @interface ThickLineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
@@ -49,8 +51,8 @@
 @interface NullDrawRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 
-@interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
-@end
+// @interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
+// @end
 
 @interface DrawingLines : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
