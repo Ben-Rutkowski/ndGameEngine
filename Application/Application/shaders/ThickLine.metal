@@ -9,8 +9,7 @@ INT_ThickLine_computeShader(              uint              tidx     [[thread_po
                                    device INT_Cluster_T*    cluster  [[buffer(INT_triang_cluster_I)]],
                              const device ThickLinePoint_T* vertices [[buffer(INT_vertices_I)]] )
 {
-    // const float width = 0.005;
-    const float width = 0.05;
+    const float width = 0.005;
 
     ThickLinePoint_T tail;
     ThickLinePoint_T tip;
