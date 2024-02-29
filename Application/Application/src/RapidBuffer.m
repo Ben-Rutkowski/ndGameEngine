@@ -1,14 +1,11 @@
 #import "Buffers.h"
-#include "shader_types/uniform_types.h"
 
 @implementation RapidBuffer
 {
     id<MTLDevice>       _device;
-    id<MTLCommandQueue> _command_queue;
 
 //    --- Buffers Data ---
     id<MTLBuffer> _buffers[3];
-    id<MTLBuffer> _working_buffer;
 
     NSUInteger _vertex_count;
     NSUInteger _vertex_size;
@@ -30,7 +27,6 @@
     self = [super init];
     if (self) {
         _device        = device;
-        _command_queue = command_queue;
 
         _vertex_size  = vertex_size;
         _vertex_count = vertex_count;
@@ -69,7 +65,9 @@
 }
 
 - (void) predrawClose {
-    _next_to_draw = (_next_to_draw+1)%3;
+    if (_next_to_draw != _next_to_write) {
+        _next_to_draw = (_next_to_draw+1)%3;
+    }
 }
 
 - (void) drawCompleted {
