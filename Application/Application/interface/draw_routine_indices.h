@@ -1,6 +1,11 @@
 #ifndef DRAW_ROUTINE_INDICES_H
 #define DRAW_ROUTINE_INDICES_H
 
+typedef enum Buffer_T {
+    DynamicBuffer_T,
+    RapidBuffer_T
+} Buffer_T;
+
 typedef enum DrawRoutineKind {
     DrawRoutineKindNull  = 0,
     DrawRoutineKindDebug = 1

@@ -38,38 +38,38 @@ typedef enum BufferPosition {
 
 
 // ==== Configure ====
-- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
-                       blitCommandQueue:(nonnull id<MTLCommandQueue>)command_queue
-                             vertexSize:(NSUInteger)vertex_size
-                            vertexCount:(NSUInteger)vertex_count
-                         andStorageMode:(MTLResourceOptions)storage_mode
-{
-    self = [super init];
-    if (self) {
-        _device        = device;
-        _command_queue = command_queue;
-        
-        _current_index = FrontBuffer;
-        _active_index  = FrontBuffer;
-        _refernce_count[FrontBuffer] = 0;
-        _refernce_count[BackBuffer]  = 0;
-        _vertex_count[FrontBuffer] = vertex_count;
-        _vertex_count[BackBuffer]  = vertex_count;
-        _vertex_size = vertex_size;
-        
-        _buffer[FrontBuffer] = [_device newBufferWithLength:vertex_size*vertex_count
-                                          options:MTLResourceStorageModePrivate];
-        _buffer[BackBuffer]  = [_device newBufferWithLength:vertex_size*vertex_count
-                                           options:MTLResourceStorageModeShared];
-            
-        _swap_phase = WriteComplete_EncodeFront_DrawFront;
-        _index_swap_semaphore      = dispatch_semaphore_create(1);
-        _encode_on_queue_semaphore = dispatch_semaphore_create(1);
-        _complete_swap_semaphore   = dispatch_semaphore_create(1);
-    }
-    
-    return self;
-}
+// - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+//                        blitCommandQueue:(nonnull id<MTLCommandQueue>)command_queue
+//                              vertexSize:(NSUInteger)vertex_size
+//                             vertexCount:(NSUInteger)vertex_count
+//                          andStorageMode:(MTLResourceOptions)storage_mode
+// {
+//     self = [super init];
+//     if (self) {
+//         _device        = device;
+//         _command_queue = command_queue;
+//         
+//         _current_index = FrontBuffer;
+//         _active_index  = FrontBuffer;
+//         _refernce_count[FrontBuffer] = 0;
+//         _refernce_count[BackBuffer]  = 0;
+//         _vertex_count[FrontBuffer] = vertex_count;
+//         _vertex_count[BackBuffer]  = vertex_count;
+//         _vertex_size = vertex_size;
+//         
+//         _buffer[FrontBuffer] = [_device newBufferWithLength:vertex_size*vertex_count
+//                                           options:MTLResourceStorageModePrivate];
+//         _buffer[BackBuffer]  = [_device newBufferWithLength:vertex_size*vertex_count
+//                                            options:MTLResourceStorageModeShared];
+//             
+//         _swap_phase = WriteComplete_EncodeFront_DrawFront;
+//         _index_swap_semaphore      = dispatch_semaphore_create(1);
+//         _encode_on_queue_semaphore = dispatch_semaphore_create(1);
+//         _complete_swap_semaphore   = dispatch_semaphore_create(1);
+//     }
+//     
+//     return self;
+// }
 
 - (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
                        blitCommandQueue:(nonnull id<MTLCommandQueue>)command_queue

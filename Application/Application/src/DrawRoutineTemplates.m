@@ -40,6 +40,7 @@
 // ==== Resources ====
 - (void)createBufferWithVertexSize:(NSUInteger)vertex_size 
                        vertexCount:(NSUInteger)vertex_count
+                        bufferType:(NSUInteger)buffer_type
 {
     _dynamic_buffers[_current_buffer] = [[DynamicBuffer alloc] 
                                  initWithDevice:_device

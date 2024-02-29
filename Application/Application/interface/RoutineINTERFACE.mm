@@ -11,16 +11,25 @@ void ndRoutine::bindBuffer(unsigned int buffer_index) {
     [draw_routine bindBuffer:buffer_index];
 }
 
-void ndRoutine::createPublicBuffer(unsigned int vertex_size, unsigned int vertex_count) {
-    DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
-    [draw_routine createBufferWithVertexSize:vertex_size
-                                 vertexCount:vertex_count];
-}
+// void ndRoutine::createPublicBuffer(unsigned int vertex_size, unsigned int vertex_count) {
+//     DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
+//     [draw_routine createBufferWithVertexSize:vertex_size
+//                                  vertexCount:vertex_count
+//                                   bufferType:0];
+// }
+// 
+// void ndRoutine::createAuxBuffer(unsigned int vertex_size, unsigned int vertex_count) {
+//     DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
+//     [draw_routine createBufferWithVertexSize:vertex_size
+//                                  vertexCount:vertex_count
+//                                   bufferType:0];
+// }
 
-void ndRoutine::createAuxBuffer(unsigned int vertex_size, unsigned int vertex_count) {
+void ndRoutine::createBuffer(Buffer_T buffer_type, unsigned int vertex_size, unsigned int vertex_count) {
     DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
     [draw_routine createBufferWithVertexSize:vertex_size
-                                 vertexCount:vertex_count];
+                                 vertexCount:vertex_count
+                                  bufferType:buffer_type];
 }
 
 void* ndRoutine::writeBufferOpen() {

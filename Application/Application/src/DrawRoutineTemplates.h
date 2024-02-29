@@ -16,7 +16,8 @@
 
 // --- Resources ---
 - (void) createBufferWithVertexSize:(NSUInteger)vertex_size
-                        vertexCount:(NSUInteger)vertex_count;
+                        vertexCount:(NSUInteger)vertex_count
+                         bufferType:(NSUInteger)buffer_type;
 
 - (void) bindBuffer:(NSUInteger)index;
 - (nullable id<BufferProtocol>) bufferAt:(NSUInteger)index;

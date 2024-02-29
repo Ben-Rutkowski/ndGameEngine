@@ -25,8 +25,10 @@ public:
     ndRoutine(void* renderer_ptr, unsigned long index);
 
     void bindBuffer(unsigned int buffer_index);
-    void createPublicBuffer(unsigned int vertex_size, unsigned int vertex_count);
-    void createAuxBuffer(unsigned int vertex_size, unsigned int vertex_count);
+    // void createPublicBuffer(unsigned int vertex_size, unsigned int vertex_count);
+    // void createAuxBuffer(unsigned int vertex_size, unsigned int vertex_count);
+
+    void createBuffer(Buffer_T buffer_type, unsigned int vertex_size, unsigned int vertex_count);
     
     void* writeBufferOpen();
     void  writeBufferClose();

@@ -12,9 +12,11 @@ static ndRoutine debug_routine = {nullptr, 0};
 void ndWindowModule::onBeginStartUp(ndEvent* event) {
     debug_routine = nd_window.createDrawRoutine(DrawRoutineKindDebug);
     debug_routine.bindBuffer(R_Debug_DynamicBuffer1);
-    debug_routine.createAuxBuffer(sizeof(INT_Point_T), 18*2);
+    // debug_routine.createAuxBuffer(sizeof(INT_Point_T), 18*2);
+    debug_routine.createBuffer(DynamicBuffer_T, sizeof(INT_Point_T), 18*2);
     debug_routine.bindBuffer(R_Debug_DynamicBuffer0);
-    debug_routine.createPublicBuffer(sizeof(ThickLinePoint_T), 4);
+    // debug_routine.createPublicBuffer(sizeof(ThickLinePoint_T), 4);
+    debug_routine.createBuffer(DynamicBuffer_T, sizeof(ThickLinePoint_T), 4);
     ThickLinePoint_T* vertices = (ThickLinePoint_T*)debug_routine.writeBufferOpen();
     vertices[0].position = { -0.5f, 0.0f };
     vertices[1].position = {  0.5f, 0.0f };
