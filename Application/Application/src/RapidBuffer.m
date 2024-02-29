@@ -1,5 +1,5 @@
 #import "Buffers.h"
-#include <objc/NSObjCRuntime.h>
+#include "shader_types/uniform_types.h"
 
 @implementation RapidBuffer
 {
@@ -18,7 +18,6 @@
 
 //    --- Thread Controllers ---
     dispatch_semaphore_t _in_flight_semaphore;
-
 }
 
 

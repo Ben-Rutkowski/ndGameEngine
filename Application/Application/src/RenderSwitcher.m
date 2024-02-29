@@ -49,9 +49,9 @@
             NSLog(@"Creating Null Routine");
             routine = [[NullDrawRoutine alloc]
                        initWithDevice:_device
-                       commandQueue:_command_queue
-                       library:_library
-                       pixelFormat:_view_pixel_format];
+                         commandQueue:_command_queue
+                              library:_library
+                          pixelFormat:_view_pixel_format];
             break;
         }
             
@@ -59,9 +59,9 @@
             NSLog(@"Creating Line Routine");
             routine = [[DrawingLines alloc]
                        initWithDevice:_device
-                       commandQueue:_command_queue
-                       library:_library
-                       pixelFormat:_view_pixel_format];
+                         commandQueue:_command_queue
+                              library:_library
+                          pixelFormat:_view_pixel_format];
             break;
         }
             

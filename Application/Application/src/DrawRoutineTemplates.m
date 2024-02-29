@@ -1,4 +1,6 @@
 #import "DrawRoutineTemplates.h"
+#include "Buffers.h"
+#include "draw_routine_indices.h"
 #include <Metal/Metal.h>
 
 // ================ Draw Routine Template ================
@@ -42,11 +44,28 @@
                        vertexCount:(NSUInteger)vertex_count
                         bufferType:(NSUInteger)buffer_type
 {
-    _dynamic_buffers[_current_buffer] = [[DynamicBuffer alloc] 
-                                 initWithDevice:_device
-                                 blitCommandQueue:_command_queue
-                                 vertexSize:vertex_size
-                                 vertexCount:vertex_count];
+    switch (buffer_type) {
+        case DynamicBuffer_T: {
+            _dynamic_buffers[_current_buffer] = [[DynamicBuffer alloc] 
+                                                 initWithDevice:_device
+                                               blitCommandQueue:_command_queue
+                                                     vertexSize:vertex_size
+                                                    vertexCount:vertex_count];
+            break;
+        }
+
+        case RapidBuffer_T: {
+            _dynamic_buffers[_current_buffer] = [[RapidBuffer alloc] 
+                                                 initWithDevice:_device
+                                               blitCommandQueue:_command_queue
+                                                     vertexSize:vertex_size
+                                                    vertexCount:vertex_count];
+            break;
+        }
+
+        default: break;
+    }
+
 }
 
 - (void) bindBuffer:(NSUInteger)index {
