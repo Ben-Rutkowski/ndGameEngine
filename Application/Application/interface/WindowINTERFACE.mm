@@ -1,4 +1,5 @@
 #import "cocoa_interface.hpp"
+#include <CoreFoundation/CoreFoundation.h>
 #import "WindowDelegate.h"
 #import "RenderSwitcher.h"
 #import "ndView.h"
@@ -51,6 +52,12 @@ bool ndWindow::shouldClose() {
 void ndWindow::showWindow() {
     NSWindow* window = (NSWindow*)window_COCOA;
     [window makeKeyAndOrderFront:nil];
+}
+
+ScreenSize ndWindow::getScreenSize() {
+    ndView* view = (ndView*)nd_view_COCOA;
+    CGSize  size = [view getWindowSize];
+    return {size.width, size.height};
 }
 
 

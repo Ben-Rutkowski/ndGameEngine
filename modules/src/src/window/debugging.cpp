@@ -1,3 +1,4 @@
+#include "cocoa_interface.hpp"
 #include "draw_routine_indices.h"
 #include "window.hpp"
 #include "math/matrix.hpp"
@@ -45,10 +46,15 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 
 void ndWindowModule::onDraw(ndEvent* event) {
     debug_routine.bindBuffer(R_Debug_DynamicBuffer2);
+    ScreenSize size = nd_window.getScreenSize();
+
+    const float pixels = 10.0f;
+
     UN_FrameData_T* frame_data = (UN_FrameData_T*)debug_routine.writeBufferOpen();
-    frame_data[0].aspect_ratio = 800.0f/600.0f;
-    frame_data[0].thickness    = 0.008f;
+    frame_data[0].aspect_ratio = (float)(size.width/size.height);
+    frame_data[0].thickness    = pixels/(2.0f*(float)size.height);
     debug_routine.writeBufferClose();
+
     nd_window.drawView();
 }
 

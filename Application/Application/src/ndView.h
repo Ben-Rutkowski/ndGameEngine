@@ -14,6 +14,7 @@
 
 // --- Configure ---
 - (NSUInteger) createDrawRoutine:(NSUInteger)draw_routine_kind;
+- (CGSize) getWindowSize;
 
 // --- Draw ---
 - (void) draw;

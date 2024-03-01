@@ -37,6 +37,10 @@
     return [_render_switcher createDrawRoutine:draw_routine_kind];
 }
 
+- (CGSize) getWindowSize {
+    return _metal_layer.drawableSize;
+}
+
 
 // ==== Size ====
 - (void) resizeDrawableScale:(CGFloat)scale_factor {

@@ -16,6 +16,11 @@ void killCocoa();
 
 
 // ======== Routine ========
+typedef struct ScreenSize {
+    double width;
+    double height;
+} ScreenSize;
+
 class ndRoutine {
 private:
     void* routine_ptr_COCOA;
@@ -56,6 +61,8 @@ public:
 // ==== Window Operations ====
     bool shouldClose();
     void showWindow();
+
+    ScreenSize getScreenSize();
     
 // ==== Draw ====
     void drawView();
