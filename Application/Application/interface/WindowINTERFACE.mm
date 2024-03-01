@@ -55,9 +55,12 @@ void ndWindow::showWindow() {
 }
 
 ScreenSize ndWindow::getScreenSize() {
+    ScreenSize screen_size;
     ndView* view = (ndView*)nd_view_COCOA;
     CGSize  size = [view getWindowSize];
-    return {size.width, size.height};
+    screen_size.width = size.width;
+    screen_size.height = size.height;
+    return screen_size;
 }
 
 

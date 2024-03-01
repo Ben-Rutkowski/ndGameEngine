@@ -1,5 +1,3 @@
-#include "DrawSubroutineTemplate.h"
-#include <Foundation/Foundation.h>
 #define __INTERNAL__
 #import "DrawRoutines.h"
 #import "shader_types/uniform_types.h"

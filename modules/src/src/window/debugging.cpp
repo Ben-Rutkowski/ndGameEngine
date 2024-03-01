@@ -27,14 +27,14 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     vertices[0].position = { -0.5f, 0.0f };
     vertices[1].position = {  0.5f, 0.0f };
 
-    vertices[0].color = { 1.0f, 1.0f, 1.0f, 1.0f};
-    vertices[1].color = { 1.0f, 1.0f, 1.0f, 1.0f};
+    vertices[0].color = { 0.3f, 0.3f, 0.0f, 1.0f};
+    vertices[1].color = { 0.0f, 0.0f, 0.0f, 1.0f};
 
     vertices[2].position = { -0.5f, 0.0f };
     vertices[3].position = {  0.5f, 0.5f };
 
-    vertices[2].color = { 1.0f, 0.3f, 0.0f, 1.0f};
-    vertices[3].color = { 1.0f, 1.0f, 1.0f, 1.0f};
+    vertices[2].color = { 0.3f, 0.3f, 0.0f, 1.0f};
+    vertices[3].color = { 0.0f, 0.0f, 0.0f, 1.0f};
     debug_routine.writeBufferClose();
 }
 
@@ -48,11 +48,9 @@ void ndWindowModule::onDraw(ndEvent* event) {
     debug_routine.bindBuffer(R_Debug_DynamicBuffer2);
     ScreenSize size = nd_window.getScreenSize();
 
-    const float pixels = 10.0f;
-
     UN_FrameData_T* frame_data = (UN_FrameData_T*)debug_routine.writeBufferOpen();
     frame_data[0].aspect_ratio = (float)(size.width/size.height);
-    frame_data[0].thickness    = pixels/(2.0f*(float)size.height);
+    frame_data[0].thickness    = 0.05f;
     debug_routine.writeBufferClose();
 
     nd_window.drawView();
