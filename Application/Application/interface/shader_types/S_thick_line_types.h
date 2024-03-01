@@ -18,13 +18,15 @@
 #endif
 
 typedef enum ThickLine_I {
-    vertices_I = 0
+    vertices_I     = 0,
+    aspect_ratio_I = 1
 } ThickLine_I;
 
 #ifdef __INTERNAL__
 typedef enum INT_Compute_I {
     INT_vertices_I       = 0,
-    INT_triang_cluster_I = 1
+    INT_triang_cluster_I = 1,
+    INT_aspect_ratio_I   = 2
 } INT_Compute_I;
 #endif
 

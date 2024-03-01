@@ -1,3 +1,5 @@
+#include "DrawSubroutineTemplate.h"
+#include <Foundation/Foundation.h>
 #define __INTERNAL__
 #import "DrawRoutines.h"
 #import "shader_types/uniform_types.h"
@@ -58,6 +60,9 @@
         [compute_encoder setBuffer:[[self buffer:S_Aux0] drawRelay]
                             offset:0 
                            atIndex:INT_triang_cluster_I];
+        [compute_encoder setBuffer:[[self buffer:S_Aux1] drawTap]
+                            offset:0 
+                           atIndex:INT_aspect_ratio_I];
         [compute_encoder dispatchThreads:mtl_thread_count 
                    threadsPerThreadgroup:mtl_thread_group_size];
         [compute_encoder endEncoding];
@@ -68,6 +73,9 @@
         [render_encoder setVertexBuffer:[[self buffer:S_Aux0] drawRelay]
                                  offset:0 
                                 atIndex:vertices_I];
+        [render_encoder setVertexBuffer:[[self buffer:S_Aux1] drawTap]
+                                 offset:0
+                                atIndex:aspect_ratio_I];
         [render_encoder drawPrimitives:MTLPrimitiveTypeTriangle
                            vertexStart:0 
                            vertexCount:[[self buffer:S_Aux0] getVertexCount]];

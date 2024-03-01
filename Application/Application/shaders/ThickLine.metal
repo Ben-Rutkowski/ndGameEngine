@@ -2,14 +2,17 @@
 #define __INTERNAL__
 #include <metal_stdlib>
 #include "shader_types/S_thick_line_types.h"
+#include "shader_types/uniform_types.h"
 
 // ================ Trianglize Line ================
 kernel void
-INT_ThickLine_computeShader(              uint              tidx     [[thread_position_in_grid]],
-                                   device INT_Cluster_T*    cluster  [[buffer(INT_triang_cluster_I)]],
-                             const device ThickLinePoint_T* vertices [[buffer(INT_vertices_I)]] )
+INT_ThickLine_computeShader(              uint              tidx       [[thread_position_in_grid]],
+                                   device INT_Cluster_T*    cluster    [[buffer(INT_triang_cluster_I)]],
+                             const device ThickLinePoint_T* vertices   [[buffer(INT_vertices_I)]],
+                                 constant UN_FrameData_T*   frame_data [[buffer(INT_aspect_ratio_I)]])
 {
-    const float width = 0.005;
+    float width        = frame_data[0].thickness;
+    float aspect_ratio = frame_data[0].aspect_ratio;
 
     ThickLinePoint_T tail;
     ThickLinePoint_T tip;
@@ -25,6 +28,9 @@ INT_ThickLine_computeShader(              uint              tidx     [[thread_po
  
     tail = vertices[2*tidx];
     tip  = vertices[2*tidx+1];
+
+    tail.position *= float2(aspect_ratio, 1.0);
+    tip.position  *= float2(aspect_ratio, 1.0);
 
     par  = width * metal::normalize(tip.position - tail.position);
     perp = float2(par.y, -par.x);
@@ -80,14 +86,17 @@ struct RasterType {
 
 
 vertex RasterType
-ThickLine_vertexShader(             uint         vidx     [[vertex_id]],
-                       const device INT_Point_T* vertices [[buffer(vertices_I)]])
+ThickLine_vertexShader(             uint            vidx       [[vertex_id]],
+                       const device INT_Point_T*    vertices   [[buffer(vertices_I)]],
+                           constant UN_FrameData_T* frame_data [[buffer(aspect_ratio_I)]])
 {
     RasterType out;
 
     out.position = float4(vertices[vidx].position, 0.0, 1.0);
     out.color    = vertices[vidx].color;
     out.uv       = vertices[vidx].uv;
+
+    out.position.x *= 1.0/frame_data[0].aspect_ratio;
 
     return out;
 }

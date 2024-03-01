@@ -27,6 +27,7 @@ typedef enum Uniforms_I {
 // ================ Types ================
 typedef struct UN_FrameData_T {
     float aspect_ratio;
+    float thickness;
 } UN_FrameData_T;
 
 #endif

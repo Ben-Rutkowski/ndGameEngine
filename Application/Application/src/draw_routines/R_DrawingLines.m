@@ -1,4 +1,5 @@
 #import "DrawRoutines.h"
+#include "DrawSubroutineTemplate.h"
 #import "shader_types/uniform_types.h"
 #import "draw_routine_indices.h"
 
@@ -39,6 +40,8 @@
                               atIndex:S_Main];
     [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_DynamicBuffer1] 
                               atIndex:S_Aux0];
+    [_draw_line_subroutine linkBuffer:[self bufferAt:R_Debug_DynamicBuffer2] 
+                              atIndex:S_Aux1];
     [_draw_line_subroutine encodeSubroutineInBuffer:command_buffer 
                                           inTexture:drawable.texture];
 }

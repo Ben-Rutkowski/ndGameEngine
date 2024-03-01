@@ -46,7 +46,8 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 void ndWindowModule::onDraw(ndEvent* event) {
     debug_routine.bindBuffer(R_Debug_DynamicBuffer2);
     UN_FrameData_T* frame_data = (UN_FrameData_T*)debug_routine.writeBufferOpen();
-    frame_data[0].aspect_ratio = 4.0f;
+    frame_data[0].aspect_ratio = 800.0f/600.0f;
+    frame_data[0].thickness    = 0.008f;
     debug_routine.writeBufferClose();
     nd_window.drawView();
 }
