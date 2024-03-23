@@ -120,6 +120,20 @@ public:
         return output;
     }
 
+    // static ndMatrix<float,4,4> makeLookAtMat(const vec4 front, const vec4 up, const vec4 right) {
+    //     /*
+    //      *  A rotation matrix that makes a focus go to the point (0, 0, -1, 0)
+    //      */
+
+    //     return ndMatrix<float,4,4>({
+    //         right[0], up[0], -front[0], 0.0f,
+    //         right[1], up[1], -front[1], 0.0f,
+    //         right[2], up[2], -front[2], 0.0f,
+    //         0.0f,     0.0f,   0.0f,     1.0f
+    //     });
+
+    // }
+
 // --- Debug ---
 public:
     void debug() {

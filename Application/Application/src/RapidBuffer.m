@@ -2,7 +2,7 @@
 
 @implementation RapidBuffer
 {
-    id<MTLDevice>       _device;
+    id<MTLDevice> _device;
 
 //    --- Buffers Data ---
     id<MTLBuffer> _buffers[3];

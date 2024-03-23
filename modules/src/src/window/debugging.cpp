@@ -1,3 +1,4 @@
+#include "camera.hpp"
 #include "cocoa_interface.hpp"
 #include "draw_routine_indices.h"
 #include "window.hpp"
@@ -5,8 +6,9 @@
 #define __INTERNAL__
 #include "shader_types/uniform_types.h"
 #include "shader_types/S_thick_line_types.h"
-#define DEBUG_BREAK 5
-#define DEBUG_KILL  5
+#define DEBUG_BREAK 1
+#define DEBUG_KILL  1
+
 static int DEBUG_count;
 
 static ndRoutine debug_routine = {nullptr, 0};
@@ -50,7 +52,7 @@ void ndWindowModule::onDraw(ndEvent* event) {
 
     UN_FrameData_T* frame_data = (UN_FrameData_T*)debug_routine.writeBufferOpen();
     frame_data[0].aspect_ratio = (float)(size.width/size.height);
-    frame_data[0].thickness    = 0.05f;
+    frame_data[0].thickness    = 0.005f;
     debug_routine.writeBufferClose();
 
     nd_window.drawView();
@@ -60,11 +62,11 @@ void ndWindowModule::onDebug(ndEvent* event) {
     DEBUG_count += 1;
     if (DEBUG_count == DEBUG_BREAK) 
     {
-        // debug_routine.bindBuffer(R_Debug_Buffer1);
-        // debug_routine.debug(6);
+        Camera camera(0.1f, 100.0f, 45.0f, 800.0f, 600.0f);
+        camera.debug();
     } 
     
-    // if (DEBUG_count == DEBUG_KILL) {
-    //     killCocoa();
-    // }
+    if (DEBUG_count == DEBUG_KILL) {
+        killCocoa();
+    }
 }

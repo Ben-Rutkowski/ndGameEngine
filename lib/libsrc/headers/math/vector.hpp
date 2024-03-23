@@ -95,6 +95,15 @@ public:
         return dot;
     }
 
+    ndVector<T,3> cross(const ndVector<T,3>& b) {
+        ndVector<T,3> output({
+            data[1]*b.get(2) - data[2]*b.get(1),
+            data[2]*b.get(0) - data[0]*b.get(2),
+            data[0]*b.get(1) - data[1]*b.get(0)
+        });
+        return output;
+    }
+
     T normL2() {
         T norm = this->dot(*this);
         return sqrt(norm);

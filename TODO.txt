@@ -1,12 +1,12 @@
 TODO: 
+
 == Imidiate tasks
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
-++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
+- create camera class
 
-+ CHANGE ONEVENTS TO SWITCH CASE
-+ CHANGE PAIR CACHE TO BALANCED BINARY SEARCH TREE
+++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
 - Face Mode and Wire Mode
 - Logging operations to allow undo
