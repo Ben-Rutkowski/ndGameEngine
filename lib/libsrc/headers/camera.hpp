@@ -8,10 +8,10 @@ const vec3 TRUE_UP = vec3({0.0f, 1.0f, 0.0f});
 class Camera {
 protected:
     // --- Camera Aspects ---
-    float near; // Near Plane
-    float far;  // Far Plane
-    float fov;  // Vertical angle
-    float width, height;
+    float aspect_ratio;
+    float fov;       // Vertical angle
+    float near, far; // Near and far plane
+    float height, width;
      
     // --- State ---
     vec4 position; // Position in world space
@@ -22,13 +22,16 @@ protected:
     mat4 view_M, orth_M, proj_M;
 
 public:
-    Camera(float near, float far, float fov, float width, float height);
+    Camera(float near, float far, float fov, float aspect_ratio);
     void resetFieldOfView(float fov);
     void resetAspectRatio(float width, float height);
 
-    mat4 getView() { return view_M; } 
-    mat4 getOrth() { return orth_M; }
-    mat4 getProj() { return proj_M; }
+    // mat4 getView() { return view_M; } 
+    // mat4 getOrth() { return orth_M; }
+    // mat4 getProj() { return proj_M; }
+
+    mat4 getOrth() { return orth_M*view_M; }
+    mat4 getProj() { return proj_M*view_M; }
 
 //    --- Controls ---
 public:
@@ -43,7 +46,7 @@ private:
     void recalcMats();
 
     mat4 calcView();
-    mat4 calcOrht();
+    mat4 calcOrth();
     mat4 calcProj();
 
 // --- Debug ---

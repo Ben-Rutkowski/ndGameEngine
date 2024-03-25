@@ -21,6 +21,7 @@
                               library:library];
         [self renderSetPixelFormat:pixel_format];
         [self renderSetVertexBufferImmutable:vertices_I];
+        [self renderSetVertexBufferImmutable:aspect_ratio_I];
         _draw_trianglized_line = [self compileRenderPipeline];
 
 //        --- Compute Pipeline ---

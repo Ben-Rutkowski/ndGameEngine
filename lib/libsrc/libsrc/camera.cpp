@@ -1,13 +1,23 @@
 #include "camera.hpp"
 #include "math/vector.hpp"
-#include <cstdlib>
+#include <cmath>
 #include <iostream>
 
-Camera::Camera(float near, float far, float fov, float width, float height)
-    :near{ near }, far{ far }, fov{ fov },
-    width{ width }, height{ height },
+const float CON = M_PI/360.0f;
+
+Camera::Camera(float near_, float far_, float fov_, float aspect_ratio_)
+    :aspect_ratio{ aspect_ratio_ }, fov{ fov_*CON }, near{ near_ }, far{ far_ },
+    height{ near*tanf(fov) }, width{ aspect_ratio*height },
     position(0.0f), pyr(0.0f)
 {
+    recalcAxes();
+    recalcMats();
+}
+
+
+// ================ Controls ================
+void Camera::setPosition(vec4 new_pos) {
+    position = new_pos;
     recalcAxes();
     recalcMats();
 }
@@ -28,7 +38,7 @@ void Camera::recalcAxes() {
 
 void Camera::recalcMats() {
     view_M = calcView();
-    orth_M = calcOrht();
+    orth_M = calcOrth();
     proj_M = calcProj();
 }
 
@@ -47,14 +57,26 @@ mat4 Camera::calcView() {
         0.0f,     0.0f,   0.0f,     1.0f
     });
 
-    return translate*rotation;
+    return rotation*translate;
 }
 
-mat4 Camera::calcOrht() { 
-    float t1 =  2.0f/width;
-    float t2 =  2.0f/height;
-    float t3 = -2.0f/(far-near);
-    float t4 = -(far+near)/(far-near);
+mat4 Camera::calcOrth() { 
+    // float t1 = 1.0f/aspect_ratio;
+    // float t2 = 1.0f;
+    // float t3 = -2.0f/(far-near);
+    // float t4 = -(far+near)/(far-near);
+
+    // return mat4({
+    //     t1,   0.0f, 0.0f, 0.0f,
+    //     0.0f, t2,   0.0f, 0.0f,
+    //     0.0f, 0.0f, t3,   0.0f,
+    //     0.0f, 0.0f, t4,   1.0f,
+    // });
+
+    float t1 = 1.0f/aspect_ratio;
+    float t2 = 1.0f;
+    float t3 = 1.0f/(near-far);
+    float t4 = near/(near-far);
 
     return mat4({
         t1,   0.0f, 0.0f, 0.0f,
@@ -65,8 +87,8 @@ mat4 Camera::calcOrht() {
 }
 
 mat4 Camera::calcProj() { 
-    // float t1 =  2.0f*near/width;
-    // float t2 =  2.0f*near/height;
+    // float t1 = near/width;
+    // float t2 = near/height;
     // float t3 = -(far+near)/(far-near);
     // float t4 = -2.0f*far*near/(far-near);
 
@@ -76,8 +98,18 @@ mat4 Camera::calcProj() {
     //     0.0f, 0.0f, t3,   -1.0f,
     //     0.0f, 0.0f, t4,    0.0f
     // });
-    
-    return mat4(0.0f);
+
+    float t1 = near/width;
+    float t2 = near/height;
+    float t3 = far/(near-far);
+    float t4 = near*far/(near-far);
+
+    return mat4({
+        t1,   0.0f, 0.0f,  0.0f,
+        0.0f, t2,   0.0f,  0.0f,
+        0.0f, 0.0f, t3,   -1.0f,
+        0.0f, 0.0f, t4,    0.0f
+    });
 }
 
 

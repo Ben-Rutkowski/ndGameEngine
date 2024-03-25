@@ -3,7 +3,10 @@
 // === Initialization ===
 ndWindowModule::ndWindowModule(int width, int height, const char* title)
     :ndModule<ndWindowStateLen>(Module::WINDOW),
-    nd_window(width, height, title) {}
+    nd_window(width, height, title)
+{
+
+}
 
 void ndWindowModule::linkEditSpace(ndModule* edit_space_ptr) {
     edit_space = edit_space_ptr;

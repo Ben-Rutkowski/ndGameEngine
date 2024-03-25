@@ -8,9 +8,12 @@ typedef enum Buffer_T {
 
 typedef enum DrawRoutineKind {
     DrawRoutineKindNull  = 0,
-    DrawRoutineKindDebug = 1
+    DrawRoutineKindDebug = 1,
+    DrawRoutineTriangle  = 2
 } DrawRoutineKind;
 
+
+// ================ Buffer Indices ================
 typedef enum DebugDynamicBuffer {
     R_Debug_DynamicBuffer0 = 0,
     R_Debug_DynamicBuffer1 = 1,
@@ -18,5 +21,10 @@ typedef enum DebugDynamicBuffer {
     
     R_Debug_DynamicBufferCount
 } DebugDynamicBuffer;
+
+typedef enum TriangleBuffers {
+    R_Triangle_Vertices  = 0,
+    R_Triangle_FrameData = 1
+} TriangleBuffers;
 
 #endif

@@ -235,7 +235,7 @@ typedef enum BufferPosition {
     float* vert = _buffer[index].contents;
     
     NSLog(@"Size of vertex : %lu", _vertex_size);
-    
+
     int width = (int)_vertex_size/(int)4;
     for (int base=0; base<num_vertices; base++) {
         NSLog(@"--- Vertex %i ---", base);

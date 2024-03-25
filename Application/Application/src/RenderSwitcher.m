@@ -1,4 +1,5 @@
 #import "RenderSwitcher.h"
+#include "draw_routine_indices.h"
 #import "DrawRoutines.h"
 
 @implementation RenderSwitcher
@@ -61,6 +62,16 @@
                        initWithDevice:_device
                          commandQueue:_command_queue
                               library:_library
+                          pixelFormat:_view_pixel_format];
+            break;
+        }
+
+        case DrawRoutineTriangle: {
+            NSLog(@"Creating Triangle Routine");
+            routine = [[DrawTriangle alloc]
+                       initWithDevice:_device
+                         commandQueue:_command_queue 
+                              library:_library 
                           pixelFormat:_view_pixel_format];
             break;
         }

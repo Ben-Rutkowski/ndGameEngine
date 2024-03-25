@@ -34,6 +34,9 @@
 @interface ThickLineSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
 @end
 
+@interface TriangleSubroutine : DrawSubroutineTemplate<DrawSubroutineProtocol>
+@end
+
 
 // ================ ROUTINES ================
 @protocol DrawRoutineProtocol
@@ -51,10 +54,10 @@
 @interface NullDrawRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 
-// @interface StaticShapeRoutine : DrawRoutineTemplate<DrawRoutineProtocol>
-// @end
-
 @interface DrawingLines : DrawRoutineTemplate<DrawRoutineProtocol>
+@end
+
+@interface DrawTriangle : DrawRoutineTemplate<DrawRoutineProtocol>
 @end
 
 #endif
