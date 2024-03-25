@@ -4,8 +4,7 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
-- Shader Stuff, Make Sure simd_float4x4 works in Metal Shaders
-- create camera class
+- Test 3D Line
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
