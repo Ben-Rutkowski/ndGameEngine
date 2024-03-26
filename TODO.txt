@@ -4,6 +4,9 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
+- Callback Center
+
+- Resizing
 - Test 3D Line
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++

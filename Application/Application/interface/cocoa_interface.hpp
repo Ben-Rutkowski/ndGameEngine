@@ -1,18 +1,46 @@
 #ifndef COCOA_INTERFACE_HPP
 #define COCOA_INTERFACE_HPP
 
-#include "draw_routine_indices.h"
 
-#ifndef __IN_COCOA__
+// ======== Enums ========
+typedef enum CocoaCallback_E {
+    CocoaCB_Resize = 0
+} CocoaCallback_E;
+
 
 // ======== Static Variables ========
 static void* CURRENT_APPLICATION_DELEGATE_COCOA;
 
+typedef void(*CocoaEventCallBack)(void*, unsigned int);
+typedef void(*CocoaEventCallBackVI2)(void*, unsigned int, int, int);
+extern  void*                 EVENT_MANAGER_PTR;
+extern  CocoaEventCallBack    COCOA_CALLBACK;
+extern  CocoaEventCallBackVI2 COCOA_CALLBACK_VI2;
+
+
+#ifdef __IN_COCOA__
+#define __IN_COCOA__
+#import <Foundation/Foundation.h>
+
+@interface ndCallBackCenter : NSObject
++ (void) callback:(CocoaCallback_E)type;
+@end
+#endif
+
+
+#ifndef __IN_COCOA__
+#include "draw_routine_indices.h"
 
 // ======== Application ========
 int  initCocoa();
 void pollEventsCocoa();
 void killCocoa();
+
+
+// ======== Callbacks ========
+void setEventManagerCocoa(void* event_manager_ptr);
+void setEventCallbackCocoa(CocoaEventCallBack callback);
+void setEventCallbackCocoaVI2(CocoaEventCallBackVI2 callback);
 
 
 // ======== Routine ========
@@ -73,5 +101,6 @@ public:
 };
 
 #endif /* ifndef __IN_COCOA__ */
+
 
 #endif

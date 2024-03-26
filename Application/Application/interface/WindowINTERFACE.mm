@@ -4,6 +4,8 @@
 #import "RenderSwitcher.h"
 #import "ndView.h"
 
+#include <iostream>
+
 ndWindow::ndWindow(int width, int height, const char* title) {    
     NSLog(@"Building Window");
     @autoreleasepool {

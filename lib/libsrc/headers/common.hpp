@@ -10,7 +10,7 @@ enum class EventType { null = 0,
 };
 
 enum class Module { null = 0, TEST, 
-    APPLICATION, WINDOW, EDIT_SPACE,
+    APPLICATION, WINDOW, EDIT_SPACE, COCOA,
     LEN
 };
 

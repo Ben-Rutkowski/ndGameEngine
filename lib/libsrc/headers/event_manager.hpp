@@ -36,6 +36,11 @@ private:
 // --- Debugging ---
 public:
     void debug() { event_queue.debug(); }
+
+// --- Cocoa Callbacks ---
+public: 
+    static void cocoaCallbackAnchor(void* event_manager_ptr, unsigned int type);
+    static void cocoaCallbackVI2Anchor(void* event_manager_ptr, unsigned int type, int a, int b);
 };
 
 #endif

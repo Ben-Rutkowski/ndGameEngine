@@ -8,6 +8,7 @@ std::string moduleEnumToString(Module module) {
     case Module::APPLICATION: return "APPLICATION";
     case Module::WINDOW: return "WINDOW";
     case Module::EDIT_SPACE: return "EDIT_SPACE";
+    case Module::COCOA: return "COCOA";
     default: return "";
     }
 }

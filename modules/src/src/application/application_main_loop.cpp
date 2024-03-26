@@ -15,8 +15,8 @@ void ndAppModule::startApp() {
         pollEvents();
         pollEventsCocoa();
 
-        event_manager.propogateEventImmediate(
-            ndEvent(module_name, Operation::DEBUG)
-        );
+        // event_manager.propogateEventImmediate(
+        //     ndEvent(module_name, Operation::DEBUG)
+        // );
     }
 }

@@ -1,4 +1,6 @@
 #include "event_manager.hpp"
+#include "cocoa_interface.hpp"
+#include "common.hpp"
 
 // --- Initialization ---
 EventManager::EventManager() 
@@ -38,4 +40,30 @@ void EventManager::propogateCurrentQueuedEvent() {
     ndEvent* current_event = event_queue.getCurrent();
     propogateEventCallback(app_module_ptr, current_event);
     event_queue.dequeueCurrent();
+}
+
+
+// ================ Callbacks ================
+void EventManager::cocoaCallbackAnchor(void* event_manager_ptr, unsigned int type) {
+    // std::cout << "Callback Achor" << std::endl;
+    EventManager* this_ptr = (EventManager*)event_manager_ptr;
+
+    switch (type) {
+        case CocoaCB_Resize: {
+            // this_ptr->queueEvent(
+            //     ndEvent(Module::COCOA, Operation::DEBUG)
+            // );
+            this_ptr->propogateEventImmediate(
+                ndEvent(Module::COCOA, Operation::DEBUG)
+            );
+        break;
+        } 
+
+        default: break;
+    }
+}
+
+void EventManager::cocoaCallbackVI2Anchor(void* event_manager_ptr, unsigned int type, int a, int b) {
+    std::cout << "CallbackVI2 Achor" << std::endl;
+    // EventManager* this_ptr = (EventManager*)event_manager_ptr;
 }

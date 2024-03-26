@@ -7,6 +7,10 @@ ndAppModule::ndAppModule()
 
     event_manager.linkCallback(this, ndAppModule::propogateEventCallback);
 
+    setEventManagerCocoa(&event_manager);
+    setEventCallbackCocoa(event_manager.cocoaCallbackAnchor);
+    setEventCallbackCocoaVI2(event_manager.cocoaCallbackVI2Anchor);
+
     initCocoa();
 }
 

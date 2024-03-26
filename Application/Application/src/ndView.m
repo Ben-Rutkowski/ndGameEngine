@@ -1,3 +1,5 @@
+#define __IN_COCOA__
+#import "cocoa_interface.hpp"
 #import "ndView.h"
 #import "RenderSwitcher.h"
 
@@ -96,9 +98,12 @@
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];
 }
 
+
 - (void) setFrameSize:(NSSize)size {
     [super setFrameSize:size];
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];
+    // CGSize size_new = [self getWindowSize];
+    [ndCallBackCenter callback:CocoaCB_Resize];
 }
 
 - (void) setBoundsSize:(NSSize)size {

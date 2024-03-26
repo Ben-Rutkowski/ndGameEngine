@@ -1,6 +1,8 @@
 #import "cocoa_interface.hpp"
 #import "AppDelegate.h"
 
+#include <iostream>
+
 int initCocoa() {
     @autoreleasepool {
         AppDelegate* app_delegate = [[AppDelegate alloc] init];
@@ -43,4 +45,28 @@ void pollEventsCocoa() {
 void killCocoa() {
     NSLog(@"Kill");
     [NSApp terminate:nil];
+}
+
+
+// ================ Callback ================
+void nullCallback(void*, unsigned int)              {std::cout << "nullCallback" << std::endl;}
+void nullCallbackVI2(void*, unsigned int, int, int) {std::cout << "nullCallbackVI2" << std::endl;}
+
+void*                 EVENT_MANAGER_PTR  = nullptr;
+CocoaEventCallBack    COCOA_CALLBACK     = nullCallback;
+CocoaEventCallBackVI2 COCOA_CALLBACK_VI2 = nullCallbackVI2;
+  
+void setEventManagerCocoa(void* event_manager_ptr) {
+    EVENT_MANAGER_PTR = event_manager_ptr;
+    // std::cout << "Setting Event Manager" << std::endl;
+}
+
+void setEventCallbackCocoa(CocoaEventCallBack callback) {
+    COCOA_CALLBACK = callback;
+    // std::cout << "Setting Callback" << std::endl;
+}
+
+void setEventCallbackCocoaVI2(CocoaEventCallBackVI2 callback) {
+    COCOA_CALLBACK_VI2 = callback;
+    // std::cout << "Setting Callback VI2" << std::endl;
 }
