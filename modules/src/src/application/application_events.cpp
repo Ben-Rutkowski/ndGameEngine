@@ -2,6 +2,12 @@
 
 void ndAppModule::propogateEvent(ndEvent* event) {
     window->runEvent(event);
+
+    // if (state_cache[ndAppStateConfigured]) {
+    //     std::cout << "Configured" << std::endl;
+    // } else {
+    //     std::cout << "Not Configured" << std::endl;
+    // }
 }
 
 void ndAppModule::pollEvents() {

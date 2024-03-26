@@ -58,15 +58,15 @@ CocoaEventCallBackVI2 COCOA_CALLBACK_VI2 = nullCallbackVI2;
   
 void setEventManagerCocoa(void* event_manager_ptr) {
     EVENT_MANAGER_PTR = event_manager_ptr;
-    // std::cout << "Setting Event Manager" << std::endl;
+    // NSLog(@"Setting Event Manager");
 }
 
 void setEventCallbackCocoa(CocoaEventCallBack callback) {
     COCOA_CALLBACK = callback;
-    // std::cout << "Setting Callback" << std::endl;
+    // NSLog(@"Setting Callback");
 }
 
 void setEventCallbackCocoaVI2(CocoaEventCallBackVI2 callback) {
     COCOA_CALLBACK_VI2 = callback;
-    // std::cout << "Setting Callback VI2" << std::endl;
+    // NSLog(@"Setting Callback VI2");
 }

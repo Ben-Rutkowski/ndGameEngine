@@ -21,13 +21,17 @@ ndEvent::ndEvent(EventType type, Module module_name, Operation operation)
 ndEvent::ndEvent(Module module_name, Operation operation)
     :code{ EventCode(EventType::ACTION, module_name, operation) } {}
 
+ndEvent::ndEvent(Module module_name, Operation op, vec4i int_vec)
+    :code{ EventCode(EventType::VEC4I, module_name, op ) },
+    vector_4i(int_vec) {}
+
 // === Gets and Sets ===
 EventType ndEvent::getType()   { return code.type; }
 Module    ndEvent::getModule() { return code.module; }
 Operation ndEvent::getOp()     { return code.operation; }
 bool      ndEvent::operator!() { return code.type == EventType::null; }
 // vec4      ndEvent::getVec4f()  { return vector_4f; }
-// vec4i     ndEvent::getVec4i()  { return vector_4fi; }
+vec4i     ndEvent::getVec4i()  { return vector_4i; }
 
 // === Debugging ===
 void ndEvent::print() {

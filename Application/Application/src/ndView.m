@@ -91,24 +91,46 @@
 - (void) viewDidMoveToWindow {
     [super viewDidMoveToWindow];
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];
+    // CGSize size_new = [self getWindowSize];
+    // int width  = (int)size_new.width;
+    // int height = (int)size_new.height;
+    // [ndCallBackCenter callback:CocoaCB_Resize 
+    //                 withIntOne:width 
+    //                 withIntTwo:height];
 }
 
 - (void) viewDidChangeBackingProperties {
     [super viewDidChangeBackingProperties];
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];
+    // CGSize size_new = [self getWindowSize];
+    // int width  = (int)size_new.width;
+    // int height = (int)size_new.height;
+    // [ndCallBackCenter callback:CocoaCB_Resize 
+    //                 withIntOne:width 
+    //                 withIntTwo:height];
 }
 
 
 - (void) setFrameSize:(NSSize)size {
     [super setFrameSize:size];
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];
-    // CGSize size_new = [self getWindowSize];
-    [ndCallBackCenter callback:CocoaCB_Resize];
+    CGSize size_new = [self getWindowSize];
+    int width  = (int)size_new.width;
+    int height = (int)size_new.height;
+    [ndCallBackCenter callback:CocoaCB_Resize 
+                    withIntOne:width 
+                    withIntTwo:height];
 }
 
 - (void) setBoundsSize:(NSSize)size {
     [super setBoundsSize:size];
-    [self resizeDrawableScale:self.window.screen.backingScaleFactor];
+    // [self resizeDrawableScale:self.window.screen.backingScaleFactor];
+    // CGSize size_new = [self getWindowSize];
+    // int width  = (int)size_new.width;
+    // int height = (int)size_new.height;
+    // [ndCallBackCenter callback:CocoaCB_Resize 
+    //                 withIntOne:width 
+    //                 withIntTwo:height];
 }
 
 @end

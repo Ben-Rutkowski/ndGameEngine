@@ -35,4 +35,13 @@ public:
     // virtual vec4  requestVec4(Request requset)   { return vec4(0); }
 };
 
+
+// ======== Module Implement ========
+// template<int N>
+// class ndModuleImplement : public ndModule {
+// protected:
+//     EventManager* event_manager;
+//     StateCache<N> state_cache;
+// };
+
 #endif

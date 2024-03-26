@@ -1,10 +1,8 @@
 #include "common.hpp"
-// #include "math/vector.hpp"
+#include "math/vector.hpp"
 
 #ifndef EVENT_H
 #define EVENT_H
-
-#include <iostream>
 
 // === Structs ===
 struct EventCode {
@@ -33,13 +31,14 @@ class ndEvent {
 private:
     EventCode code;
     // vec4  vector_4f;
-    // vec4i vector_4i;
+    vec4i vector_4i;
 
 // --- Constructors ---
 public:
     ndEvent();
     ndEvent(EventType type, Module module_name, Operation op);
     ndEvent(Module module_name, Operation op);
+    ndEvent(Module module_name, Operation op, vec4i int_vec);
 
 // --- Gets and Sets ---
 public:
@@ -47,7 +46,7 @@ public:
     Module    getModule();
     Operation getOp();
     // vec4      getVec4f();
-    // vec4i     getVec4i();
+    vec4i     getVec4i();
     bool      operator!();
 
 // --- Debugging ---

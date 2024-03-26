@@ -24,6 +24,10 @@ extern  CocoaEventCallBackVI2 COCOA_CALLBACK_VI2;
 
 @interface ndCallBackCenter : NSObject
 + (void) callback:(CocoaCallback_E)type;
++ (void) callback:(CocoaCallback_E)type
+       withIntOne:(int)int_one
+       withIntTwo:(int)int_two;
++ (void) debug;
 @end
 #endif
 

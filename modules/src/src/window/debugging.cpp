@@ -66,7 +66,7 @@ void ndWindowModule::onDraw(ndEvent* event) {
 }
 
 void ndWindowModule::onDebug(ndEvent* event) {
-    event->print();
+    event->print(module_name);
 
     // DEBUG_count += 1;
     // if (DEBUG_count == DEBUG_BREAK) 
