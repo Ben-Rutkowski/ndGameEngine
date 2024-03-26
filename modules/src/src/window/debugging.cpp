@@ -27,25 +27,25 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     routine.bindBuffer(R_Triangle_Vertices);
     TrianglePoint_T* vertices = (TrianglePoint_T*)routine.writeBufferOpen();
     vertices[0].position = { -0.5f, -0.5f, 0.0f, 1.0f, }; 
-    vertices[1].position = {  0.5f, -0.5f, 0.0f, 1.0f, }; 
-    vertices[2].position = {  0.5f,  0.5f, 0.0f, 1.0f, }; 
+    vertices[1].position = {  0.5f, -0.5f, -1.0f, 1.0f, }; 
+    vertices[2].position = {  0.5f,  0.5f, -1.0f, 1.0f, }; 
 
-    vertices[3].position = {  0.5f,  0.5f, 0.0f, 1.0f, }; 
+    vertices[3].position = {  0.5f,  0.5f, -1.0f, 1.0f, }; 
     vertices[4].position = { -0.5f,  0.5f, 0.0f, 1.0f, }; 
     vertices[5].position = { -0.5f, -0.5f, 0.0f, 1.0f, }; 
 
     vertices[0].color = { 0.3f, 0.3f, 0.3f, 1.0f };
-    vertices[1].color = { 0.3f, 0.3f, 0.3f, 1.0f };
-    vertices[2].color = { 0.3f, 0.3f, 0.3f, 1.0f };
+    vertices[1].color = { 0.3f, 0.3f, 0.5f, 1.0f };
+    vertices[2].color = { 0.3f, 0.3f, 0.5f, 1.0f };
 
-    vertices[3].color = { 0.3f, 0.3f, 0.3f, 1.0f };
+    vertices[3].color = { 0.3f, 0.3f, 0.5f, 1.0f };
     vertices[4].color = { 0.3f, 0.3f, 0.3f, 1.0f };
     vertices[5].color = { 0.3f, 0.3f, 0.3f, 1.0f };
     routine.writeBufferClose();
 
     // --- Creating Camera ---
     camera = Camera(0.1f, 100.0f, 45.0f, 800.0f/600.0f);
-    camera.setPosition({ 0.0f, 0.0f, 1.0f, 0.0f, });
+    camera.setPosition({ 0.0f, 0.0f, 2.0f, 0.0f, });
 }
 
 void ndWindowModule::onEndStartUp(ndEvent* event) {
@@ -55,7 +55,7 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 }
 
 void ndWindowModule::onDraw(ndEvent* event) {
-    mat4 pers_mat = camera.getOrth(); 
+    mat4 pers_mat = camera.getProj(); 
 
     routine.bindBuffer(R_Triangle_FrameData);
     UN_FrameDataNew_T* frame_data = (UN_FrameDataNew_T*)routine.writeBufferOpen();

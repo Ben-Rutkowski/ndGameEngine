@@ -27,5 +27,6 @@ Triangle_vertexShader(             uint               vidx       [[vertex_id]],
 }
 
 fragment float4 Triangle_fragmentShader(RasterType in [[stage_in]]) {
-    return float4(1.0, 1.0, 1.0, 1.0);
+    // return float4(1.0, 1.0, 1.0, 1.0);
+    return in.color;
 }

@@ -54,7 +54,7 @@ void EventManager::cocoaCallbackAnchor(void* event_manager_ptr, unsigned int typ
             //     ndEvent(Module::COCOA, Operation::DEBUG)
             // );
             this_ptr->propogateEventImmediate(
-                ndEvent(Module::COCOA, Operation::DEBUG)
+                ndEvent(Module::COCOA, Operation::RESIZE_FRAME)
             );
         break;
         } 
