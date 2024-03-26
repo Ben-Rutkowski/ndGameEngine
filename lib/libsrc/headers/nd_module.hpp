@@ -16,12 +16,11 @@ public:
 };
 
 // ======== Module ========
-template<int N>
+// template<int N>
 class ndModule {
 protected:
     Module module_name;
     EventManager* event_manager;
-    StateCache<N> state_cache;
 
 public:
     ndModule(Module mod_in) : module_name{ mod_in } {}
@@ -37,11 +36,13 @@ public:
 
 
 // ======== Module Implement ========
-// template<int N>
-// class ndModuleImplement : public ndModule {
-// protected:
-//     EventManager* event_manager;
-//     StateCache<N> state_cache;
-// };
+template<int N>
+class ndModuleImplement : public ndModule {
+protected:
+    StateCache<N> state_cache;
+
+public:
+    ndModuleImplement<N>(Module mod_in) : ndModule( mod_in ) {}
+};
 
 #endif

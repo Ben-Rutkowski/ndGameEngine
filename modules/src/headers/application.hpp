@@ -4,11 +4,11 @@
 #include "nd_module.hpp"
 
 typedef enum ndAppState { ndAppStateNull = 0,
-    // ndAppStateConfigured,
+    ndAppStateConfigured,
     ndAppStateLen
 } ndAppState;
 
-class ndAppModule : public ndModule<ndAppStateLen> {
+class ndAppModule : public ndModuleImplement<ndAppStateLen> {
 // --- Attributes ---
 private:
     EventManager event_manager;

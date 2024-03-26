@@ -102,12 +102,12 @@
 - (void) viewDidChangeBackingProperties {
     [super viewDidChangeBackingProperties];
     [self resizeDrawableScale:self.window.screen.backingScaleFactor];
-    // CGSize size_new = [self getWindowSize];
-    // int width  = (int)size_new.width;
-    // int height = (int)size_new.height;
-    // [ndCallBackCenter callback:CocoaCB_Resize 
-    //                 withIntOne:width 
-    //                 withIntTwo:height];
+    CGSize size_new = [self getWindowSize];
+    int width  = (int)size_new.width;
+    int height = (int)size_new.height;
+    [ndCallBackCenter callback:CocoaCB_Resize 
+                    withIntOne:width 
+                    withIntTwo:height];
 }
 
 

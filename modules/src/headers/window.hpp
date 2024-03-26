@@ -8,7 +8,7 @@ typedef enum ndWindowState { ndWindowStateNull = 0,
     ndWindowStateLen
 } ndWindowState;
 
-class ndWindowModule : public ndModule<ndWindowStateLen> {
+class ndWindowModule : public ndModuleImplement<ndWindowStateLen> {
 // --- Attributes ---
 private:
     ndWindow nd_window;

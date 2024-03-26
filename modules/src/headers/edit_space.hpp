@@ -9,7 +9,7 @@ typedef enum ndEditSpaceState { ndEditSpaceStateNull = 0,
 } ndEditSpaceState;
 
 
-class ndEditSapceModule : public ndModule<ndEditSpaceStateLen> {
+class ndEditSapceModule : public ndModuleImplement<ndEditSpaceStateLen> {
 private:
     // EditMesh test_mesh;
 

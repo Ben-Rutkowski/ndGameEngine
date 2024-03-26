@@ -2,7 +2,7 @@
 
 // === Initialization ===
 ndWindowModule::ndWindowModule(int width, int height, const char* title)
-    :ndModule<ndWindowStateLen>(Module::WINDOW),
+    :ndModuleImplement<ndWindowStateLen>(Module::WINDOW),
     nd_window(width, height, title)
 {
 

@@ -2,7 +2,7 @@
 #include "cocoa_interface.hpp"
 
 ndAppModule::ndAppModule()
-    :ndModule<ndAppStateLen>(Module::APPLICATION),
+    :ndModuleImplement<ndAppStateLen>(Module::APPLICATION),
     window{ nullptr } {
 
     event_manager.linkCallback(this, ndAppModule::propogateEventCallback);
@@ -17,4 +17,5 @@ ndAppModule::ndAppModule()
 void ndAppModule::linkWindow(ndModule* window_ptr) {
     window = window_ptr;
     window->setManagerPtr(&event_manager);
+    state_cache.set(ndAppStateConfigured, true);
 }
