@@ -23,8 +23,8 @@ protected:
 
 public:
     Camera(float near, float far, float fov, float aspect_ratio);
-    void resetFieldOfView(float fov);
-    void resetAspectRatio(float width, float height);
+    void resetFieldOfView(float fov_in);
+    void resetAspectRatio(float width_in, float height_in);
 
     // mat4 getView() { return view_M; } 
     // mat4 getOrth() { return orth_M; }

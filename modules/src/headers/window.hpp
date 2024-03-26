@@ -39,9 +39,9 @@ private:
     void onEndFrame(ndEvent* event);
     void onCloseApp(ndEvent* event);
 
+    void onResizeFrame(ndEvent* event);
     // void onCollectMenuKeys(ndEvent* event);
     // void onEscapeKey(ndEvent* event);
-    // void onResizeFrame(ndEvent* event);
     // void onResizeWindow(ndEvent* event);
     // void onClickDebugTimer(ndEvent* event);
     // void onDeltaDebugTimer(ndEvent* event);

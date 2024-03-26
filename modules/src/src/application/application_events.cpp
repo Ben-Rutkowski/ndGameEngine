@@ -4,7 +4,7 @@ void ndAppModule::propogateEvent(ndEvent* event) {
     if (state_cache[ndAppStateConfigured]) {
         window->runEvent(event);
     } else {
-        std::cout << "Not Configured" << std::endl;
+        // std::cout << "Not Configured" << std::endl;
     }
 }
 

@@ -65,6 +65,11 @@ void ndWindowModule::onDraw(ndEvent* event) {
     nd_window.drawView();
 }
 
+void ndWindowModule::onResizeFrame(ndEvent* event) {
+    vec4i v = event->getVec4i();
+    camera.resetAspectRatio((float)v[0], (float)v[1]);
+}
+
 void ndWindowModule::onDebug(ndEvent* event) {
     event->print(module_name);
 

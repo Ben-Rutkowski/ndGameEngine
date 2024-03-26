@@ -14,6 +14,23 @@ Camera::Camera(float near_, float far_, float fov_, float aspect_ratio_)
     recalcMats();
 }
 
+void Camera::resetFieldOfView(float fov_in) {
+    fov    = fov_in*CON;
+    height = near*tanf(fov);
+    width  = aspect_ratio*height;
+
+    orth_M = calcOrth();
+    proj_M = calcProj();
+}
+
+void Camera::resetAspectRatio(float width_in, float height_in) {
+    aspect_ratio = width_in/height_in;
+    width        = aspect_ratio*height;
+
+    orth_M = calcOrth();
+    proj_M = calcProj();
+}
+
 
 // ================ Controls ================
 void Camera::setPosition(vec4 new_pos) {

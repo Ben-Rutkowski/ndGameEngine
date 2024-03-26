@@ -45,19 +45,18 @@ void EventManager::propogateCurrentQueuedEvent() {
 
 // ================ Callbacks ================
 void EventManager::cocoaCallbackAnchor(void* event_manager_ptr, unsigned int type) {
-    EventManager* this_ptr = (EventManager*)event_manager_ptr;
+    // EventManager* this_ptr = (EventManager*)event_manager_ptr;
 
-    switch (type) {
-        case CocoaCB_Resize: {
-            this_ptr->propogateEventImmediate(
-                // ndEvent(Module::COCOA, Operation::RESIZE_FRAME)
-                ndEvent(Module::COCOA, Operation::DEBUG)
-            );
-            break;
-        } 
+    // switch (type) {
+    //     case CocoaCB_Resize: {
+    //         this_ptr->propogateEventImmediate(
+    //             ndEvent(Module::COCOA, Operation::RESIZE_FRAME)
+    //         );
+    //         break;
+    //     } 
 
-        default: break;
-    }
+    //     default: break;
+    // }
 }
 
 void EventManager::cocoaCallbackVI2Anchor(void* event_manager_ptr, unsigned int type, int a, int b) {
@@ -67,8 +66,7 @@ void EventManager::cocoaCallbackVI2Anchor(void* event_manager_ptr, unsigned int 
         case CocoaCB_Resize: {
             this_ptr->propogateEventImmediate(
                 ndEvent(
-                    // Module::COCOA, Operation::RESIZE_FRAME,
-                    Module::COCOA, Operation::DEBUG,
+                    Module::COCOA, Operation::RESIZE_FRAME,
                     vec4i( {a, b, 0, 0} )
                 )
             );

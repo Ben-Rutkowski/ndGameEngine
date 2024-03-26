@@ -4,9 +4,6 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
-- Change the ndModule implementation. the base case is not templated, only implementations are templated.
-- Callbacks and Events with data
-
 - Resizing
 - Test 3D Line
 

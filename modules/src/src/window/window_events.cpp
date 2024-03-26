@@ -8,6 +8,7 @@ void ndWindowModule::runEvent(ndEvent* event) {
     case Operation::START_FRAME:       onStartFrame(event); break;
     case Operation::DRAW_WINDOW_FRAME: onDrawWindowFrame(event); break;
     case Operation::DRAW:              onDraw(event); break;
+    case Operation::RESIZE_FRAME:      onResizeFrame(event); break;
     case Operation::END_FRAME:         onEndFrame(event); break;
     case Operation::CLOSE_APP:         onCloseApp(event); break;
     default: break;
@@ -49,3 +50,8 @@ void ndWindowModule::onEndFrame(ndEvent* event) {
 void ndWindowModule::onCloseApp(ndEvent* event) {
     event->print(module_name);
 }
+
+
+// ================ State Changes ================
+// void ndWindowModule::onResizeFrame(ndEvent* event) {
+// }
