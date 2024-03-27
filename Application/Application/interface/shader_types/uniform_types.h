@@ -27,13 +27,13 @@ typedef enum Uniforms_I {
 
 
 // ================ Types ================
-typedef struct UN_FrameDataNew_T {
-    MAT_4F pers_mat;
-} UN_FrameDataNew_T;
-
 typedef struct UN_FrameData_T {
+    MAT_4F pers_mat;
+} UN_FrameData_T;
+
+typedef struct UN_FrameDataOLD_T {
     float aspect_ratio;
     float thickness;
-} UN_FrameData_T;
+} UN_FrameDataOLD_T;
 
 #endif

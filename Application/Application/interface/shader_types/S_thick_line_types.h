@@ -17,39 +17,42 @@
 #define VECTOR_4F simd_float4
 #endif
 
+
+// ================ Enums ================
 typedef enum ThickLine_I {
-    vertices_I     = 0,
-    aspect_ratio_I = 1
+    ThickLine_vertices_I   = 0,
+    ThickLine_frame_data_I = 1
 } ThickLine_I;
 
 #ifdef __INTERNAL__
-typedef enum INT_Compute_I {
-    INT_vertices_I       = 0,
-    INT_triang_cluster_I = 1,
-    INT_aspect_ratio_I   = 2
-} INT_Compute_I;
+typedef enum INT_ThickLine_I {
+    INT_ThickLine_vertices_I    = 0,
+    INT_ThickLine_tri_cluster_I = 1,
+    INT_ThickLine_frame_data_I  = 2
+} INT_ThickLine_I;
 #endif
+
 
 // ================ Shader Types ================
 #pragma pack(push,1)
 
-typedef struct ThickLinePoint_T {
-    VECTOR_2F position;
+typedef struct ThickLine_Point_T {
+    VECTOR_4F position;
     VECTOR_4F color;
-} ThickLinePoint_T;
+} ThickLine_Point_T;
 
 #ifdef __INTERNAL__
-typedef struct INT_Point_T {
-    VECTOR_2F position;
-    VECTOR_2F uv;
+typedef struct INT_ThickLine_Point_T {
     VECTOR_4F color;
-} INT_Point_T;
+    VECTOR_3F position;
+    VECTOR_2F uv;
+} INT_ThickLine_Point_T;
 
-typedef struct INT_Cluster_T {
-    INT_Point_T tail_end[6];
-    INT_Point_T center[6];
-    INT_Point_T tip_end[6];
-} INT_Cluster_T;
+typedef struct INT_ThickLine_Cluster_T {
+    INT_ThickLine_Point_T tail_end[6];
+    INT_ThickLine_Point_T center[6];
+    INT_ThickLine_Point_T tip_end[6];
+} INT_ThickLine_Cluster_T;
 #endif
 
 #pragma pack(pop)

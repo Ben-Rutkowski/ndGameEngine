@@ -1,6 +1,5 @@
 #include "camera.hpp"
 #include "cocoa_interface.hpp"
-#include "common.hpp"
 #include "draw_routine_indices.h"
 #include "window.hpp"
 #define __INTERNAL__
@@ -21,7 +20,7 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     routine.bindBuffer(R_Triangle_Vertices);
     routine.createBuffer(DynamicBuffer_T, sizeof(TrianglePoint_T), 6);
     routine.bindBuffer(R_Triangle_FrameData);
-    routine.createBuffer(RapidBuffer_T, sizeof(UN_FrameDataNew_T), 1);
+    routine.createBuffer(RapidBuffer_T, sizeof(UN_FrameData_T), 1);
 
     // --- Add Buffer Data --- 
     routine.bindBuffer(R_Triangle_Vertices);
@@ -58,7 +57,7 @@ void ndWindowModule::onDraw(ndEvent* event) {
     mat4 pers_mat = camera.getProj(); 
 
     routine.bindBuffer(R_Triangle_FrameData);
-    UN_FrameDataNew_T* frame_data = (UN_FrameDataNew_T*)routine.writeBufferOpen();
+    UN_FrameData_T* frame_data = (UN_FrameData_T*)routine.writeBufferOpen();
     frame_data[0].pers_mat = pers_mat;
     routine.writeBufferClose();
 

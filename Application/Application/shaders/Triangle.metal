@@ -13,7 +13,7 @@ struct RasterType {
 vertex RasterType
 Triangle_vertexShader(             uint               vidx       [[vertex_id]],
                       const device TrianglePoint_T*   vertices   [[buffer(tri_vertices_I)]],
-                          constant UN_FrameDataNew_T* frame_data [[buffer(tri_pers_mat_I)]])
+                          constant UN_FrameData_T* frame_data [[buffer(tri_pers_mat_I)]])
 {
     RasterType out;
 

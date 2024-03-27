@@ -1,7 +1,7 @@
 #define __INTERNAL__
 #import "DrawRoutines.h"
 #import "shader_types/uniform_types.h"
-#import "shader_types/S_thick_line_types.h"
+#import "shader_types/S_thick_line_typesOLD.h"
 
 @implementation ThickLineSubroutine
 {
@@ -16,8 +16,8 @@
     self = [super initWithDevice:device library:library];
     if (self) {
 //        --- Draw Pipeline ---
-        [self renderSetVertexFunction:@"ThickLine_vertexShader"
-                     fragmentFunction:@"ThickLine_fragmentShader"
+        [self renderSetVertexFunction:@"ThickLine_vertexShaderOLD"
+                     fragmentFunction:@"ThickLine_fragmentShaderOLD"
                               library:library];
         [self renderSetPixelFormat:pixel_format];
         [self renderSetVertexBufferImmutable:vertices_I];
@@ -25,7 +25,7 @@
         _draw_trianglized_line = [self compileRenderPipeline];
 
 //        --- Compute Pipeline ---
-        _compute_trianglized_line = [self computePipelineWithFunctionName:@"INT_ThickLine_computeShader"
+        _compute_trianglized_line = [self computePipelineWithFunctionName:@"INT_ThickLine_computeShaderOLD"
                                                                   library:library];
 
 //        --- Finalize ---
