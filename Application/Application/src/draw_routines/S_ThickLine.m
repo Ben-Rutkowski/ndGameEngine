@@ -25,7 +25,9 @@
         _draw_trianglized_line = [self compileRenderPipeline];
 
 //        --- Compute Pipeline ---
-        _compute_trianglized_line = [self computePipelineWithFunctionName:@"INT_ThickLine_computeShaderOLD"
+        // _compute_trianglized_line = [self computePipelineWithFunctionName:@"INT_ThickLine_computeShaderOLD"
+        //                                                           library:library];
+        _compute_trianglized_line = [self computePipelineWithFunctionName:@"INT_ThickLine_computeShader"
                                                                   library:library];
 
 //        --- Finalize ---

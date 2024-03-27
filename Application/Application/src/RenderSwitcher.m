@@ -1,5 +1,5 @@
 #import "RenderSwitcher.h"
-#include "draw_routine_indices.h"
+#import "draw_routine_indices.h"
 #import "DrawRoutines.h"
 
 @implementation RenderSwitcher
@@ -37,7 +37,6 @@
         NSUInteger null_index = [self createDrawRoutine:DrawRoutineKindNull];
         [self armRoutine:null_index];
     }
-    
     return self;
 }
 

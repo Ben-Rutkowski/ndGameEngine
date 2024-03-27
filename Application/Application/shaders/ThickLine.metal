@@ -7,31 +7,27 @@
 
 using namespace metal;
 
-typedef UN_FrameData_T          FrameData;
-typedef ThickLine_Point_T       C_Point;
-typedef INT_ThickLine_Point_T   V_Point;
-typedef INT_ThickLine_Cluster_T V_Cluster;
-
 
 // ================ Trianglize Line ================
-void setPoint(device V_Point* point_ar, int idx, float3 pos, float2 uv, float4 color) { 
-    V_Point point;
+INT_ThickLine_Point_T createPoint(float4 pos, float4 color, float2 uv) { 
+    INT_ThickLine_Point_T point;
     point.position = pos;
     point.uv       = uv;
     point.color    = color;
-    point_ar[idx]  = point;
+
+    return point;
 }
- 
+
 kernel void
-INT_ThickLine_computeShader(             uint       tidx       [[thread_position_in_grid]],
-                                  device V_Cluster* cluster    [[buffer(INT_ThickLine_tri_cluster_I)]],
-                            const device C_Point*   vertices   [[buffer(INT_ThickLine_vertices_I)]],
-                                constant FrameData* frame_data [[buffer(INT_ThickLine_frame_data_I)]])
+INT_ThickLine_computeShader(             uint                     tidx       [[thread_position_in_grid]],
+                                  device INT_ThickLine_Cluster_T* cluster    [[buffer(INT_ThickLine_tri_cluster_I)]],
+                            const device ThickLine_Point_T*       vertices   [[buffer(INT_ThickLine_vertices_I)]],
+                                constant UN_FrameData_T*          frame_data [[buffer(INT_ThickLine_frame_data_I)]])
 {
     float  width = 0.01f;
 
-    C_Point tail = vertices[2*tidx];
-    C_Point tip  = vertices[2*tidx+1];
+    ThickLine_Point_T tail = vertices[2*tidx];
+    ThickLine_Point_T tip  = vertices[2*tidx+1];
 
     float4 tail_pos = tail.position;
     float4 tip_pos  = tip.position;
@@ -44,47 +40,47 @@ INT_ThickLine_computeShader(             uint       tidx       [[thread_position
     tip_pos  = tip_pos/tip_pos.w;
 
     // --- Parallel and perpendicular ---
-    float3 par  = width * float3( normalize(tip_pos.xy - tail_pos.xy) , 0.0);
-    float3 perp = float3( par.y, -par.x, 0.0); 
+    float4 par  = width * float4( normalize(tip_pos.xy - tail_pos.xy) , 0.0, 0.0);
+    float4 perp = float4( par.y, -par.x, 0.0, 0.0); 
 
-    float3 bl, br, tl, tr;
+    float4 bl, br, tl, tr;
     // --- Tail End ---
-    bl = tail_pos.xyz + perp; 
-    br = tail_pos.xyz - perp;
+    bl = tail_pos + perp; 
+    br = tail_pos - perp;
     tl = bl - par;
     tr = br - par;
 
-    setPoint(cluster[tidx].tail_end, 0, bl, float2(-1.0, 0.0), tail.color);
-    setPoint(cluster[tidx].tail_end, 1, br, float2( 1.0, 0.0), tail.color);
-    setPoint(cluster[tidx].tail_end, 2, tr, float2( 1.0, 1.0), tail.color);
+    cluster[tidx].tail_end[0] = createPoint( bl, tail.color, float2(-1.0, 0.0) );
+    cluster[tidx].tail_end[1] = createPoint( br, tail.color, float2( 1.0, 0.0) );
+    cluster[tidx].tail_end[2] = createPoint( tr, tail.color, float2( 1.0, 1.0) );
 
-    setPoint(cluster[tidx].tail_end, 3, tr, float2( 1.0, 1.0), tail.color);
-    setPoint(cluster[tidx].tail_end, 4, tl, float2(-1.0, 1.0), tail.color);
-    setPoint(cluster[tidx].tail_end, 5, bl, float2(-1.0, 0.0), tail.color);
+    cluster[tidx].tail_end[3] = createPoint( tr, tail.color, float2( 1.0, 1.0) );
+    cluster[tidx].tail_end[4] = createPoint( tl, tail.color, float2(-1.0, 1.0) );
+    cluster[tidx].tail_end[5] = createPoint( bl, tail.color, float2(-1.0, 0.0) );
 
     // --- Center ---
     tl = br;
-    br = tip_pos.xyz + perp;
-    tr = tip_pos.xyz - perp;
+    br = tip_pos + perp;
+    tr = tip_pos - perp;
 
-    setPoint(cluster[tidx].center, 0, bl, float2( 0.0, 0.0), tail.color);
-    setPoint(cluster[tidx].center, 1, br, float2( 0.0, 0.0), tip.color);
-    setPoint(cluster[tidx].center, 2, tr, float2( 0.0, 0.0), tip.color);
+    cluster[tidx].center[0] = createPoint( bl, tail.color, float2( 0.0, 0.0) );
+    cluster[tidx].center[1] = createPoint( br, tip.color,  float2( 0.0, 0.0) );
+    cluster[tidx].center[2] = createPoint( tr, tip.color,  float2( 0.0, 0.0) );
 
-    setPoint(cluster[tidx].center, 3, tr, float2( 0.0, 0.0), tip.color);
-    setPoint(cluster[tidx].center, 4, tl, float2( 0.0, 0.0), tail.color);
-    setPoint(cluster[tidx].center, 5, bl, float2( 0.0, 0.0), tail.color);
+    cluster[tidx].center[3] = createPoint( tr, tip.color,  float2( 0.0, 0.0) );
+    cluster[tidx].center[4] = createPoint( tl, tail.color, float2( 0.0, 0.0) );
+    cluster[tidx].center[5] = createPoint( bl, tail.color, float2( 0.0, 0.0) );
 
     // --- Tip End ---
     bl = tr;
     tr = br + par;
     tl = bl + par;
 
-    setPoint(cluster[tidx].tip_end, 0, bl, float2(-1.0, 0.0), tip.color);
-    setPoint(cluster[tidx].tip_end, 1, br, float2( 1.0, 0.0), tip.color);
-    setPoint(cluster[tidx].tip_end, 2, tr, float2( 1.0, 1.0), tip.color);
+    cluster[tidx].tip_end[0] = createPoint( bl, tip.color, float2(-1.0, 0.0) );
+    cluster[tidx].tip_end[1] = createPoint( br, tip.color, float2( 1.0, 0.0) );
+    cluster[tidx].tip_end[2] = createPoint( tr, tip.color, float2( 1.0, 1.0) );
 
-    setPoint(cluster[tidx].tip_end, 3, tr, float2( 1.0, 1.0), tip.color);
-    setPoint(cluster[tidx].tip_end, 4, tl, float2(-1.0, 1.0), tip.color);
-    setPoint(cluster[tidx].tip_end, 5, bl, float2(-1.0, 0.0), tip.color);
+    cluster[tidx].tip_end[3] = createPoint( tr, tip.color, float2( 1.0, 1.0) );
+    cluster[tidx].tip_end[4] = createPoint( tl, tip.color, float2(-1.0, 1.0) );
+    cluster[tidx].tip_end[5] = createPoint( bl, tip.color, float2(-1.0, 0.0) );
 }

@@ -94,8 +94,8 @@
         if (function == nil) {
             NSLog(@"Failed to create %@", name);
             return nil;
-        }
-        
+        }        
+
         NSError* error = nil;
         id<MTLComputePipelineState> pipeline = [_hidden_device newComputePipelineStateWithFunction:function error:&error];
         NSAssert(pipeline, @"Failed to create Compute Pipeline State: ", error);

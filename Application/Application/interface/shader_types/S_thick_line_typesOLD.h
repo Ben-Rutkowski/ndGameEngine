@@ -17,6 +17,8 @@
 #define VECTOR_4F simd_float4
 #endif
 
+
+// ================ Enums ================ 
 typedef enum ThickLine_I_OLD {
     vertices_I     = 0,
     aspect_ratio_I = 1
@@ -29,6 +31,7 @@ typedef enum INT_Compute_I {
     INT_aspect_ratio_I   = 2
 } INT_Compute_I;
 #endif
+
 
 // ================ Shader Types ================
 #pragma pack(push,1)

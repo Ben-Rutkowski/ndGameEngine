@@ -1,21 +1,7 @@
 #ifndef S_THICK_LINE_TYPES_H
 #define S_THICK_LINE_TYPES_H
 
-#ifndef __IN_SHADER__
-#ifndef __ND_VECTOR__
-#import <MetalKit/MetalKit.h>
-#endif
-#endif
-
-#ifdef __ND_VECTOR__
-#define VECTOR_2F vec2
-#define VECTOR_3F vec3
-#define VECTOR_4F vec4
-#else
-#define VECTOR_2F simd_float2
-#define VECTOR_3F simd_float3
-#define VECTOR_4F simd_float4
-#endif
+#include "cocoa_vector_types.h"
 
 
 // ================ Enums ================
@@ -35,17 +21,16 @@ typedef enum INT_ThickLine_I {
 
 // ================ Shader Types ================
 #pragma pack(push,1)
-
 typedef struct ThickLine_Point_T {
-    VECTOR_4F position;
-    VECTOR_4F color;
+    vec4 position;
+    vec4 color;
 } ThickLine_Point_T;
 
 #ifdef __INTERNAL__
 typedef struct INT_ThickLine_Point_T {
-    VECTOR_4F color;
-    VECTOR_3F position;
-    VECTOR_2F uv;
+    vec4 position;
+    vec4 color;
+    vec2 uv;
 } INT_ThickLine_Point_T;
 
 typedef struct INT_ThickLine_Cluster_T {
@@ -54,7 +39,6 @@ typedef struct INT_ThickLine_Cluster_T {
     INT_ThickLine_Point_T tip_end[6];
 } INT_ThickLine_Cluster_T;
 #endif
-
 #pragma pack(pop)
 
 #endif
