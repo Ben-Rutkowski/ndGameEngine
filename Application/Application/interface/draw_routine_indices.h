@@ -18,6 +18,8 @@ typedef enum DebugDynamicBuffer {
     R_Debug_DynamicBuffer0 = 0,
     R_Debug_DynamicBuffer1 = 1,
     R_Debug_DynamicBuffer2 = 2,
+    R_Debug_DynamicBuffer3 = 3,
+    R_Debug_DynamicBuffer4 = 4,
     
     R_Debug_DynamicBufferCount
 } DebugDynamicBuffer;

@@ -12,10 +12,10 @@ typedef enum Triangle_I {
 
 // ================ Shader Types ================
 #pragma pack(push,1)
-typedef struct TrianglePoint_T {
+typedef struct Triangle_Point_T {
     vec4 position;
     vec4 color;
-} TrianglePoint_T;
+} Triangle_Point_T;
 #pragma pack(pop)
 
 #endif

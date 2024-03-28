@@ -24,7 +24,7 @@ INT_ThickLine_computeShader(             uint                     tidx       [[t
                             const device ThickLine_Point_T*       vertices   [[buffer(INT_ThickLine_vertices_I)]],
                                 constant UN_FrameData_T*          frame_data [[buffer(INT_ThickLine_frame_data_I)]])
 {
-    float  width = 0.01f;
+    float width = 0.01f;
 
     ThickLine_Point_T tail = vertices[2*tidx];
     ThickLine_Point_T tip  = vertices[2*tidx+1];

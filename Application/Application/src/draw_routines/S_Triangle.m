@@ -1,5 +1,3 @@
-// #include "DrawSubroutineTemplate.h"
-// #include <Metal/Metal.h>
 #include "DrawSubroutineTemplate.h"
 #define __INTERNAL__
 #import "DrawRoutines.h"
