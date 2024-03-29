@@ -5,7 +5,6 @@
 #define __INTERNAL__
 #include "math/matrix.hpp"
 #include "shader_types/S_thick_line_types.h"
-#include "shader_types/uniform_types.h"
 
 #define DEBUG_BREAK 5
 #define DEBUG_KILL  1
@@ -27,9 +26,9 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     routine.bindBuffer(R_Debug_DynamicBuffer0);
     ThickLine_Point_T* vertices = (ThickLine_Point_T*)routine.writeBufferOpen();
     vertices[0].position = { -0.5f, 0.0f, 0.0f, 1.0f };
-    vertices[1].position = {  0.5f, 0.6f, 0.0f, 1.0f };
+    vertices[1].position = {  0.5f, 0.5f, 0.0f, 1.0f };
 
-    vertices[0].width = 0.05f;
+    vertices[0].width = 0.01f;
 
     vertices[0].color = { 0.0f, 0.0f, 0.0f, 1.0f };
     vertices[1].color = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -49,21 +48,20 @@ void ndWindowModule::onEndStartUp(ndEvent* event) {
 void ndWindowModule::onDraw(ndEvent* event) {
     mat4 view = camera.getView();
     mat4 proj = camera.getProj();
+    mat4 pers_mat = proj*view;
 
     routine.bindBuffer(R_Debug_DynamicBuffer2);
     INT_ThickLine_compute_FrameData_T* frame_data = (INT_ThickLine_compute_FrameData_T*)routine.writeBufferOpen();
-    frame_data[0].view = view;
-    frame_data[0].pers = proj;
+    frame_data[0].pers_mat = pers_mat;
+    frame_data[0].aspect_ratio = camera.getAspectRatio();
     routine.writeBufferClose();
-    
+
     nd_window.drawView();
 
     // --- Debugging ---
     DEBUG_count += 1;
-    if (DEBUG_count == DEBUG_BREAK) 
+    if (DEBUG_count%100 == 0) 
     {
-        // routine.bindBuffer(R_Debug_DynamicBuffer1);
-        // routine.debug(6);
     } 
 
     // if (DEBUG_count == DEBUG_KILL) {

@@ -9,8 +9,14 @@ using namespace metal;
 
 
 // ================ Trianglize Line ================
+struct ParPerp {
+    float4 par;
+    float4 perp;
+};
+
 INT_ThickLine_Point_T createPoint(float4 pos, float4 color, float2 uv) { 
     INT_ThickLine_Point_T point;
+
     point.position = pos;
     point.uv       = uv;
     point.color    = color;
@@ -18,30 +24,50 @@ INT_ThickLine_Point_T createPoint(float4 pos, float4 color, float2 uv) {
     return point;
 }
 
-kernel void
-INT_ThickLine_computeShader(             uint                     tidx       [[thread_position_in_grid]],
-                                  device INT_ThickLine_Cluster_T* cluster    [[buffer(INT_ThickLine_tri_cluster_I)]],
-                            const device ThickLine_Point_T*       vertices   [[buffer(INT_ThickLine_vertices_I)]],
-                                constant INT_ThickLine_compute_FrameData_T* frame_data [[buffer(INT_ThickLine_frame_data_I)]])
+ParPerp calcParPerp(float2 tip, float2 tail, float line_width, float aspect_ratio) {
+    ParPerp out;
+    float2  v;
+
+    v    = tip - tail;
+    v.x *= aspect_ratio;
+    v    = line_width * normalize(v);
+
+    out.par  = float4( v.x/aspect_ratio,  v.y, 0.0, 0.0 );
+    out.perp = float4( v.y/aspect_ratio, -v.x, 0.0, 0.0 );
+
+    return out;
+}
+
+
+kernel void INT_ThickLine_computeShader 
+(
+                 uint                               tidx       [[thread_position_in_grid]],
+          device INT_ThickLine_Cluster_T*           cluster    [[buffer(INT_ThickLine_tri_cluster_I)]],
+    const device ThickLine_Point_T*                 vertices   [[buffer(INT_ThickLine_vertices_I)]],
+        constant INT_ThickLine_compute_FrameData_T* frame_data [[buffer(INT_ThickLine_frame_data_I)]]
+)
+
 {
     ThickLine_Point_T tail = vertices[2*tidx];
     ThickLine_Point_T tip  = vertices[2*tidx+1];
 
-    float width = tail.width;
+    float4x4 pers_mat     = float4x4(frame_data->pers_mat);
+    float    aspect_ratio = frame_data->aspect_ratio;
+    float    width        = tail.width;
 
     float4 tail_pos = tail.position;
     float4 tip_pos  = tip.position;
 
     // --- Project points ---
-    float4x4 view_mat = float4x4(frame_data->view);
-    tail_pos = view_mat * tail_pos;
+    tail_pos = pers_mat * tail_pos;
     tail_pos = tail_pos/tail_pos.w;
-    tip_pos  = view_mat * tip_pos;
+    tip_pos  = pers_mat * tip_pos;
     tip_pos  = tip_pos/tip_pos.w;
 
     // --- Parallel and perpendicular ---
-    float4 par  = width * float4( normalize(tip_pos.xy - tail_pos.xy) , 0.0, 0.0);
-    float4 perp = float4( par.y, -par.x, 0.0, 0.0); 
+    ParPerp par_perp = calcParPerp(tip_pos.xy, tail_pos.xy, width, aspect_ratio);
+    float4 par  = par_perp.par;
+    float4 perp = par_perp.perp;
 
     float4 bl, br, tl, tr;
     // --- Tail End ---
@@ -93,16 +119,17 @@ struct RasterType {
     float2 uv;
 };
 
-vertex RasterType
-ThickLine_vertexShader(             uint                   vidx     [[vertex_id]],
-                       const device INT_ThickLine_Point_T* vertices [[buffer(ThickLine_vertices_I)]],
-                       constant INT_ThickLine_compute_FrameData_T* frame_data [[buffer(ThickLine_frame_data_I)]])
+vertex RasterType ThickLine_vertexShader
+(             
+                 uint                               vidx       [[vertex_id]],
+    const device INT_ThickLine_Point_T*             vertices   [[buffer(ThickLine_vertices_I)]],
+        constant INT_ThickLine_compute_FrameData_T* frame_data [[buffer(ThickLine_frame_data_I)]]
+)
+
 {
     RasterType out;
 
-    float4x4 pers = float4x4(frame_data[0].pers);
-
-    out.position = pers * vertices[vidx].position;
+    out.position = vertices[vidx].position;
     out.color    = vertices[vidx].color;
     out.uv       = vertices[vidx].uv;
 

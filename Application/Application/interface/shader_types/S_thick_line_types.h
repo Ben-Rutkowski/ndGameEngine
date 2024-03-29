@@ -41,8 +41,8 @@ typedef struct INT_ThickLine_Cluster_T {
 } INT_ThickLine_Cluster_T;
 
 typedef struct INT_ThickLine_compute_FrameData_T {
-    mat4 view;
-    mat4 pers;
+    mat4  pers_mat;
+    float aspect_ratio;
 } INT_ThickLine_compute_FrameData_T;
 #endif
 #pragma pack(pop)

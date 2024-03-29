@@ -26,9 +26,10 @@ public:
     void resetFieldOfView(float fov_in);
     void resetAspectRatio(float width_in, float height_in);
 
-    mat4 getView() { return view_M; } 
-    mat4 getOrth() { return orth_M; }
-    mat4 getProj() { return proj_M; }
+    mat4  getView() { return view_M; } 
+    mat4  getOrth() { return orth_M; }
+    mat4  getProj() { return proj_M; }
+    float getAspectRatio() { return aspect_ratio; }
 
 //    --- Controls ---
 public:

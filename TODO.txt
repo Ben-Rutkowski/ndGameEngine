@@ -4,8 +4,10 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
-- Test Computer Shader for 3d line
-- 3D Line
+- DynamicBuffer STILL BUGS. replace with the metal implementation
+- Test scalability and compute time of thick lines 
+- Implement Camera Movement with callbacks
+- Edit Space Architecture
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 

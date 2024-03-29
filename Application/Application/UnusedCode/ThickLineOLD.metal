@@ -111,5 +111,5 @@ fragment float4 ThickLine_fragmentShaderOLD(RasterType in [[stage_in]]) {
         metal::discard_fragment();
     }
 
-    return in.color;
+ RaseterType   return in.color;
 }

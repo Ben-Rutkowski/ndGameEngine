@@ -3,12 +3,13 @@
 #include <cmath>
 #include <iostream>
 
-const float CON = M_PI/360.0f;
+const float CON   = M_PI/360.0f;
 
 Camera::Camera(float near_, float far_, float fov_, float aspect_ratio_)
     :aspect_ratio{ aspect_ratio_ }, fov{ fov_*CON }, near{ near_ }, far{ far_ },
     height{ near*tanf(fov) }, width{ aspect_ratio*height },
     position(0.0f), pyr(0.0f)
+    // orth_front_M{ mat4::iden() }, proj_front_M{ mat4::iden() }
 {
     recalcAxes();
     recalcMats();
