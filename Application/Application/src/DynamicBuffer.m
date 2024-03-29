@@ -229,6 +229,9 @@ typedef enum BufferPosition {
 }
 
 - (void) debugBuffer:(NSUInteger)index numVertex:(NSUInteger)num_vertices {
+    dispatch_semaphore_wait(_complete_swap_semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_signal(_complete_swap_semaphore);
+
     NSLog(@"Buffer size : %lu", _buffer[index].length);
     NSLog(@"Buffer vertex count : %lu", _vertex_count[index]);
     

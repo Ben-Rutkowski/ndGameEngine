@@ -22,21 +22,21 @@ kernel void
 INT_ThickLine_computeShader(             uint                     tidx       [[thread_position_in_grid]],
                                   device INT_ThickLine_Cluster_T* cluster    [[buffer(INT_ThickLine_tri_cluster_I)]],
                             const device ThickLine_Point_T*       vertices   [[buffer(INT_ThickLine_vertices_I)]],
-                                constant UN_FrameData_T*          frame_data [[buffer(INT_ThickLine_frame_data_I)]])
+                                constant INT_ThickLine_compute_FrameData_T* frame_data [[buffer(INT_ThickLine_frame_data_I)]])
 {
-    float width = 0.01f;
-
     ThickLine_Point_T tail = vertices[2*tidx];
     ThickLine_Point_T tip  = vertices[2*tidx+1];
+
+    float width = tail.width;
 
     float4 tail_pos = tail.position;
     float4 tip_pos  = tip.position;
 
     // --- Project points ---
-    float4x4 pers_mat = float4x4(frame_data->pers_mat);
-    tail_pos = pers_mat * tail_pos;
+    float4x4 view_mat = float4x4(frame_data->view);
+    tail_pos = view_mat * tail_pos;
     tail_pos = tail_pos/tail_pos.w;
-    tip_pos  = pers_mat * tip_pos;
+    tip_pos  = view_mat * tip_pos;
     tip_pos  = tip_pos/tip_pos.w;
 
     // --- Parallel and perpendicular ---
@@ -83,4 +83,39 @@ INT_ThickLine_computeShader(             uint                     tidx       [[t
     cluster[tidx].tip_end[3] = createPoint( tr, tip.color, float2( 1.0, 1.0) );
     cluster[tidx].tip_end[4] = createPoint( tl, tip.color, float2(-1.0, 1.0) );
     cluster[tidx].tip_end[5] = createPoint( bl, tip.color, float2(-1.0, 0.0) );
+}
+
+
+// ================ Draw Trianglized Lines ================
+struct RasterType {
+    float4 position [[position]];
+    float4 color;
+    float2 uv;
+};
+
+vertex RasterType
+ThickLine_vertexShader(             uint                   vidx     [[vertex_id]],
+                       const device INT_ThickLine_Point_T* vertices [[buffer(ThickLine_vertices_I)]],
+                       constant INT_ThickLine_compute_FrameData_T* frame_data [[buffer(ThickLine_frame_data_I)]])
+{
+    RasterType out;
+
+    float4x4 pers = float4x4(frame_data[0].pers);
+
+    out.position = pers * vertices[vidx].position;
+    out.color    = vertices[vidx].color;
+    out.uv       = vertices[vidx].uv;
+
+    return out;
+}
+
+fragment float4 ThickLine_fragmentShader(RasterType in [[stage_in]]) {
+    in.uv *= in.uv;
+    float dist = in.uv[0] + in.uv[1];
+
+    if (dist > 1.0) {
+        discard_fragment();
+    }
+
+    return in.color;
 }

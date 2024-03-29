@@ -78,18 +78,6 @@ mat4 Camera::calcView() {
 }
 
 mat4 Camera::calcOrth() { 
-    // float t1 = 1.0f/aspect_ratio;
-    // float t2 = 1.0f;
-    // float t3 = -2.0f/(far-near);
-    // float t4 = -(far+near)/(far-near);
-
-    // return mat4({
-    //     t1,   0.0f, 0.0f, 0.0f,
-    //     0.0f, t2,   0.0f, 0.0f,
-    //     0.0f, 0.0f, t3,   0.0f,
-    //     0.0f, 0.0f, t4,   1.0f,
-    // });
-
     float t1 = 1.0f/aspect_ratio;
     float t2 = 1.0f;
     float t3 = 1.0f/(near-far);
@@ -104,18 +92,6 @@ mat4 Camera::calcOrth() {
 }
 
 mat4 Camera::calcProj() { 
-    // float t1 = near/width;
-    // float t2 = near/height;
-    // float t3 = -(far+near)/(far-near);
-    // float t4 = -2.0f*far*near/(far-near);
-
-    // return mat4({
-    //     t1,   0.0f, 0.0f,  0.0f,
-    //     0.0f, t2,   0.0f,  0.0f,
-    //     0.0f, 0.0f, t3,   -1.0f,
-    //     0.0f, 0.0f, t4,    0.0f
-    // });
-
     float t1 = near/width;
     float t2 = near/height;
     float t3 = far/(near-far);

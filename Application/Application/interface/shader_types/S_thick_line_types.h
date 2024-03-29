@@ -24,6 +24,7 @@ typedef enum INT_ThickLine_I {
 typedef struct ThickLine_Point_T {
     vec4 position;
     vec4 color;
+    float width;
 } ThickLine_Point_T;
 
 #ifdef __INTERNAL__
@@ -38,6 +39,11 @@ typedef struct INT_ThickLine_Cluster_T {
     INT_ThickLine_Point_T center[6];
     INT_ThickLine_Point_T tip_end[6];
 } INT_ThickLine_Cluster_T;
+
+typedef struct INT_ThickLine_compute_FrameData_T {
+    mat4 view;
+    mat4 pers;
+} INT_ThickLine_compute_FrameData_T;
 #endif
 #pragma pack(pop)
 
