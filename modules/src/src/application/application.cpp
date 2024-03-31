@@ -17,5 +17,5 @@ ndAppModule::ndAppModule()
 void ndAppModule::linkWindow(ndModule* window_ptr) {
     window = window_ptr;
     window->setManagerPtr(&event_manager);
-    state_cache.set(ndAppStateConfigured, true);
+    // state_cache.set(ndAppStateConfigured, true);
 }

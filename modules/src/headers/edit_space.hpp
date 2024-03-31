@@ -27,6 +27,11 @@ public:
     void onEndStartUp(ndEvent* event);
     void onStartFrame(ndEvent* event);
     void onEndFrame(ndEvent* event);
+
+    void onDrawWindowFrame(ndEvent* event);
+    void onDraw(ndEvent* evnet);
+
+    void onResizeFrame(ndEvent* event);
 };
 
 #endif

@@ -1,10 +1,10 @@
 #include "application.hpp"
 
 void ndAppModule::propogateEvent(ndEvent* event) {
-    if (state_cache[ndAppStateConfigured]) {
+    if (window) {
         window->runEvent(event);
     } else {
-        // std::cout << "Not Configured" << std::endl;
+        // std::cout << "No Window" << std::endl;
     }
 }
 

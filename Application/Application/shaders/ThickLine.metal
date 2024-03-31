@@ -3,7 +3,6 @@
 #include <metal_stdlib>
 #include <simd/simd.h>
 #include "shader_types/S_thick_line_types.h"
-#include "shader_types/uniform_types.h"
 
 using namespace metal;
 

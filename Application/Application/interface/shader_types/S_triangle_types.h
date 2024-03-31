@@ -16,6 +16,10 @@ typedef struct Triangle_Point_T {
     vec4 position;
     vec4 color;
 } Triangle_Point_T;
+
+typedef struct UN_FrameData_T {
+    mat4 pers_mat;
+} UN_FrameData_T;
 #pragma pack(pop)
 
 #endif

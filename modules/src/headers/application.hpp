@@ -4,7 +4,7 @@
 #include "nd_module.hpp"
 
 typedef enum ndAppState { ndAppStateNull = 0,
-    ndAppStateConfigured,
+    // ndAppStateConfigured,
     ndAppStateLen
 } ndAppState;
 

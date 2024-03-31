@@ -1,7 +1,6 @@
 #include "DrawSubroutineTemplate.h"
 #define __INTERNAL__
 #import "DrawRoutines.h"
-#import "shader_types/uniform_types.h"
 #import "shader_types/S_triangle_types.h"
 
 @implementation TriangleSubroutine

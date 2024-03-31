@@ -2,7 +2,6 @@
 #define __INTERNAL__
 #include <simd/simd.h>
 #include "shader_types/S_triangle_types.h"
-#include "shader_types/uniform_types.h"
 
 // ================ Draw Triangle ================
 struct RasterType {

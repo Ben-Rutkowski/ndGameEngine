@@ -7,6 +7,7 @@ void ndEditSapceModule::runEvent(ndEvent* event) {
     case Operation::END_START_UP:   onEndStartUp(event); break;
     case Operation::START_FRAME:    onStartFrame(event); break;
     case Operation::END_FRAME:      onEndFrame(event); break;
+    case Operation::DRAW:           onDraw(event); break;
     default: break;
     }
 }
@@ -18,19 +19,33 @@ void ndEditSapceModule::onDebug(ndEvent* event) {
 }
 
 
+// ================ Frame ================
+void ndEditSapceModule::onStartFrame(ndEvent* event) {
+    // event->print(module_name);
+}
+
+void ndEditSapceModule::onDrawWindowFrame(ndEvent *event) {
+}
+
+void ndEditSapceModule::onDraw(ndEvent *event) {
+    // event->print(module_name);
+}
+
+void ndEditSapceModule::onEndFrame(ndEvent* event) {
+    // event->print(module_name);
+}
+
+
+// ================ State Changes ================
+void ndEditSapceModule::onResizeFrame(ndEvent *event) {
+}
+
+
 // ================ App Loop ================
 void ndEditSapceModule::onBeginStartUp(ndEvent* event) {
     // event->print(module_name);
 }
 
 void ndEditSapceModule::onEndStartUp(ndEvent* event) {
-    // event->print(module_name);
-}
-
-void ndEditSapceModule::onStartFrame(ndEvent* event) {
-    // event->print(module_name);
-}
-
-void ndEditSapceModule::onEndFrame(ndEvent* event) {
     // event->print(module_name);
 }
