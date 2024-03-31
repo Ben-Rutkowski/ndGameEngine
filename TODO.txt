@@ -5,6 +5,7 @@ TODO:
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
 - DynamicBuffer STILL BUGS. replace with the metal implementation
+
 - Test scalability and compute time of thick lines 
 - Implement Camera Movement with callbacks
 - Edit Space Architecture

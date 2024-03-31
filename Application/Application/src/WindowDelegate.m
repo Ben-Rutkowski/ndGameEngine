@@ -16,4 +16,10 @@
     [self setNdclose_window:YES];
 }
 
+
+// ================ Events ================
+- (void)mouseDown:(NSEvent *)event {
+    NSLog(@"Mouse");
+}
+
 @end

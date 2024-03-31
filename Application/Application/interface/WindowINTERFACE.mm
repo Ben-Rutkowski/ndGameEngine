@@ -1,5 +1,4 @@
 #import "cocoa_interface.hpp"
-#include <CoreFoundation/CoreFoundation.h>
 #import "WindowDelegate.h"
 #import "RenderSwitcher.h"
 #import "ndView.h"
@@ -25,8 +24,8 @@ ndWindow::ndWindow(int width, int height, const char* title) {
         [window setDelegate:window_delegate];
         
 //        --- ndView ---
-        id<MTLDevice> device = MTLCreateSystemDefaultDevice();
-        ndView* nd_view      = [[ndView alloc] initWithFrame:frame
+        id<MTLDevice> device  = MTLCreateSystemDefaultDevice();
+        ndView*       nd_view = [[ndView alloc] initWithFrame:frame
                                                       device:device];
         [window.contentView addSubview:nd_view];
         
