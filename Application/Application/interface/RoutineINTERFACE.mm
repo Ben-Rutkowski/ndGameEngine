@@ -1,6 +1,5 @@
 #include <iostream>
 #import "cocoa_interface.hpp"
-#import "shader_types/uniform_types.h"
 #import "DrawRoutines.h"
 
 ndRoutine::ndRoutine(void* routine_ptr, unsigned long index)

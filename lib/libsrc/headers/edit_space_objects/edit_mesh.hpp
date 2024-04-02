@@ -18,14 +18,9 @@ struct DCEL_Face {
 
 class EditMesh {
 private:
-// --- Render Data ---
-    // std::vector<V_EditMesh_pt> point_vertices;
-    // std::vector<unsigned int>  edge_indices;
-    // std::vector<unsigned int>  tri_indices;
-
 // --- Mesh Data ---
-    // std::vector<DCEL_HalfEdge> half_edges_dcel;
-    // std::vector<DCEL_Face>     faces_dcel;
+    std::vector<DCEL_HalfEdge> half_edges_dcel;
+    std::vector<DCEL_Face>     faces_dcel;
 
 // --- Initialization ---
 public:
@@ -33,16 +28,9 @@ public:
 
     void initializeWithDefaultCube();
 
-// --- Creating Objects ---
 private:
-    unsigned int addNewFace(const std::array<unsigned int,4> points);
-
-// --- Editing Objects ---
-private:
-    void stitchFaces(unsigned int face_0,
-                     unsigned int face_1,
-                     unsigned int N_e0,
-                     unsigned int N_e1);
+    // --- Creating DCEL Objects ---
+    uint32_t createQuad(const std::array<uint32_t,4> points);
 
 // --- Debugging ---
 public:

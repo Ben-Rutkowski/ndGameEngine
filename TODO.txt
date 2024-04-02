@@ -4,6 +4,14 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
+EDIT SPACE:
+    - point buffer: add points with a given location, return the index it exists at
+        delete point, and be able to refactor the dependent DCEL objects, O(1) by replacing the back with the deleted one
+    - edge buffer: be able to create from Edge DCEL objects
+        delete edge and refactor the dependant DCEL objects
+    - tri buffer: create tri, and delete and refactor
+
+- Make adding buffers to a draw routine dynamic.
 - DynamicBuffer STILL BUGS. replace with the metal implementation
 
 - Test scalability and compute time of thick lines 

@@ -11,7 +11,6 @@
 #import "cocoa_interface.hpp"
 #import "DrawRoutineTemplates.h"
 #import "DrawSubroutineTemplate.h"
-#import "shader_types/uniform_types.h"
 
 // ================ SUBROUTINES ================
 @protocol DrawSubroutineProtocol

@@ -1,6 +1,5 @@
 #define __INTERNAL__
 #import "DrawRoutines.h"
-#import "shader_types/uniform_types.h"
 #import "shader_types/S_thick_line_types.h"
 
 @implementation ThickLineSubroutine
