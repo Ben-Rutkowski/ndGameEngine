@@ -15,7 +15,6 @@ Half edge points from one root point to a tip point. It's twin half edge points 
 
 ## Attributes
 `uint32_t vertex`: index of the point in the point buffer of the root of the edge.
-
 `uint32_t next_hedge`: index of the next half edge in the face cycle, 0 if half edge is not part of face.
 
 `uint32_t prev_hedge`: index of the previous half edge in the face cycle, 0 if half edge is not part of face.
