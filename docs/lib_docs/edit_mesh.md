@@ -4,7 +4,7 @@ Contains and manages all DCEL objects that correspond to a single 3D mesh.
 class EditMesh;
 ```
 
-### Description 
+## Description 
 
 # **Struct** | DCEL Half Edge
 A one directional edge in the face of a mesh.
@@ -22,7 +22,7 @@ Half edge points from one root point to a tip point. It's twin half edge points 
 
 `uint32_t twin_hedge`: index of the twin half edge
 
-## **Struct** | DCEL Face
+# **Struct** | DCEL Face
 A face comprised of a counter-clock-wise directed cycle of inner half edges.
 ```
 struct DCEL_Face;
@@ -30,5 +30,6 @@ struct DCEL_Face;
 
 ## Attributes
 `uint32_t inner_hedge`: the index of one half edge that is part of the inner half edge cycle of the face
+
 `uint32_t size`: the number of half edges in the inner half edge cycle
 

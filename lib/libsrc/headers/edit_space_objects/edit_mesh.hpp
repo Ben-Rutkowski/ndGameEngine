@@ -30,7 +30,7 @@ public:
 
 private:
     // --- Creating DCEL Objects ---
-    uint32_t createQuad(const std::array<uint32_t,4> points);
+    uint32_t createQuad(const std::array<uint32_t,4> new_points);
 
 // --- Debugging ---
 public:

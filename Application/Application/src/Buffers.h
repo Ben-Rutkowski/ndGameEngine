@@ -40,7 +40,7 @@
                        blitCommandQueue:(nonnull id<MTLCommandQueue>)command_queue
                              vertexSize:(NSUInteger)vertex_size
                             vertexCount:(NSUInteger)vertex_count;
-// 
+
 // // --- Debug ---
 // - (void) debug:(NSUInteger)num_vertices;
 @end

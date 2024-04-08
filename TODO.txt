@@ -4,6 +4,9 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
+- Implement creation of quads in Edit Mesh DCEL data structure
+- Implement creation of line and tri data vertex data in Edit Space
+
 EDIT SPACE:
     - point buffer: add points with a given location, return the index it exists at
         delete point, and be able to refactor the dependent DCEL objects, O(1) by replacing the back with the deleted one
