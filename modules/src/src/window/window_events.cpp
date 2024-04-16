@@ -1,3 +1,4 @@
+#include "cocoa_interface.hpp"
 #include "window.hpp"
 
 void ndWindowModule::runEvent(ndEvent* event) {
@@ -23,14 +24,14 @@ void ndWindowModule::runEvent(ndEvent* event) {
 }
 
 // ================ StartUp ================
-void ndWindowModule::onBeginStartUp(ndEvent* event) {
-    event->print(module_name);
-}
+// void ndWindowModule::onBeginStartUp(ndEvent* event) {
+//     event->print(module_name);
+// }
 
-void ndWindowModule::onEndStartUp(ndEvent* event) {
-    nd_window.showWindow();
-    pollEventsCocoa();
-}
+// void ndWindowModule::onEndStartUp(ndEvent* event) {
+//     nd_window.showWindow();
+//     pollEventsCocoa();
+// }
 
 
 // ================ Frame ================
@@ -40,9 +41,9 @@ void ndWindowModule::onStartFrame(ndEvent* event) {
 void ndWindowModule::onDrawWindowFrame(ndEvent* event) {
 }
 
-void ndWindowModule::onDraw(ndEvent* event) {
-    nd_window.drawView();
-}
+// void ndWindowModule::onDraw(ndEvent* event) {
+//     nd_window.drawView();
+// }
 
 void ndWindowModule::onEndFrame(ndEvent* event) {
 }
@@ -53,5 +54,5 @@ void ndWindowModule::onCloseApp(ndEvent* event) {
 
 
 // ================ State Changes ================
-void ndWindowModule::onResizeFrame(ndEvent* event) {
-}
+// void ndWindowModule::onResizeFrame(ndEvent* event) {
+// }

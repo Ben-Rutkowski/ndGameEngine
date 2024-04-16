@@ -85,6 +85,8 @@
     _next_to_write = (_next_to_write+1)%3;
 }
 
+- (void) writeCloseWithRange:(NSRange)range {}
+
 
 // ==== Debug ====
 - (void) debug:(NSUInteger)num_vertices {

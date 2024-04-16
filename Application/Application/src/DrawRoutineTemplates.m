@@ -45,6 +45,14 @@
                         bufferType:(NSUInteger)buffer_type
 {
     switch (buffer_type) {
+        case DynamicBufferNew_T: {
+            _dynamic_buffers[_current_buffer] = [[DynamicBufferNew alloc]
+                                                 initWithDevice:_device 
+                                                     vertexSize:vertex_size 
+                                                    vertexCount:vertex_count];
+            break;
+        }
+
         case DynamicBuffer_T: {
             _dynamic_buffers[_current_buffer] = [[DynamicBuffer alloc] 
                                                  initWithDevice:_device
@@ -65,7 +73,6 @@
 
         default: break;
     }
-
 }
 
 - (void) bindBuffer:(NSUInteger)index {
@@ -82,6 +89,10 @@
 
 - (void) writeBufferClose {
     [_dynamic_buffers[_current_buffer] writeClose];
+}
+
+- (void) writeBufferCloseWithRange:(NSRange)range {
+    [_dynamic_buffers[_current_buffer] writeCloseWithRange:range];
 }
 
 

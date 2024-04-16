@@ -21,6 +21,7 @@
 // --- Write ---
 - (nullable id<MTLBuffer>) writeOpen;
 - (void) writeClose;
+- (void) writeCloseWithRange:(NSRange)range;
 
 // --- Debug ---
 - (void) debug:(NSUInteger)num_vertices;
@@ -43,6 +44,14 @@
 
 // // --- Debug ---
 // - (void) debug:(NSUInteger)num_vertices;
+@end
+
+
+// ================ Dynamic Buffer New ================
+@interface DynamicBufferNew : NSObject<BufferProtocol>
+- (nonnull instancetype) initWithDevice:(nonnull id<MTLDevice>)device
+                             vertexSize:(NSUInteger)vertex_size
+                            vertexCount:(NSUInteger)vertex_count;
 @end
 
 

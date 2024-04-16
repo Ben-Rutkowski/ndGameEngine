@@ -23,6 +23,7 @@
 - (nullable id<BufferProtocol>) bufferAt:(NSUInteger)index;
 - (nullable id<MTLBuffer>) writeBufferOpen;
 - (void) writeBufferClose;
+- (void) writeBufferCloseWithRange:(NSRange)range;
 
 // --- Draw ---
 - (void) predrawOpenInBuffers;

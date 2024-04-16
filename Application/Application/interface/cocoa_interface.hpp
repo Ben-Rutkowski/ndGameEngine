@@ -69,6 +69,8 @@ public:
     
     void* writeBufferOpen();
     void  writeBufferClose();
+
+    void  writeBufferModify(int loc, int len);
     
     unsigned long index();
     

@@ -99,12 +99,10 @@
 // ==== Draw ====
 - (void) drawInMetalLayer:(CAMetalLayer*)metal_layer {
     @autoreleasepool {
-//        NSLog(@"==Waiting for next drawable==");
         id<CAMetalDrawable> current_drawable = [metal_layer nextDrawable];
         if (current_drawable == nil) {
             return;
         }
-//        NSLog(@"==Recieved next drawable== %@", current_drawable);
         
         id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
         

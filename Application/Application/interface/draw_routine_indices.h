@@ -3,6 +3,7 @@
 
 typedef enum Buffer_T {
     DynamicBuffer_T,
+    DynamicBufferNew_T,
     RapidBuffer_T
 } Buffer_T;
 
