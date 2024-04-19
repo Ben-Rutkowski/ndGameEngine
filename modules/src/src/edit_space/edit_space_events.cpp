@@ -43,7 +43,7 @@ void ndEditSapceModule::onResizeFrame(ndEvent *event) {
 
 // ================ App Loop ================
 void ndEditSapceModule::onBeginStartUp(ndEvent* event) {
-    // event->print(module_name);
+
 }
 
 void ndEditSapceModule::onEndStartUp(ndEvent* event) {

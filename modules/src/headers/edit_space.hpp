@@ -11,14 +11,19 @@ typedef enum ndEditSpaceState { ndEditSpaceStateNull = 0,
     ndEditSpaceStateLen    
 } ndEditSpaceState;
 
+typedef struct EditMesh_PointCluster {
+    EditMesh_Point_T point;
+    uint32_t aux_data;
+} EditMesh_PointCluster;
+
 
 class ndEditSapceModule : public ndModuleImplement<ndEditSpaceStateLen> {
 private:
     EditMesh test_mesh;
 
     // --- DEBUG ---
-    std::vector<EditMesh_Point_T> point_buffer;
-
+    std::vector<EditMesh_PointCluster> point_buffer;
+    std::vector<EditMesh_PointCluster> select_point_buffer;
 
 // --- Initialization ---
 public:
@@ -26,8 +31,10 @@ public:
 
 // --- Buffer Operations ---
 public:
-    uint32_t addPoints(const vec4* points, const int len);
+    uint32_t addPoint(const vec4 point);
     uint32_t deletePoint(const uint32_t d_point);
+    void selectPoint(const uint32_t s_point);
+    void flushSelectedPoints();
 
 // --- Events ---
 public:

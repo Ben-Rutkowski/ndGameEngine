@@ -9,7 +9,8 @@
 
 #define DEBUG_BREAK 5
 #define DEBUG_KILL  1
-static int DEBUG_count;
+// static int DEBUG_count;
+static float c;
 
 static Camera camera(0.1f, 100.0f, 45.0f, 800.0f/600.0f);
 static ndRoutine routine = { nullptr, 0 };
@@ -39,6 +40,8 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     // --- Creating Camera ---
     camera = Camera(0.1f, 100.0f, 45.0f, 800.0f/600.0f);
     camera.setPosition({ 0.0f, 0.0f, 2.0f, 0.0f });
+
+    c = 0.0f;
 }
 
 void ndWindowModule::onEndStartUp(ndEvent* event) {
@@ -60,11 +63,18 @@ void ndWindowModule::onDraw(ndEvent* event) {
 
     nd_window.drawView();
 
-    // --- Debugging ---
-    DEBUG_count += 1;
-    if (DEBUG_count%100 == 0) 
-    {
-    } 
+    // // --- Debugging ---
+    // DEBUG_count += 1;
+    // if (DEBUG_count%10 == 0) 
+    // {
+    //     c += 0.05f;
+    //     float b = 0.3f*sinf(c);
+    //     routine.bindBuffer(R_Debug_DynamicBuffer0);
+    //     ThickLine_Point_T* vertcies = (ThickLine_Point_T*)routine.writeBufferOpen();
+    //     vertcies[0].position = { -0.5f, b, 0.0f, 1.0f };
+    //     routine.writeBufferModify(0, sizeof(ThickLine_Point_T));
+
+    // } 
 
     // if (DEBUG_count == DEBUG_KILL) {
     //     killCocoa();

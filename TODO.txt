@@ -4,6 +4,8 @@ TODO:
 
 ++++++++++++++++ OVERHAUL ENTIRE FUCKING APP TO COCOA ++++++++++++++
 
+- selected points will be modifyed by removing them from the array and be put in modified cache that can be changed using a trasnform matrix
+- when selecting points, all modifyed points must be moved as well as the lines and points that they are attached to. Becaused selecting is a very low frequency operation, it can be an expensive task to do. 
 - Implement creation of quads in Edit Mesh DCEL data structure
 - Implement creation of line and tri data vertex data in Edit Space
 

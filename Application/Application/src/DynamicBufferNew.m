@@ -1,6 +1,4 @@
 #import "Buffers.h"
-// #include <Foundation/Foundation.h>
-// #include <Metal/Metal.h>
 
 @implementation DynamicBufferNew
 {
@@ -32,7 +30,7 @@
         _buffer = [_device newBufferWithLength:_vertex_size*_vertex_count 
                                        options:MTLResourceStorageModeManaged];
 
-        _is_being_read_semaphore = dispatch_semaphore_create(1);
+        _is_being_read_semaphore    = dispatch_semaphore_create(1);
     }
     return self;
 }
@@ -44,8 +42,10 @@
 
 // ================ Draw ================
 - (void) predrawOpen {
-    dispatch_semaphore_wait(_is_being_read_semaphore, DISPATCH_TIME_FOREVER);
+    // dispatch_semaphore_wait(_is_being_read_semaphore, DISPATCH_TIME_FOREVER);
+    // dispatch_semaphore_signal(_is_being_read_semaphore);
     _reference_count += 1;
+    // printf("-> %lu\n", _reference_count);
 }
 
 - (id<MTLBuffer>) drawTap {
@@ -53,21 +53,23 @@
 }
 
 - (id<MTLBuffer>) drawRelay {
-    // printf("Dynamic Buffer New::NO DRAW RELAY IMPLEMENTED - This Will Be Depricated");
     return _buffer;
 }
 
 - (void) predrawClose {
-    dispatch_semaphore_signal(_is_being_read_semaphore);
+    // dispatch_semaphore_signal(_is_being_read_semaphore);
 }
 
 - (void) drawCompleted {
     _reference_count -= 1;
+    // printf("<- %lu\n", _reference_count);
 }
 
 
 // ================ Write ================
 - (id<MTLBuffer>) writeOpen {
+    dispatch_semaphore_wait(_is_being_read_semaphore, DISPATCH_TIME_FOREVER);
+    // printf("WRITE: %lu\n", _reference_count);
     return _buffer;
 }
 
@@ -76,6 +78,7 @@
 }
 
 - (void) writeCloseWithRange:(NSRange)range {
+    dispatch_semaphore_signal(_is_being_read_semaphore);
     [_buffer didModifyRange:range];
 }
 
