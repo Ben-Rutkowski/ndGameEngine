@@ -1,13 +1,13 @@
-#include <iostream>
 #include "application.hpp"
 #include "window.hpp"
 #include "edit_space.hpp"
 
+ndAppModule app;
+ndWindowModule window(800, 600, "ndGameEngine");
+ndEditSapceModule edit_space; 
+
 int main() {
-    ndAppModule app;
-    ndWindowModule window(800, 600, "ndGameEngine");
     app.linkWindow(&window);
-    ndEditSapceModule edit_space;
     window.linkEditSpace(&edit_space);
 
     app.startApp();

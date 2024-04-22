@@ -19,22 +19,67 @@ void ndWindowModule::onBeginStartUp(ndEvent* event) {
     // --- Create Routine ---
     routine = nd_window.createDrawRoutine(DrawRoutineKindDebug);
     routine.bindBuffer(R_Debug_DynamicBuffer0);
-    routine.createBuffer(DynamicBufferNew_T, sizeof(ThickLine_Point_T), 2);
+    routine.createBuffer(DynamicBufferNew_T, sizeof(ThickLine_Point_T), 2*8);
     routine.bindBuffer(R_Debug_DynamicBuffer1);
-    routine.createBuffer(DynamicBufferNew_T, sizeof(INT_ThickLine_Point_T), 18);
+    routine.createBuffer(DynamicBufferNew_T, sizeof(INT_ThickLine_Point_T), 18*8);
     routine.bindBuffer(R_Debug_DynamicBuffer2);
     routine.createBuffer(RapidBuffer_T, sizeof(INT_ThickLine_compute_FrameData_T), 1);
     
     // --- Setting Buffer Data ---
     routine.bindBuffer(R_Debug_DynamicBuffer0);
     ThickLine_Point_T* vertices = (ThickLine_Point_T*)routine.writeBufferOpen();
-    vertices[0].position = { -0.5f, 0.0f, 0.0f, 1.0f };
-    vertices[1].position = {  0.5f, 0.5f, 0.0f, 1.0f };
 
+    // --- FRONT ---
+    vertices[0].position = { -0.5f, -0.5f, 0.0f, 1.0f };
+    vertices[1].position = {  0.5f, -0.5f, 0.0f, 1.0f };
     vertices[0].width = 0.01f;
+
+    vertices[2].position = {  0.5f, -0.5f, 0.0f, 1.0f };
+    vertices[3].position = {  0.5f,  0.5f, 0.0f, 1.0f };
+    vertices[2].width = 0.01f;
+
+    vertices[4].position = {  0.5f,  0.5f, 0.0f, 1.0f };
+    vertices[5].position = { -0.5f,  0.5f, 0.0f, 1.0f };
+    vertices[4].width = 0.01f;
+
+    vertices[6].position = { -0.5f,  0.5f, 0.0f, 1.0f };
+    vertices[7].position = { -0.5f, -0.5f, 0.0f, 1.0f };
+    vertices[6].width = 0.01f;
+
+    // --- BACK ---
+    vertices[8].position = { -0.5f, -0.5f, -1.0f, 1.0f };
+    vertices[9].position = {  0.5f, -0.5f, -1.0f, 1.0f };
+    vertices[8].width = 0.01f;
+
+    vertices[10].position = {  0.5f, -0.5f, -1.0f, 1.0f };
+    vertices[11].position = {  0.5f,  0.5f, -1.0f, 1.0f };
+    vertices[10].width = 0.01f;
+
+    vertices[12].position = {  0.5f,  0.5f, -1.0f, 1.0f };
+    vertices[13].position = { -0.5f,  0.5f, -1.0f, 1.0f };
+    vertices[12].width = 0.01f;
+
+    vertices[14].position = { -0.5f,  0.5f, -1.0f, 1.0f };
+    vertices[15].position = { -0.5f, -0.5f, -1.0f, 1.0f };
+    vertices[14].width = 0.01f;
 
     vertices[0].color = { 0.0f, 0.0f, 0.0f, 1.0f };
     vertices[1].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[2].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[3].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[4].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[5].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[6].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[7].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+    vertices[8].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[9].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[10].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[11].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[12].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[13].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[14].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+    vertices[15].color = { 0.0f, 0.0f, 0.0f, 1.0f };
     routine.writeBufferModify(0, sizeof(ThickLine_Point_T)*2);
 
     // --- Creating Camera ---
@@ -62,19 +107,6 @@ void ndWindowModule::onDraw(ndEvent* event) {
     routine.writeBufferClose();
 
     nd_window.drawView();
-
-    // // --- Debugging ---
-    // DEBUG_count += 1;
-    // if (DEBUG_count%10 == 0) 
-    // {
-    //     c += 0.05f;
-    //     float b = 0.3f*sinf(c);
-    //     routine.bindBuffer(R_Debug_DynamicBuffer0);
-    //     ThickLine_Point_T* vertcies = (ThickLine_Point_T*)routine.writeBufferOpen();
-    //     vertcies[0].position = { -0.5f, b, 0.0f, 1.0f };
-    //     routine.writeBufferModify(0, sizeof(ThickLine_Point_T));
-
-    // } 
 
     // if (DEBUG_count == DEBUG_KILL) {
     //     killCocoa();
