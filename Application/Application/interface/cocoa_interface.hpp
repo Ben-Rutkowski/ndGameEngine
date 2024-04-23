@@ -60,6 +60,7 @@ private:
     
 public:
     ndRoutine(void* renderer_ptr, unsigned long index);
+    ndRoutine();
 
     void bindBuffer(unsigned int buffer_index);
     // void createPublicBuffer(unsigned int vertex_size, unsigned int vertex_count);
@@ -75,6 +76,7 @@ public:
     unsigned long index();
     
     void debug(unsigned int vertex_count);
+    void debug();
     
 //    --- Depricated ---
     void createBuffer(unsigned int vertex_count);

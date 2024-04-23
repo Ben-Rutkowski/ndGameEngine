@@ -2,6 +2,7 @@
 #define ND_MODULE_HPP
 
 #include "event_manager.hpp"
+#include "cocoa_interface.hpp"
 
 // ======== State Cache ========
 template<int N>
@@ -16,15 +17,16 @@ public:
 };
 
 // ======== Module ========
-// template<int N>
 class ndModule {
 protected:
     Module module_name;
+    ndRoutine draw_routine;
     EventManager* event_manager;
 
 public:
     ndModule(Module mod_in) : module_name{ mod_in } {}
     void setManagerPtr(EventManager* ptr) { event_manager = ptr; }
+    void setDrawRoutine(ndRoutine routine) { draw_routine = routine; }
 
 // --- Virtual Functions ---
 public:

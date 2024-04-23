@@ -5,6 +5,7 @@
 #include "edit_space_objects/edit_mesh.hpp"
 #include "shader_types/edit_mesh_types.h"
 #include "select_buffer.hpp"
+#include "cocoa_interface.hpp"
 
 typedef enum ndEditSpaceState { ndEditSpaceStateNull = 0,
     ndEditSpaceStateLen    
@@ -13,17 +14,20 @@ typedef enum ndEditSpaceState { ndEditSpaceStateNull = 0,
 
 class ndEditSapceModule : public ndModuleImplement<ndEditSpaceStateLen> {
 private:
+    ndRoutine routine;
+
     EditMesh test_mesh;
 
-    SelectBuffer<EditMesh_Point_T> points;
+    SelectBuffer<EditMesh_Point_T> point_select_buffer;
 
+    EditMesh_Point_T* points;
+    EditMesh_Point_T* select;
 
 // --- Initialization ---
 public:
     ndEditSapceModule();
-
-// --- Buffer Operations ---
-public:
+    ~ndEditSapceModule();
+    void linkRenderer(ndRoutine routine_in);
 
 // --- Events ---
 public:

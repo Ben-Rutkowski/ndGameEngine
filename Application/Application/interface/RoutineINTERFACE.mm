@@ -7,6 +7,9 @@
 ndRoutine::ndRoutine(void* routine_ptr, unsigned long index)
 :routine_ptr_COCOA(routine_ptr), routine_index(index) {}
 
+ndRoutine::ndRoutine()
+:routine_ptr_COCOA(0), routine_index(0) {}
+
 void ndRoutine::bindBuffer(unsigned int buffer_index) {
     DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
     [draw_routine bindBuffer:buffer_index];
@@ -43,4 +46,8 @@ unsigned long ndRoutine::index() {
 void ndRoutine::debug(unsigned int vertex_count) {
     DrawRoutineTemplate* draw_routine = (DrawRoutineTemplate*)routine_ptr_COCOA;
     [draw_routine debugBuffer:vertex_count];
+}
+
+void ndRoutine::debug() {
+    std::cout << routine_ptr_COCOA << std::endl;
 }

@@ -1,4 +1,5 @@
 #include "window.hpp"
+#include "draw_routine_indices.h"
 
 // === Initialization ===
 ndWindowModule::ndWindowModule(int width, int height, const char* title)
@@ -11,6 +12,8 @@ ndWindowModule::ndWindowModule(int width, int height, const char* title)
 
 void ndWindowModule::linkEditSpace(ndModule* edit_space_ptr) {
     edit_space = edit_space_ptr;
+    ndRoutine routine = nd_window.createDrawRoutine(DrawRoutineEditSpace);
+    edit_space->setDrawRoutine(routine);
 }
 
 bool ndWindowModule::requestBool(Request request) {
