@@ -1,5 +1,7 @@
 # ndGameEngine
 
+THIS PROJECT IS DEPRECATED. All production will be moved to ndGameEngineV2.
+
  ndGameEngine a real-time rendering engine prototype originally built using OpenGL. The ndGameEngine application structure uses abstract module layers, ignorant of each other, that interact through a ubiquitous event system.
 
 December 2023 update:
