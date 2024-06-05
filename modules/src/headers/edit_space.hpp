@@ -1,6 +1,7 @@
 #ifndef EDIT_SPACE_HPP
 #define EDIT_SPACE_HPP
 
+#include "camera.hpp"
 #include "nd_module.hpp"
 #include "edit_space_objects/edit_mesh.hpp"
 #include "shader_types/edit_mesh_types.h"
@@ -14,12 +15,15 @@ typedef enum ndEditSpaceState { ndEditSpaceStateNull = 0,
 
 class ndEditSapceModule : public ndModuleImplement<ndEditSpaceStateLen> {
 private:
+// --- Rendering ---
     ndRoutine routine;
+    Camera    camera;
 
-    EditMesh test_mesh;
-
+// --- Selection ---
     SelectBuffer<EditMesh_Point_T> point_select_buffer;
 
+// --- Debugging ---
+    EditMesh test_mesh;
     EditMesh_Point_T* points;
     EditMesh_Point_T* select;
 
@@ -27,7 +31,10 @@ private:
 public:
     ndEditSapceModule();
     ~ndEditSapceModule();
-    void linkRenderer(ndRoutine routine_in);
+
+// --- Creating Points ---
+public:
+    uint32_t createDefualtCubePoints(uint32_t start);
 
 // --- Events ---
 public:

@@ -1,6 +1,7 @@
 #ifndef EDIT_MESH_HPP
 #define EDIT_MESH_HPP
 
+#include "shader_types/edit_mesh_types.h"
 #include <stdint.h>
 #include <vector>
 
@@ -25,11 +26,10 @@ private:
 // --- Initialization ---
 public:
     EditMesh();
-
     void initializeWithDefaultCube();
 
-private:
-    // --- Creating DCEL Objects ---
+// --- Creating DCEL Objects ---
+public:
     uint32_t createQuad(const std::array<uint32_t,4> new_points);
 
 // --- Debugging ---

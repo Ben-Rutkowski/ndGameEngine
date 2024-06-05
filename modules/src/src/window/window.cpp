@@ -12,8 +12,9 @@ ndWindowModule::ndWindowModule(int width, int height, const char* title)
 
 void ndWindowModule::linkEditSpace(ndModule* edit_space_ptr) {
     edit_space = edit_space_ptr;
-    ndRoutine routine = nd_window.createDrawRoutine(DrawRoutineEditSpace);
-    edit_space->setDrawRoutine(routine);
+    // edit_space_draw_rouitne = nd_window.createDrawRoutine(DrawRoutineEditSpace);
+    edit_space_draw_rouitne = nd_window.createDrawRoutine(DrawRoutineKindDebug);
+    edit_space->setDrawRoutine(edit_space_draw_rouitne);
 }
 
 bool ndWindowModule::requestBool(Request request) {

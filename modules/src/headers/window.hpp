@@ -9,10 +9,6 @@ typedef enum ndWindowState { ndWindowStateNull = 0,
 } ndWindowState;
 
 class ndWindowModule : public ndModuleImplement<ndWindowStateLen> {
-// --- Draw Routine ---
-private:
-    ndRoutine edit_space_draw_rouitne;
-
 // --- Attributes ---
 private:
     ndWindow nd_window;
@@ -20,6 +16,7 @@ private:
 // --- Layers ---
 private:
     ndModule* edit_space;
+    ndRoutine edit_space_draw_rouitne;
 
 // --- Initialization ---
 public:

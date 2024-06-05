@@ -28,7 +28,8 @@ enum class Operation { null = 0, TEST, DEBUG,
 };
 
 enum class Request { null = 0,
-    /* Window */ SHOULD_CLOSE, MOUSE_POSITION, FRAME_DELTA,
+    /* Window */        SHOULD_CLOSE, MOUSE_POSITION, FRAME_DELTA,
+    /* Draw Routines */ ARM_EDIT_SPACE,
     LEN
 };
 

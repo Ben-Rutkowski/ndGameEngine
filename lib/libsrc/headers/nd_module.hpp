@@ -25,7 +25,7 @@ protected:
 
 public:
     ndModule(Module mod_in) : module_name{ mod_in } {}
-    void setManagerPtr(EventManager* ptr) { event_manager = ptr; }
+    void setManagerPtr(EventManager* ptr)  { event_manager = ptr; }
     void setDrawRoutine(ndRoutine routine) { draw_routine = routine; }
 
 // --- Virtual Functions ---

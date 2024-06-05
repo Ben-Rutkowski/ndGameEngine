@@ -4,7 +4,7 @@
 
 // ================ Initialization ================
 EditMesh::EditMesh() {
-    initializeWithDefaultCube();
+    // initializeWithDefaultCube();
 }
 
 void EditMesh::initializeWithDefaultCube() {
